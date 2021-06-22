@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<script src="../js/memberInsert.js"></script>
+
+		<style>
+			img { display: block; margin: 0px auto; }
+		</style>
+
+
+</head>
+<body>
+	<!-- 반응형으로 바꿔야함, bootstrap이 옛날 버전이라 손못대겠음 -->
+		<div class="img-rounded img-thumbnail" style="margin:15px; width:93%; height:100%">
+            <div class="page-header">
+                <div class="col-md-6 col-md-offset-3" style="color:#5eb95e; font:NanumBarunGothic; font-size:1.5em">
+                <img src="/img/user.png" style="float:left">&nbsp;Create your account!
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-offset-3">
+                <form role="form">
+                    <div class="form-group">
+                        <label for="inputName" style="color:#333030">Name</label>
+                        <input type="text" class="form-control" id="name" placeholder="이름을 입력해 주세요">
+                    </div>
+                    <div class="form-group">
+                        <label for="InputEmail" style="color:#333030">E-mail</label>
+                        <input type="text" class="form-control" id="email" placeholder="Email을 입력해주세요" check_result="fail" required>
+                        <button style="margin-top: 6px; background-color:#5eb95e; border:0; outline:0; border-color:#fff; color:#fff; border-radius:30px 30px 30px 30px" type="button" id="emailChkBtn" class="id_config_button" value="N">중복확인</button>
+                        <img id="id_check_sucess" style="display: none;"> 
+                    </div>
+                    <div class="form-group">
+                        <label for="InputNickname"  style="color:#333030">Nickname</label>
+                        <input type="text" class="form-control" id="nickname" placeholder="별명을 입력해주세요" check_result="fail" required>
+                        <button style="margin-top: 6px; background-color:#5eb95e; border:0; outline:0; border-color:#fff; color:#fff; border-radius:30px 30px 30px 30px" type="button" id="nicknameChkBtn" class="id_config_button" value="N">중복확인</button>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword" style="color:#333030">Password</label>
+                        <input type="password" class="form-control" id="pw" placeholder="비밀번호를 입력해주세요" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPasswordCheck" style="color:#333030">Confirm Password</label>
+                        <input type="password" class="form-control" id="pwcfm" placeholder="비밀번호 확인을 위해 다시한번 입력 해 주세요" required>
+                    </div>
+
+
+                    <div class="form-group">
+                    <label>약관 동의</label>
+                    <div data-toggle="buttons">
+                    <label class="btn btn-primary active" style="background-color:#5eb95e; border-color:#5CAB7D">
+                    <span class="fa fa-check"></span>
+                    <input id="agree" type="checkbox" autocomplete="off" checked>
+                    </label>
+                    <a href="#" style="color:#5eb95e">이용약관</a>에 동의합니다.
+                    </div> 
+                    </div>
+
+                    <div class="form-group text-center">
+                        <input type="button" id="memberInsertBtn" class="btn btn-primary" value="회원가입" style="background-color:#5eb95e; border-color:#5eb95e">&nbsp;
+                        <button type="submit" class="btn btn-warning" style="background-color:#adb5bd; border-color:#adb5bd">가입취소<i class="fa fa-times spaceLeft"></i>
+                        </button>
+                    </div>
+                    <!-- <img  src="../img/naver_id_White.png" width="170" height="50" > -->
+                </form>
+            </div>
+    	</div>
+</body>
+</html>

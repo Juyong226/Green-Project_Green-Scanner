@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.garb.gbcollector.web.dao.MemberDAO">
+		<!-- 이메일 중복 체크 -->
+		<select id="emailChk" resultType="int" parameterType="memberVO">
+			<![CDATA[
+				select count(*) from member where email =#{memnickname}
+			]]>
+		</select>
+		
+		<!-- 닉네임 중복 체크 -->
+		<select id="checkNickname" resultType="int" parameterType="memberVO">
+			<![CDATA[
+				select count(*) from member where nickname =#{memnickname}
+			]]>
+		</select>
+	
+
+		<!-- eclipse에서 암호화해 넣을 수 있는 코드 (AI활용 프로젝트-> DB)참조 -->
+		<select id="login" resultType="String" parameterType="memberVO">
+			<![CDATA[
+				select nickname from member where email=#{mememail} and password=PACK_ENCRYPTION_DECRYPTION.FUNC_ENCRYPT(#{mempw})
+			]]>
+		</select>
+	
+
+	<!-- eclipse에서 암호화해 넣을 수 있는 코드 (AI활용 프로젝트-> DB)참조 -->
+	<insert id="memberInsert" parameterType="memberVO" >
+		<![CDATA[
+			insert into member(email,password,name,nickname) 
+			values(#{mememail},PACK_ENCRYPTION_DECRYPTION.FUNC_ENCRYPT(#{mempw}),#{memname},#{memnickname})
+		]]>
+	</insert>
+	
+
+
+</mapper>

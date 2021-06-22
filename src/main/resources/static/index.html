@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- navbar Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="css/my.css">
+    <title>GarbageCollector</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- hot 게시글 bootstrap -->
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>	
+	<script type="text/javascript" src="../js/login.js"></script>
+	<script type="text/javascript" src="../js/main.js"></script>
+	
+	<style type="text/css">
+		html, body{width:100%; height:100%; padding:0px; margin:0px;}
+	</style>
+	
+</head>
+<body>
+<div id="bg_wrapper">
+
+</div>
+<div id="maincontainer">
+<!-- 1번 navbar -->
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-back">
+	<div class="container-fluid">
+		<div class="text-left">	
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      			<span class="navbar-toggler-icon"></span>     
+    		</button>
+			<a style='color:white;' class="navbar-brand navcolor" href="index.html">GarbageCollector</a>
+		</div>
+	   
+	    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+	    	<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+		        <li id="loginBlankDiv1" class="nav-item">	        
+		        	<a style='color:white;' class="nav-link" aria-current="page" href="#" onclick="window.open('html/loginForm.html', 'indexwindow', 'toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=500,width=400,height=400');" >로그인</a>
+		        </li>
+		        <li id="loginBlankDiv2" class="nav-item">
+		        	<a style='color:white;' class="nav-link" href="#" onclick="window.open('html/memberInsertForm.html', '_blank', 'toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=500,width=400,height=750');">회원가입</a>
+		        </li>
+		        <li id="nicknameDiv" class="nav-item">
+		        </li>
+		        <li id="logoutDiv" class="nav-item">
+		        </li>
+		        <li class="nav-item">
+		          	<a style='color:white;' class="nav-link" href="#" aria-disabled="true">공지사항</a>
+		        </li>
+		        <li class="nav-item">
+		          	<a style='color:white;' class="nav-link" href="#" aria-disabled="true">FAQ</a>
+		        </li>
+		        <li class="nav-item">
+		          	<a style='color:white;' class="nav-link" href="#" aria-disabled="true">개인정보처리방침</a>
+		        </li>
+	      	</ul>
+			<form class="d-flex">
+		        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+		        <button id="searchBtn" class="btn btn-outline-success" type="submit">Search</button>
+		    </form>
+	    </div>
+	</div>
+</nav>
+
+<div id=notice class="px-3 pt-2 pb-1">
+	<br><br><br>[공지사항] 게시판 규정을 준수해주세요.
+</div>
+
+<!-- 자유게시판 -->
+<div id="main_body">
+<div class="mx-2 mt-3 mb-2">
+	<a href="html/bulletinBoard.html" style="text-decoration: none; color:black"><img height=14px src="img/leaf.png" class="mx-2">자유게시판</a>
+	<div class="row mt-2 txt_line">
+		<div id="mainboard">
+		</div>
+	</div>
+</div>
+
+<!--자주 사용하는 기능-->
+
+<div class="mx-2 mb-2">
+	<img height=22px src="img/find.png" class="mx-1">자주 사용하는 기능<br>
+</div>
+<div class="fixed-table-container">
+	<div id="dm_img " class="table-responsive">
+		<table id="img_table" class="table">
+		<tr>
+			<td></td>
+			<td width=140px><a href="html/SWV.html">
+			<figure><img src="img/func_mic.png" width=90px alt="..." ><figcaption><br>분리배출 방법 찾기</figcaption></figure></a></td>
+			<td></td>
+			<td width=140px><a href="html/SWI.html">
+			<figure><img src="img/func_cam.png" width=90px alt="..."><figcaption><br>분리배출 방법 찾기</figcaption></figure></a></td>
+			<td></td>
+			<td width=140px><a href='html/trashCanMap.html'>
+			<figure><img src="img/func_tc.png" width=90px alt="..." ><figcaption><br>쓰레기통 위치 찾기</figcaption></figure></a></td>
+			<td></td>
+			<td width=140px><a href='html/zeroWasteShopMap.html'>
+			<figure><img src="img/func_shop.png" width=90px alt="..."><figcaption><br>친환경 상점 찾기</figcaption></figure></a></td>
+			<td></td>
+		</tr>
+		</table>
+	</div>
+</div>
+
+<!-- 오늘의 꿀팁 -->
+<div class="mx-2">
+	<img height=14px src="img/honey.png" class="mx-2">오늘의 꿀팁!
+	<div id="carouselExampleIndicators" class="carousel slide mx-2 my-3" data-bs-ride="carousel">
+		<ol class="carousel-indicators">
+			<li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></li>
+		    <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></li>
+		    <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></li>
+	  	</ol>
+		<div class="carousel-inner">
+		    <div class="carousel-item active">
+		      <img src="img/glass.png" class="d-block w-100" alt="...">
+		    </div>
+		    <div class="carousel-item">
+		      <a href='http://www.15990903.or.kr/user/index.do' target="_blank"><img src="img/freecollector.png" class="d-block w-100" alt="..."></a>
+		    </div>
+		     <div class="carousel-item">
+		      <img src="img/banana.png" class="d-block w-100" alt="...">
+		    </div>
+		</div>
+		<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+		    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+		    <span class="visually-hidden">Previous</span>
+		</button>
+		<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+		    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+		    <span class="visually-hidden">Next</span>
+		</button>
+	</div>
+</div>
+<br>
+
+
+<!--환경기업 목록-->
+<div class="mx-3 mb-2">
+	<img height=16px src="img/company.png"> 환경기업 목록
+</div>
+<div class="fixed-table-container mx-2">
+	<div id="dm_img" class="table-responsive">
+		<table id="img_table" class="table">
+		<tr>
+			<td width=140px><a href="#"><figure class="img-rounded img-thumbnail"><p></p><img src="img/company/1.jpg" width=140px alt="..." ><figcaption>㈜엔바이온<p></p></figcaption></figure></a></td>
+			<td width=140px><a href="#"><figure class="img-rounded img-thumbnail"><p></p><img src="img/company/2.jpg" width=140px alt="..." ><figcaption>㈜에프티랩<p></p></figcaption></figure></a></td>
+			<td width=140px><a href="#"><figure class="img-rounded img-thumbnail"><p></p><img src="img/company/3.jpg" width=140px alt="..." ><figcaption>㈜대양이엔아이<p></p></figcaption></figure></a></td>
+			<td width=140px><a href="#"><figure class="img-rounded img-thumbnail"><p></p><img src="img/company/4.jpg" width=140px alt="..." ><figcaption>주식회사 킹메이커<p></p></figcaption></figure></a></td>
+			<td width=140px><a href="#"><figure class="img-rounded img-thumbnail"><p></p><img src="img/company/5.jpg" width=140px alt="..." ><figcaption>㈜퓨어에코텍<p></p></figcaption></figure></a></td>
+			<td width=140px><a href="#"><figure class="img-rounded img-thumbnail"><p></p><img src="img/company/6.jpg" width=140px alt="..." ><figcaption>㈜넥스트이앤엠<p></p></figcaption></figure></a></td>
+		</tr>
+		</table>
+	</div>
+</div>
+
+<!--카드뉴스 목록-->
+<div class="mx-3 mb-2">
+	<br><br>
+	<img width=16px height=16px src="img/newsicon.jpg"> 카드뉴스
+</div>
+<div class="fixed-table-container mx-2">
+	<div id="dm_img" class="table-responsive">
+		<table id="img_table" class="table">
+		<tr>
+			<td width=240px><a href="#"><img class="img-rounded" src="img/cardnews/1.jpg" width=240px alt="..." ></figure></a></td>
+			<td width=240px><a href="#"><img class="img-rounded" src="img/cardnews/2.jpg" width=240px alt="..." ></figure></a></td>
+			<td width=240px><a href="#"><img class="img-rounded" src="img/cardnews/5.jpg" width=240px alt="..." ></figure></a></td>
+		</tr>
+		</table>
+	</div>
+</div>
+
+<div class="my-5">
+	<br>
+</div>
+
+<nav class="navbar fixed-bottom navbar-light bg-light">
+	<div class="container-fluid">
+		<!-- 이미지 수정 필요 -->
+		<a class="navbar-brand" href="#"></a>
+		<a class="navbar-brand" href="#"><img src="img/homewhite.png" alt="..." ></a>
+		<a class="navbar-brand" href="#"></a>
+		<a class="navbar-brand" href="html/SWI.html"><img src="img/camerawhite.png" alt="..." ></a>
+		<a class="navbar-brand" href="#"></a>
+		<a class="navbar-brand" href="html/SWV.html"><img src="img/microphonewhite.png" alt="..." ></a>
+		<a class="navbar-brand" href="#"></a>
+		<a class="navbar-brand" href="html/trashCanMap.html"><img src="img/mapwhite.png" alt="..." ></a>
+		<a class="navbar-brand" href="#"></a>
+		<a class="navbar-brand" href="html/boardPage.html"><img src="img/clipboard.png" alt="..." ></a>
+		<a class="navbar-brand" href="#"></a>
+	</div>
+</nav>
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script>
+//여기에 이 코드를 쓰기 위해선 loginForm.html에도 위 쿠키 라이브러리르 추가해 주어야합니다.
+$(function(){
+	var blank=$.cookie("blanked");
+ 	var login=$.cookie("logined"); 
+ 	var logout=$.cookie("logouted"); 
+		$("#loginBlankDiv1").html(blank);
+		$("#loginBlankDiv2").html(blank);
+ 		$("#nicknameDiv").html(login);
+ 		$("#logoutDiv").html(logout);
+});
+
+</script>
+</html>
