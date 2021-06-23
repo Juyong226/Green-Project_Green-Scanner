@@ -136,7 +136,7 @@ public class BoardController {
 			produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String boardListB(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("요청 들어옴");
+		System.out.println("요청 들어옴!");
 		//글 리스트를 담기 위한 json객체, json배열, listmap선언 
 		JSONObject jsonObject = new JSONObject();
 		//자유게시판용
@@ -265,7 +265,7 @@ public class BoardController {
 	@ResponseBody
 	public ModelAndView viewPostPage(@RequestParam("postno") int postno, HttpServletRequest request) {
 		//postno를 파라미터로 받아와서 해당 글 조회 
-		System.out.println(postno+"번 글 보기");
+		System.out.println(postno+"번 글 보기 요청 들어옴");
 		ModelAndView mav = new ModelAndView();
 		//선택한 postno와 일치하는 게시글 조회 
 		BoardVO boardVO = boardService.viewPost(postno);
@@ -273,17 +273,18 @@ public class BoardController {
 		mav.addObject("post", boardVO);
 		//뷰 이름 지정- viewPost.jsp
 		mav.setViewName("viewPost");
-		//System.out.println(boardVO);
+		System.out.println("boardVO"+boardVO);
 		
 		//현재 게시글에 대한 댓글을 모두 가져오기. 한 게시글당 댓글이 하나 이상이기 때문에 타입은 List이다.  
 		List<BoardReplyVO> boardReplyVO = boardService.viewReply(postno);
+		System.out.println("댓글VO"+boardReplyVO);
 		//댓글 리스트를 reply라는 이름으로 뷰페이지에 추가 
 		mav.addObject("reply", boardReplyVO);
-		//System.out.println(boardReplyVO);
+		System.out.println("댓글VO"+boardReplyVO);
 		//세션으로부터 닉네임 얻기
 		HttpSession session = request.getSession();
 		nickname = (String) session.getAttribute("memnickname");
-		//System.out.println(nickname);
+		System.out.println("nickname"+nickname);
 		
 		//뷰페이지를 반환(viewPost.jsp호출됨)
 		return mav;
@@ -346,5 +347,7 @@ public class BoardController {
 		//댓글 삭제 후 페이지 새로고침 
 		return "redirect:/viewPost?postno="+boardReplyVO.getPostno();
 	}
+	
+	
 	
 }
