@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="fragments/common :: head('자세히 보기')">
+<body>
+<nav th:replace="fragments/common :: nav"></nav>
+    <div class="viewwrap">
+    
+    	<div class="content">
+			<div class="articlewrap">
+			<div class="alert alert-success" role="alert"><span th:text="${post.nickname}">로그인된 사용자</span>로 로그인하셨습니다.</div>
+				<!-- the actual blog post: title/author/date/content -->
+				<h2 th:text="${post.title}"></h2>
+				<p class="lead" th:text="'작성자 : ' + ${post.nickname}"></p>
+				<hr>
+				<p th:text="'작성일 : ' + ${post.postdate}"></p>
+
+
+				<hr>
+				<hr>
+				<div class="articlecontent">
+					<p class="lead" th:text="${post.content}" />
+				</div>
+
+				<br />
+			</div>
+
+
+	   		
+		<br /><br />
+		<!-- 버튼 -->
+	     <div>
+	      	<input style="float:left;" type="button" class="btn btn-secondary btn-block" onclick="location.href='/board/boardlist'" value="뒤로가기"/>
+  	 	     <form style="float:right;" action="/board/delete" method="get">
+	             	<input type="hidden" name="bno" th:value=${post.postno} >
+	             	<input type="submit" class="btn btn-danger" value="삭제" />
+			</form>
+	   	     <form style="float:right; margin-right:10px;"action="/board/modify" method="get">
+	              	<input type="hidden" name="bno" th:value=${post.postno} >
+	              	<input type="submit" class="btn btn-warning" value="수정"/>
+			</form>
+		<br /><br /><br />
+	  	</div>
+		</div>
+	</div>
+	<br><br><br>
+	<nav th:replace="fragments/common :: footer"></footer>
+</body>
+<link rel="stylesheet" href="../css/boardView.css">
+<link rel="stylesheet" href="../css/styles.css">
+</html>
