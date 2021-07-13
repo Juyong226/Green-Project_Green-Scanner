@@ -1,3 +1,27 @@
+DROP TABLE IF EXISTS board;
+DROP TABLE IF EXISTS boardreply;
+
+CREATE TABLE board (
+  postno INT AUTO_INCREMENT PRIMARY KEY,
+  parentno INT,
+  boardname VARCHAR(50) NOT NULL,
+  nickname VARCHAR(50) NOT NULL,
+  id VARCHAR(50),
+  title VARCHAR(150) NOT NULL,
+  content VARCHAR(1000) NOT NULL,
+  postdate TIMESTAMP DEFAULT NOW(),
+  attachedfile VARCHAR(100),
+  reply_cnt INT(11)
+);
+
+CREATE TABLE boardreply (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  writer VARCHAR(50) NOT NULL,
+  content VARCHAR(200) NOT NULL,
+  writedate TIMESTAMP DEFAULT NOW(),
+  linkedarticlenum INT(11)
+);
+
 
 INSERT INTO board (boardname, nickname, title, content)VALUES
   ('자유게시판','admin','공지사항','공지사항입니다. 다양한 테스트를 시도해 보십시오.'),
@@ -6,16 +30,6 @@ INSERT INTO board (boardname, nickname, title, content)VALUES
   ('질문게시판','tester','테스터입니다', '테스트해보세요'),
   ('질문게시판','tester','테스터입니다', '테스트해보세요'),
   ('질문게시판','tester','테스터입니다', '테스트해보세요');
-  
-  INSERT INTO userstbl (userid, userpw, username)VALUES
-  ('admin','admin1234','관리자'),
-  ('manager','manager1234', '매니저'),
-  ('user','user1234','사용자'),
-  ('test','test1234', '테스터'),
-  ('secure','secure1234', '보안'),
-  ('openeg','openeg1234', '오픈이지'),
-  ('ceo','ceo1234', '대표이사'),
-  ('cto','cto1234', '기술이사');
 
     
   INSERT INTO commentstbl (writer, content, linkedarticlenum)VALUES
