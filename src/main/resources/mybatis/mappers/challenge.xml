@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.garb.gbcollector.web.dao.ChallengeDAO">
+
+	<resultMap type="BasicChallengeVO" id="basicChallengeResult">
+		<result property="challengeName" column="challengeName"/>
+		<result property="challengeCode" column="challengeCode"/>
+		<result property="toDo" column="toDo"/>
+		<result property="period" column="period"/>
+		<result property="isAvailable" column="isAvailable"/>
+	</resultMap>
+	
+	<resultMap type="PersonalChallengeVO" id="challengeListResult">
+		<result property="challengeCode" column="challengeCode" />
+		<result property="email" column="email"/>
+		<result property="thumbnailCode" column="thumbnailCode"/>
+		<result property="colorCode" column="colorCode"/>
+		<result property="period" column="period"/>
+		<result property="executionNum" column="executionNum"/>
+		<result property="achievementRate" column="achievementRate"/>
+		<result property="startDate" column="startDate"/>
+		<result property="endDate" column="endDate"/>
+		<result property="isCompleted" column="isCompleted"/>
+		<result property="isSucceeded" column="isSucceeded"/>
+	</resultMap>
+	
+	<select id="selectBasicChallenge" resultMap="basicChallengeResult">
+		<![CDATA[
+			select * from basicChallenge 
+			where isAvailable = 'true' 
+			order by challengeCode
+		]]>
+	</select>
+	
+	<select id="selectChallengeList" resultMap="challengeListResult">
+		<![CDATA[
+			select * from challengeList
+			where email = #{email}
+			order by startDate
+		]]>
+	</select>
+	
+	<insert id="createChallenge" parameterType="PersonalChallengeVO">
+		<![CDATA[
+			insert into challengeList (challengeCode, email, thumbnailCode, colorCode, 
+					period, executionNum, achievementRate, isCompleted, isSucceeded)
+			values (#{challengeCode}, #{email}, #{thumbnailCode}, #{colorCode}, #{period},
+				#{executionNum}, #{achievementRate}, #{isCompleted}, #{isSucceeded})
+		]]>
+	</insert>
+	
+</mapper>
