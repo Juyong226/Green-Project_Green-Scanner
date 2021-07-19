@@ -20,6 +20,7 @@ import com.garb.gbcollector.web.vo.MemberVO;
 import com.garb.gbcollector.web.vo.PersonalChallengeVO;
 
 @Controller
+@RequestMapping("challenge")
 public class ChallengeController {
 
 	@Autowired
@@ -27,9 +28,8 @@ public class ChallengeController {
 	
 	List<BasicChallengeVO> bcList; 
 	
-	@RequestMapping(value = "showChallenges.do",
-					method = {RequestMethod.POST},
-					produces = "application/text; charset=utf8")
+	@RequestMapping(value = "/challenges",
+					method = {RequestMethod.POST})
 	@ResponseBody
 	public String selectAllChallenges(HttpServletRequest request, HttpServletResponse response) {
 		/*
@@ -80,7 +80,7 @@ public class ChallengeController {
 		return null;
 	}
 	
-	@RequestMapping(value = "createChallenge.do",
+	@RequestMapping(value = "/createChallenge",
 					method = {RequestMethod.POST},
 					produces = "application/text; charset=utf8")
 	@ResponseBody
