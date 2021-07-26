@@ -12,7 +12,7 @@ public interface ChallengeDAO {
 
 	List<BasicChallengeVO> selectBasicChallenge();
 
-	List<PersonalChallengeVO> selectChallengeList();
+	List<PersonalChallengeVO> selectChallengeList(String email);
 
 	void createChallenge(PersonalChallengeVO pc);
 

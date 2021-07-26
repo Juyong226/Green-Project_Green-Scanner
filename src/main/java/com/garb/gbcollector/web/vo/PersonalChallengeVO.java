@@ -5,14 +5,14 @@ import java.util.Date;
 public class PersonalChallengeVO {
 
 	private String challengeCode, email, thumbnailCode, colorCode, period,
-				startDate, endDate;
+				startDate, endDate, isCompleted, isSucceeded;
 	private int executionNum;
 	private long achievementRate;
-	private boolean isCompleted, isSucceeded;
+ 
 	
 	public PersonalChallengeVO(String challengeCode, String email, String thumbnailCode, String colorCode, 
 			String period, String startDate, String endDate, int executionNum, long achievementRate, 
-			boolean isCompleted, boolean isSucceeded) {
+			String isCompleted, String isSucceeded) {
 		super();
 		setChallengeCode(challengeCode);
 		setEmail(email);
@@ -99,19 +99,19 @@ public class PersonalChallengeVO {
 		this.endDate = endDate;
 	}
 
-	public boolean isCompleted() {
+	public String isCompleted() {
 		return isCompleted;
 	}
 	
-	public void setCompleted(boolean isCompleted) {
+	public void setCompleted(String isCompleted) {
 		this.isCompleted = isCompleted;
 	}
 	
-	public boolean isSucceeded() {
+	public String isSucceeded() {
 		return isSucceeded;
 	}
 	
-	public void setSucceeded(boolean isSucceeded) {
+	public void setSucceeded(String isSucceeded) {
 		this.isSucceeded = isSucceeded;
 	}
 	

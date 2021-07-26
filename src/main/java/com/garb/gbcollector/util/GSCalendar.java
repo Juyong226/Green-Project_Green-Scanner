@@ -13,7 +13,7 @@ public class GSCalendar {
 
 	Calendar cal = Calendar.getInstance();
 	
-	private static final GSCalendar dateComparison = new GSCalendar();
+	private static final GSCalendar gsCalendar = new GSCalendar();
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 	
 	// Constructor	
@@ -24,7 +24,7 @@ public class GSCalendar {
 	
 	// Method
 	public static GSCalendar getInstance() {
-		return dateComparison;
+		return gsCalendar;
 	}
 	
 	public String getCurrentTime() {		
@@ -77,7 +77,7 @@ public class GSCalendar {
 				endDate = dateFormat.parse(temp);
 				
 				if(toDay.equals(endDate) || toDay.after(endDate)) {
-					cl.setCompleted(true);
+					cl.setCompleted("1");
 					completed.add(cl);
 				} else {
 					proceeding.add(cl);
@@ -112,7 +112,7 @@ public class GSCalendar {
 				endDate = dateFormat.parse(temp);
 				
 				if(toDay.equals(endDate) || toDay.after(endDate)) {
-					cl.setCompleted(true);
+					cl.setCompleted("1");
 					completed.add(cl);
 					proceeding.remove(cl);
 				} 

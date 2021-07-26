@@ -9,7 +9,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="challengeName" column="challengeName"/>
 		<result property="challengeCode" column="challengeCode"/>
 		<result property="toDo" column="toDo"/>
-		<result property="period" column="period"/>
 		<result property="isAvailable" column="isAvailable"/>
 	</resultMap>
 	
@@ -30,7 +29,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectBasicChallenge" resultMap="basicChallengeResult">
 		<![CDATA[
 			select * from basicChallenge 
-			where isAvailable = 'true' 
+			where isAvailable = '1' 
 			order by challengeCode
 		]]>
 	</select>

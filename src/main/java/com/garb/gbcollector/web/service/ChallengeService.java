@@ -24,8 +24,8 @@ public class ChallengeService {
 		return challengeDAO.selectBasicChallenge();
 	}
 
-	public List<PersonalChallengeVO> selectChallengeList() {
-		return challengeDAO.selectChallengeList();
+	public List<PersonalChallengeVO> selectChallengeList(String email) {
+		return challengeDAO.selectChallengeList(email);
 	}
 	
 	public void createChallenge(PersonalChallengeVO pc) {

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="challenge/fragments/commonChallenge.html :: header('챌린지')">
+<body>
+	<nav th:replace="challenge/fragments/commonChallenge.html :: nav"></nav>
+	
+	<!-- challenge div -->
+		<div>
+			<div style="margin-top: 6vh;">
+				<a class="navbar-brand" href="../index.html" style="text-decoration:none;">
+					<img src="../img/back.png" alt="..." style="width: 20px; height:20px; margin-left:5px" >
+					<label style="font-size: 20px; font-weight: bold; padding: 30px,30px,2px,30px; margin-top:10px; margin-left: 5px; color:#5A9367">챌린지</label>
+				</a><hr>
+			</div>
+			
+			<th:block th:if="${loginRequired}">
+			<!-- 로그인 하지 않았을 때 -->
+				<div style="width=100%; height=20vh;">
+					<span th:text="${loginRequired}">텍스트 알림</span><hr>
+				</div>
+			</th:block>
+			
+			<th:block th:unless="${loginRequired}">
+			<!-- 로그인 했을 때 -->
+				<!-- myChallenge(진행 중인 챌린지 표시) -->
+				<div th:if="${#lists.isEmpty(proceeding)}" style="width=100%; height=10vh;">
+					<span>진행 중인 챌린지가 없습니다</span>
+				</div>
+				<div th:unless="${#lists.isEmpty(proceeding)}" style="width=100%; height=30vh;">
+					<table>
+						<tr th:each="pc : ${proceeding}">
+							<td><span th:text="${pc.challengeCode}"></span></td>
+							<td><span th:text="${pc.challengeName}"></span></td>
+							<td><span th:text="${pc.startDate}"></span></td>
+							<td><span th:text="${pc.endDate}"></span></td>
+						</tr>
+					</table>
+				</div>
+				
+				<!-- myChallengeHistory(진행/완료 챌린지 갯수 표시) -->
+				<div style="width=100%; height=15vh;">	
+					<table>
+						<tr>
+							<td><span>진행 중:</span></td>
+							<td><span th:text="${proceedingNum}">0</span></td>
+							<td><span>완료:</span></td>
+							<td><span th:text="${completedNum}">0</span></td>
+						</tr>
+					</table>
+				</div>
+			</th:block>
+			
+			<!-- basicChallenge(시작 가능한 챌린지 표시) -->
+			<div style="width=100%; height=30vh;">
+				<table style="width: 100%; background-color: #F8F9FA;">
+					<tbody>
+						<tr th:each="bc : ${bcList}">
+							<td><span th:text="${bc.challengeCode}"></span></td>
+							<td><span th:text="${bc.challengeName}"></span></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	<nav th:replace="challenge/fragments/commonChallenge.html :: footer"></nav>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" 
+	integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous">
+</script>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script>
+//여기에 이 코드를 쓰기 위해선 loginForm.html에도 위 쿠키 라이브러리르 추가해 주어야합니다.
+$(function(){
+	var blank=$.cookie("blanked");
+ 	var login=$.cookie("logined"); 
+ 	var logout=$.cookie("logouted"); 
+		$("#loginBlankDiv1").html(blank);
+		$("#loginBlankDiv2").html(blank);
+ 		$("#nicknameDiv").html(login);
+ 		$("#logoutDiv").html(logout);
+});
+
+</script>
+</html>

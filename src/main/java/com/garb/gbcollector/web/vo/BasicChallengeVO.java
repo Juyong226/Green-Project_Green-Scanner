@@ -2,18 +2,15 @@ package com.garb.gbcollector.web.vo;
 
 public class BasicChallengeVO {
 
-	private String challengeName, challengeCode, toDo;
-	private int period;
-	private boolean isAvailable;
+	private String challengeName, challengeCode, toDo, isAvailable;
 	
 	
 
-	public BasicChallengeVO(String challengeName, String challengeCode, String toDo, int period, boolean isAvailable) {
+	public BasicChallengeVO(String challengeName, String challengeCode, String toDo, String isAvailable) {
 		super();
 		setChallengeName(challengeName);
 		setChallengeCode(challengeCode);
 		setToDo(toDo);
-		setPeriod(period);
 		setAvailable(isAvailable);
 	}
 
@@ -41,19 +38,11 @@ public class BasicChallengeVO {
 		this.toDo = toDo;
 	}
 
-	public int getPeriod() {
-		return period;
-	}
-
-	public void setPeriod(int period) {
-		this.period = period;
-	}
-
-	public boolean isAvailable() {
+	public String isAvailable() {
 		return isAvailable;
 	}
 
-	public void setAvailable(boolean isAvailable) {
+	public void setAvailable(String isAvailable) {
 		this.isAvailable = isAvailable;
 	}
 	

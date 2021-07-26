@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.garb.gbcollector.util.GbcException;
 import com.garb.gbcollector.web.service.ChallengeService;
@@ -28,10 +29,10 @@ public class ChallengeController {
 	
 	List<BasicChallengeVO> bcList; 
 	
-	@RequestMapping(value = "/challenges",
-					method = {RequestMethod.POST})
+	@RequestMapping(value = "",
+					method = {RequestMethod.GET})
 	@ResponseBody
-	public String selectAllChallenges(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView selectAllChallenges(ModelAndView mav, HttpServletRequest request, HttpServletResponse response) {
 		/*
 		 * 1. BasicChallenge를 조회한다.
 		 * 2. 요청이 들어오면 로그인 여부(세션 존재 여부)를 확인한다. 세션을 확인하는 메서드는 따로 작성한다.
@@ -45,51 +46,66 @@ public class ChallengeController {
 		 * 		4-2-1. 진행 중인 챌린지 리스트 중에서 완료된 챌린지를 다시 구분하여 각 리스트를 수정한다. 3-1-1에서 언급한 메서드를 사용한다.
 		 * 		4-2-2. 3-1-2와 동일
 		 * */
+		
 		bcList = challengeService.selectBasicChallenge();
 		HttpSession session = request.getSession(false);
 		
+		mav.setViewName("challenge/mainChallenge");
+		mav.addObject("bcList", bcList);
+		
 		// 로그인 하지 않았을 때(세션에 로그인 정보가 담겨있지 않을 때)
 		if(session == null) {
+			mav.addObject("loginRequired", "로그인 후 이용할 수 있습니다.");
 			
 		// 로그인 했을 때(세션에 로그인 정보가 담겨있을 때)
 		} else {
 			try {
+				MemberVO m = (MemberVO) session.getAttribute("member");
+				
+				String email = m.getMememail();
 				List<ArrayList> cList = (List<ArrayList>) session.getAttribute("challengeList");
 				
 				// 당일 챌린지 서비스에 첫 방문했을 시(세션에 챌린지 정보가 담겨있지 않을 때)
-				if(cList == null) {				
-					List<PersonalChallengeVO> tempList = challengeService.selectChallengeList();
+				if(cList == null) {
+					List<PersonalChallengeVO> tempList = challengeService.selectChallengeList(email);
 					
 					cList = challengeService.isCompleted(tempList);
 					session.setAttribute("challengeList", cList);
 					
 				// 당일 챌린지 서비스에 이미 방분했을 시(세션에 챌린지 정보가 담겨있을 때)
 				} else {				
-					List<ArrayList> tempList = challengeService.isCompleted(cList.get(0), cList.get(1));
+					cList = challengeService.isCompleted(cList.get(0), cList.get(1));
 				
-					cList.set(0, tempList.get(0));
-					cList.set(1, tempList.get(1));
+					//cList.set(0, tempList.get(0));
+					//cList.set(1, tempList.get(1));
 					session.setAttribute("challengeList", cList);
 
 				}
+				mav.addObject("proceeding", cList.get(0));
+				mav.addObject("completed", cList.get(1));
+				mav.addObject("proceedingNum", Integer.toString(cList.get(0).size()));
+				mav.addObject("completedNum", Integer.toString(cList.get(1).size()));
+				
 			} catch (GbcException e) {
 				// 클라이언트쪽으로 exception 메세지 보내기
+				mav.addObject("exception", e.getMessage());
 				e.printStackTrace();
 			}
 		}		
-		return null;
+		return mav;
 	}
 	
 	@RequestMapping(value = "/createChallenge",
 					method = {RequestMethod.POST},
 					produces = "application/text; charset=utf8")
 	@ResponseBody
-	public String createChallenge(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView createChallenge(ModelAndView mav, HttpServletRequest request, HttpServletResponse response) {
 		
 		HttpSession session = request.getSession(false);
+		mav.setViewName("challenge/createChallenge");
 		
 		if(session == null) {
-			
+			mav.addObject("loginRequired", "로그인 후 이용할 수 있습니다");
 		} else {
 			try {
 				MemberVO m = (MemberVO) session.getAttribute("member");
@@ -103,21 +119,23 @@ public class ChallengeController {
 				String endDate = challengeService.getEndDate(startDate, period);
 				int executionNum = 0;
 				long achievementRate = 0L;
-				boolean isCompleted = false;
-				boolean isSucceeded = false;
+				String isCompleted = "0";
+				String isSucceeded = "0";
 				
 				PersonalChallengeVO pc = new PersonalChallengeVO(challengeCode, email, 
 						thumbnailCode, colorCode, period, startDate, endDate, executionNum, 
 						achievementRate, isCompleted, isSucceeded);
 				
 				challengeService.createChallenge(pc);
+				mav.addObject("created", "챌린지 생성 성공");
 				
 			} catch (GbcException e) {
 				// 클라이언트쪽으로 exception 메세지 보내기
+				mav.addObject("exception", e.getMessage());
 				e.printStackTrace();
 			}			
 		}
-		return null;
+		return mav;
 	}
 	
 }
