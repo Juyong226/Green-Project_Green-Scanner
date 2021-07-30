@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="fragments/common :: head('글쓰기')">
+</head>
+<body>
+	<nav th:replace="fragments/common :: nav"></nav>
+
+<form action="/board/write" method="post" >
+	<div class="board-font" style="padding: 20px;">
+		<!-- 게시판구분 -->
+		<div class="form-group">
+			<label for="title" class="col-sm-2 control-label" style="font-size:14px; font-weight: bold">게시판구분</label><br>
+			<div class="col-sm-10 my-2">
+			<select name="boardname" id="boardname">
+				<option class="form-control" value="자유게시판">자유게시판</option>
+				<option class="form-control" value="질문게시판">질문게시판</option>
+			</select>
+			</div>
+		</div>
+		<!-- 제목 -->
+		<div class="form-group my-3">
+			<label for="title" class="col-sm-2 control-label" style="font-size:14px; font-weight: bold">제목</label><br>
+			<div>
+			<input type="text" name = "title" id="title" style="width:100%" class="form-control" placeholder="제목을 입력해 주세요." />
+			</div>
+		</div>
+		<!-- 익명여부 -->
+		<div class="form-group my-3">
+			<label style="font-size:14px; font-weight: bold">익명</label> <input type="checkbox">
+		</div>
+		<div class="form-group my-3">
+			<label style="font-size:14px; font-weight: bold">닉네임</label> <input type="text" style="width:100%" class="form-control" name="nickname">
+		</div>
+		<!-- 내용 -->
+		<div class="form-group my-3" >
+			<label for="content" class="col-sm-2 control-label" style="font-size:14px; font-weight: bold">내용</label><br>
+			<div>
+				<textarea name = "content" id="content" style="width:100%" class="form-control" placeholder="내용을 입력해 주세요."></textarea>
+			</div>
+		</div>
+		
+		<!-- 등록/취소 버튼 -->
+		<div class="text-center">
+			<input type="submit" class="btn btn-success waves-effect waves-light" id="registerPostBtn" value="등록" style="background-color: #5CAB7D; border-color: #5CAB7D">
+			<input type="button" class="btn btn-light waves-effect waves-light" id="cancleBtn" value="취소">	
+		</div><br><br>
+	
+	</div>
+</form>
+
+
+
+<!-- 	<div class="viewwrap">    
+    	<div class="content">
+			<div class="articlewrap">
+		<h2>새글 쓰기</h2>
+
+		<form action="/board/write" method="post" >
+			<table class="boardWrite">
+				<thead>
+					<tr>
+						<th><label for="boardname">게시판 선택</label></th>
+						<td>
+						<input type="text" id="boardname" name="boardname" class="form-control" size="70" />
+						</td>
+					</tr>
+					<tr>
+						<th><label for="title">제목</label></th>
+						<td>
+							<input type="text" id="subject" name="title" class="form-control" size="70" />
+						</td>
+					</tr>
+					<tr>
+						<th><label for="nickname">작성자</label></th>
+						<td>
+							<input type="text" id="nickname" name="nickname" class="form-control" size="70" />
+						</td>
+					</tr>
+					<tr>
+						<th><label for="content" >내용</label></th>
+						<td><textarea class="form-control" id="content" name="content" rows="3"></textarea>
+						</td>
+					</tr>
+					
+				</thead>
+			</table>
+					토큰
+					<input type="reset" class="btn btn-warning" value="재작성"></input>
+					<input type="submit" class="btn btn-success" value="작성완료"></input>
+	  		    	<input type="button" class="btn btn-secondary" onclick="location.href='/board/boardlist'" value="뒤로 가기"/>
+			</form>
+
+	</div>
+	</div>
+	</div> -->
+
+	<footer th:replace="fragments/common :: footer"> </footer>
+</body>
+<link rel="stylesheet" href="../css/boardWrite.css">
+</html>

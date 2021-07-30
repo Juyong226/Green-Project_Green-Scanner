@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="fragments/common :: head('자유게시판')">
+<body>
+<nav th:replace="fragments/common :: nav"></nav>
+<div class="mx-3 my-2">
+</div>
+<!-- Bulletin board Div -->
+<div class="img-rounded img-thumbnail mx-3 mb-3 p-0">
+
+	<input onclick="location.href='/board/write'" style="float:right; margin-top:10px; margin-right: 10px; background-color: #5CAB7D; border-color: #5CAB7D;" type="button" id="writeBtn" value="글쓰기" class="btn btn-success">
+	<!-- 전체게시판조회 페이지로 이동/게시판 제목 -->
+	<div class= "board-font my-2" style="font-family:NanumBarunGothic">
+		<a class="navbar-brand" href="/board/boardlist" style="text-decoration:none;">
+		<img src="../img/back.png" alt="..." style="width: 20px; height:20px; margin-left:5px" >
+		<label style="font-size: 20px; font-weight: bold; padding: 30px,30px,2px,30px; margin-top:10px; margin-left: 5px; color:#5A9367">[자유게시판]</label>
+		
+		</a>
+	</div>
+
+	<div> 
+		<div id='Bulletin_board' class="postno board-font" style="padding-top:3px; padding-bottom:3px; border-top: 0.1px solid #bebebe;">
+			<div class ="mx-2 my-1" th:each="b_board:${b_boards}">
+			<a class="cls1" style="text-decoration: none; color:black" id="index" th:attrappend="id=${b_boardStat.index}" name="postno" th:href="@{/board/viewpost(postno=${b_board.postno})}">
+				<label class = "txt_line" style="font-weight:bold; padding:5px,5px,5px,5px" th:text="${b_board.title}"></label>
+				<label class = "txt_line" style="color: #424242; font-size:4" th:text="${b_board.content}"></label></a><br>
+				<img src="../img/user.png" style="width: 18px; height: 18px;"alt="...">&nbsp<label  th:text="${b_board.nickname}" style="font-weight:lighter; font-size:0.9em"></label>
+				&nbsp&nbsp&nbsp<img src="../img/bubble.png">&nbsp<label style="font-size:0.9em" th:text="${b_board.reply_cnt}"></label>
+				&nbsp&nbsp&nbsp<label th:text="${#dates.format(b_board.postdate, 'yyyy/MM/dd HH시 mm분')}"></label><hr>	
+			</div>
+		</div>
+	</div>	
+</div>
+<br><br>
+
+
+</body>
+</html>
