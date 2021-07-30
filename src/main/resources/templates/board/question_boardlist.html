@@ -7,15 +7,15 @@
 </div>
 <!-- Bulletin board Div -->
 <div class="img-rounded img-thumbnail mx-3 mb-3 p-0">
-
-	<input onclick="location.href='/board/write'" style="float:right; margin-top:10px; margin-right: 10px; background-color: #5CAB7D; border-color: #5CAB7D;" type="button" id="writeBtn" value="글쓰기" class="btn btn-success">
+<input id = "sessionNickname" type="hidden" th:value="${session.memnickname}"/>
+	<input style="float:right; margin-top:10px; margin-right: 10px; background-color: #5CAB7D; border-color: #5CAB7D;" type="button" id="writeBtn" value="글쓰기" class="btn btn-success">
 	<!-- 전체게시판조회 페이지로 이동/게시판 제목 -->
 	<div class= "board-font my-2" style="font-family:NanumBarunGothic">
 		<a class="navbar-brand" href="/board/boardlist" style="text-decoration:none;">
 		<img src="../img/back.png" alt="..." style="width: 20px; height:20px; margin-left:5px" >
 		<label style="font-size: 20px; font-weight: bold; padding: 30px,30px,2px,30px; margin-top:10px; margin-left: 5px; color:#5A9367">[질문게시판]</label>
 		</a>
-		<br>
+
 	</div>
 	<div> 
 		<div id='Bulletin_board' class="postno board-font" style="padding-top:3px; padding-bottom:3px; border-top: 0.1px solid #bebebe;">

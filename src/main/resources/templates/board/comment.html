@@ -4,26 +4,32 @@
 
 
 		    <div class= "board-font" style="padding: 10px; border-bottom: 0.1px solid #bebebe; ">   
-		        <div class="replyDiv" >
+				<div class="replyDiv">
 		        <label style="font-size: 0.9em; font-family: NanumBarunGothic" align="left" >
 		        <img src="../img/user.png"  style="width: 16px; height: 16px;" alt="..." >&nbsp<label th:text="${comment.nickname}"/>&nbsp&nbsp
 		        <label th:text="${#dates.format(comment.redate, 'yyyy/MM/dd HH시 mm분')}"></label></label>
 		        </div>
-
-
 				
-				<span style="display: inline-block; width: 100%; text-align: right;">
-				<a href="#" style="text-decoration: none; font-size:0.9em; color:#adb5bd;">수정</a>
-			        <form action="/board/deleteReply" method="post">
-						<input type="hidden" name="reno" th:value=${comment.reno}>
-						<input type="hidden" name="postno" th:value=${post.postno}>
-						<input type="submit" style="background-color: transparent; border: 0px transparent solid; font-size:0.9em; color: #adb5bd;" value="삭제" />
-					</form>
-		        </span>
-		        
-		        <br/>
-		        <div th:text="${comment.rememo}"/>
+				
+		         <div id = "reply" style="padding-top: 10px;"><label th:text="${comment.rememo}"></label></div>
+		         <div  align="right" th:if="${session.memnickname == comment.nickname}">
+				<table>
+				
+				<tr>
+				<td ><a id = "replyUpdate" href="#" style="text-decoration: none; font-size:0.9em; color:#adb5bd;">수정</a></td>
+				<td>
+				<!-- 댓글 삭제 시 board.js => DeleteComment함수에서 확인 후 삭제 처리 -->
+				<form name = "deleteForm" action="/board/deleteReply" method="post" onsubmit="return DeleteComment();">
+					<input id = "reno" type="hidden" name="reno" th:value=${comment.reno}>
+					<input type="hidden" name="postno" th:value=${post.postno}>
+					<input id = "commentDeleteBtn" type="submit" style="background-color: transparent; border: 0px transparent solid; font-size:0.9em; color: #adb5bd;" value="삭제" />
+				</form> 
+				</td>
+				</tr>
+				</table>
+				</div>
 		    </div>
+		   
 
 </div>
 	
@@ -70,10 +76,10 @@
 			<form name="form1" action="boardReplySave" method="post" id="memoid">
 				<input type="hidden" name="postno" th:value="${post.postno}"/>
 				<textarea name="rememo" form="memoid"
-					style="width: 89%; height: 50px;" autofocus required wrap="hard"
+					style="width: 79%; height: 50px;" autofocus required wrap="hard"
 					placeholder="댓글을 입력하세요."></textarea>
 				<button class="btn btn-success btn-sm" id="commentInsertBtn"
-					style="float: right; background-color: #5CAB7D; border-color: #5CAB7D; width: 10%; height: 50px">등록</button>
+					style="float: right; background-color: #5CAB7D; border-color: #5CAB7D; width: 20%; height: 50px">등록</button>
 			</form>
 		</div>
 

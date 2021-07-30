@@ -7,8 +7,8 @@
 </div>
 <!-- Bulletin board Div -->
 <div class="img-rounded img-thumbnail mx-3 mb-3 p-0">
-
-	<input onclick="location.href='/board/write'" style="float:right; margin-top:10px; margin-right: 10px; background-color: #5CAB7D; border-color: #5CAB7D;" type="button" id="writeBtn" value="글쓰기" class="btn btn-success">
+<input id = "sessionNickname" type="hidden" th:value="${session.memnickname}"/>
+	<input style="float:right; margin-top:10px; margin-right: 10px; background-color: #5CAB7D; border-color: #5CAB7D;" type="button" id="writeBtn" value="글쓰기" class="btn btn-success">
 	<!-- 전체게시판조회 페이지로 이동/게시판 제목 -->
 	<div class= "board-font my-2" style="font-family:NanumBarunGothic">
 		<a class="navbar-brand" href="/board/boardlist" style="text-decoration:none;">

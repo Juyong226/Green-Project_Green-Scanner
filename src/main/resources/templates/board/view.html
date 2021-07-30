@@ -6,16 +6,23 @@
 
 	<!-- 뒤로가기 버튼/게시판 제목 -->
 	<div class="board-font my-2" style="font-family: NanumBarunGothic">
-		<a href="/board/boardlist" id="board" class="navbar-brand"
+		<a th:if="${post.boardname=='자유게시판'}" href="/board/bulletin_boardlist" id="board" class="navbar-brand"
 			style="text-decoration: none;"> <img src="../img/back.png"
 			alt="..." style="width: 20px; height: 20px; margin-left: 5px">
 			<label id="board_name" th:text="${post.boardname}"
 			style="font-size: 20px; font-weight: bold; padding: 30px, 30px, 2px, 30px; margin-top: 10px; margin-left: 5px; color: #5A9367"></label>
-		</a> <br>
+		</a> 
+		<a th:if="${post.boardname=='질문게시판'}" href="/board/question_boardlist" id="board" class="navbar-brand"
+			style="text-decoration: none;"> <img src="../img/back.png"
+			alt="..." style="width: 20px; height: 20px; margin-left: 5px">
+			<label id="board_name" th:text="${post.boardname}"
+			style="font-size: 20px; font-weight: bold; padding: 30px, 30px, 2px, 30px; margin-top: 10px; margin-left: 5px; color: #5A9367"></label>
+		</a> 
+		<br>
 	</div>
 
-	<div class="alert alert-success" role="alert">
-		<span th:text="${session.memnickname}"></span>로 로그인하셨습니다.
+	<div th:if="${login_nickname != null}" class="alert alert-success" role="alert">
+		<span th:text="${login_nickname}"></span>로 로그인하셨습니다.
 	</div>
 	<!-- 글이 보이는 곳 -->
 	<div class="postArea board-font"
@@ -44,16 +51,18 @@
 
 			<table>
 				<tr align="right">
-					<td><form style="float: right; margin-right: 10px;"
-							action="/board/updatePost" method="get">
-							<input type="hidden" name="postno" th:value=${post.postno}>
+					<td><form th:if="${login_nickname == post.nickname}" style="float: right; margin-right: 10px;"
+							action="/board/updatePost" method="get" >
+							<input type="hidden" name="postno" th:value="${post.postno}">
 							<input type="submit"
 								style="background-color: transparent; border: 0px transparent solid; color: #adb5bd;"
 								value="게시글 수정" />
 						</form></td>
-					<td><form style="float: right;" action="/board/deletePost"
-							method="post">
-							<input type="hidden" name="postno" th:value=${post.postno}>
+						<!-- 게시물 삭제 시 board.js => DeletePost함수에서 확인 후 삭제 처리 -->
+					<td><form th:if="${login_nickname == post.nickname}" style="float: right;" action="/board/deletePost"
+							method="post" onsubmit="return DeletePost();">
+							<input type="hidden" name="postno" th:value="${post.postno}">
+							<input type="hidden" name="boardname" th:value="${post.boardname}">
 							<input type="submit"
 								style="background-color: transparent; border: 0px transparent solid; color: #adb5bd;"
 								value="게시글 삭제" />
@@ -70,10 +79,7 @@
 
 	<div th:replace="board/comment :: commentWrite"></div>
 	<div th:replace="board/comment :: comment"></div>
-	<br />
-	<br />
-	<br />
-	<nav th:replace="fragments/common :: footer">
+	<br /><br /><br />
 </body>
 <link rel="stylesheet" href="../css/boardView.css">
 <link rel="stylesheet" href="../css/styles.css">
