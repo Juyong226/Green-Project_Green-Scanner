@@ -35,6 +35,7 @@ public class BoardController {
 		mav.addObject("b_boards", b_boards);
 		mav.addObject("q_boards", q_boards);
 		mav.setViewName("board/list");
+	
 		return mav;
 	}
 	
@@ -75,6 +76,11 @@ public class BoardController {
 		System.out.println("writePost 진입");
 		String nickname = (String) session.getAttribute("memnickname");
 		boardVO.setNickname(nickname);	
+		
+		if(boardVO.getIsanon()==null) {
+			boardVO.setIsanon("0");
+		}
+		
 		boardService.insertPost(boardVO);
 		System.out.println(boardVO);
 		
@@ -97,6 +103,7 @@ public class BoardController {
 		System.out.println(postno+"번 글 보기");
 		ModelAndView mav = new ModelAndView();
 		BoardVO boardVO = boardService.viewPost(postno);
+		System.out.println(boardVO);
 		mav.addObject("post", boardVO);
 		
 		//현재 게시글에 대한 댓글을 모두 가져오기. 한 게시글당 댓글이 하나 이상이기 때문에 타입은 List이다.  
@@ -127,6 +134,9 @@ public class BoardController {
 		System.out.println(boardVO.getPostno()+"번 글 수정 진입");
 		String nickname = (String) session.getAttribute("memnickname");
 		boardVO.setNickname(nickname);	
+		if(boardVO.getIsanon()==null) {
+			boardVO.setIsanon("0");
+		}
 		boardService.updatePost(boardVO);
 		return "redirect:/board/viewpost?postno="+boardVO.getPostno();
 	}

@@ -21,7 +21,9 @@
 			<a class="cls1" style="text-decoration: none; color:black" id="index" th:attrappend="id=${b_boardStat.index}" name="postno" th:href="@{/board/viewpost(postno=${b_board.postno})}">
 				<label class = "txt_line" style="font-weight:bold; padding:5px,5px,5px,5px" th:text="${b_board.title}"></label>
 				<label class = "txt_line" style="color: #424242; font-size:4" th:text="${b_board.content}"></label></a><br>
-				<img src="../img/user.png" style="width: 18px; height: 18px;"alt="...">&nbsp<label  th:text="${b_board.nickname}" style="font-weight:lighter; font-size:0.9em"></label>
+				<img src="../img/user.png" style="width: 18px; height: 18px;"alt="...">&nbsp
+				<label th:if="${b_board.isanon} == 1" style="font-weight:lighter; font-size:0.9em">익명</label>
+				<label th:if="${b_board.isanon} == 0" th:text="${b_board.nickname}" style="font-weight:lighter; font-size:0.9em"></label>
 				&nbsp&nbsp&nbsp<img src="../img/bubble.png">&nbsp<label style="font-size:0.9em" th:text="${b_board.reply_cnt}"></label>
 				&nbsp&nbsp&nbsp<label th:text="${#dates.format(b_board.postdate, 'yyyy/MM/dd HH시 mm분')}"></label><hr>	
 			</div>
@@ -44,7 +46,9 @@
 			<a class="cls1" style="text-decoration: none; color:black" id="index" th:attrappend="id=${q_boardStat.index}" name="postno" th:href="@{/board/viewpost(postno=${q_board.postno})}">
 				<label class = "txt_line" style="font-weight:bold; padding:5px,5px,5px,5px" th:text="${q_board.title}"></label>
 				<label class = "txt_line" style="color: #424242; font-size:4" th:text="${q_board.content}"></label></a><br>
-				<img src="../img/user.png" style="width: 18px; height: 18px;"alt="...">&nbsp<label  th:text="${q_board.nickname}" style="font-weight:lighter; font-size:0.9em"></label>
+				<img src="../img/user.png" style="width: 18px; height: 18px;"alt="...">&nbsp
+				<label th:if="${q_board.isanon} == 1" style="font-weight:lighter; font-size:0.9em">익명</label>
+				<label th:if="${q_board.isanon} == 0" th:text="${q_board.nickname}" style="font-weight:lighter; font-size:0.9em"></label>
 				&nbsp&nbsp&nbsp<img src="../img/bubble.png">&nbsp<label style="font-size:0.9em" th:text="${q_board.reply_cnt}"></label>
 				&nbsp&nbsp&nbsp<label th:text="${#dates.format(q_board.postdate, 'yyyy/MM/dd HH시 mm분')}"></label><hr>	
 			</div>

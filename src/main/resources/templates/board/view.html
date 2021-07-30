@@ -31,7 +31,10 @@
 		<div class="nicknameDiv"
 			style="float: left; font-family: NanumBarunGothic">
 			<img src="../img/user.png" style="width: 24px; height: 24px;"
-				alt="...">&nbsp<label th:text="${post.nickname}"></label>
+				alt="...">&nbsp
+				<!-- 익명 사용자 여부 표시 -->
+				<label th:if="${post.isanon} == 1" >익명</label>
+				<label th:if="${post.isanon} == 0" th:text="${post.nickname}"></label>
 		</div>
 		<br> <br>
 		<div class="titleDiv"

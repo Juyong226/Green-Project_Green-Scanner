@@ -80,9 +80,9 @@
 	<insert id="insertPost" parameterType="boardVO">
 		<![CDATA[
 			insert into 
-			board(boardname, title, content, nickname) 
+			board(boardname, title, content, nickname, isanon) 
 			values 
-			(#{boardname}, #{title},#{content},#{nickname})
+			(#{boardname}, #{title},#{content},#{nickname}, #{isanon})
 		]]>
 	</insert>
 	
@@ -110,7 +110,8 @@
 			set boardname=#{boardname},
 				title=#{title},
 				content=#{content},	
-				nickname=#{nickname}			
+				nickname=#{nickname},
+				isanon=#{isanon}			
 			where postno=#{postno}
 		]]>
 	</update>
