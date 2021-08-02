@@ -8,7 +8,7 @@ $(document).ready(function() {
 	fn_isLogined();
 		
 	$(document).on("click", "#logoutBtn", function(event) { //로그아웃 처리
-		$.post("../logout.do",
+		$.post("/logout.do",
 			  {			   
 			   
 			  },
@@ -41,7 +41,7 @@ $(document).ready(function() {
 			return false;
 		}
 		
-		$.post("../login.do",
+		$.post("/login.do",
 				  {
 				    email:email,
 				    pw:pw,
@@ -106,7 +106,7 @@ $(document).ready(function() {
 	//답변이 sessionNull일 경우 로그아웃 되었다는 알림을 띄우고 쿠키를 삭제함
 	//답변에 sessionNull이 아닐 경우 로그인 상태를 유지(쿠키 삭제 안 함)
 	function fn_checkSession() {
-		$.post("../checkSession.do",
+		$.post("/checkSession.do",
 				{},
 				function(data, status) {
 					let obj = JSON.parse(data);

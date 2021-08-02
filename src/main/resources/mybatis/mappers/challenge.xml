@@ -8,14 +8,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<resultMap type="BasicChallengeVO" id="basicChallengeResult">
 		<result property="challengeName" column="challengeName"/>
 		<result property="challengeCode" column="challengeCode"/>
+		<result property="thumbnailURL" column="thumbnailURL"/>
 		<result property="toDo" column="toDo"/>
 		<result property="isAvailable" column="isAvailable"/>
 	</resultMap>
 	
 	<resultMap type="PersonalChallengeVO" id="challengeListResult">
 		<result property="challengeCode" column="challengeCode" />
+		<result property="challengeName" column="challengeName"/>
+		<result property="challengeNum" column="challengeNum"/>
 		<result property="email" column="email"/>
-		<result property="thumbnailCode" column="thumbnailCode"/>
+		<result property="thumbnailURL" column="thumbnailURL"/>
 		<result property="colorCode" column="colorCode"/>
 		<result property="period" column="period"/>
 		<result property="executionNum" column="executionNum"/>
@@ -42,12 +45,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		]]>
 	</select>
 	
+	<select id="getBasicChallenge" resultMap="basicChallengeResult">
+		<![CDATA[
+			select * from basicChallenge
+			where challengeCode = #{code} and isAvailable = '1'
+		]]>
+	</select>
+	
+	<select id="getPersonalChallenge" resultMap="challengeListResult">
+		<![CDATA[
+			select * from challengeList
+			where challengeNum = #{challengeNum}
+		]]>
+	</select>
+	
 	<insert id="createChallenge" parameterType="PersonalChallengeVO">
 		<![CDATA[
-			insert into challengeList (challengeCode, email, thumbnailCode, colorCode, 
-					period, executionNum, achievementRate, isCompleted, isSucceeded)
-			values (#{challengeCode}, #{email}, #{thumbnailCode}, #{colorCode}, #{period},
-				#{executionNum}, #{achievementRate}, #{isCompleted}, #{isSucceeded})
+			insert into challengeList (challengeCode, challengeName, challengeNum, email, thumbnailURL, colorCode, 
+					period, startDate, endDate, executionNum, achievementRate, isCompleted, isSucceeded)
+			values (#{challengeCode}, #{challengeName}, #{challengeNum}, #{email}, #{thumbnailURL}, #{colorCode}, 
+				#{period}, #{startDate}, #{endDate}, #{executionNum}, #{achievementRate}, #{isCompleted}, #{isSucceeded})
 		]]>
 	</insert>
 	

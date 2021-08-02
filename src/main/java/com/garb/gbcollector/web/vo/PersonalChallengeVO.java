@@ -4,19 +4,21 @@ import java.util.Date;
 
 public class PersonalChallengeVO {
 
-	private String challengeCode, email, thumbnailCode, colorCode, period,
+	private String challengeCode, challengeName, challengeNum, email, thumbnailURL, colorCode, period,
 				startDate, endDate, isCompleted, isSucceeded;
 	private int executionNum;
 	private long achievementRate;
  
 	
-	public PersonalChallengeVO(String challengeCode, String email, String thumbnailCode, String colorCode, 
+	public PersonalChallengeVO(String challengeCode, String challengeName, String challengeNum, String email, String thumbnailURL, String colorCode, 
 			String period, String startDate, String endDate, int executionNum, long achievementRate, 
 			String isCompleted, String isSucceeded) {
 		super();
 		setChallengeCode(challengeCode);
+		setChallengeName(challengeName);
+		setChallengeNum(challengeNum);
 		setEmail(email);
-		setThumbnailCode(thumbnailCode);
+		setThumbnailURL(thumbnailURL);
 		setColorCode(colorCode);
 		setPeriod(period);
 		setExecutionNum(executionNum);
@@ -35,6 +37,22 @@ public class PersonalChallengeVO {
 		this.challengeCode = challengeCode;
 	}
 	
+	public String getChallengeName() {
+		return challengeName;
+	}
+
+	public void setChallengeName(String challengeName) {
+		this.challengeName = challengeName;
+	}
+
+	public String getChallengeNum() {
+		return challengeNum;
+	}
+
+	public void setChallengeNum(String challengeNum) {
+		this.challengeNum = challengeNum;
+	}
+
 	public String getEmail() {
 		return email;
 	}
@@ -43,12 +61,12 @@ public class PersonalChallengeVO {
 		this.email = email;
 	}
 	
-	public String getThumbnailCode() {
-		return thumbnailCode;
+	public String getThumbnailURL() {
+		return thumbnailURL;
 	}
 	
-	public void setThumbnailCode(String thumbnailCode) {
-		this.thumbnailCode = thumbnailCode;
+	public void setThumbnailURL(String thumbnailURL) {
+		this.thumbnailURL = thumbnailURL;
 	}
 	
 	public String getColorCode() {

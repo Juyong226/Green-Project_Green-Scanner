@@ -13,7 +13,14 @@ public interface ChallengeDAO {
 	List<BasicChallengeVO> selectBasicChallenge();
 
 	List<PersonalChallengeVO> selectChallengeList(String email);
+	
+	BasicChallengeVO getBasicChallenge(String code);
+	
+	PersonalChallengeVO getPersonalChallenge(String challengeNum);
 
-	void createChallenge(PersonalChallengeVO pc);
+	int createChallenge(PersonalChallengeVO pc);
+
+	
+
 
 }

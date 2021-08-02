@@ -2,6 +2,7 @@ package com.garb.gbcollector.web.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,6 +10,8 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,7 +32,7 @@ public class ChallengeController {
 	
 	List<BasicChallengeVO> bcList; 
 	
-	@RequestMapping(value = "",
+	@RequestMapping(value = "/main",
 					method = {RequestMethod.GET})
 	@ResponseBody
 	public ModelAndView selectAllChallenges(ModelAndView mav, HttpServletRequest request, HttpServletResponse response) {
@@ -50,24 +53,21 @@ public class ChallengeController {
 		bcList = challengeService.selectBasicChallenge();
 		HttpSession session = request.getSession(false);
 		
-		mav.setViewName("challenge/mainChallenge");
 		mav.addObject("bcList", bcList);
 		
 		// 로그인 하지 않았을 때(세션에 로그인 정보가 담겨있지 않을 때)
 		if(session == null) {
-			mav.addObject("loginRequired", "로그인 후 이용할 수 있습니다.");
+			mav.addObject("login_required", "로그인 후 이용할 수 있습니다.");
 			
 		// 로그인 했을 때(세션에 로그인 정보가 담겨있을 때)
 		} else {
 			try {
-				MemberVO m = (MemberVO) session.getAttribute("member");
-				
-				String email = m.getMememail();
 				List<ArrayList> cList = (List<ArrayList>) session.getAttribute("challengeList");
 				
 				// 당일 챌린지 서비스에 첫 방문했을 시(세션에 챌린지 정보가 담겨있지 않을 때)
 				if(cList == null) {
-					List<PersonalChallengeVO> tempList = challengeService.selectChallengeList(email);
+					MemberVO member = (MemberVO)session.getAttribute("member");
+					List<PersonalChallengeVO> tempList = challengeService.selectChallengeList(member.getMememail());
 					
 					cList = challengeService.isCompleted(tempList);
 					session.setAttribute("challengeList", cList);
@@ -85,6 +85,7 @@ public class ChallengeController {
 				mav.addObject("completed", cList.get(1));
 				mav.addObject("proceedingNum", Integer.toString(cList.get(0).size()));
 				mav.addObject("completedNum", Integer.toString(cList.get(1).size()));
+				mav.setViewName("challenge/main");
 				
 			} catch (GbcException e) {
 				// 클라이언트쪽으로 exception 메세지 보내기
@@ -95,26 +96,154 @@ public class ChallengeController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/createChallenge",
+	@RequestMapping(value = "/my-challenge",
+					method = {RequestMethod.GET},
+					produces = "application/text; charset=utf8")
+	@ResponseBody
+	public ModelAndView selectMyChallenges(ModelAndView mav, HttpServletRequest request) {
+		
+		HttpSession session = request.getSession(false);
+		
+		if(session == null) {
+			mav.setViewName(null); // 로그인 요청 페이지
+			
+		} else {
+			try {
+				List<ArrayList> cList = (List<ArrayList>) session.getAttribute("challengeList");
+				
+				// 당일 챌린지 서비스에 첫 방문했을 시(세션에 챌린지 정보가 담겨있지 않을 때)
+				if(cList == null) {
+					MemberVO member = (MemberVO)session.getAttribute("member");
+					List<PersonalChallengeVO> tempList = challengeService.selectChallengeList(member.getMememail());
+					
+					cList = challengeService.isCompleted(tempList);
+					session.setAttribute("challengeList", cList);
+					
+				// 당일 챌린지 서비스에 이미 방분했을 시(세션에 챌린지 정보가 담겨있을 때)
+				} else {				
+					cList = challengeService.isCompleted(cList.get(0), cList.get(1));
+					session.setAttribute("challengeList", cList);
+
+				}
+				mav.addObject("proceeding", cList.get(0));
+				mav.addObject("completed", cList.get(1));
+				mav.setViewName("challenge/my-challenge");
+				
+			} catch (GbcException e) {
+				// 클라이언트쪽으로 exception 메세지 보내기
+				mav.addObject("exception", e.getMessage());
+				e.printStackTrace();
+			}			
+		}
+		return mav;
+	}
+	
+	@RequestMapping(value = "/main/{challengeNum}", 
+					method = {RequestMethod.GET }, 
+					produces = "application/text; charset=utf8")
+	@ResponseBody
+	public ModelAndView pcDetail1(@PathVariable("challengeNum") String challengeNum, ModelAndView mav, HttpServletRequest request) {
+		
+		HttpSession session = request.getSession(false);
+		
+		if(session == null) {
+			mav.addObject("login_required", "로그인 후 이용할 수 있습니다");
+			mav.setViewName("redirect:/challenge/main");
+			
+		} else {
+			PersonalChallengeVO pc = challengeService.getPersonalChallenge(challengeNum);
+			mav.addObject("personalChallenge", pc);
+			mav.setViewName("challenge/main-my-challenge-detail");
+			
+		}
+		return mav;
+	}
+	
+	@RequestMapping(value = "/my-challenge/{challengeNum}",
+					method = {RequestMethod.GET},
+					produces = "application/text; charset=utf8")
+	@ResponseBody
+	public ModelAndView pcDetail2(@PathVariable("challengeNum") String challengeNum, ModelAndView mav, HttpServletRequest request) {
+		
+		HttpSession session = request.getSession(false);
+		
+		if(session == null) {
+			mav.addObject("login_required", "로그인 후 이용할 수 있습니다");
+			mav.setViewName("redirect:/challenge/main");
+			
+		} else {
+			PersonalChallengeVO pc = challengeService.getPersonalChallenge(challengeNum);
+			mav.addObject("personalChallenge", pc);
+			mav.setViewName("challenge/my-challenge-detail");
+			
+		}
+		return mav;
+	}
+	
+	@RequestMapping(value = "/{challengeCode}",
+					method = {RequestMethod.GET},
+					produces = "application/text; charset=utf8")
+	@ResponseBody
+	public ModelAndView bcDetail(@PathVariable("challengeCode") String code, ModelAndView mav, 
+				HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("요청들어옴: GET /{challengeCode}");
+		BasicChallengeVO bc = challengeService.getBasicChallenge(code);
+		
+		mav.setViewName("challenge/basic-detail");
+		mav.addObject("basicChallenge", bc);
+		
+		return mav;
+	}
+	
+	@RequestMapping(value = "/set/{challengeCode}",
+					method = {RequestMethod.GET},
+					produces = "application/text; charset=utf8")
+	@ResponseBody
+	public ModelAndView create(@PathVariable("challengeCode") String code, ModelAndView mav, 
+				HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("요청들어옴: GET /set/{challengeCode}");
+
+		HttpSession session = request.getSession(false);
+		BasicChallengeVO bc = challengeService.getBasicChallenge(code);
+		
+		if(session == null) {
+			mav.addObject("login_required", "로그인 후 이용할 수 있습니다");
+			mav.setViewName("redirect:/challenge/" + code);
+			
+		} else {		
+			mav.addObject("basicChallenge", bc);
+			mav.setViewName("challenge/new-setting");
+			
+		}
+		return mav;
+	}
+	
+	@RequestMapping(value = "/set/{challengeCode}",
 					method = {RequestMethod.POST},
 					produces = "application/text; charset=utf8")
 	@ResponseBody
-	public ModelAndView createChallenge(ModelAndView mav, HttpServletRequest request, HttpServletResponse response) {
-		
+	public ModelAndView start(@PathVariable("challengeCode") String code, ModelAndView mav, 
+				HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("요청들어옴: POST /set/{challengeCode}");
+
 		HttpSession session = request.getSession(false);
-		mav.setViewName("challenge/createChallenge");
 		
 		if(session == null) {
-			mav.addObject("loginRequired", "로그인 후 이용할 수 있습니다");
+			mav.addObject("login_required", "로그인 후 이용할 수 있습니다");
+			mav.setViewName("redirect:/challenge/" + code);
+			
 		} else {
 			try {
+				BasicChallengeVO bc = challengeService.getBasicChallenge(code);
 				MemberVO m = (MemberVO) session.getAttribute("member");
-				
+								
 				String email = m.getMememail();
-				String challengeCode = request.getParameter("challengeCode");
+				String challengeCode = code;
+				String challengeName = bc.getChallengeName();
+				String challengeNum = UUID.randomUUID().toString().replace("-", "").substring(0, 11);
 				String colorCode = request.getParameter("colorCode");
 				String period = request.getParameter("period");
-				String thumbnailCode = request.getParameter("thumbnailCode");				
+				String thumbnailURL = 	bc.getThumbnailURL();			
 				String startDate = challengeService.getCurrentTime();
 				String endDate = challengeService.getEndDate(startDate, period);
 				int executionNum = 0;
@@ -122,18 +251,29 @@ public class ChallengeController {
 				String isCompleted = "0";
 				String isSucceeded = "0";
 				
-				PersonalChallengeVO pc = new PersonalChallengeVO(challengeCode, email, 
-						thumbnailCode, colorCode, period, startDate, endDate, executionNum, 
+				PersonalChallengeVO pc = new PersonalChallengeVO(challengeCode, challengeName, challengeNum, email, 
+						thumbnailURL, colorCode, period, startDate, endDate, executionNum, 
 						achievementRate, isCompleted, isSucceeded);
+			
+				int result = challengeService.createChallenge(pc);
 				
-				challengeService.createChallenge(pc);
-				mav.addObject("created", "챌린지 생성 성공");
+				if(result == 1) {
+					List<ArrayList> cList = (List<ArrayList>) session.getAttribute("challengeList");
+					cList.get(0).add(pc);
+					
+				} else {
+					mav.addObject("insert_failed", "챌린지 생성에 실패하였습니다.");
+					mav.setViewName("redirect:/challenge/set/" + code);
+					
+				}
+				mav.addObject("insert_succeeded", "챌린지를 성공적으로 생성하였습니다.");
+				mav.setViewName("redirect:/challenge/main");
 				
 			} catch (GbcException e) {
 				// 클라이언트쪽으로 exception 메세지 보내기
 				mav.addObject("exception", e.getMessage());
 				e.printStackTrace();
-			}			
+			}
 		}
 		return mav;
 	}

@@ -2,17 +2,19 @@ package com.garb.gbcollector.web.vo;
 
 public class BasicChallengeVO {
 
-	private String challengeName, challengeCode, toDo, isAvailable;
+	private String challengeName, challengeCode, thumbnailURL, toDo, isAvailable;
 	
 	
 
-	public BasicChallengeVO(String challengeName, String challengeCode, String toDo, String isAvailable) {
+	public BasicChallengeVO(String challengeName, String challengeCode, String thumbnailURL, String toDo, String isAvailable) {
 		super();
 		setChallengeName(challengeName);
 		setChallengeCode(challengeCode);
+		setThumbnailURL(thumbnailURL);
 		setToDo(toDo);
 		setAvailable(isAvailable);
 	}
+
 
 	public String getChallengeName() {
 		return challengeName;
@@ -29,6 +31,16 @@ public class BasicChallengeVO {
 	public void setChallengeCode(String challengeCode) {
 		this.challengeCode = challengeCode;
 	}
+	
+	public String getThumbnailURL() {
+		return thumbnailURL;
+	}
+
+
+	public void setThumbnailURL(String thumbnailURL) {
+		this.thumbnailURL = thumbnailURL;
+	}
+
 
 	public String getToDo() {
 		return toDo;

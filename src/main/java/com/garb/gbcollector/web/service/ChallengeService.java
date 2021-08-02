@@ -28,15 +28,25 @@ public class ChallengeService {
 		return challengeDAO.selectChallengeList(email);
 	}
 	
-	public void createChallenge(PersonalChallengeVO pc) {
-		challengeDAO.createChallenge(pc);
+	public BasicChallengeVO getBasicChallenge(String code) {
+		return challengeDAO.getBasicChallenge(code);
 	}
 	
-	public String getCurrentTime() {		
+	public PersonalChallengeVO getPersonalChallenge(String challengeNum) {
+		return challengeDAO.getPersonalChallenge(challengeNum);
+	}
+	
+	public int createChallenge(PersonalChallengeVO pc) {
+		return challengeDAO.createChallenge(pc);
+	}
+	
+	public String getCurrentTime() {
+		System.out.println("challengeService.getCurrentTime()");
 		return gsCalendar.getCurrentTime();
 	}
 	
 	public String getEndDate(String startDate, String period) throws GbcException {
+		System.out.println("challengeService.getEndDate()");
 		return gsCalendar.getEndDate(startDate, period);
 	}
 
@@ -51,5 +61,9 @@ public class ChallengeService {
 
 		return cList;
 	}
+
+	
+
+	
 
 }
