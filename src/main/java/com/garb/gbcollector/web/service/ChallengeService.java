@@ -40,6 +40,13 @@ public class ChallengeService {
 		return challengeDAO.createChallenge(pc);
 	}
 	
+	public int updateChallenge(PersonalChallengeVO pc) {
+		return challengeDAO.updateChallenge(pc);	
+	}
+	
+	public int deleteChallenge(String challengeNum) {
+		return challengeDAO.deleteChallenge(challengeNum);
+	}
 	public String getCurrentTime() {
 		System.out.println("challengeService.getCurrentTime()");
 		return gsCalendar.getCurrentTime();
@@ -64,6 +71,5 @@ public class ChallengeService {
 
 	
 
-	
 
 }

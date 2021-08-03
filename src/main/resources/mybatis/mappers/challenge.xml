@@ -68,4 +68,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		]]>
 	</insert>
 	
+	<update id="updateChallenge" parameterType="PersonalChallengeVO">
+		<![CDATA[
+			update challengeList
+			set challengeCode = #{challengeCode}, challengeName = #{challengeName}, challengeNum = #{challengeNum}, email = #{email},
+					thumbnailURL = #{thumbnailURL}, colorCode = #{colorCode}, period = #{period}, startDate = #{startDate}, endDate = #{endDate},
+					executionNum = #{executionNum}, achievementRate = #{achievementRate}, isCompleted = #{isCompleted}, isSucceeded = #{isSucceeded}
+			where challengeNum = #{challengeNum}
+		]]>	
+	</update>
+	
+	<delete id="deleteChallenge" parameterType="String">
+		<![CDATA[
+			delete from challengeList
+			where challengeNum = #{challengeNum}
+		]]>
+	</delete>
+	
 </mapper>

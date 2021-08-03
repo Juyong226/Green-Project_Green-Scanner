@@ -20,7 +20,9 @@ public interface ChallengeDAO {
 
 	int createChallenge(PersonalChallengeVO pc);
 
-	
+	int updateChallenge(PersonalChallengeVO pc);
+
+	int deleteChallenge(String challengeNum);
 
 
 }

@@ -18,7 +18,23 @@
 				<tr><td>종료: </td><td th:text="${personalChallenge.endDate}"></td></tr>
 				<tr><td>기간: </td><td th:text="${personalChallenge.period}"></td></tr>
 				<tr><td>달성률: </td><td th:text="${personalChallenge.achievementRate}"></td></tr>
-			</table>
+			</table><hr>
+			
+			<div>
+				<table>
+					<tr><td>
+						<form
+							th:action="@{/challenge/edit/{challengeNum} (challengeNum=${personalChallenge.challengeNum})}">
+							<input type="submit" value="수정하기">
+						</form>
+					</td><td>
+						<form
+							th:action="@{/challenge/delete/{challengeNum} (challengeNum=${personalChallenge.challengeNum})}" method="post">
+							<input type="submit" value="삭제하기">
+						</form>
+					</td></tr>
+				</table>
+			</div>
 			
 			<nav th:replace="challenge/fragments/commonChallenge.html :: footer"></nav>
 	

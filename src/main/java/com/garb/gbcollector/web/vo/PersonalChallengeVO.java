@@ -5,14 +5,15 @@ import java.util.Date;
 public class PersonalChallengeVO {
 
 	private String challengeCode, challengeName, challengeNum, email, thumbnailURL, colorCode, period,
-				startDate, endDate, isCompleted, isSucceeded;
-	private int executionNum;
-	private long achievementRate;
+				startDate, endDate;
+	private String isCompleted = "0";
+	private String isSucceeded = "0";
+	private int executionNum = 0;
+	private long achievementRate = 0L;
  
 	
 	public PersonalChallengeVO(String challengeCode, String challengeName, String challengeNum, String email, String thumbnailURL, String colorCode, 
-			String period, String startDate, String endDate, int executionNum, long achievementRate, 
-			String isCompleted, String isSucceeded) {
+			String period, String startDate, String endDate) {
 		super();
 		setChallengeCode(challengeCode);
 		setChallengeName(challengeName);
@@ -21,12 +22,8 @@ public class PersonalChallengeVO {
 		setThumbnailURL(thumbnailURL);
 		setColorCode(colorCode);
 		setPeriod(period);
-		setExecutionNum(executionNum);
 		setStartDate(startDate);
 		setEndDate(endDate);
-		setAchievementRate(achievementRate);
-		setCompleted(isCompleted);
-		setSucceeded(isSucceeded);
 	}
 	
 	public String getChallengeCode() {
