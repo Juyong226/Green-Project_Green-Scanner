@@ -15,7 +15,7 @@
 					</div><hr>	
 				</div>
 			<!-- 챌린지 시작하기 -->
-				<a th:href="@{/challenge/set/{challengeCode}(challengeCode=${basicChallenge.challengeCode})}">
+				<a th:href="@{/challenge/basic/{challengeCode}/set(challengeCode=${basicChallenge.challengeCode})}">
 					<button>시작하기</button>
 				</a>	
 	<nav th:replace="challenge/fragments/commonChallenge.html :: footer"></nav>

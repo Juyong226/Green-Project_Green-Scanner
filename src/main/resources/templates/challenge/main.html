@@ -25,7 +25,7 @@
 					<table>
 						<tr th:each="pc : ${proceeding}">
 							<td>
-								<a th:href="@{/challenge/main/{challengeNum}(challengeNum=${pc.challengeNum})}">
+								<a th:href="@{/challenge/my-challenge/{challengeNum}(challengeNum=${pc.challengeNum})}">
 									<span th:text="${pc.challengeName}"></span>
 								</a>								
 							</td>
@@ -60,7 +60,7 @@
 						<tr th:each="bc : ${bcList}">
 							<td><span th:text="${bc.challengeCode}"></span></td>
 							<td>
-								<a th:href="@{/challenge/{challengeCode}(challengeCode=${bc.challengeCode})}">
+								<a th:href="@{/challenge/basic/{challengeCode}(challengeCode=${bc.challengeCode})}">
 									<span th:text="${bc.challengeName}"></span>
 								</a>
 							</td>

@@ -95,26 +95,7 @@ public class ChallengeController {
 			}			
 		}
 		return mav;
-	}
-	
-	@RequestMapping(value = "/main/{challengeNum}", method = {RequestMethod.GET }, produces = "application/text; charset=utf8")
-	@ResponseBody
-	public ModelAndView pcDetail1(@PathVariable("challengeNum") String challengeNum, ModelAndView mav, HttpServletRequest request) {
-		
-		HttpSession session = request.getSession(false);
-		
-		if(session == null) {
-			mav.addObject("login_required", "로그인 후 이용할 수 있습니다");
-			mav.setViewName("redirect:/challenge/main");
-			
-		} else {
-			PersonalChallengeVO pc = challengeService.getPersonalChallenge(challengeNum);
-			mav.addObject("personalChallenge", pc);
-			mav.setViewName("challenge/main-my-challenge-detail");
-			
-		}
-		return mav;
-	}
+	}	
 	
 	@RequestMapping(value = "/my-challenge/{challengeNum}", method = {RequestMethod.GET}, produces = "application/text; charset=utf8")
 	@ResponseBody
@@ -135,7 +116,7 @@ public class ChallengeController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/{challengeCode}", method = {RequestMethod.GET}, produces = "application/text; charset=utf8")
+	@RequestMapping(value = "/basic/{challengeCode}", method = {RequestMethod.GET}, produces = "application/text; charset=utf8")
 	@ResponseBody
 	public ModelAndView bcDetail(@PathVariable("challengeCode") String code, ModelAndView mav, HttpServletRequest request) {
 		System.out.println("요청들어옴: GET /{challengeCode}");
@@ -147,7 +128,7 @@ public class ChallengeController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/set/{challengeCode}", method = {RequestMethod.GET}, produces = "application/text; charset=utf8")
+	@RequestMapping(value = "/basic/{challengeCode}/set", method = {RequestMethod.GET}, produces = "application/text; charset=utf8")
 	@ResponseBody
 	public ModelAndView create(@PathVariable("challengeCode") String code, ModelAndView mav, HttpServletRequest request) {
 		System.out.println("요청들어옴: GET /set/{challengeCode}");
@@ -157,7 +138,7 @@ public class ChallengeController {
 		
 		if(session == null) {
 			mav.addObject("login_required", "로그인 후 이용할 수 있습니다");
-			mav.setViewName("redirect:/challenge/" + code);
+			mav.setViewName("redirect:/challenge/basic/" + code);
 			
 		} else {		
 			mav.addObject("basicChallenge", bc);
@@ -167,7 +148,7 @@ public class ChallengeController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/set/{challengeCode}", method = {RequestMethod.POST}, produces = "application/text; charset=utf8")
+	@RequestMapping(value = "/basic/{challengeCode}", method = {RequestMethod.POST}, produces = "application/text; charset=utf8")
 	@ResponseBody
 	public ModelAndView start(@PathVariable("challengeCode") String code, ModelAndView mav, HttpServletRequest request) {
 		System.out.println("요청들어옴: POST /set/{challengeCode}");
@@ -176,7 +157,7 @@ public class ChallengeController {
 		
 		if(session == null) {
 			mav.addObject("login_required", "로그인 후 이용할 수 있습니다");
-			mav.setViewName("redirect:/challenge/" + code);
+			mav.setViewName("redirect:/challenge/basic/" + code);
 			
 		} else {
 			try {
@@ -204,7 +185,7 @@ public class ChallengeController {
 					
 				} else {
 					mav.addObject("insert_failed", "챌린지 생성에 실패하였습니다.");
-					mav.setViewName("redirect:/challenge/set/" + code);
+					mav.setViewName("redirect:/challenge/basic/" + code);
 					
 				}
 							
@@ -217,7 +198,7 @@ public class ChallengeController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/edit/{challengeNum}", method = {RequestMethod.GET}, produces = "application/text; charset=utf8")
+	@RequestMapping(value = "/my-challenge/{challengeNum}/edit", method = {RequestMethod.GET}, produces = "application/text; charset=utf8")
 	@ResponseBody
 	public ModelAndView updatePage(@PathVariable("challengeNum") String challengeNum, ModelAndView mav, HttpServletRequest request) {
 		
@@ -235,7 +216,7 @@ public class ChallengeController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/edit/{challengeNum}", method = {RequestMethod.POST}, produces = "application/text; charset=utf8")
+	@RequestMapping(value = "/my-challenge/{challengeNum}", method = {RequestMethod.PUT}, produces = "application/text; charset=utf8")
 	@ResponseBody
 	public ModelAndView update(@PathVariable("challengeNum") String challengeNum, ModelAndView mav, HttpServletRequest request) {
 		
@@ -273,7 +254,7 @@ public class ChallengeController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/delete/{challengeNum}", method = {RequestMethod.POST}, produces = "application/text; charset=utf8")
+	@RequestMapping(value = "/my-challenge/{challengeNum}", method = {RequestMethod.DELETE}, produces = "application/text; charset=utf8")
 	@ResponseBody
 	public ModelAndView delete(@PathVariable("challengeNum") String challengeNum, ModelAndView mav, HttpServletRequest request) {
 		

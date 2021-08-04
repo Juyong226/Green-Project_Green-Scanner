@@ -24,13 +24,13 @@
 				<table>
 					<tr><td>
 						<form
-							th:action="@{/challenge/edit/{challengeNum} (challengeNum=${personalChallenge.challengeNum})}">
-							<input type="submit" value="수정하기">
+							th:action="@{/challenge/my-challenge/{challengeNum}/edit (challengeNum=${personalChallenge.challengeNum})}">
+							<input type="submit" value="수정하기" />
 						</form>
 					</td><td>
 						<form
-							th:action="@{/challenge/delete/{challengeNum} (challengeNum=${personalChallenge.challengeNum})}" method="post">
-							<input type="submit" value="삭제하기">
+							th:action="@{/challenge/my-challenge/{challengeNum} (challengeNum=${personalChallenge.challengeNum})}" th:method="delete">
+							<input type="submit" value="삭제하기" />
 						</form>
 					</td></tr>
 				</table>

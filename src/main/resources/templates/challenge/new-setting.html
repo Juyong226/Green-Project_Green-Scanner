@@ -5,11 +5,11 @@
 	<nav th:replace="challenge/fragments/commonChallenge.html :: nav"></nav>
 	
 	<!-- challenge div -->
-		<div th:replace="challenge/fragments/commonChallenge.html :: back('/challenge/' + ${basicChallenge.challengeCode})"></div>
+		<div th:replace="challenge/fragments/commonChallenge.html :: back('/challenge/basic/' + ${basicChallenge.challengeCode})"></div>
 		
 		<div>
 			<p>새로운 챌린지 생성하기</p><hr>
-			<form th:action="@{/challenge/set/{challengeCode}(challengeCode=${basicChallenge.challengeCode})}" method="post">
+			<form th:action="@{/challenge/basic/{challengeCode}(challengeCode=${basicChallenge.challengeCode})}" method="post">
 				<table>
 					<tr>
 						<td>챌린지 이름: </td>

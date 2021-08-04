@@ -38,6 +38,12 @@
 				</div>
 				<div th:unless="${#lists.isEmpty(completed)}" style="width=100%; height=30vh;">
 					<table>
+						<thead>
+							<tr>
+								<td>챌린지</td>
+								<td>시작일</td>
+								<td>종료일</td>
+						</thead>
 						<tr th:each="pc : ${completed}">
 							<td>
 								<a th:href="@{/challenge/my-challenge/{challengeNum}(challengeNum=${pc.challengeNum})}">
