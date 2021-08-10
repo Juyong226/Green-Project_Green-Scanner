@@ -5,13 +5,12 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,7 +33,7 @@ public class ChallengeController {
 	
 	@RequestMapping(value = "/main", method = {RequestMethod.GET})
 	@ResponseBody
-	public ModelAndView selectAllChallenges(ModelAndView mav, HttpServletRequest request) {
+	public ModelAndView main(ModelAndView mav, HttpServletRequest request) {
 		
 		bcList = challengeService.selectBasicChallenge();
 		HttpSession session = request.getSession(false);
@@ -70,7 +69,7 @@ public class ChallengeController {
 	
 	@RequestMapping(value = "/my-challenge", method = {RequestMethod.GET}, produces = "application/text; charset=utf8")
 	@ResponseBody
-	public ModelAndView selectMyChallenges(ModelAndView mav, HttpServletRequest request) {
+	public ModelAndView myChallenge(ModelAndView mav, HttpServletRequest request) {
 		
 		HttpSession session = request.getSession(false);
 		
@@ -128,9 +127,35 @@ public class ChallengeController {
 		return mav;
 	}
 	
+	@RequestMapping(value = "/duplicate_check", method = {RequestMethod.POST}, produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String codeDuplicateCheck(HttpServletRequest request) {
+		System.out.println("요청들어옴: POST /duplicate_check with code = " + request.getParameter("challengeCode"));
+		JSONObject resJson = new JSONObject();
+		String code = request.getParameter("challengeCode");
+		HttpSession session = request.getSession(false);
+		
+		if(session == null) {
+			resJson.put("msg", "로그인 후 이용할 수 있습니다.");
+			
+		} else {
+			MemberVO member = (MemberVO) session.getAttribute("member");
+			String result = challengeService.duplicateCheck(code, member.getMememail());
+			
+			if(result == null) {
+				resJson.put("msg", "OK");
+				
+			} else {
+				resJson.put("msg", "이미 같은 챌린지가 진행 중입니다.\n다른 챌린지에 도전해보세요!");
+				
+			}
+		}
+		return resJson.toJSONString();
+	}
+	
 	@RequestMapping(value = "/basic/{challengeCode}/set", method = {RequestMethod.GET}, produces = "application/text; charset=utf8")
 	@ResponseBody
-	public ModelAndView create(@PathVariable("challengeCode") String code, ModelAndView mav, HttpServletRequest request) {
+	public ModelAndView setForm(@PathVariable("challengeCode") String code, ModelAndView mav, HttpServletRequest request) {
 		System.out.println("요청들어옴: GET /set/{challengeCode}");
 
 		HttpSession session = request.getSession(false);
@@ -150,7 +175,7 @@ public class ChallengeController {
 	
 	@RequestMapping(value = "/basic/{challengeCode}", method = {RequestMethod.POST}, produces = "application/text; charset=utf8")
 	@ResponseBody
-	public ModelAndView start(@PathVariable("challengeCode") String code, ModelAndView mav, HttpServletRequest request) {
+	public ModelAndView create(@PathVariable("challengeCode") String code, ModelAndView mav, HttpServletRequest request) {
 		System.out.println("요청들어옴: POST /set/{challengeCode}");
 
 		HttpSession session = request.getSession(false);

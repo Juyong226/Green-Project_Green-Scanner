@@ -1,5 +1,6 @@
 package com.garb.gbcollector.web.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -14,15 +15,18 @@ public interface ChallengeDAO {
 
 	List<PersonalChallengeVO> selectChallengeList(String email);
 	
+	String duplicateCheck(String code, String email);
+	
 	BasicChallengeVO getBasicChallenge(String code);
 	
 	PersonalChallengeVO getPersonalChallenge(String challengeNum);
 
 	int createChallenge(PersonalChallengeVO pc);
 
-	int updateChallenge(PersonalChallengeVO pc);
+	int updateChallengeVO(PersonalChallengeVO pc);
+	
+	int updateChallengeList(List<PersonalChallengeVO> completed);
 
 	int deleteChallenge(String challengeNum);
-
 
 }

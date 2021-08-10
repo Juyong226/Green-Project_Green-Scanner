@@ -9,7 +9,10 @@
 		
 		<div>
 			<p>새로운 챌린지 생성하기</p><hr>
-			<form th:action="@{/challenge/my-challenge/{challengeNum}(challengeNum=${personalChallenge.challengeNum})}" th:method="put">
+			<form
+				id="editForm"
+				onsubmit="return fn_edit_confirm()" 
+				th:action="@{/challenge/my-challenge/{challengeNum}(challengeNum=${personalChallenge.challengeNum})}" th:method="put">
 				<table>
 					<tr>
 						<td>챌린지 이름: </td>
@@ -44,7 +47,8 @@
 						</td>
 					</tr>
 				</table><br>			
-				<input type="submit" id="editBtn" value="수정하기" />
+				<input type="submit" value="완료">
+				<input type="reset" id="cancleBtn" value="취소">
 			</form>
 		</div>
 		

@@ -22,13 +22,15 @@
 			
 			<div>
 				<table>
-					<tr><td>
+					<tr><td th:if="${personalChallenge.isCompleted} == 0">
 						<form
 							th:action="@{/challenge/my-challenge/{challengeNum}/edit (challengeNum=${personalChallenge.challengeNum})}">
 							<input type="submit" value="수정하기" />
 						</form>
 					</td><td>
 						<form
+							id="deleteForm"
+							onsubmit="return fn_delete_confirm()"
 							th:action="@{/challenge/my-challenge/{challengeNum} (challengeNum=${personalChallenge.challengeNum})}" th:method="delete">
 							<input type="submit" value="삭제하기" />
 						</form>

@@ -28,6 +28,10 @@ public class ChallengeService {
 		return challengeDAO.selectChallengeList(email);
 	}
 	
+	public String duplicateCheck(String code, String email) {
+		return challengeDAO.duplicateCheck(code, email);
+	}
+	
 	public BasicChallengeVO getBasicChallenge(String code) {
 		return challengeDAO.getBasicChallenge(code);
 	}
@@ -41,7 +45,11 @@ public class ChallengeService {
 	}
 	
 	public int updateChallenge(PersonalChallengeVO pc) {
-		return challengeDAO.updateChallenge(pc);	
+		return challengeDAO.updateChallengeVO(pc);	
+	}
+	
+	public int updateChallenge(List<PersonalChallengeVO> list) {
+		return challengeDAO.updateChallengeList(list);
 	}
 	
 	public int deleteChallenge(String challengeNum) {
@@ -59,7 +67,24 @@ public class ChallengeService {
 
 	public List<ArrayList> isCompleted(List<PersonalChallengeVO> list) throws GbcException {
 		List<ArrayList> cList = gsCalendar.compare(list);
+		int result1 = 0; 
+		int result2 = 0;
+		boolean proceeding = cList.get(0).isEmpty();
+		boolean completed = cList.get(1).isEmpty();
 		
+		if( !proceeding && !completed ) {
+			result1 = updateChallenge(cList.get(0));
+			result2 = updateChallenge(cList.get(1));
+			
+		} else if ( proceeding && !completed ) {
+			result2 = updateChallenge(cList.get(1));
+			
+		} else if ( !proceeding && completed ) {
+			result1 = updateChallenge(cList.get(0));
+		}
+		
+		System.out.println("진행 리스트 업데이트 결과값 = " + result1);
+		System.out.println("완료 리스트 업데이트 결과값 = " + result2);
 		return cList;
 	}
 	
@@ -68,8 +93,4 @@ public class ChallengeService {
 
 		return cList;
 	}
-
-	
-
-
 }

@@ -45,6 +45,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		]]>
 	</select>
 	
+	<select id="duplicateCheck" resultType="String">
+		<![CDATA[
+			select challengeNum from challengeList
+			where challengeCode = #{code} and email = #{email} and isCompleted = '0'
+		]]>
+	</select>
+	
 	<select id="getBasicChallenge" resultMap="basicChallengeResult">
 		<![CDATA[
 			select * from basicChallenge
@@ -68,7 +75,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		]]>
 	</insert>
 	
-	<update id="updateChallenge" parameterType="PersonalChallengeVO">
+	<update id="updateChallengeVO" parameterType="PersonalChallengeVO">
 		<![CDATA[
 			update challengeList
 			set challengeCode = #{challengeCode}, challengeName = #{challengeName}, challengeNum = #{challengeNum}, email = #{email},
@@ -76,6 +83,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 					executionNum = #{executionNum}, achievementRate = #{achievementRate}, isCompleted = #{isCompleted}, isSucceeded = #{isSucceeded}
 			where challengeNum = #{challengeNum}
 		]]>	
+	</update>
+	
+	<update id="updateChallengeList" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" separator=";" open="DECLARE BEGIN" close="; END;">
+			<![CDATA[
+				update challengeList
+				set challengeCode = #{item.challengeCode}, challengeName = #{item.challengeName}, challengeNum = #{item.challengeNum}, email = #{item.email},
+						thumbnailURL = #{item.thumbnailURL}, colorCode = #{item.colorCode}, period = #{item.period}, startDate = #{item.startDate}, endDate = #{item.endDate},
+						executionNum = #{item.executionNum}, achievementRate = #{item.achievementRate}, isCompleted = #{item.isCompleted}, isSucceeded = #{item.isSucceeded}
+				where challengeNum = #{item.challengeNum}
+			]]>
+		</foreach>
 	</update>
 	
 	<delete id="deleteChallenge" parameterType="String">

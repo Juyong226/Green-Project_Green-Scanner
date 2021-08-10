@@ -9,9 +9,8 @@ public class PersonalChallengeVO {
 	private String isCompleted = "0";
 	private String isSucceeded = "0";
 	private int executionNum = 0;
-	private long achievementRate = 0L;
- 
-	
+	private int achievementRate = 0;
+
 	public PersonalChallengeVO(String challengeCode, String challengeName, String challengeNum, String email, String thumbnailURL, String colorCode, 
 			String period, String startDate, String endDate) {
 		super();
@@ -24,6 +23,7 @@ public class PersonalChallengeVO {
 		setPeriod(period);
 		setStartDate(startDate);
 		setEndDate(endDate);
+		
 	}
 	
 	public String getChallengeCode() {
@@ -90,11 +90,11 @@ public class PersonalChallengeVO {
 		this.executionNum = executionNum;
 	}
 	
-	public long getAchievementRate() {
+	public int getAchievementRate() {
 		return achievementRate;
 	}
 	
-	public void setAchievementRate(long achievementRate) {
+	public void setAchievementRate(int achievementRate) {
 		this.achievementRate = achievementRate;
 	}
 	
@@ -128,6 +128,12 @@ public class PersonalChallengeVO {
 	
 	public void setSucceeded(String isSucceeded) {
 		this.isSucceeded = isSucceeded;
+	}
+
+	public void calculateAchievementRate(String period, int executionNum) {
+		double p = Double.parseDouble(period);
+		double result = Math.round((executionNum/p)*100);
+		setAchievementRate((int) result);
 	}
 	
 	

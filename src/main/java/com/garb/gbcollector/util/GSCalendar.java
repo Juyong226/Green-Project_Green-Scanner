@@ -77,6 +77,7 @@ public class GSCalendar {
 			toDay = dateFormat.parse(now);
 		
 			for(PersonalChallengeVO cl : list) {
+				cl.calculateAchievementRate(cl.getPeriod(), cl.getExecutionNum());
 				String temp = cl.getEndDate();
 				endDate = dateFormat.parse(temp);
 				
@@ -112,6 +113,7 @@ public class GSCalendar {
 			toDay = dateFormat.parse(now);
 		
 			for(PersonalChallengeVO cl : proceeding) {
+				cl.calculateAchievementRate(cl.getPeriod(), cl.getExecutionNum());
 				String temp = cl.getEndDate();
 				endDate = dateFormat.parse(temp);
 				
