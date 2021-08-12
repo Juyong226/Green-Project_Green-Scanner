@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="challenge/fragments/commonChallenge.html :: header('My 챌린지')">
+<body>
+	<nav th:replace="challenge/fragments/commonChallenge.html :: nav"></nav>
+		<!-- My 챌린지 div -->
+			<div th:replace="challenge/fragments/commonChallenge.html :: back('/challenge/main')"></div>
+			
+			<!-- 진행 중인 챌린지 리스트 -->
+			<p> 진행 중인 챌린지 </p><hr>
+			<div th:if="${#lists.isEmpty(proceeding)}" style="width=100%; height=10vh;">
+					<span>진행 중인 챌린지가 없습니다</span>
+				</div>
+				<div th:unless="${#lists.isEmpty(proceeding)}" style="width=100%; height=30vh;">
+					<table>
+						<thead>
+							<tr>
+								<td>챌린지</td>
+								<td>시작일</td>
+								<td>종료일</td>
+						</thead>
+						<tr th:each="pc : ${proceeding}">
+							<td>
+								<a th:href="@{/challenge/my-challenge/{challengeNum}(challengeNum=${pc.challengeNum})}">
+									<span th:text="${pc.challengeName}"></span>
+								</a>								
+							</td>
+							<td><span th:text="${pc.startDate}"></span></td>
+							<td><span th:text="${pc.endDate}"></span></td>
+						</tr>
+					</table><br>
+				</div>
+				
+			<!-- 완료한 챌린지 리스트 -->
+			<p> 완료한 챌린지 </p><hr>
+			<div th:if="${#lists.isEmpty(completed)}" style="width=100%; height=10vh;">
+					<span>완료한 챌린지가 없습니다</span>
+				</div>
+				<div th:unless="${#lists.isEmpty(completed)}" style="width=100%; height=30vh;">
+					<table>
+						<thead>
+							<tr>
+								<td>챌린지</td>
+								<td>시작일</td>
+								<td>종료일</td>
+						</thead>
+						<tr th:each="pc : ${completed}">
+							<td>
+								<a th:href="@{/challenge/my-challenge/{challengeNum}(challengeNum=${pc.challengeNum})}">
+									<span th:text="${pc.challengeName}"></span>
+								</a>								
+							</td>
+							<td><span th:text="${pc.startDate}"></span></td>
+							<td><span th:text="${pc.endDate}"></span></td>
+						</tr>
+					</table>
+				</div>	
+			
+			<nav th:replace="challenge/fragments/commonChallenge.html :: footer"></nav>
+	
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" 
+	integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous">
+</script>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script>
+//여기에 이 코드를 쓰기 위해선 loginForm.html에도 위 쿠키 라이브러리르 추가해 주어야합니다.
+$(function(){
+	var blank=$.cookie("blanked");
+ 	var login=$.cookie("logined"); 
+ 	var logout=$.cookie("logouted"); 
+		$("#loginBlankDiv1").html(blank);
+		$("#loginBlankDiv2").html(blank);
+ 		$("#nicknameDiv").html(login);
+ 		$("#logoutDiv").html(logout);
+});
+
+</script>
+</html>

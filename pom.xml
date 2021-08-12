@@ -66,7 +66,7 @@
 			<artifactId>spring-boot-devtools</artifactId>
 			<version>2.4.4</version>
 		</dependency>
-		
+
 		<!-- transaction -->
 		<dependency>
 			<groupId>org.springframework</groupId>

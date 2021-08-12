@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.garb.gbcollector.web.dao.ChallengeDAO">
+
+	<resultMap type="BasicChallengeVO" id="basicChallengeResult">
+		<result property="challengeName" column="challengeName"/>
+		<result property="challengeCode" column="challengeCode"/>
+		<result property="thumbnailURL" column="thumbnailURL"/>
+		<result property="toDo" column="toDo"/>
+		<result property="isAvailable" column="isAvailable"/>
+	</resultMap>
+	
+	<resultMap type="PersonalChallengeVO" id="challengeListResult">
+		<result property="challengeCode" column="challengeCode" />
+		<result property="challengeName" column="challengeName"/>
+		<result property="challengeNum" column="challengeNum"/>
+		<result property="email" column="email"/>
+		<result property="thumbnailURL" column="thumbnailURL"/>
+		<result property="colorCode" column="colorCode"/>
+		<result property="period" column="period"/>
+		<result property="executionNum" column="executionNum"/>
+		<result property="achievementRate" column="achievementRate"/>
+		<result property="startDate" column="startDate"/>
+		<result property="endDate" column="endDate"/>
+		<result property="isCompleted" column="isCompleted"/>
+		<result property="isSucceeded" column="isSucceeded"/>
+	</resultMap>
+	
+	<select id="selectBasicChallenge" resultMap="basicChallengeResult">
+		<![CDATA[
+			select * from basicChallenge 
+			where isAvailable = '1' 
+			order by challengeCode
+		]]>
+	</select>
+	
+	<select id="selectChallengeList" resultMap="challengeListResult">
+		<![CDATA[
+			select * from challengeList
+			where email = #{email}
+			order by startDate
+		]]>
+	</select>
+	
+	<select id="duplicateCheck" resultType="String">
+		<![CDATA[
+			select challengeNum from challengeList
+			where challengeCode = #{code} and email = #{email} and isCompleted = '0'
+		]]>
+	</select>
+	
+	<select id="getBasicChallenge" resultMap="basicChallengeResult">
+		<![CDATA[
+			select * from basicChallenge
+			where challengeCode = #{code} and isAvailable = '1'
+		]]>
+	</select>
+	
+	<select id="getPersonalChallenge" resultMap="challengeListResult">
+		<![CDATA[
+			select * from challengeList
+			where challengeNum = #{challengeNum}
+		]]>
+	</select>
+	
+	<insert id="createChallenge" parameterType="PersonalChallengeVO">
+		<![CDATA[
+			insert into challengeList (challengeCode, challengeName, challengeNum, email, thumbnailURL, colorCode, 
+					period, startDate, endDate, executionNum, achievementRate, isCompleted, isSucceeded)
+			values (#{challengeCode}, #{challengeName}, #{challengeNum}, #{email}, #{thumbnailURL}, #{colorCode}, 
+				#{period}, #{startDate}, #{endDate}, #{executionNum}, #{achievementRate}, #{isCompleted}, #{isSucceeded})
+		]]>
+	</insert>
+	
+	<update id="updateChallengeVO" parameterType="PersonalChallengeVO">
+		<![CDATA[
+			update challengeList
+			set challengeCode = #{challengeCode}, challengeName = #{challengeName}, challengeNum = #{challengeNum}, email = #{email},
+					thumbnailURL = #{thumbnailURL}, colorCode = #{colorCode}, period = #{period}, startDate = #{startDate}, endDate = #{endDate},
+					executionNum = #{executionNum}, achievementRate = #{achievementRate}, isCompleted = #{isCompleted}, isSucceeded = #{isSucceeded}
+			where challengeNum = #{challengeNum}
+		]]>	
+	</update>
+	
+	<update id="updateChallengeList" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" separator=";" open="DECLARE BEGIN" close="; END;">
+			<![CDATA[
+				update challengeList
+				set challengeCode = #{item.challengeCode}, challengeName = #{item.challengeName}, challengeNum = #{item.challengeNum}, email = #{item.email},
+						thumbnailURL = #{item.thumbnailURL}, colorCode = #{item.colorCode}, period = #{item.period}, startDate = #{item.startDate}, endDate = #{item.endDate},
+						executionNum = #{item.executionNum}, achievementRate = #{item.achievementRate}, isCompleted = #{item.isCompleted}, isSucceeded = #{item.isSucceeded}
+				where challengeNum = #{item.challengeNum}
+			]]>
+		</foreach>
+	</update>
+	
+	<delete id="deleteChallenge" parameterType="String">
+		<![CDATA[
+			delete from challengeList
+			where challengeNum = #{challengeNum}
+		]]>
+	</delete>
+	
+</mapper>
