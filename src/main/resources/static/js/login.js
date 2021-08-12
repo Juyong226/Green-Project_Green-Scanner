@@ -89,9 +89,11 @@ $(document).ready(function() {
 //						 window.opener.document.getElementById("loginBlankDiv1").innerHTML=blankspace;
 //						 window.opener.document.getElementById("loginBlankDiv2").innerHTML=blankspace;
 //						 window.opener.document.getElementById("nicknameDiv").innerHTML=html;
-//						 window.opener.document.getElementById("logoutDiv").innerHTML=logoutBtn;
-
+//						 window.opener.document.getElementById("logoutDiv").innerHTML=logoutBtn; 
 						 window.close();
+						 //로그인 완료되면 자식 창 닫은 뒤 부모 창 리로드
+						 window.opener.location.reload();
+						 
 					} else if(obj.failed) {
 						alert('입력하신 정보와 일치하는 회원이 없습니다.\n이메일과 비밀번호를 다시 확인해주세요.');
 					} else if(obj.denied) {
