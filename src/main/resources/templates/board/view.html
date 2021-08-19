@@ -64,6 +64,7 @@
 						<!-- 게시물 삭제 시 board.js => DeletePost함수에서 확인 후 삭제 처리 -->
 					<td><form th:if="${login_nickname == post.nickname}" style="float: right;" action="/board/deletePost"
 							method="post" onsubmit="return DeletePost();">
+							<input type="hidden" name="_csrf" th:value="${token}">
 							<input type="hidden" name="postno" th:value="${post.postno}">
 							<input type="hidden" name="boardname" th:value="${post.boardname}">
 							<input type="submit"

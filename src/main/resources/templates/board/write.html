@@ -41,6 +41,8 @@
 		
 		<!-- 등록/취소 버튼 -->
 		<div class="text-center">
+			<!-- 요청 검증 토큰 -->
+			<input type="hidden" name="_csrf" th:value="${token}">
 			<input type="submit" class="btn btn-success waves-effect waves-light" id="registerPostBtn" value="등록" style="background-color: #5CAB7D; border-color: #5CAB7D">
 			<input type="button" class="btn btn-light waves-effect waves-light" id="cancleBtn" value="취소">	
 		</div><br><br>
