@@ -198,9 +198,10 @@ public class ChallengeController {
 				String thumbnailURL = 	bc.getThumbnailURL();			
 				String startDate = challengeService.getCurrentTime();
 				String endDate = challengeService.getEndDate(startDate, period);
+				String calendar = challengeService.createCalendar(period);
 				
 				PersonalChallengeVO pc = new PersonalChallengeVO(challengeCode, challengeName, challengeNum, email, 
-						thumbnailURL, colorCode, period, startDate, endDate);
+						thumbnailURL, colorCode, period, startDate, endDate, calendar);
 			
 				int result = challengeService.createChallenge(pc);
 				
@@ -254,20 +255,25 @@ public class ChallengeController {
 		} else {
 			try {
 				PersonalChallengeVO pc = challengeService.getPersonalChallenge(challengeNum);
-				pc.setColorCode(request.getParameter("colorCode"));
-				pc.setPeriod(request.getParameter("period"));
-				pc.setEndDate(challengeService.getEndDate(pc.getStartDate(), pc.getPeriod()));
 				
-				int result = challengeService.updateChallenge(pc);
+				String newPeriod = request.getParameter("period");
+				pc.setColorCode(request.getParameter("colorCode"));
+				
+				int result = challengeService.updateChallenge(pc, newPeriod);
 				
 				if(result == 1) {
 					mav.addObject("update_succeeded", "챌린지를 수정했습니다.");
 					mav.setViewName("redirect:/challenge/my-challenge");
 					
-				} else {
-					mav.addObject("update_failed", "챌린지 수정에 실패하였습니다.");
+				} else if(result == 100) {
+					mav.addObject("update_failed(100)", "기간을 변경할 수 없습니다.\n 더 긴 기간으로 선택해주세요!");
 					mav.setViewName("redirect:/challenge/my-challenge/" + challengeNum);
-				}			
+					
+				} else {
+					mav.addObject("update_failed", "챌린지 수정에 실패했습니다.");
+					mav.setViewName("redirect:/challenge/my-challenge/" + challengeNum);	
+					
+				}
 				
 			} catch (GbcException e) {
 				// 클라이언트쪽으로 exception 메세지 보내기

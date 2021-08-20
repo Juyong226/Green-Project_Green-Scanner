@@ -27,6 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="endDate" column="endDate"/>
 		<result property="isCompleted" column="isCompleted"/>
 		<result property="isSucceeded" column="isSucceeded"/>
+		<result property="calendar" column="calendar"/>
 	</resultMap>
 	
 	<select id="selectBasicChallenge" resultMap="basicChallengeResult">
@@ -48,7 +49,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="duplicateCheck" resultType="String">
 		<![CDATA[
 			select challengeNum from challengeList
-			where challengeCode = #{code} and email = #{email} and isCompleted = '0'
+			where email = #{email} and challengeCode = #{code} and isCompleted = 0
 		]]>
 	</select>
 	
@@ -68,19 +69,58 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="createChallenge" parameterType="PersonalChallengeVO">
 		<![CDATA[
-			insert into challengeList (challengeCode, challengeName, challengeNum, email, thumbnailURL, colorCode, 
-					period, startDate, endDate, executionNum, achievementRate, isCompleted, isSucceeded)
-			values (#{challengeCode}, #{challengeName}, #{challengeNum}, #{email}, #{thumbnailURL}, #{colorCode}, 
-				#{period}, #{startDate}, #{endDate}, #{executionNum}, #{achievementRate}, #{isCompleted}, #{isSucceeded})
+			insert into challengeList (
+				challengeCode, 
+				challengeName, 
+				challengeNum, 
+				email, 
+				thumbnailURL, 
+				colorCode, 
+				period, 
+				startDate, 
+				endDate, 
+				executionNum, 
+				achievementRate, 
+				isCompleted, 
+				isSucceeded, 
+				calendar
+			) values (
+				#{challengeCode}, 
+				#{challengeName}, 
+				#{challengeNum}, 
+				#{email}, 
+				#{thumbnailURL}, 
+				#{colorCode}, 
+				#{period}, 
+				#{startDate}, 
+				#{endDate}, 
+				#{executionNum}, 
+				#{achievementRate}, 
+				#{isCompleted}, 
+				#{isSucceeded}, 
+				#{calendar}
+			)
 		]]>
 	</insert>
 	
 	<update id="updateChallengeVO" parameterType="PersonalChallengeVO">
 		<![CDATA[
 			update challengeList
-			set challengeCode = #{challengeCode}, challengeName = #{challengeName}, challengeNum = #{challengeNum}, email = #{email},
-					thumbnailURL = #{thumbnailURL}, colorCode = #{colorCode}, period = #{period}, startDate = #{startDate}, endDate = #{endDate},
-					executionNum = #{executionNum}, achievementRate = #{achievementRate}, isCompleted = #{isCompleted}, isSucceeded = #{isSucceeded}
+			set 
+				challengeCode = #{challengeCode}, 
+				challengeName = #{challengeName}, 
+				challengeNum = #{challengeNum}, 
+				email = #{email},
+				thumbnailURL = #{thumbnailURL}, 
+				colorCode = #{colorCode}, 
+				period = #{period}, 
+				startDate = #{startDate}, 
+				endDate = #{endDate},
+				executionNum = #{executionNum}, 
+				achievementRate = #{achievementRate}, 
+				isCompleted = #{isCompleted}, 
+				isSucceeded = #{isSucceeded},
+				calendar = #{calendar}
 			where challengeNum = #{challengeNum}
 		]]>	
 	</update>
@@ -89,9 +129,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<foreach collection="list" item="item" index="index" separator=";" open="DECLARE BEGIN" close="; END;">
 			<![CDATA[
 				update challengeList
-				set challengeCode = #{item.challengeCode}, challengeName = #{item.challengeName}, challengeNum = #{item.challengeNum}, email = #{item.email},
-						thumbnailURL = #{item.thumbnailURL}, colorCode = #{item.colorCode}, period = #{item.period}, startDate = #{item.startDate}, endDate = #{item.endDate},
-						executionNum = #{item.executionNum}, achievementRate = #{item.achievementRate}, isCompleted = #{item.isCompleted}, isSucceeded = #{item.isSucceeded}
+				set 
+					challengeCode = #{item.challengeCode}, 
+					challengeName = #{item.challengeName}, 
+					challengeNum = #{item.challengeNum}, 
+					email = #{item.email},
+					thumbnailURL = #{item.thumbnailURL}, 
+					colorCode = #{item.colorCode}, 
+					period = #{item.period}, 
+					startDate = #{item.startDate}, 
+					endDate = #{item.endDate},
+					executionNum = #{item.executionNum}, 
+					achievementRate = #{item.achievementRate}, 
+					isCompleted = #{item.isCompleted}, 
+					isSucceeded = #{item.isSucceeded},
+					calendar = #{item.calendar}
 				where challengeNum = #{item.challengeNum}
 			]]>
 		</foreach>

@@ -2,6 +2,8 @@ package com.garb.gbcollector.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -82,7 +84,7 @@ public class GSCalendar {
 				endDate = dateFormat.parse(temp);
 				
 				if(toDay.equals(endDate) || toDay.after(endDate)) {
-					cl.setCompleted("1");
+					cl.setIsCompleted(1);
 					completed.add(cl);
 				} else {
 					proceeding.add(cl);
@@ -118,7 +120,7 @@ public class GSCalendar {
 				endDate = dateFormat.parse(temp);
 				
 				if(toDay.equals(endDate) || toDay.after(endDate)) {
-					cl.setCompleted("1");
+					cl.setIsCompleted(1);
 					completed.add(cl);
 					proceeding.remove(cl);
 				} 
@@ -131,6 +133,134 @@ public class GSCalendar {
 			throw new GbcException("ParseException!");
 		}
 		return cList;
+	}
+
+
+	public PersonalChallengeVO checkPeriod(PersonalChallengeVO pc, String newPeriod) {
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+		LocalDate endDate = LocalDate.parse(pc.getEndDate(), format);
+		LocalDate toDay = LocalDate.now();
+		int op = Integer.parseInt(pc.getPeriod());
+		int np = Integer.parseInt(newPeriod);
+		
+		int daysRemained = between2Dates(endDate, toDay);
+		int daysChanged = op - np;
+		
+		if(daysRemained >= daysChanged) {
+			pc.setCalendar(modifyCalendar(pc.getPeriod(), newPeriod, pc.getCalendar()));
+			pc.setPeriod(newPeriod);
+			return pc;
+			
+		} else {
+			return null;
+			
+		}
+				
+	}
+	
+	/* 
+	* 챌린지를 새로 생성할 때 실행
+	* 챌린지 기간 일수 만큼 0으로 문자열을 생성
+	*/
+	public String createCalendar(String period) {
+	    int p = Integer.parseInt(period);
+	    String calendar = "";
+	    for(int i = 0; i<p; i++) {
+	        calendar += "0";
+	    }
+	    return calendar;
+	}
+	
+	/*
+	* 챌린지를 수정할 때 실행 (challengeController의 챌린시 수정 메서드(update) - challengeService.updateChallenge(VO))
+	* 수정된 기간 만큼 calendar 문자열의 0을 뒤에서부터 가감
+	* 기간이 1주일 늘었다면 calendar 문자열에 0을 7개 더하고
+	* 기간이 2주일 줄었다면 calendar 문자열에서 0을 14개 빼고 난 뒤 DB에 저장
+	*/
+	public String modifyCalendar(String oldPeriod, String newPeriod, String calendar) {
+	    int op = Integer.parseInt(oldPeriod);
+	    int np = Integer.parseInt(newPeriod);
+	    int periodDifference = np - op; // 수정한 기간이 늘어나면 (+), 수정한 기간이 줄었으면 (-)
+	    
+	    String adjustedCal = null;
+	    
+	    if(periodDifference < 0) { // 수정한 기간이 줄었으면
+	        int length = calendar.length();
+	        int targetIndex = length + periodDifference;
+	        adjustedCal = calendar.substring(0, targetIndex); // index 0부터 targetIndex-1까지의 string을 추출
+	        
+	    } else if(periodDifference == 0) { // 수정한 기간에 변동이 없으면
+	        adjustedCal = calendar;
+	        
+	    } else if(periodDifference > 0) { // 수정한 기간이 늘었으면
+	        adjustedCal = calendar;
+	      
+	        for(int i=0; i<periodDifference; i++) {
+	            adjustedCal += "0";
+	        }
+	        
+	    }
+	    return adjustedCal;
+	}
+	
+	/* 
+	* 또는 피드를 새로 생성하거나, 삭제할 때 실행(FeedService에서 피드 생성 DAO 메서드 실행 전, 피드 삭제 DAO 메서드 실행 전)
+	* 생성되거나 삭제되는 피드의 postDate와 해당 챌린지의 startDate를 받는다
+	* postDate와 startDate 사이의 일수 차이를 java.time.LocalDate의 compareTo()를 통해 계산한다
+	* 두 날짜의 차이 수와 같은 calendar 문자열 index 위치의 값을 찾는다
+	* 이 때 그 값이 0이면 1로(피드 생성 시), 1이면 0으로(피드 삭제 시) 바꾼다
+	*/
+	public String updateCalander(String startDate, String postDate, String calendar) {
+	    DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy/MM/DD");
+	    LocalDate start = LocalDate.parse(startDate, format);
+	    LocalDate post = LocalDate.parse(postDate, format);
+	    
+	    int targetIndex = between2Dates(post, start); // postDate은 언제나 startDate과 같거나 나중이기 때문에 targetIndex는 항상 양수
+	    
+	    StringBuilder adjustedCal = new StringBuilder(calendar);
+	    if(adjustedCal.charAt(targetIndex) == '0') {
+	        adjustedCal.setCharAt(targetIndex, '1');
+	    } else {
+	        adjustedCal.setCharAt(targetIndex, '0');
+	    }
+	    return adjustedCal.toString();
+	}
+	
+	/*
+	* challenge/my-challenge-detail.html에서 진행 중인 개별 챌린지를 조회할 때 실행
+	* challengeService의 getPersonnalChallenge(String challengeNum) 메소드에서 DAO의 리턴 객체를 받아서 실행
+	* DTO에 리턴된 calList를 같이 담아서 challengeController로 리턴
+	*/
+	public List<ArrayList<Character>> calendarToList(String calendar) {
+	    List<ArrayList<Character>> calList = new ArrayList<ArrayList<Character>>();
+	    ArrayList<Character> weekArr;
+	    
+	    int length = calendar.length(); // length는 7, 14, 21, 28 중 하나
+	    int week = length / 7; // length를 7로 나눈 몫은 1, 2, 3, 4 중 하나
+	    
+	    for(int w=0; w<week; w++) {
+	        weekArr = new ArrayList<Character>();
+	        for(int i=w*7; i<w*7+7; i++) {
+	            weekArr.add(calendar.charAt(i));
+	        }
+	    	calList.add(weekArr);
+	    }
+	    return calList;
+	} 
+
+	public int between2Dates(LocalDate date, LocalDate otherDate) {
+		int cmp = (date.getYear() - otherDate.getYear());
+		if (cmp == 0) {
+			cmp = (date.getMonthValue() - otherDate.getMonthValue());
+			if (cmp == 0) {
+				cmp = (date.getDayOfMonth() - otherDate.getDayOfMonth()); 
+			} else {
+				cmp = ((otherDate.lengthOfMonth() - otherDate.getDayOfMonth()) + date.getDayOfMonth());
+			}
+		} else {
+			cmp = ((otherDate.lengthOfYear() - otherDate.getDayOfYear()) + date.getDayOfYear());
+		}
+		return cmp;
 	}
 
 }

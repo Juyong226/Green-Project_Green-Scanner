@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.garb.gbcollector.web.dao.FeedDAO">
+
+<resultMap type="FeedVO" id="feedResult">
+	<result property="feedNo" column="feed_no"/>
+	<result property="challengeNum" column="challengeNum"/>
+	<result property="email" column="email"/>
+	<result property="writer" column="writer"/>
+	<result property="content" column="content"/>
+	<result property="picURL" column="pic_url"/>
+	<result property="postDate" column="post_date"/>
+	<result property="commentCnt" column="comment_cnt"/>
+	<result property="postTime" column="post_time"/>
+</resultMap>
+
+<select id="selectAllFeedList" resultMap="feedResult">
+	<![CDATA[
+		select * from challengeFeed
+		order by post_time desc
+	]]>
+</select>
+
+<select id="selectMyFeedList" resultMap="feedResult">
+	<![CDATA[
+		select * from challengeFeed
+		where challengeNum = #{challengeNum}
+		order by post_time desc
+	]]>
+</select>
+
+<select id="selectFeedDetail" parameterType="int" resultMap="feedResult">
+	<![CDATA[
+		select * from challengeFeed
+		where feed_no = #{feedNo}
+	]]>
+</select>
+
+<select id="duplicateCheck" resultType="int">
+	<![CDATA[
+		select feed_no from challengeFeed
+		where post_date = #{toDay}
+	]]>
+</select>
+
+<insert id="insertFeed" parameterType="FeedVO">
+	<![CDATA[
+		insert into challengeFeed (
+			feed_no, 
+			challengeNum, 
+			email, 
+			writer, 
+			content, 
+			pic_url, 
+			post_date
+		) values (
+			feedNo_SEQ.NEXTVAL, 
+			#{challengeNum}, 
+			#{email}, 
+			#{writer}, 
+			#{content}, 
+			#{picURL}, 
+			#{postDate}
+		)
+	]]>
+</insert>
+
+<update id="updateFeed" parameterType="FeedVO">
+	<![CDATA[
+		update challengeFeed
+		set
+			writer = #{writer},
+			content = #{content},
+			pic_url = #{picURL}
+		where feed_no = #{feedNo}
+	]]>
+</update>
+
+<delete id="deleteFeed" parameterType="int">
+	<![CDATA[
+		delete from challengeFeed
+		where feed_no = #{feedNo}
+	]]>
+</delete>
+</mapper>

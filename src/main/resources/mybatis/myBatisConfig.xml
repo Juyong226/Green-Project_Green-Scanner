@@ -12,5 +12,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="mybatis/mappers/member.xml" />
 		<mapper resource="mybatis/mappers/board.xml" />
 		<mapper resource="mybatis/mappers/challenge.xml"/>
+		<mapper resource="mybatis/mappers/feed.xml"/>
 	</mappers>
 </configuration>
