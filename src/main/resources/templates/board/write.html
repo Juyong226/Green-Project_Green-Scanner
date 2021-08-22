@@ -5,7 +5,8 @@
 <body>
 	<nav th:replace="fragments/common :: nav"></nav>
 
-<form action="/board/write" method="post" >
+<!-- board.js에서 제목/내용 null 체크 후 form 전송 -->
+<form action="/board/write" method="post" enctype="multipart/form-data" onsubmit="return writePost();">
 	<div class="board-font" style="padding: 20px;">
 		<!-- 게시판구분 -->
 		<div class="form-group">
@@ -21,7 +22,7 @@
 		<div class="form-group my-3">
 			<label for="title" class="col-sm-2 control-label" style="font-size:14px; font-weight: bold">제목</label><br>
 			<div>
-			<input type="text" name = "title" id="title" style="width:100%" class="form-control" placeholder="제목을 입력해 주세요." />
+			<input type="text" name = "title" id="title" style="width:100%" class="form-control" placeholder="제목을 입력해주세요." />
 			</div>
 		</div>
 		<!-- 익명여부 -->
@@ -35,9 +36,20 @@
 		<div class="form-group my-3" >
 			<label for="content" class="col-sm-2 control-label" style="font-size:14px; font-weight: bold">내용</label><br>
 			<div>
-				<textarea name = "content" id="content" style="width:100%" class="form-control" placeholder="내용을 입력해 주세요."></textarea>
+				<textarea name = "content" id="content" style="width:100%" class="form-control" placeholder="내용을 입력해주세요."></textarea>
 			</div>
 		</div>
+		<!-- 파일 업로드 -->
+		<div class="form-group my-3">
+			<label for="file" class="col-sm-2 control-label" style="font-size:14px; font-weight: bold">파일 업로드</label><br>
+			<div>
+				<input type="file" id="file" name="file" class="form-control" />
+			</div>
+		
+		
+		</div>
+		
+		
 		
 		<!-- 등록/취소 버튼 -->
 		<div class="text-center">

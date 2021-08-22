@@ -12,7 +12,7 @@
 		<result property="title" column="title" />
 		<result property="content" column="content" />
 		<result property="postdate" column="postdate" />
-		<result property="attachedfile" column="attachedfile" />
+		<result property="filename" column="filename" />
 		<result property="id" column="id" />
 		<result property="nickname" column="nickname" />
 		<result property="reply_cnt" column="reply_cnt" />
@@ -80,9 +80,9 @@
 	<insert id="insertPost" parameterType="boardVO">
 		<![CDATA[
 			insert into 
-			board(boardname, title, content, nickname, isanon) 
+			board(boardname, title, content, nickname, isanon, filename) 
 			values 
-			(#{boardname}, #{title},#{content},#{nickname}, #{isanon})
+			(#{boardname}, #{title}, #{content}, #{nickname}, #{isanon}, #{filename, jdbcType = VARCHAR})
 		]]>
 	</insert>
 	
@@ -111,7 +111,8 @@
 				title=#{title},
 				content=#{content},	
 				nickname=#{nickname},
-				isanon=#{isanon}			
+				isanon=#{isanon},
+				filename=#{filename, jdbcType = VARCHAR}			
 			where postno=#{postno}
 		]]>
 	</update>

@@ -44,6 +44,19 @@ function DeletePost(){
 	
 }
 
+function writePost(){
+	var content = $("#content").var;
+	var title = $("#title").var;
+	
+	if(typeof title ==="undefined" || title === "" || title === null){
+		alert("제목을 입력해주세요.");
+		return false;
+	}
+	if(typeof content ==="undefined" || content === "" || content === null){
+		alert("내용을 입력해주세요.");
+		return false;
+	}	
+}
 
 /*function deleteComment(reno, postno){
 	if(confirm("댓글을 삭제하시겠습니까?")){
