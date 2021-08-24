@@ -79,7 +79,6 @@ public class GSCalendar {
 			toDay = dateFormat.parse(now);
 		
 			for(PersonalChallengeVO cl : list) {
-				cl.calculateAchievementRate(cl.getPeriod(), cl.getExecutionNum());
 				String temp = cl.getEndDate();
 				endDate = dateFormat.parse(temp);
 				
@@ -115,7 +114,6 @@ public class GSCalendar {
 			toDay = dateFormat.parse(now);
 		
 			for(PersonalChallengeVO cl : proceeding) {
-				cl.calculateAchievementRate(cl.getPeriod(), cl.getExecutionNum());
 				String temp = cl.getEndDate();
 				endDate = dateFormat.parse(temp);
 				
@@ -136,7 +134,7 @@ public class GSCalendar {
 	}
 
 
-	public PersonalChallengeVO checkPeriod(PersonalChallengeVO pc, String newPeriod) {
+	public boolean checkPeriod(PersonalChallengeVO pc, String newPeriod) {
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 		LocalDate endDate = LocalDate.parse(pc.getEndDate(), format);
 		LocalDate toDay = LocalDate.now();
@@ -147,12 +145,10 @@ public class GSCalendar {
 		int daysChanged = op - np;
 		
 		if(daysRemained >= daysChanged) {
-			pc.setCalendar(modifyCalendar(pc.getPeriod(), newPeriod, pc.getCalendar()));
-			pc.setPeriod(newPeriod);
-			return pc;
+			return true;
 			
 		} else {
-			return null;
+			return false;
 			
 		}
 				
@@ -211,7 +207,7 @@ public class GSCalendar {
 	* 이 때 그 값이 0이면 1로(피드 생성 시), 1이면 0으로(피드 삭제 시) 바꾼다
 	*/
 	public String updateCalander(String startDate, String postDate, String calendar) {
-	    DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy/MM/DD");
+	    DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 	    LocalDate start = LocalDate.parse(startDate, format);
 	    LocalDate post = LocalDate.parse(postDate, format);
 	    

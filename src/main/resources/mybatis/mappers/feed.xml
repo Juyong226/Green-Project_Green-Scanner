@@ -11,7 +11,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<result property="email" column="email"/>
 	<result property="writer" column="writer"/>
 	<result property="content" column="content"/>
-	<result property="picURL" column="pic_url"/>
 	<result property="postDate" column="post_date"/>
 	<result property="commentCnt" column="comment_cnt"/>
 	<result property="postTime" column="post_time"/>
@@ -53,8 +52,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			challengeNum, 
 			email, 
 			writer, 
-			content, 
-			pic_url, 
+			content,
 			post_date
 		) values (
 			feedNo_SEQ.NEXTVAL, 
@@ -62,7 +60,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			#{email}, 
 			#{writer}, 
 			#{content}, 
-			#{picURL}, 
 			#{postDate}
 		)
 	]]>
@@ -73,8 +70,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update challengeFeed
 		set
 			writer = #{writer},
-			content = #{content},
-			pic_url = #{picURL}
+			content = #{content}
 		where feed_no = #{feedNo}
 	]]>
 </update>

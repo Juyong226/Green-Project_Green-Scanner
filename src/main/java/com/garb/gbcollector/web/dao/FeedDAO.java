@@ -22,4 +22,5 @@ public interface FeedDAO {
 	int updateFeed(FeedVO params);
 	
 	int deleteFeed(int feedNo);
+
 }

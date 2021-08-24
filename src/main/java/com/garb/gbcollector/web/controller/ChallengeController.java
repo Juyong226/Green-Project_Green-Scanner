@@ -242,6 +242,25 @@ public class ChallengeController {
 		return mav;
 	}
 	
+	@RequestMapping(value = "/period_check", method = {RequestMethod.POST}, produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String periodCheck(HttpServletRequest request) {
+		System.out.println("요청들어옴: POST /period_check with newPeriod/challengeNum = " + request.getParameter("newPeriod") + "/" + request.getParameter("cNum"));
+		JSONObject resJson = new JSONObject();
+		HttpSession session = request.getSession(false);
+		
+		if(session == null) {
+			resJson.put("msg", "로그인 후 이용할 수 있습니다.");
+			
+		} else {
+			if(!challengeService.periodCheck(request.getParameter("cNum"), request.getParameter("newPeriod"))) {
+				resJson.put("msg", "챌린지가 선택한 기간 이상으로 진행되었습니다.\n더 긴 기간을 선택해주세요.");
+			}
+			
+		}
+		return resJson.toJSONString();
+	}
+
 	@RequestMapping(value = "/my-challenge/{challengeNum}", method = {RequestMethod.PUT}, produces = "application/text; charset=utf8")
 	@ResponseBody
 	public ModelAndView update(@PathVariable("challengeNum") String challengeNum, ModelAndView mav, HttpServletRequest request) {
@@ -264,10 +283,6 @@ public class ChallengeController {
 				if(result == 1) {
 					mav.addObject("update_succeeded", "챌린지를 수정했습니다.");
 					mav.setViewName("redirect:/challenge/my-challenge");
-					
-				} else if(result == 100) {
-					mav.addObject("update_failed(100)", "기간을 변경할 수 없습니다.\n 더 긴 기간으로 선택해주세요!");
-					mav.setViewName("redirect:/challenge/my-challenge/" + challengeNum);
 					
 				} else {
 					mav.addObject("update_failed", "챌린지 수정에 실패했습니다.");

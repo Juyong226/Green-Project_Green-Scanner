@@ -187,7 +187,7 @@ public class PersonalChallengeVO {
 				+ "]";
 	}
 
-	public void calculateAchievementRate(String period, int executionNum) {
+	public void calculateAchievementRate() {
 		double p = Double.parseDouble(period);
 		double result = Math.round((executionNum/p)*100);
 		setAchievementRate((int) result);

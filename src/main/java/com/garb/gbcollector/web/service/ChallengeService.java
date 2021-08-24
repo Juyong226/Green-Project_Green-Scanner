@@ -10,6 +10,7 @@ import com.garb.gbcollector.util.GSCalendar;
 import com.garb.gbcollector.util.GbcException;
 import com.garb.gbcollector.web.dao.ChallengeDAO;
 import com.garb.gbcollector.web.vo.BasicChallengeVO;
+import com.garb.gbcollector.web.vo.FeedVO;
 import com.garb.gbcollector.web.vo.PersonalChallengeVO;
 
 @Service
@@ -46,16 +47,16 @@ public class ChallengeService {
 		return challengeDAO.createChallenge(pc);
 	}
 	
+	public boolean periodCheck(String ChallengeNum, String newPeriod) {
+		PersonalChallengeVO pc = getPersonalChallenge(ChallengeNum);
+		return gsCalendar.checkPeriod(pc, newPeriod);		
+	}
+	
 	public int updateChallenge(PersonalChallengeVO pc, String newPeriod) throws GbcException {
-		if(gsCalendar.checkPeriod(pc, newPeriod) == null) {
-			return 100;
-			
-		} else {
 			pc.setCalendar(gsCalendar.modifyCalendar(pc.getPeriod(), newPeriod, pc.getCalendar()));
 			pc.setEndDate(getEndDate(pc.getStartDate(), newPeriod));
+			pc.setPeriod(newPeriod);
 			return challengeDAO.updateChallengeVO(pc);
-			
-		}
 	}
 	
 	public int updateChallenge(List<PersonalChallengeVO> list) {

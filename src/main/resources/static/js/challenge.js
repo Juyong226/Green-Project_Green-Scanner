@@ -15,7 +15,6 @@
  });
  
 function fn_duplicate_check(code) {
-
  	let result;
  	
  	$.ajax({
@@ -28,9 +27,31 @@ function fn_duplicate_check(code) {
  			
  			if(obj.msg == "OK") {
  				result = true;
+ 				
  			} else {
  				alert(obj.msg);
  				result = false;
+ 				
+ 			}
+ 		} 		
+ 	});
+ 	return result;
+ 	
+ }
+ 
+ function fn_feed_duplicate_check() {
+ 	let result = true;
+ 	
+ 	$.ajax({
+ 		method: "GET",
+ 		url: "/challenge/feed/duplicate_check",
+ 		async: false,
+ 		success: function(data) {
+ 			let obj = JSON.parse(data);
+ 			if(obj.msg) {
+ 				alert(obj.msg);
+ 				result = false;
+ 				
  			}
  		} 		
  	});
@@ -38,8 +59,9 @@ function fn_duplicate_check(code) {
  	
  }
 
- function fn_edit_confirm() {
- 
+ function fn_edit_confirm(challengeNum) {
+ 	
+ 	let cNum = challengeNum;
  	let period = $("#editForm input[name='period']:checked").val();
  	let colorCode = $("#editForm input[name='colorCode']:checked").val();
  	
@@ -48,14 +70,34 @@ function fn_duplicate_check(code) {
  		return false;
  		
  	} else {
-	 	if(confirm("챌린지를 수정하시겠습니까?")) {
-	 		return true;
+	 	if(confirm("챌린지를 수정하시겠습니까?")) {	 		
+	 		let result;
 	 		
+	 		$.ajax({
+	 			method: "POST",
+ 				url: "/challenge/period_check",
+ 				data: { cNum: cNum, newPeriod: period },
+ 				async: false,
+ 				success: function(data) {					
+ 					let obj = JSON.parse(data);
+ 					
+ 					if(obj.msg) {
+ 						alert(obj.msg);
+ 						result = false;
+ 						
+ 					} else {
+ 						result = true;
+ 						
+ 					}
+ 				}
+	 		});
+	 		return result;
+	 			 		
 	 	} else {
 	 		return false;
 	 		
 	 	}
-	 }
+	}
  }
  
  function fn_create_confirm() {
@@ -76,6 +118,26 @@ function fn_duplicate_check(code) {
 	 		
 	 	}
 	 }
+ }
+ 
+ function fn_write_confirm() {
+ 	
+ 	let content = $("#feedWriteForm textarea[name='content']").val();
+ 	
+ 	if(content == "") {
+ 		alert("피드 내용을 입력해주세요.");
+ 		return false;
+ 		
+ 	} else {
+ 		if(confirm("피드를 등록하시겠습니까?")) {
+ 			return true;
+ 			
+ 		} else {
+ 			return false;
+ 			
+ 		}	
+ 	}
+ 	
  }
  
  function fn_delete_confirm() {

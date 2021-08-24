@@ -119,6 +119,7 @@ public class MemberController {
 			if(memnickname!=null) {
 				HttpSession session=request.getSession();				
 				session.setAttribute("member", m);
+				session.setAttribute("email", mememail);
 				session.setAttribute("memnickname", memnickname);
 				loginjson.put("memnickname", memnickname);
 				System.out.println(memnickname);

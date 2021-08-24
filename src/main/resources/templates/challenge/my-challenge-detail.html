@@ -1,48 +1,63 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="challenge/fragments/commonChallenge.html :: header('챌린지 상세 내용')">
+<head th:replace="/fragments/common.html :: header('챌린지 상세 내용')">
 <body>
-	<nav th:replace="challenge/fragments/commonChallenge.html :: nav"></nav>
-		<!-- pcDetail div -->
-			<div th:replace="challenge/fragments/commonChallenge.html :: back('/challenge/my-challenge')"></div>
-			
-			<!-- 챌린지 세부 사항 -->
-			<table>
-				<tr><td>챌린지 이름: </td><td th:text="${personalChallenge.challengeName}"></td></tr>
-				<tr>
-					<td>완료 여부: </td>
-					<td th:if="${personalChallenge.isCompleted} == 1">완료</td>
-					<td th:unless="${personalChallenge.isCompleted} == 1">진행 중</td>
-				</tr>
-				<tr><td>시작: </td><td th:text="${personalChallenge.startDate}"></td></tr>
-				<tr><td>종료: </td><td th:text="${personalChallenge.endDate}"></td></tr>
-				<tr><td>기간: </td><td th:text="${personalChallenge.period}"></td></tr>
-				<tr><td>달성률: </td><td th:text="${personalChallenge.achievementRate}"></td></tr>
-			</table><hr>
-			
-			<div>
-				<table>
-					<tr><td th:if="${personalChallenge.isCompleted} == 0">
-						<form
-							th:action="@{/challenge/my-challenge/{challengeNum}/edit (challengeNum=${personalChallenge.challengeNum})}">
-							<input type="submit" value="수정하기" />
-						</form>
-					</td><td>
-						<form
-							id="deleteForm"
-							onsubmit="return fn_delete_confirm()"
-							th:action="@{/challenge/my-challenge/{challengeNum} (challengeNum=${personalChallenge.challengeNum})}" th:method="delete">
-							<input type="submit" value="삭제하기" />
-						</form>
-					</td></tr>
-				</table>
-			</div>
-			
-			<nav th:replace="challenge/fragments/commonChallenge.html :: footer"></nav>
+	<nav th:replace="/fragments/common.html :: nav"></nav>
+	<div th:replace="/fragments/common.html :: back('/challenge/my-challenge')"></div>			
+	<!-- 챌린지 세부 사항 -->
+	<table>
+		<tr>
+			<td>챌린지 이름: </td>
+			<td th:text="${personalChallenge.challengeName}"></td>
+			<td><a
+				onclick="return fn_feed_duplicate_check()" 
+				th:href="@{/challenge/feed/{challengeNum} (challengeNum = ${personalChallenge.challengeNum})}">
+				피드 쓰기</a>
+			</td>
+		</tr>
+		<tr>
+			<td>완료 여부: </td>
+			<td th:if="${personalChallenge.isCompleted} == 1">완료</td>
+			<td th:unless="${personalChallenge.isCompleted} == 1">진행 중</td>
+		</tr>
+		<tr><td>시작: </td><td th:text="${personalChallenge.startDate}"></td></tr>
+		<tr><td>종료: </td><td th:text="${personalChallenge.endDate}"></td></tr>
+		<tr><td>기간: </td><td th:text="${personalChallenge.period}"></td></tr>
+		<tr><td>색상: </td><td th:text="${personalChallenge.colorCode}"></td></tr>
+		<tr><td>달성률: </td><td th:text="${personalChallenge.achievementRate}"></td></tr>				
+	</table><hr>
 	
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" 
-	integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous">
-</script>
+	<!-- Calendar -->
+	<div>
+		<div th:each="weeks : ${personalChallenge.calList}">
+			<span 
+				th:each="days : ${weeks}" 
+				th:text="${days}" 
+				th:style="${days} == '0' ? 'background-color: #DDE5EF' : 'background-color: ' + ${personalChallenge.colorCode}">
+			</span>
+		</div>
+	</div><br>
+				
+	<div>
+		<table>
+			<tr><td th:if="${personalChallenge.isCompleted} == 0">
+				<form
+					th:action="@{/challenge/my-challenge/{challengeNum}/edit (challengeNum=${personalChallenge.challengeNum})}">
+					<input type="submit" value="수정하기" />
+				</form>
+			</td><td>
+				<form
+					id="deleteForm"
+					onsubmit="return fn_delete_confirm()"
+					th:action="@{/challenge/my-challenge/{challengeNum} (challengeNum=${personalChallenge.challengeNum})}" th:method="delete">
+					<input type="submit" value="삭제하기" />
+				</form>
+			</td></tr>
+		</table>
+	</div>
+	
+	<!-- footer -->	
+	<nav th:replace="/fragments/common.html :: footer"></nav>	
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 <script>

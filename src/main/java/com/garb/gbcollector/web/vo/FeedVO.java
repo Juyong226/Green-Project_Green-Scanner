@@ -6,7 +6,7 @@ public class FeedVO {
 
 	//field
 	private int feedNo, commentCnt;
-	private String challengeNum, email, writer, content, picURL, postDate;
+	private String challengeNum, email, writer, content, postDate;
 	private Date postTime;
 	
 	//constructor
@@ -14,8 +14,8 @@ public class FeedVO {
 		super();
 	}
 	
-	public FeedVO(int feedNo, int commentCnt, String challengeNum, String email, String writer, String content,
-			String picURL, String postDate, Date postTime) {
+	public FeedVO(int feedNo, int commentCnt, String challengeNum, String email, 
+			String writer, String content, String postDate, Date postTime) {
 		super();
 		setFeedNo(feedNo);
 		setCommentCnt(commentCnt);
@@ -23,7 +23,6 @@ public class FeedVO {
 		setEmail(email);
 		setWriter(writer);
 		setContent(content);
-		setPicURL(picURL);
 		setPostDate(postDate);
 		setPostTime(postTime);
 	}
@@ -77,14 +76,6 @@ public class FeedVO {
 		this.content = content;
 	}
 
-	public String getPicURL() {
-		return picURL;
-	}
-
-	public void setPicURL(String picURL) {
-		this.picURL = picURL;
-	}
-
 	public String getPostDate() {
 		return postDate;
 	}
@@ -104,10 +95,7 @@ public class FeedVO {
 	@Override
 	public String toString() {
 		return "FeedVO [feedNo=" + feedNo + ", commentCnt=" + commentCnt + ", challengeNum=" + challengeNum + ", email="
-				+ email + ", writer=" + writer + ", content=" + content + ", picURL=" + picURL + ", postDate="
-				+ postDate + ", postTime=" + postTime + "]";
-	}
-	
-	
-	
+				+ email + ", writer=" + writer + ", content=" + content + ", postDate=" + postDate + ", postTime="
+				+ postTime + "]";
+	}	
 }
