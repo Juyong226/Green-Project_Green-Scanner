@@ -6,16 +6,16 @@
 	<div th:replace="/fragments/common.html :: back('/index.html')"></div>
 
 	<div>
-		<p>마이 챌린지</p><hr>
+		<div><p>마이 챌린지</p><hr></div>
 		<!-- 로그인 하지 않았을 때 -->
-		<th:block th:if="${login_required}">		
+		<div th:if="${login_required}">		
 			<div style="width=100%; height=20vh;">
 				<span th:text="${login_required}">텍스트 알림</span><hr>
 			</div>
-		</th:block>
+		</div>
 		
 		<!-- 로그인 했을 때 -->
-		<th:block th:unless="${login_required}">
+		<div th:unless="${login_required}">
 			<!-- myChallenge(진행 중인 챌린지 표시) -->
 			<div th:if="${#lists.isEmpty(proceeding)}" style="width=100%; height=10vh;">
 				<span>진행 중인 챌린지가 없습니다</span>
@@ -50,8 +50,7 @@
 					</tr>	
 				</table>
 			</div>
-		</th:block>
-		
+		</div>
 		<!-- basicChallenge(시작 가능한 챌린지 표시) -->
 		<div style="width=100%; height=30vh;">
 			<table style="width: 100%; background-color: #F8F9FA;">
@@ -67,8 +66,7 @@
 				</tbody>
 			</table>
 		</div>
-	</div>
-		
+	</div>		
 	<!-- footer -->	
 	<nav th:replace="/fragments/common.html :: footer"></nav>
 </body>

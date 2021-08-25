@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.garb.gbcollector.constant.Method;
+import com.garb.gbcollector.util.UiUtils;
 import com.garb.gbcollector.web.service.ChallengeService;
 import com.garb.gbcollector.web.service.FeedService;
 import com.garb.gbcollector.web.vo.FeedVO;
@@ -26,7 +28,7 @@ import com.garb.gbcollector.web.vo.PersonalChallengeVO;
 
 @Controller
 @RequestMapping("challenge/feed")
-public class FeedController {
+public class FeedController extends UiUtils {
 
 	@Autowired
 	private FeedService feedService;
@@ -39,8 +41,10 @@ public class FeedController {
 			@PathVariable("challengeNum") String challengeNum, Model model, HttpServletRequest request) {
 		
 		HttpSession session = request.getSession(false);
+		String redirectURI = "";
 		if(session == null) {
-			return "redirect:/challenge/main";
+			redirectURI = "/challenge/main";
+			return showMessageWithRedirection("로그인 후 이용이 가능합니다.", redirectURI, Method.GET, null, model);
 			
 		} else {
 			PersonalChallengeVO pc = challengeService.getPersonalChallenge(challengeNum);
@@ -49,7 +53,8 @@ public class FeedController {
 			} else {
 				FeedVO feed = feedService.getFeedDetail(feedNo);
 				if(feed == null) {
-					return "redirect:/challenge/my-challenge/" + challengeNum;
+					redirectURI = "/challenge/my-challenge/" + challengeNum;
+					return showMessageWithRedirection("올바르지 않은 접근입니다.", redirectURI, Method.GET, null, model);
 				} else {
 					model.addAttribute("feed", feed);
 				}
@@ -63,34 +68,39 @@ public class FeedController {
 	
 	/*피드 글 등록 요청*/
 	@PostMapping(value = "/{challengeNum}")
-	public String registerFeed(final FeedVO params, 
+	public String registerFeed(final FeedVO params, Model model,
 			@PathVariable("challengeNum") String challengeNum, HttpServletRequest request) {
+		
+		String redirectURI = "/challenge/my-challenge/" + challengeNum;
 		try {
 			HttpSession session = request.getSession(false);
+			
 			if(session == null) {
-				return "redirect:/challenge/main";
+				redirectURI = "/challenge/main";
+				return showMessageWithRedirection("로그인 후 이용이 가능합니다.", redirectURI, Method.GET, null, model);
 			} else {
 				params.setEmail((String) session.getAttribute("email"));
 				params.setPostDate(challengeService.getCurrentTime());
 				boolean isRegistered = feedService.registerFeed(params);
 				if(isRegistered == false) {
-					// 피드 등록에 실패했다는 메세지 전달
+					return showMessageWithRedirection("피드 등록에 실패하였습니다.", redirectURI, Method.GET, null, model);
 				}	
 			}
 		} catch (DataAccessException e) {
-			// 데이터베이스 처리 과정에서 문제가 발생했다는 메세지 전달
 			e.printStackTrace();
+			return showMessageWithRedirection("데이터베이스 처리 과정에 문제가 발생하였습니다.", redirectURI, Method.GET, null, model);			
 		} catch (Exception e) {
-			// 시스템에 문제가 발생했다는 메세지 전달
 			e.printStackTrace();
+			return showMessageWithRedirection("시스템에 문제가 발생하였습니다.", redirectURI, Method.GET, null, model);			
 		}
-		return "redirect:/challenge/feed/" + challengeNum;
+		return "redirect:/challenge/feed/" + challengeNum; 
 	}
 	
 	/*동일 챌린지 피드 중복 체크 요청*/
 	@RequestMapping(value = "/duplicate_check", method = {RequestMethod.POST}, produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String duplicateCheck(HttpServletRequest request) {
+		
 		System.out.println("요청들어옴: POST /duplicate_check with challengeNum = " + request.getParameter("challengeNum"));
 		HttpSession session = request.getSession(false);
 		JSONObject resJson = new JSONObject();
@@ -108,9 +118,11 @@ public class FeedController {
 	/*피드 리스트 요청*/
 	@GetMapping(value = "/{challengeNum}")
 	public String openMyFeedList(@PathVariable("challengeNum") String challengeNum, Model model, HttpServletRequest request) {
+		
 		HttpSession session = request.getSession(false);
 		if(session == null) {
-			return "redirect:/challenge/main";
+			String redirectURI = "/challenge/main";
+			return showMessageWithRedirection("로그인 후 이용이 가능합니다.", redirectURI, Method.GET, null, model);
 		} else {
 			List<FeedVO> feedList = feedService.getMyFeedList(challengeNum);
 			model.addAttribute("nickname", session.getAttribute("memnickname"));
@@ -122,30 +134,33 @@ public class FeedController {
 	/*피드 삭제 요청*/
 	@DeleteMapping(value = "/{challengeNum}/{feedNo}")
 	public String deleteFeed(@PathVariable("challengeNum") String challengeNum,
-			@PathVariable("feedNo") String feedNo, HttpServletRequest request) {
+			@PathVariable("feedNo") String feedNo, HttpServletRequest request, Model model) {
+		
 		System.out.println("요청들어옴: POST /deleteFeed with challengeNum/feedNo = " + challengeNum + "/" + feedNo);
 		HttpSession session = request.getSession(false);
+		String redirectURI = "/challenge/feed/" + challengeNum;
 		if(session == null) {
-			return "redirect:/challenge/main";
+			redirectURI = "/challenge/main";
+			return showMessageWithRedirection("로그인 후 이용이 가능합니다.", redirectURI, Method.GET, null, model);
 		} else {
 			if(feedNo == null) {
-				return "redirect:/challenge/feed/" + challengeNum;
+				return showMessageWithRedirection("올바르지 않은 접근입니다.", redirectURI, Method.GET, null, model);
 			} else {
 				try {
 					boolean isDeleted = feedService.deleteFeed(Integer.parseInt(feedNo), challengeNum);
 					if(isDeleted == false) {
-						// 게시글 삭제에 실패했다는 메세지 전달
+						return showMessageWithRedirection("피드 삭제에 실패하였습니다.", redirectURI, Method.GET, null, model);
 					}
 					
 				} catch (DataAccessException e) {
-					// 데이터베이스 처리 과정에서 문제가 발생했다는 메세지 전달
 					e.printStackTrace();
+					return showMessageWithRedirection("데이터베이스 처리 과정에서 문제가 발생하였습니다.", redirectURI, Method.GET, null, model);
 				} catch (Exception e) {
-					// 시스템에 문제가 발생했다는 메세지 전달
 					e.printStackTrace();
+					return showMessageWithRedirection("시스템에 문제가 발생하였습니다.", redirectURI, Method.GET, null, model);
 				}
 			}
 		}
-		return "redirect:/challenge/feed/" + challengeNum;
+		return showMessageWithRedirection("피드가 삭제되었습니다.", redirectURI, Method.GET, null, model);
 	}
 }

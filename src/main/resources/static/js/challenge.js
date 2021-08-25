@@ -16,7 +16,7 @@
  
 function fn_duplicate_check(code) {
  	let result;
- 	
+ 	alert("중복 체크 함수 진입 with code = " + code);
  	$.ajax({
  		method: "POST",
  		url: "/challenge/duplicate_check",

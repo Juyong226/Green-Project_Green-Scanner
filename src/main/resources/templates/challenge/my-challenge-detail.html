@@ -24,9 +24,9 @@
 		<tr><td>시작: </td><td th:text="${personalChallenge.startDate}"></td></tr>
 		<tr><td>종료: </td><td th:text="${personalChallenge.endDate}"></td></tr>
 		<tr><td>기간: </td><td th:text="${personalChallenge.period}"></td></tr>
-		<tr><td>색상: </td><td th:text="${personalChallenge.colorCode}"></td></tr>
-		<tr><td>달성률: </td><td th:text="${personalChallenge.achievementRate}"></td></tr>				
-	</table><hr>
+		<tr><td>실천 횟수: </td><td th:text="${personalChallenge.executionNum}"></td></tr>
+		<tr><td>달성률: </td><td th:text="|${personalChallenge.achievementRate}%|"></td></tr>				
+	</table>
 	
 	<!-- Calendar -->
 	<div>
