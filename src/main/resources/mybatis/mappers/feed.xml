@@ -38,10 +38,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	]]>
 </select>
 
-<select id="duplicateCheck" resultType="int">
+<select id="duplicateCheck" resultMap="feedResult">
 	<![CDATA[
-		select feed_no from challengeFeed
-		where post_date = #{toDay}
+		select * from challengeFeed
+		where challengeNum = #{challengeNum}
 	]]>
 </select>
 

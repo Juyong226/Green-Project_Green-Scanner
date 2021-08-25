@@ -39,15 +39,19 @@ function fn_duplicate_check(code) {
  	
  }
  
- function fn_feed_duplicate_check() {
+ function fn_feed_duplicate_check(cNum) {
  	let result = true;
+ 	let challengeNum = cNum;
+ 	alert(challengeNum);
  	
  	$.ajax({
- 		method: "GET",
+ 		method: "POST",
  		url: "/challenge/feed/duplicate_check",
+ 		data: { challengeNum: challengeNum },
  		async: false,
  		success: function(data) {
  			let obj = JSON.parse(data);
+ 			alert(obj);
  			if(obj.msg) {
  				alert(obj.msg);
  				result = false;
@@ -143,6 +147,17 @@ function fn_duplicate_check(code) {
  function fn_delete_confirm() {
  
  	if(confirm("챌린지를 삭제하시겠습니까?")) {
+ 		return true;
+ 		
+ 	} else {
+ 		return false;
+ 		
+ 	}
+ }
+ 
+ function fn_feed_delete_confirm() {
+ 	
+ 	if(confirm("피드를 삭제하시겠습니까?")) {
  		return true;
  		
  	} else {

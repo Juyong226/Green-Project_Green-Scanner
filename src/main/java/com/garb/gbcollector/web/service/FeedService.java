@@ -46,12 +46,34 @@ public class FeedService {
 		return feedDAO.selectFeedDetail(feedNo);
 	}
 	
-	public int getFeedDetail() {	
-		return feedDAO.duplicateCheck(gsCalendar.getCurrentTime());
+	public boolean duplicateCheck(String challengeNum) {
+		List<FeedVO> feedList = feedDAO.duplicateCheck(challengeNum);
+		boolean result = true;		
+		if(feedList.isEmpty() == false) {
+			String toDay = gsCalendar.getCurrentTime();
+			for(FeedVO feed : feedList) {
+				if(feed.getPostDate().equals(toDay)) {
+					result = false;
+				}
+			}
+		}
+		return result;
 	}
 	
-	public boolean deleteFeed(int feedNo) {
-		int queryResult = feedDAO.deleteFeed(feedNo);
+	public boolean deleteFeed(int feedNo, String challengeNum) {
+		FeedVO feed = feedDAO.selectFeedDetail(feedNo);
+		int queryResult = 0;
+		if(feed != null) {
+			String postDate = feed.getPostDate();
+			queryResult = feedDAO.deleteFeed(feedNo);
+			if(queryResult == 1) {
+				PersonalChallengeVO pc = challengeDAO.getPersonalChallenge(challengeNum);
+				pc.setCalendar(gsCalendar.updateCalander(pc.getStartDate(), postDate, pc.getCalendar()));
+				pc.setExecutionNum(pc.getExecutionNum() - 1);
+				pc.calculateAchievementRate();
+				queryResult = challengeDAO.updateChallengeVO(pc);
+			}
+		}
 		return (queryResult == 1) ? true : false;
 	}
 	

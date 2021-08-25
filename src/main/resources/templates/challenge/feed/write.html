@@ -3,13 +3,11 @@
 <head th:replace="/fragments/common.html :: header('피드 작성하기')">
 <body>
 	<nav th:replace="/fragments/common.html :: nav"></nav>
-	<div th:replace="/fragments/common.html :: back('/challenge/my-challenge/' + ${challengeNum})"></div>
+	<div th:replace="/fragments/common.html :: back('/challenge/feed/' + ${challengeNum})"></div>
 	
 	<!-- 피드 쓰기 폼 -->
 	<div>
-		<div>
-			<p>피드 쓰기</p>
-		</div>
+		<div><p>피드 쓰기</p></div>
 		
 		<form
 			id="feedWriteForm"

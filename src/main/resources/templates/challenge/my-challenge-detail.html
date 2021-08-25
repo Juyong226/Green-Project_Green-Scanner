@@ -10,8 +10,9 @@
 			<td>챌린지 이름: </td>
 			<td th:text="${personalChallenge.challengeName}"></td>
 			<td><a
-				onclick="return fn_feed_duplicate_check()" 
-				th:href="@{/challenge/feed/{challengeNum} (challengeNum = ${personalChallenge.challengeNum})}">
+				th:data-cNum="${personalChallenge.challengeNum}"
+				onclick="return fn_feed_duplicate_check(this.getAttribute('data-cNum'))" 
+				th:href="@{/challenge/feed/{challengeNum}/set (challengeNum = ${personalChallenge.challengeNum})}">
 				피드 쓰기</a>
 			</td>
 		</tr>
@@ -49,11 +50,19 @@
 				<form
 					id="deleteForm"
 					onsubmit="return fn_delete_confirm()"
-					th:action="@{/challenge/my-challenge/{challengeNum} (challengeNum=${personalChallenge.challengeNum})}" th:method="delete">
+					th:action="@{/challenge/my-challenge/{challengeNum} (challengeNum=${personalChallenge.challengeNum})}" 
+					th:method="delete">
 					<input type="submit" value="삭제하기" />
 				</form>
 			</td></tr>
 		</table>
+	</div>
+	
+	<!-- 피드 리스트 -->
+	<div>
+		<div>
+			<a th:href="@{/challenge/feed/{challengeNum} (challengeNum = ${personalChallenge.challengeNum})}">피드 보기</a>
+		</div>
 	</div>
 	
 	<!-- footer -->	

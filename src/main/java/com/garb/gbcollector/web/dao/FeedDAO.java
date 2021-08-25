@@ -15,7 +15,7 @@ public interface FeedDAO {
 	
 	FeedVO selectFeedDetail(int feedNo);
 	
-	int duplicateCheck(String toDay);
+	List<FeedVO> duplicateCheck(String challengeNum);
 
 	int insertFeed(FeedVO params);
 	
