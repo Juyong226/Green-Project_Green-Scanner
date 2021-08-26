@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.garb.gbcollector.util.GSCalendar;
 import com.garb.gbcollector.web.dao.ChallengeDAO;
+import com.garb.gbcollector.web.dao.FeedCommentDAO;
 import com.garb.gbcollector.web.dao.FeedDAO;
+import com.garb.gbcollector.web.vo.FeedCommentVO;
 import com.garb.gbcollector.web.vo.FeedVO;
 import com.garb.gbcollector.web.vo.PersonalChallengeVO;
 
@@ -19,6 +21,8 @@ public class FeedService {
 	private FeedDAO feedDAO;
 	@Autowired
 	private ChallengeDAO challengeDAO;
+	@Autowired
+	private FeedCommentDAO	feedCommentDAO;
 	
 	GSCalendar gsCalendar = GSCalendar.getInstance();
 	
@@ -44,7 +48,7 @@ public class FeedService {
 		return (queryResult == 1) ? true : false;
 	}
 	
-	public FeedVO getFeedDetail(int feedNo) {
+	public FeedVO getFeedDetail(int feedNo) {		
 		return feedDAO.selectFeedDetail(feedNo);
 	}
 	

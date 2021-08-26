@@ -20,13 +20,14 @@
 			<div 
 				style="width: 582px; border: 0.1px solid #bebebe; float: left; margin-left: 7.5px; margin-right: 7.5px;" 
 				th:unless="${#lists.isEmpty(feedList)}"
+				th:object="${params}"
 				th:each="feed : ${feedList}">
 				<table style="width: 100%">
 					<tr><td>번호</td><td th:text="${feed.feedNo}"></td></tr>
 					<tr><td>닉네임</td><td th:text="${feed.writer}"></td></tr>
 					<tr><td>작성시간</td><td th:text="${#dates.format(feed.postTime, 'yyyy/MM/dd HH시 mm분')}"></td></tr>
 					<tr><td>내용</td><td th:text="${feed.content}"></td></tr>
-					<tr><td>댓글 수</td><td th:text="${feed.commentCnt}"></td></tr>
+					<tr><td>댓글 수</td><td><a th:href="@{'/feed/comments/' + ${feed.feedNo} (challengeNum = ${challengeNum})}" th:text="${feed.commentCnt}"></a></td></tr>
 					<tr th:if="${nickname == feed.writer}">
 						<td>
 							<a th:href="@{'/challenge/feed/' + ${challengeNum} +'/set' (feedNo = ${feed.feedNo})}">수정하기</a>
