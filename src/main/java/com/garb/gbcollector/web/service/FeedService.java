@@ -22,20 +22,22 @@ public class FeedService {
 	
 	GSCalendar gsCalendar = GSCalendar.getInstance();
 	
-	public boolean registerFeed(FeedVO params) {
+	public boolean registerFeed(FeedVO params, String challengeNum) {
 		int queryResult = 0;
 		System.out.println("========================================");
 		System.out.println("피드 params = " + params.toString());
 		System.out.println("========================================");
 		if(params.getFeedNo() == 0) {
-			queryResult = feedDAO.insertFeed(params);
-			if(queryResult == 1) {
-				PersonalChallengeVO pc = challengeDAO.getPersonalChallenge(params.getChallengeNum());
-				pc.setCalendar(gsCalendar.updateCalander(pc.getStartDate(), params.getPostDate(), pc.getCalendar()));
-				pc.setExecutionNum(pc.getExecutionNum() + 1);
-				pc.calculateAchievementRate();
-				queryResult = challengeDAO.updateChallengeVO(pc);
-			} 
+			if(duplicateCheck(challengeNum) == true) {
+				queryResult = feedDAO.insertFeed(params);
+				if(queryResult == 1) {
+					PersonalChallengeVO pc = challengeDAO.getPersonalChallenge(params.getChallengeNum());
+					pc.setCalendar(gsCalendar.updateCalander(pc.getStartDate(), params.getPostDate(), pc.getCalendar()));
+					pc.setExecutionNum(pc.getExecutionNum() + 1);
+					pc.calculateAchievementRate();
+					queryResult = challengeDAO.updateChallengeVO(pc);
+				}
+			}
 		} else {
 			queryResult = feedDAO.updateFeed(params);
 		}

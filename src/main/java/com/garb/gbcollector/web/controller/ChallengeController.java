@@ -41,24 +41,25 @@ public class ChallengeController extends UiUtils {
 	@GetMapping(value = "/main")
 	public String main(Model model, HttpServletRequest request) {
 		
-		bcList = challengeService.selectBasicChallenge();
 		HttpSession session = request.getSession(false);
+		String redirectURI = "";
+		bcList = challengeService.selectBasicChallenge();
 		model.addAttribute("bcList", bcList);
 		if(session != null) {
-			try {
-				MemberVO member = (MemberVO)session.getAttribute("member");
-				List<PersonalChallengeVO> tempList = challengeService.selectChallengeList(member.getMememail());	
-				List<ArrayList> cList = challengeService.isCompleted(tempList);				
-				model.addAttribute("proceeding", cList.get(0));
-				model.addAttribute("completed", cList.get(1));
-				model.addAttribute("proceedingNum", Integer.toString(cList.get(0).size()));
-				model.addAttribute("completedNum", Integer.toString(cList.get(1).size()));
-				return "challenge/main";
-			} catch (Exception e) {
-				e.printStackTrace();
-				String redirectURI = "/";
-				return showMessageWithRedirection("시스템에 문제가 발생했습니다.", redirectURI, Method.GET, null, model);
-			}			
+				try {
+					MemberVO member = (MemberVO)session.getAttribute("member");
+					List<PersonalChallengeVO> tempList = challengeService.selectChallengeList(member.getMememail());	
+					List<ArrayList> cList = challengeService.isCompleted(tempList);				
+					model.addAttribute("proceeding", cList.get(0));
+					model.addAttribute("completed", cList.get(1));
+					model.addAttribute("proceedingNum", Integer.toString(cList.get(0).size()));
+					model.addAttribute("completedNum", Integer.toString(cList.get(1).size()));
+					return "challenge/main";
+				} catch (Exception e) {
+					e.printStackTrace();
+					redirectURI = "/";
+					return showMessageWithRedirection("시스템에 문제가 발생하였습니다.", redirectURI, Method.GET, null, model);
+				}						
 		}
 		model.addAttribute("login_required", "로그인 후 이용할 수 있습니다.");
 		return "challenge/main";
@@ -88,13 +89,21 @@ public class ChallengeController extends UiUtils {
 	@GetMapping(value = "/my-challenge/{challengeNum}")
 	public String pcDetail2(@PathVariable("challengeNum") String challengeNum, Model model, HttpServletRequest request) {
 		
-		HttpSession session = request.getSession(false);		
-		if(session != null) {
-			PersonalChallengeVO pc = challengeService.getPersonalChallenge(challengeNum);
-			model.addAttribute("personalChallenge", pc);
-			return "challenge/my-challenge-detail";			
-		} 
+		HttpSession session = request.getSession(false);
 		String redirectURI = "/challenge/main";
+		if(session != null) {
+			try {
+				PersonalChallengeVO pc = challengeService.getPersonalChallenge(challengeNum);
+				model.addAttribute("personalChallenge", pc);
+				return "challenge/my-challenge-detail";
+			} catch (NullPointerException e) {
+				e.printStackTrace();			
+				return showMessageWithRedirection("이미 삭제되었거나 존재하지 않는 챌린지입니다.", redirectURI, null, null, model);
+			} catch (Exception e) {
+				e.printStackTrace();			
+				return showMessageWithRedirection("시스템에 문제가 발생하였습니다.", redirectURI, null, null, model);
+			}
+		} 		
 		return showMessageWithRedirection("로그인 후 이용이 가능합니다.", redirectURI, Method.GET, null, model);		
 	}
 	
@@ -141,6 +150,7 @@ public class ChallengeController extends UiUtils {
 		System.out.println("요청들어옴: GET /set/{challengeCode}");
 		HttpSession session = request.getSession(false);			
 		if(session != null) {
+			String email = (String) session.getAttribute("mememail");
 			BasicChallengeVO bc = challengeService.getBasicChallenge(code);	
 			model.addAttribute("basicChallenge", bc);
 			return "challenge/new-setting";			
@@ -157,6 +167,11 @@ public class ChallengeController extends UiUtils {
 		String redirectURI = "/challenge/basic/" + code;		
 		if(session != null) {
 			try {
+				String cNum = challengeService.duplicateCheck(code, (String) session.getAttribute("email"));
+				if(cNum != null) {
+					redirectURI = "/challenge/main";
+					return showMessageWithRedirection("이미 같은 챌린지가 진행 중입니다.", redirectURI, Method.GET, null, model);
+				}
 				BasicChallengeVO bc = challengeService.getBasicChallenge(code);
 				MemberVO m = (MemberVO) session.getAttribute("member");	
 				
@@ -229,7 +244,7 @@ public class ChallengeController extends UiUtils {
 	public String update(@PathVariable("challengeNum") String challengeNum, Model model, HttpServletRequest request) {
 		
 		HttpSession session = request.getSession(false);
-		String redirectURI = "";
+		String redirectURI = "/challenge/my-challenge/" + challengeNum;
 		if(session != null) {
 			try {
 				PersonalChallengeVO pc = challengeService.getPersonalChallenge(challengeNum);
@@ -238,15 +253,12 @@ public class ChallengeController extends UiUtils {
 				
 				int result = challengeService.updateChallenge(pc, newPeriod);				
 				if(result != 1) {
-					redirectURI = "/challenge/my-challenge/" + challengeNum;
 					return showMessageWithRedirection("챌린지 수정에 실패하였습니다.", redirectURI, Method.GET, null, model);				
 				}
-				redirectURI = "/challenge/my-challenge";
 				return showMessageWithRedirection("챌린지를 수정했습니다.", redirectURI, Method.GET, null, model);	
 				
 			} catch (Exception e) {
 				e.printStackTrace();
-				redirectURI = "/challenge/my-challenge/" + challengeNum;
 				return showMessageWithRedirection("시스템에 문제가 발생하였습니다.", redirectURI, Method.GET, null, model);
 			}					
 		} 		

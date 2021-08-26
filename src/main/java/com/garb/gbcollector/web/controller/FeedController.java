@@ -55,9 +55,8 @@ public class FeedController extends UiUtils {
 				if(feed == null) {
 					redirectURI = "/challenge/my-challenge/" + challengeNum;
 					return showMessageWithRedirection("올바르지 않은 접근입니다.", redirectURI, Method.GET, null, model);
-				} else {
-					model.addAttribute("feed", feed);
 				}
+				model.addAttribute("feed", feed);				
 			}
 			model.addAttribute("nickname", session.getAttribute("memnickname"));
 			model.addAttribute("challengeName", pc.getChallengeName());
@@ -81,9 +80,9 @@ public class FeedController extends UiUtils {
 			} else {
 				params.setEmail((String) session.getAttribute("email"));
 				params.setPostDate(challengeService.getCurrentTime());
-				boolean isRegistered = feedService.registerFeed(params);
+				boolean isRegistered = feedService.registerFeed(params, challengeNum);
 				if(isRegistered == false) {
-					return showMessageWithRedirection("피드 등록에 실패하였습니다.", redirectURI, Method.GET, null, model);
+					return showMessageWithRedirection("피드를 등록할 수 없습니다.", redirectURI, Method.GET, null, model);
 				}	
 			}
 		} catch (DataAccessException e) {
@@ -104,13 +103,18 @@ public class FeedController extends UiUtils {
 		System.out.println("요청들어옴: POST /duplicate_check with challengeNum = " + request.getParameter("challengeNum"));
 		HttpSession session = request.getSession(false);
 		JSONObject resJson = new JSONObject();
-		if(session == null) {
-			resJson.put("msg", "로그인 후 이용할 수 있습니다.");
+		if(session != null) {
+			try {
+				boolean result = feedService.duplicateCheck(request.getParameter("challengeNum"));
+				if(result == false) {
+					resJson.put("msg", "피드 작성은 챌린지 당 하루 1회만 가능합니다.");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				resJson.put("msg", "시스템에 문제가 발생하였습니다.");
+			}			
 		} else {
-			boolean result = feedService.duplicateCheck(request.getParameter("challengeNum"));
-			if(result == false) {
-				resJson.put("msg", "피드 작성은 챌린지 당 하루 1회만 가능합니다.");
-			}
+			resJson.put("msg", "로그인 후 이용할 수 있습니다.");
 		}
 		return resJson.toJSONString();
 	}
