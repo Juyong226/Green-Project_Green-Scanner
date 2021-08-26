@@ -5,6 +5,7 @@
 <body>
 	<nav th:replace="fragments/common :: nav"></nav>
 
+
 <!-- board.js에서 제목/내용 null 체크 후 form 전송 -->
 <form action="/board/write" method="post" enctype="multipart/form-data" onsubmit="return writePost();">
 	<div class="board-font" style="padding: 20px;">
@@ -43,7 +44,7 @@
 		<div class="form-group my-3">
 			<label for="file" class="col-sm-2 control-label" style="font-size:14px; font-weight: bold">파일 업로드</label><br>
 			<div>
-				<input type="file" id="file" name="file" class="form-control" />
+				<input type="file" accept = "image/*" id="file" name="file" class="form-control" />
 			</div>
 		
 		
@@ -108,7 +109,7 @@
 	</div>
 	</div> -->
 
-	
+
 </body>
 <link rel="stylesheet" href="../css/boardWrite.css">
 </html>
