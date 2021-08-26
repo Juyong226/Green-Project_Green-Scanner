@@ -5,7 +5,7 @@
 <body>
 	<nav th:replace="fragments/common :: nav"></nav>
 
-<form action="/board/updatePostSave" method="post" enctype="multipart/form-data">
+<form action="/board/updatePostSave" method="post" enctype="multipart/form-data" onsubmit="return writePost();">
 	<div class="board-font" style="padding: 20px;">
 		<!-- 게시판구분 -->
 		<div class="form-group">
@@ -42,7 +42,7 @@
 		<div class="form-group my-3">
 			<label for="file" class="col-sm-2 control-label" style="font-size:14px; font-weight: bold">파일 업로드</label><br>
 			<div>
-				<input type="file" id="file" name="file" class="form-control" th:text="${post.filename}" />
+				<input type="file" accept = "image/*" id="file" name="file" class="form-control" th:text="${post.filename}" />
 				<input type="hidden" id="orgFile" name="orgFile" th:value="${post.filename}" />
 			</div>
 		
