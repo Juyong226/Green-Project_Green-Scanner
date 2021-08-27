@@ -1,64 +1,59 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="challenge/fragments/commonChallenge.html :: header('챌린지 시작하기')">
+<head th:replace="/fragments/common.html :: header('챌린지 시작하기')">
 <body>
-	<nav th:replace="challenge/fragments/commonChallenge.html :: nav"></nav>
+	<nav th:replace="/fragments/common.html :: nav"></nav>
+	<div th:replace="/fragments/common.html :: back('/challenge/basic/' + ${basicChallenge.challengeCode})"></div>
+	<!-- 챌린지 생성하기 -->	
+	<div>
+		<p>새로운 챌린지 생성하기</p><hr>
+		<form
+			id="createForm"
+			onsubmit="return fn_create_confirm()" 
+			th:action="@{/challenge/basic/{challengeCode}(challengeCode=${basicChallenge.challengeCode})}" method="post">
+			<table>
+				<tr>
+					<td>챌린지 이름: </td>
+					<td th:text="${basicChallenge.challengeName}">챌린지 이름</td>
+				</tr>
+				<tr>
+					<td>챌린지 기간: </td>
+					<td>
+						<input type="radio" id="1week" name="period" value="7">
+						<label for="1week">1주</label>&nbsp;
+						<input type="radio" id="2week" name="period" value="14">
+						<label for="2week">2주</label>&nbsp;
+						<input type="radio" id="3week" name="period" value="21">
+						<label for="3week">3주</label>&nbsp;
+						<input type="radio" id="4week" name="period" value="28">
+						<label for="4week">4주</label>
+					</td>
+				</tr>
+				<tr>
+					<td>표시 색상: </td>
+					<td>
+						<input type="radio" id="red" name="colorCode" value="#FF0000">
+						<label for="red">빨강</label>&nbsp;
+						<input type="radio" id="orange" name="colorCode" value="#FFA500">
+						<label for="orange">오렌지</label>&nbsp;
+						<input type="radio" id="pink" name="colorCode" value="#FF5675">
+						<label for="pink">핑크</label>&nbsp;
+						<input type="radio" id="green" name="colorCode" value="#80E12A">
+						<label for="green">초록</label>&nbsp;
+						<input type="radio" id="blue" name="colorCode" value="#1E90FF">
+						<label for="blue">파랑</label>
+					</td>
+				</tr>
+			</table><br>
+			<p>챌린지 상세 내용</p><hr>
+			<div th:text="${basicChallenge.toDo}">챌린지 내용</div>
+			<input type="submit" value="완료">
+			<input type="reset" id="cancleBtn" value="취소">
+		</form>
+	</div>
 	
-	<!-- challenge div -->
-		<div th:replace="challenge/fragments/commonChallenge.html :: back('/challenge/basic/' + ${basicChallenge.challengeCode})"></div>
-		
-		<div>
-			<p>새로운 챌린지 생성하기</p><hr>
-			<form
-				id="createForm"
-				onsubmit="return fn_create_confirm()" 
-				th:action="@{/challenge/basic/{challengeCode}(challengeCode=${basicChallenge.challengeCode})}" method="post">
-				<table>
-					<tr>
-						<td>챌린지 이름: </td>
-						<td th:text="${basicChallenge.challengeName}">챌린지 이름</td>
-					</tr>
-					<tr>
-						<td>챌린지 기간: </td>
-						<td>
-							<input type="radio" id="1week" name="period" value="7">
-							<label for="1week">1주</label>&nbsp;
-							<input type="radio" id="2week" name="period" value="14">
-							<label for="2week">2주</label>&nbsp;
-							<input type="radio" id="3week" name="period" value="21">
-							<label for="3week">3주</label>&nbsp;
-							<input type="radio" id="4week" name="period" value="28">
-							<label for="4week">4주</label>
-						</td>
-					</tr>
-					<tr>
-						<td>표시 색상: </td>
-						<td>
-							<input type="radio" id="red" name="colorCode" value="#FF0000">
-							<label for="red">빨강</label>&nbsp;
-							<input type="radio" id="orange" name="colorCode" value="#FFA500">
-							<label for="orange">오렌지</label>&nbsp;
-							<input type="radio" id="pink" name="colorCode" value="#FF5675">
-							<label for="pink">핑크</label>&nbsp;
-							<input type="radio" id="green" name="colorCode" value="#80E12A">
-							<label for="green">초록</label>&nbsp;
-							<input type="radio" id="blue" name="colorCode" value="#1E90FF">
-							<label for="blue">파랑</label>
-						</td>
-					</tr>
-				</table><br>
-				<p>챌린지 상세 내용</p><hr>
-				<div th:text="${basicChallenge.toDo}">챌린지 내용</div>
-				<input type="submit" value="완료">
-				<input type="reset" id="cancleBtn" value="취소">
-			</form>
-		</div>
-		
-		<nav th:replace="challenge/fragments/commonChallenge.html :: footer"></nav>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" 
-	integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous">
-</script>
+	<!-- footer -->	
+	<nav th:replace="/fragments/common.html :: footer"></nav>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 <script>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.garb.gbcollector.web.dao.FeedImageDAO">
+
+<resultMap type="FeedImageVO" id="feedImageResult">
+	<result property="idx" column="idx"/>
+	<result property="feedNo" column="feed_no"/>
+	<result property="originalName" column="original_name"/>
+	<result property="saveName" column="save_name"/>
+	<result property="imgSize" column="img_size"/>
+	<result property="insertTime" column="insert_time"/>
+</resultMap>
+
+<insert id="insertFeedImage" parameterType="java.util.List">
+	<foreach collection="list" item="item" index="index" separator=";" open="DECLARE BEGIN" close="; END;">
+		<![CDATA[
+			insert into feedImages (
+				feed_no,
+				original_name,
+				save_name,
+				img_size
+			) value (
+				#{item.feedNo},
+				#{item.originalName},
+				#{item.saveName},
+				#{item.imgSize}
+			)
+		]]>
+	</foreach>
+</insert>
+
+<delete id="deleteFeedImage" parameterType="Integer">
+	<![CDATA[
+		delete from feedImages
+		where feed = #{idx}
+	]]>
+</delete>
+
+</mapper>

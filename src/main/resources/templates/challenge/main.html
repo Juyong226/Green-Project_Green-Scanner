@@ -1,79 +1,77 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="challenge/fragments/commonChallenge.html :: header('챌린지')">
+<head th:replace="/fragments/common.html :: header('챌린지')">
 <body>
-	<nav th:replace="challenge/fragments/commonChallenge.html :: nav"></nav>
-	
-	<!-- challenge div -->
-		<div th:replace="challenge/fragments/commonChallenge.html :: back('/index.html')"></div>
+	<nav th:replace="/fragments/common.html :: nav"></nav>
+	<div th:replace="/fragments/common.html :: back('/index.html')"></div>
+
+	<div>
 		<div>
-			<p>마이 챌린지</p><hr>
-			<th:block th:if="${login_required}">
-			<!-- 로그인 하지 않았을 때 -->
-				<div style="width=100%; height=20vh;">
-					<span th:text="${login_required}">텍스트 알림</span><hr>
-				</div>
-			</th:block>
+			<p>챌린지</p>&nbsp;&nbsp;&nbsp;
+			<p><a th:href="@{/challenge/feed/}">모든 피드 보기</a></p><hr>
+		</div>
+		<!-- 로그인 하지 않았을 때 -->
+		<div th:if="${login_required}">		
+			<div style="width=100%; height=20vh;">
+				<span th:text="${login_required}">텍스트 알림</span><hr>
+			</div>
+		</div>
+		
+		<!-- 로그인 했을 때 -->
+		<div th:unless="${login_required}">
+			<!-- myChallenge(진행 중인 챌린지 표시) -->
+			<div th:if="${#lists.isEmpty(proceeding)}" style="width=100%; height=10vh;">
+				<span>진행 중인 챌린지가 없습니다</span>
+			</div>
+			<div th:unless="${#lists.isEmpty(proceeding)}" style="width=100%; height=30vh;">
+				<table>
+					<tr th:each="pc : ${proceeding}">
+						<td>
+							<a th:href="@{/challenge/my-challenge/{challengeNum}(challengeNum=${pc.challengeNum})}">
+								<span th:text="${pc.challengeName}"></span>
+							</a>								
+						</td>
+						<td><span th:text="${pc.startDate}"></span></td>
+						<td><span th:text="${pc.endDate}"></span></td>
+					</tr>
+				</table>
+			</div>
 			
-			<th:block th:unless="${login_required}">
-			<!-- 로그인 했을 때 -->
-				<!-- myChallenge(진행 중인 챌린지 표시) -->
-				<div th:if="${#lists.isEmpty(proceeding)}" style="width=100%; height=10vh;">
-					<span>진행 중인 챌린지가 없습니다</span>
-				</div>
-				<div th:unless="${#lists.isEmpty(proceeding)}" style="width=100%; height=30vh;">
-					<table>
-						<tr th:each="pc : ${proceeding}">
-							<td>
-								<a th:href="@{/challenge/my-challenge/{challengeNum}(challengeNum=${pc.challengeNum})}">
-									<span th:text="${pc.challengeName}"></span>
-								</a>								
-							</td>
-							<td><span th:text="${pc.startDate}"></span></td>
-							<td><span th:text="${pc.endDate}"></span></td>
-						</tr>
-					</table>
-				</div>
-				
-				<!-- myChallengeHistory(진행/완료 챌린지 갯수 표시) -->
-				<div style="width=100%; height=15vh;">	
-					<table>						
-						<tr>
-							<td><span>진행 중: </span></td>
-							<td><span th:text="${proceedingNum}">0 </span></td>
-							<td><span> 완료:</span></td>
-							<td><span th:text="${completedNum}">0 </span></td>
-							<td>
-								<a th:href="@{/challenge/my-challenge}">
-									<span> 상세보기</span>
-								</a>
-							</td>
-						</tr>	
-					</table>
-				</div>
-			</th:block>
-			
-			<!-- basicChallenge(시작 가능한 챌린지 표시) -->
-			<div style="width=100%; height=30vh;">
-				<table style="width: 100%; background-color: #F8F9FA;">
-					<tbody>
-						<tr th:each="bc : ${bcList}">
-							<td><span th:text="${bc.challengeCode}"></span></td>
-							<td>
-								<a th:href="@{/challenge/basic/{challengeCode}(challengeCode=${bc.challengeCode})}">
-									<span th:text="${bc.challengeName}"></span>
-								</a>
-							</td>
-						</tr>
-					</tbody>
+			<!-- myChallengeHistory(진행/완료 챌린지 갯수 표시) -->
+			<div style="width=100%; height=15vh;">	
+				<table>						
+					<tr>
+						<td><span>진행 중: </span></td>
+						<td><span th:text="${proceedingNum}">0 </span></td>
+						<td><span> 완료:</span></td>
+						<td><span th:text="${completedNum}">0 </span></td>
+						<td>
+							<a th:href="@{/challenge/my-challenge}">
+								<span> 상세보기</span>
+							</a>
+						</td>
+					</tr>	
 				</table>
 			</div>
 		</div>
-	<nav th:replace="challenge/fragments/commonChallenge.html :: footer"></nav>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" 
-	integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous">
-</script>
+		<!-- basicChallenge(시작 가능한 챌린지 표시) -->
+		<div style="width=100%; height=30vh;">
+			<table style="width: 100%; background-color: #F8F9FA;">
+				<tbody>
+					<tr th:each="bc : ${bcList}">
+						<td><span th:text="${bc.challengeCode}"></span></td>
+						<td>
+							<a th:href="@{/challenge/basic/{challengeCode}(challengeCode=${bc.challengeCode})}">
+								<span th:text="${bc.challengeName}"></span>
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>		
+	<!-- footer -->	
+	<nav th:replace="/fragments/common.html :: footer"></nav>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 <script>

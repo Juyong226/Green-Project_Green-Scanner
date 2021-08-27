@@ -41,12 +41,11 @@ $(document).ready(function() {
 			return false;
 		}
 		
-		$.post("/login.do",
-				  {
-				    email:email,
-				    pw:pw,
-				  },
-				  function(data, status){
+		$.ajax({
+				method: "POST",
+				url: "/login.do",
+				data: { email: email, pw: pw },  
+				success: function(data, status){
 				  	var obj = JSON.parse(data);
 				  	if(obj.memnickname) { 
 					  	//sample_index.html의 nav와 맞추기 위해 이렇게 넣었습니다. 이렇게 자잘하게 쪼갠 이유는 이렇게 쪼게지 않으면 현재 js에 
@@ -99,7 +98,8 @@ $(document).ready(function() {
 					} else if(obj.denied) {
 						alert(obj.denied);
 					}
-				  });
+				}	
+		});
 			
 	});
 	

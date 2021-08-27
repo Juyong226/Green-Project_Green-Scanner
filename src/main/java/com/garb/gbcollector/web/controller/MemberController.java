@@ -71,8 +71,8 @@ public class MemberController {
 		JSONObject resJson = new JSONObject();
 		HttpSession session = request.getSession(false);
 		//세션이 만료되었을 경우 다시 로그인 해달라는 메세지를 리턴
-		if(session == null) {
-			resJson.put("sessionNull", "로그아웃 되었습니다.\n다시 로그인 해주세요.");
+		if(session == null || session.getAttribute("member") == null) {
+			resJson.put("sessionNull", "로그아웃 되었습니다.\n다시 로그인 해주세요.");			
 		}
 		return resJson.toJSONString();
 	}
@@ -119,6 +119,7 @@ public class MemberController {
 			if(memnickname!=null) {
 				HttpSession session=request.getSession();				
 				session.setAttribute("member", m);
+				session.setAttribute("email", mememail);
 				session.setAttribute("memnickname", memnickname);
 				loginjson.put("memnickname", memnickname);
 				System.out.println(memnickname);
