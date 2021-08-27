@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,7 +36,7 @@ public class FeedCommentController extends UiUtils {
 	
 	/*피드글 + 댓글 리스트 요청*/
 	@GetMapping(value = "/comments/{feedNo}")
-	public String getCommentList(@PathVariable("feedNo") Integer feedNo, @RequestParam(value="challengeNum") String challengeNum,
+	public String getCommentList(@PathVariable("feedNo") final Integer feedNo, @RequestParam(value="challengeNum") final String challengeNum,
 			FeedCommentVO params, Model model, HttpServletRequest request) {
 		
 		HttpSession session = request.getSession(false);
@@ -65,12 +66,15 @@ public class FeedCommentController extends UiUtils {
 	}
 	
 	/*댓글 작성 및 수정 요청*/
-	@RequestMapping(value = { "/comments/{feedNo}", "/comments/{idx}" }, method = { RequestMethod.POST, RequestMethod.PATCH })
-	public String registerComment(@PathVariable("feedNo") String feedNo, @PathVariable(value = "idx", required = false) Integer idx,
-			@RequestParam(value="challengeNum") String challengeNum, @ModelAttribute("params") FeedCommentVO params, Model model, HttpServletRequest request) {
+	@RequestMapping(value = { "/comments/{feedNo}", "/comments/{feedNo}/{idx}" }, method = { RequestMethod.POST, RequestMethod.PATCH })
+	public String registerComment(@PathVariable("feedNo") final String feedNo, @PathVariable(value = "idx", required = false) final Integer idx,
+			@RequestParam(value="challengeNum") final String challengeNum, @ModelAttribute("params") FeedCommentVO params, Model model, HttpServletRequest request) {
 		
+		System.out.println("=======================================================================");
+		System.out.println("댓글 작성/수정 시 넘어오는 submit params 객체 = " + params.toString());
+		System.out.println("=======================================================================");
 		HttpSession session = request.getSession(false);
-		String redirectURI = "/challenge/feed/" + challengeNum;
+		String redirectURI = "/feed/comments/" + feedNo +"?challengeNum=" + challengeNum;
 		if(session != null) {
 			try {
 				if(idx != null) {
@@ -90,4 +94,25 @@ public class FeedCommentController extends UiUtils {
 		return showMessageWithRedirection("로그인 후 이용이 가능합니다.", redirectURI, Method.GET, null, model);
 	}
 	
+	@DeleteMapping(value = "/comments/{idx}")
+	public String deleteComment(@PathVariable("idx") final Integer idx, @RequestParam(value="challengeNum") final String challengeNum, 
+			@RequestParam(value="feedNo") final Integer feedNo, @ModelAttribute("params") FeedCommentVO params, Model model, HttpServletRequest request) {
+		
+		HttpSession session = request.getSession(false);
+		String redirectURI = "/feed/comments/" + feedNo +"?challengeNum=" + challengeNum;
+		if(session != null) {
+			try {
+				boolean isDeleted = feedCommentService.deleteComment(idx);
+				return "redirect:/feed/comments/" + feedNo +"?challengeNum=" + challengeNum;
+			} catch (DataAccessException e) {
+				e.printStackTrace();
+				return showMessageWithRedirection("데이터베이스 처리 과정에 문제가 발생하였습니다.", redirectURI, Method.GET, null, model);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return showMessageWithRedirection("시스템에 문제가 발생하였습니다.", redirectURI, Method.GET, null, model);
+			}
+		}
+		redirectURI = "/challenge/main";
+		return showMessageWithRedirection("로그인 후 이용이 가능합니다.", redirectURI, Method.GET, null, model);
+	}
 }

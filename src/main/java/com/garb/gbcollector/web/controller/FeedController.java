@@ -119,7 +119,7 @@ public class FeedController extends UiUtils {
 		return resJson.toJSONString();
 	}
 	
-	/*피드 리스트 요청*/
+	/*마이 피드 리스트 요청*/
 	@GetMapping(value = "/{challengeNum}")
 	public String openMyFeedList(@PathVariable("challengeNum") String challengeNum, Model model, HttpServletRequest request) {
 		
@@ -132,6 +132,19 @@ public class FeedController extends UiUtils {
 			model.addAttribute("nickname", session.getAttribute("memnickname"));
 			model.addAttribute("feedList", feedList);
 		}
+		return "challenge/feed/my-list";
+	}
+	
+	/*전체 피드 리스트 요청*/
+	@GetMapping(value = "/")
+	public String openFeedList(Model model, HttpServletRequest request) {
+		
+		HttpSession session = request.getSession(false);
+		if(session != null) {
+			model.addAttribute("nickname", session.getAttribute("memnickname"));
+		}
+		List<FeedVO> feedList = feedService.getAllFeedList();
+		model.addAttribute("feedList", feedList);
 		return "challenge/feed/list";
 	}
 	

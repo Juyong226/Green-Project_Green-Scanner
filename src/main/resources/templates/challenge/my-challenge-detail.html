@@ -10,6 +10,7 @@
 			<td>챌린지 이름: </td>
 			<td th:text="${personalChallenge.challengeName}"></td>
 			<td><a
+				th:if="${personalChallenge.isCompleted} == 0"
 				th:data-cNum="${personalChallenge.challengeNum}"
 				onclick="return fn_feed_duplicate_check(this.getAttribute('data-cNum'))" 
 				th:href="@{/challenge/feed/{challengeNum}/set (challengeNum = ${personalChallenge.challengeNum})}">

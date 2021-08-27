@@ -6,7 +6,10 @@
 	<div th:replace="/fragments/common.html :: back('/index.html')"></div>
 
 	<div>
-		<div><p>마이 챌린지</p><hr></div>
+		<div>
+			<p>챌린지</p>&nbsp;&nbsp;&nbsp;
+			<p><a th:href="@{/challenge/feed/}">모든 피드 보기</a></p><hr>
+		</div>
 		<!-- 로그인 하지 않았을 때 -->
 		<div th:if="${login_required}">		
 			<div style="width=100%; height=20vh;">

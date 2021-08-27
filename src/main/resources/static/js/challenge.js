@@ -10,8 +10,8 @@
  			history.back();
  			
  		} 
- 	});	
- 	
+ 	});
+ 		
  });
  
 function fn_duplicate_check(code) {
@@ -61,6 +61,45 @@ function fn_duplicate_check(code) {
  	});
  	return result;
  	
+ }
+ 
+  function fn_comment_write_confirm() {
+ 	let content = $("#cmt-txtarea").val();
+ 	if(content == "") {
+ 		alert("댓글 내용을 입력해주세요.");
+ 		return false;
+ 	} else {
+ 		if(confirm("댓글을 등록하시겠습니까?")) {
+ 			return true;
+ 		} else {
+ 			return false;
+ 		}
+ 	}
+ }
+ 
+ function fn_comment_update_confirm(index) {
+ 	let content = $("#cmt-update-txtarea-" + index).val();
+ 	if(content == "") {
+ 		alert("댓글 내용을 입력해주세요.");
+ 		return false;
+ 	} else {
+ 		if(confirm("댓글을 수정하시겠습니까?")) {
+ 			return true;
+ 		} else {
+ 			return false;
+ 		}
+ 	}
+ }
+ 
+ function fn_cmt_delete_confirm() {
+ 
+ 	if(confirm("댓글을 삭제하시겠습니까?")) {
+ 		return true;
+ 		
+ 	} else {
+ 		return false;
+ 		
+ 	}
  }
 
  function fn_edit_confirm(challengeNum) {

@@ -44,7 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<![CDATA[
 		update feedComment
 		set
-			content = #{contnet},
+			content = #{content},
 			update_time = current_timestamp
 		where
 			idx = #{idx}
