@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="fragments/common :: head('메인 페이지')">
+</head>
+<body>
+	<nav th:replace="fragments/common :: nav"></nav>
+	<!-- Page content-->
+	<div class="listwrap">
+		<div class="container">
+		<br><div class="alert alert-warning" role="alert"><span th:text="${msg}"></span></div>
+				<!-- Blog entries-->
+				
+		</div>
+	</div>
+
+	
+	<!-- Footer-->
+	<footer th:replace="fragments/common :: footer"> </footer>
+	<!-- Bootstrap core JS-->
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

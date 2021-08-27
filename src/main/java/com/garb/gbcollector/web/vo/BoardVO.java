@@ -5,11 +5,11 @@ import java.util.Date;
 public class BoardVO {
 	
 	private int postno, parentno, reply_cnt;
-	private String boardname, title, content, email, nickname, isanon;
+	private String boardname, title, content, email, nickname, isanon, filename;
 	private Date postdate;
 	
 	public BoardVO(int postno, int parentno, String boardname, int reply_cnt,
-			String title, String content, String email, String nickname, Date postdate) {
+			String title, String content, String email, String nickname, Date postdate, String filename) {
 		super();
 		setReply_cnt(reply_cnt);
 		setBoardname(boardname);
@@ -20,7 +20,22 @@ public class BoardVO {
 		setEmail(email);
 		setNickname(nickname);
 		setPostdate(postdate);
+		setFilename(filename);	
 	}
+
+	
+
+	public String getFilename() {
+		return filename;
+	}
+
+
+
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+
+
 
 	public BoardVO() {
 		super();
@@ -41,6 +56,16 @@ public class BoardVO {
 		setContent(content);
 		setBoardname(boardname);
 		setIsanon(isanon);
+	}
+	
+	public BoardVO(String boardname, String title, String nickname, String content, String isanon, String filename) {
+		super();
+		setTitle(title);
+		setNickname(nickname);
+		setContent(content);
+		setBoardname(boardname);
+		setIsanon(isanon);
+		setFilename(filename);
 	}
 	
 	public String getIsanon() {
@@ -106,12 +131,16 @@ public class BoardVO {
 		this.boardname = boardname;
 	}
 
+
+
 	@Override
 	public String toString() {
 		return "BoardVO [postno=" + postno + ", parentno=" + parentno + ", reply_cnt=" + reply_cnt + ", boardname="
 				+ boardname + ", title=" + title + ", content=" + content + ", email=" + email + ", nickname="
-				+ nickname + ", isanon=" + isanon + ", postdate=" + postdate + "]";
+				+ nickname + ", isanon=" + isanon + ", filename=" + filename + ", postdate=" + postdate + "]";
 	}
+
+
 
 
 }
