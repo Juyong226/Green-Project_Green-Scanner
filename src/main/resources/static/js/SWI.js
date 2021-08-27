@@ -73,7 +73,7 @@ $(document).ready(function() {
 	   	var detectedImg;
 	   	$('#loading').show();
 	   	// 서버로 base64 데이터를 보내 이미지 분석을 요청 
-		$.post('https://52.205.219.113:8080/swi',
+		$.post('https://greenscanner.org:8888/swi',
 				JSON.stringify(userImgData),
 				function(data, status){
 		            var obj = JSON.parse(data);
