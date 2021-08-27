@@ -1,9 +1,5 @@
 $(document).ready(function(){
-	let weatherIcon={
-			'01':'fas fa-sun',
-			'02':'fas fa-cloud-sun',
-			'03':'fas fa-cloud'
-	}
+
 	$.ajax({
 		url:'https://api.openweathermap.org/data/2.5/weather?q=seoul&appid=bd4e8036ff9ebd78f21ba7b838d9934e&units=metric',
 		dataType:'json',

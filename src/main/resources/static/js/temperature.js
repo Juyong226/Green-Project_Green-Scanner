@@ -60,8 +60,7 @@ $(document).ready(function(){
 				
 				
 					
-	
-	
+		
 	
 
 	

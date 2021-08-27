@@ -29,7 +29,7 @@ public class TemperatureController {
 
 	@Autowired
 	TemperatureService temperatureService;
-	
+
 	@RequestMapping(value = "showTemperature.do", 
 					method = {RequestMethod.POST }, 
 					produces = "application/text; charset=utf8")
