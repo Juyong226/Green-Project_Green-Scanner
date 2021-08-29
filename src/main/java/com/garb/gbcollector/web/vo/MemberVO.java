@@ -8,11 +8,17 @@ import com.garb.gbcollector.util.GbcException;
 
 public class MemberVO {
 	private String mememail, mempw, memname, memnickname;
+	private Integer navermemid;
 	private Date memdate;
 	
 	public MemberVO() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+	
+	public MemberVO(Integer navermemid) throws GbcException {
+		super();
+		setNavermemid(navermemid);
 	}
 
 	public MemberVO(String memnickname) throws GbcException {
@@ -26,6 +32,15 @@ public class MemberVO {
 		setMempw(mempw);
 	}
 	
+	public MemberVO(String mememail, String mempw, String memname, String memnickname, Integer navermemid) throws GbcException {
+		super();
+		setMememail(mememail);
+		setMempw(mempw);
+		setMemname(memname);
+		setMemnickname(memnickname);
+		setNavermemid(navermemid);
+	}
+	
 	public MemberVO(String mememail, String mempw, String memname, String memnickname) throws GbcException {
 		super();
 		setMememail(mememail);
@@ -34,6 +49,7 @@ public class MemberVO {
 		setMemnickname(memnickname);
 	}
 	
+	
 	public MemberVO(String mememail, String mempw, String memname, String memnickname, Date memdate) throws GbcException {
 		super();
 		setMememail(mememail);
@@ -41,6 +57,15 @@ public class MemberVO {
 		setMemname(memname);
 		setMemnickname(memnickname);
 		setMemdate(memdate);
+	}
+	
+	
+	public Integer getNavermemid() {
+		return navermemid;
+	}
+	
+	public void setNavermemid(Integer navermemid) {
+		this.navermemid = navermemid;
 	}
 
 	public String getMememail() {

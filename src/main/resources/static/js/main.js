@@ -1,29 +1,4 @@
-
-
-$(document).ready(function(){
-
-	$.post("../boardListB.do", 
-			{},
-			function(data, status){
-				//alert("요청 보냄");
-				var obj = JSON.parse(data); //Json Object를 파싱
-				//자유게시판 화면 처리
-				var postB = obj.postListB; //내용에 해당하는 부분만 postB에 담기 
-				var postB_html = "<div class='mx-3'>"; //화면에 보여줄 postB_html 선언
-				//allpost를 돌면서 각 item의 요소들을 postB_html에 담기, board.xml에서 날짜순으로 내림차순 정렬(order by postdate desc)해 최신순으로 보임 
-//				postB.forEach(function(item){ 
-//					postB_html += '<li><a class="cls1" href="/viewPost?postno='+item.postno+'"style="text-decoration:none; color:black">'+ item.title + '</a></li>';
-//				});
-				
-				for(var i=0; i<5; i++){
-					postB_html += '<img style="width: 7px;" src="../img/nextpageBtn.png" alt="..." ><a class="cls1" href="/viewPost?postno='
-						+ postB[i].postno +'"style="text-decoration:none; color:black"> '
-						+ postB[i].title + '</a><br>';
-				}
-				postB_html += "<br></div>";
-				$("#mainboard").html(postB_html); 
-			});		
-	
+$(function(){
 	var checkEvent = getCookie("Ck_01");
 	// checkEvent == on이면 애니메이션은 하루에 한번만 뜸
 	if(checkEvent == "on") {
@@ -63,6 +38,6 @@ $(document).ready(function(){
 		}
 		return unescape(cValue);
 	}
-});
 
+})
 

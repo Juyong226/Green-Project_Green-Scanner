@@ -1,6 +1,4 @@
-
-
-$(document).ready(function() {
+$(function(){
 	//페이지를 새로고침하거나 다른 링크로 옮겨가면서 새로 페이지가 로드되면,
 	//쿠키와 세션을 확인하여 아직 로그인 상태가 유효한 지 체크하고,
 	//세션이 만료된 경우 쿠키를 삭제함으로써 재로그인을 유도
@@ -53,46 +51,24 @@ $(document).ready(function() {
 					  	//sample_index의 script가 참고되지 않아서 그런지 class나 ara-current에서 오류가 나기 때문입니다.
 					  	//때문에 콘솔창에서 에러가 안나는대로 쪼개서 넣느라 이런 모양이 되었습니다.
 						 var nickname = obj.memnickname;
-						 /*
-						 var html="<a style='color:white;'";
-                         
-						 html+=" class=";
-                         html+="'nav-link'"
-                         html+=" aria-current=";
-						 html+="'page'";
-						 html+=" href='#'>";
-						 nickname+="</a>";	 
-						 html+=nickname;
-						 var logoutBtn="<input type='button' value='logout' id='logoutBtn' class='btn btn-warning' margin-right='5px'>";
-						 */
+	
 						 var nick='<a style="color:white;" class="nav-link" href="#" aria-disabled="true">'
 							 + nickname
 							 + '</a>';
 						 var logout='<li id="logoutBtn" class="nav-item"><a style="color:white;" class="nav-link" href="#" aria-disabled="true">로그아웃</a></li>';
 						 
 						 var blankspace="";
-						 //jquery에서 쿠키를 지정하는 방법입니다. expires:숫자  의 숫자는 일단위 입니다. 즉 1은 하루라는 뜻입니다.
-						 //쿠키를 생성 시 같은 path를 지정해 주었기 때문에 삭제 시에도 path를 명시해 주어야 함
-						 //삭제 시 path를 명시하지 않을 경우, 쿠키를 삭제하려는 위치가 '/'가 아닌 '/html/trashCan.html' 등에서는 삭제를 할 수 없음
-						 
-						 $("#loginBlankDiv1", opener.document).html(blankspace);
-						 $("#loginBlankDiv2", opener.document).html(blankspace);
-						 $("#nicknameDiv", opener.document).html(nickname);
-						 $("#logoutDiv", opener.document).html(logout);
 						 
 						 $.cookie("logined", nick, {expires: 1, path: '/' });
 						 $.cookie("blanked", blankspace, {expires: 1, path: '/' });
 						 $.cookie("logouted", logout, {expires: 1, path: '/' });
 						 //현재 이 팝업창은 자식창입니다. 이 코드는 이 자식창이 열린 부모창의 nicknameDiv에 값을 넣는 코드입니다.
 						 
-
-//						 window.opener.document.getElementById("loginBlankDiv1").innerHTML=blankspace;
-//						 window.opener.document.getElementById("loginBlankDiv2").innerHTML=blankspace;
-//						 window.opener.document.getElementById("nicknameDiv").innerHTML=html;
-//						 window.opener.document.getElementById("logoutDiv").innerHTML=logoutBtn; 
-						 window.close();
+						 location.replace("https://localhost/")
+						 
+//						 window.close();
 						 //로그인 완료되면 자식 창 닫은 뒤 부모 창 리로드
-						 window.opener.location.reload();
+//						 window.opener.location.reload();
 						 
 					} else if(obj.failed) {
 						alert('입력하신 정보와 일치하는 회원이 없습니다.\n이메일과 비밀번호를 다시 확인해주세요.');
@@ -131,4 +107,4 @@ $(document).ready(function() {
 			fn_checkSession();
 		}
 	}
-});
+})

@@ -1,8 +1,10 @@
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+<!-- NAVER API -->
+<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
  <!-- jQuery library -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 <!-- 여기서도 쿠키를 써서 부모창에 쿠키를 전해주어야 하기에 여기에도 쿠키라이브러리를 추가해야 합니다. -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 <script type="text/javascript" src="../js/login.js"></script>
@@ -36,9 +38,11 @@
 			    	</fieldset>
 			      	
                     <h4 style="text-align: center">OR</h4>
-                    <input class="btn btn-lg btn-facebook btn-block" type="submit" value="네이버 아이디로 로그인">
+                        <!-- 네이버아이디로로그인 버튼 노출 영역 -->
+						<div id="naver_id_login"></div>
 			    </div>
 			</div>
 		</div>
 	</div>
 </div>
+<script type="text/javascript" src="../js/naver.js"></script>
