@@ -21,7 +21,7 @@ $(document).ready(function() {
 		if (!user) {
 			alert("로그인 후 글을 작성하실 수 있습니다.");
 		} else {
-			location.href = "/board/write";
+			location.href = "/qna/write";
 		}
 	});
 });
@@ -50,7 +50,6 @@ function writePost() {
 		return false;
 	}
 }
-
 
 $(document).ready(function(){
 
@@ -103,7 +102,6 @@ imgTarget.on('change', function(){
           img[0].style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(enable='true',sizingMethod='scale',src=\""+imgSrc+"\")";        
      }
 });
-
 
 /*function deleteComment(reno, postno){
 	if(confirm("댓글을 삭제하시겠습니까?")){

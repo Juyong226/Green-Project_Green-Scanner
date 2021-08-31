@@ -1,15 +1,44 @@
 <!DOCTYPE html>
 <html>
-<head th:replace="fragments/common :: head('자유게시판')">
+<head th:replace="fragments/board_head :: head('자유게시판')">
 <body>
-<nav th:replace="fragments/common :: nav"></nav>
-<div class="mx-3 my-2">
+	<div class="Title">
+		<label class="Title_text" th:text="${boardname}"></label>
+		<div class="Vector_13"></div>
+	</div>
+	<div class="Section">
+	<input id = "sessionNickname" type="hidden" th:value="${session.memnickname}"/>
+		<span class="Section_title_1" th:text="${boardname}"></span>
+		<button class="Btn_write" id="writeBtn">글쓰기</button>
+		<div class="ContentBox" th:each="board:${boards}">
+			<a class="link" id="index" th:attrappend="id=${boardStat.index}"
+				name="postno" th:href="@{/board/viewpost(postno=${board.postno})}">
+				<div class="Post_title" th:text="${board.title}"></div>
+				<div class="Post_content" th:text="${board.content}"></div>
+				<div class="Post_etc">
+					<div class="Nickname">
+						<img class="img_16" src="../img/board/User.png"> <label
+							class="text" th:if="${board.isanon} == 0"
+							th:text="${board.nickname}"></label> <label class="text"
+							th:if="${board.isanon} == 1">익명</label>
+					</div>
+					<div class="Comments">
+						<img class="img_16" src="../img/board/Comment.png"> <label
+							class="text" th:text="${board.reply_cnt}"></label>
+					</div>
+					<div class="Post_date"
+						th:text="${#dates.format(board.postdate, 'yyyy-MM-dd HH시 mm분')}"></div>
+				</div>
+			</a>
+		</div>
+	</div>
+	<!-- <div class="mx-3 my-2">
 </div>
-<!-- Bulletin board Div -->
+Bulletin board Div
 <div class="img-rounded img-thumbnail mx-3 mb-3 p-0">
 <input id = "sessionNickname" type="hidden" th:value="${session.memnickname}"/>
 	<input style="float:right; margin-top:10px; margin-right: 10px; background-color: #5CAB7D; border-color: #5CAB7D;" type="button" id="writeBtn" value="글쓰기" class="btn btn-success">
-	<!-- 전체게시판조회 페이지로 이동/게시판 제목 -->
+	전체게시판조회 페이지로 이동/게시판 제목
 	<div class= "board-font my-2" style="font-family:NanumBarunGothic">
 		<a class="navbar-brand" href="/board/boardlist" style="text-decoration:none;">
 		<img src="../img/back.png" alt="..." style="width: 20px; height:20px; margin-left:5px" >
@@ -33,8 +62,6 @@
 		</div>
 	</div>	
 </div>
-<br><br>
-
-
+<br><br> -->
 </body>
 </html>

@@ -1,13 +1,67 @@
 <!DOCTYPE html>
 <html>
-<head th:replace="fragments/common :: head('수정하기')">
+<head th:replace="fragments/board_head :: head('글쓰기')">
 </head>
 <body>
-	<nav th:replace="fragments/common :: nav"></nav>
 
-<form action="/board/updatePostSave" method="post" enctype="multipart/form-data" onsubmit="return writePost();">
+	<div class="Title">
+		<label class="Title_text">글쓰기</label>
+		<div class="Vector_13"></div>
+	</div>
+	<form action="/board/updatePostSave" method="post" enctype="multipart/form-data" onsubmit="return writePost();">
+		<div class="Write_form">
+
+			<div class="Post_title">
+				<div class="write_label">제목</div>
+				<input th:value="${post.title}" type="text" class="input_title" name="title" id="title"
+					placeholder="제목을 입력해주세요.">
+			</div>
+			<div class="Post_boardType">
+				<div class="write_label">게시판 구분</div>
+				<div class="">
+					<select class="select_boardType" name="boardname" id="boardname">
+						<option class="select_boardType" value="자유게시판">자유게시판</option>
+						<option class="select_boardType" value="질문게시판">질문게시판</option>
+					</select>
+				</div>
+			</div>
+			<div class="Post_anonymous">
+				<input class="input_checkbox" type="checkbox" name="isanon"
+					th:if="${post.isanon} == 1" value="1" checked="checked">
+					<input class="input_checkbox" type="checkbox" name="isanon"
+					th:if="${post.isanon} == 0" value="0">
+					<label class="write_label">익명</label>
+			</div>
+			<div class="Post_content">
+				<div class="write_label">내용</div>
+				<textarea th:text="${post.content}" name="content" id="content" class="input_content"
+					placeholder="내용을 입력해주세요"></textarea>
+			</div>
+			<div class="Post_file">
+				<div class="file-upload preview-image">
+					<label for="input" ><img src="../img/board/Insert-photo.png"></label>
+					<input  type="text" class="upload-name" disabled="disabled">
+					<input accept="image/*" type="file"  name=file id="input" th:text="${post.filename}"
+						class="upload-hidden">
+						<input type="hidden" id="orgFile" name="orgFile" th:value="${post.filename}" />
+				</div>
+			</div>
+			<div class="Btn_group">
+				<input type="hidden" name="_csrf" th:value="${token}"> 
+				<input type="hidden" name= "postno" th:value="${post.postno}"></input>
+				<input type="button" class="Btn_cancle" id="cancleBtn" value="취소">
+				<input type="submit" class="Btn_submit" id="registerPostBtn" value="등록"> 
+			</div>
+
+
+		</div>
+	</form>
+
+
+	<!-- <!-- board.js에서 제목/내용 null 체크 후 form 전송
+<form action="/board/write" method="post" enctype="multipart/form-data" onsubmit="return writePost();">
 	<div class="board-font" style="padding: 20px;">
-		<!-- 게시판구분 -->
+		게시판구분
 		<div class="form-group">
 			<label for="title" class="col-sm-2 control-label" style="font-size:14px; font-weight: bold">게시판구분</label><br>
 			<div class="col-sm-10 my-2">
@@ -17,47 +71,96 @@
 			</select>
 			</div>
 		</div>
-		<!-- 제목 -->
+		제목
 		<div class="form-group my-3">
 			<label for="title" class="col-sm-2 control-label" style="font-size:14px; font-weight: bold">제목</label><br>
 			<div>
-			<input th:value="${post.title}" type="text" name = "title" id="title" style="width:100%" class="form-control" placeholder="제목을 입력해 주세요." />
+			<input type="text" name = "title" id="title" style="width:100%" class="form-control" placeholder="제목을 입력해주세요." />
 			</div>
 		</div>
-		<!-- 익명여부 -->
+		익명여부
 		<div class="form-group my-3">
-			<label style="font-size:14px; font-weight: bold">익명</label> 
-			<input type="checkbox" name="isanon" th:if="${post.isanon} == 1" value="1" checked="checked">
-			<input type="checkbox" name="isanon" th:if="${post.isanon} == 0" value="0">
+			<label style="font-size:14px; font-weight: bold">익명</label> <input type="checkbox" name="isanon" value="1">
 		</div>
-		<!-- 내용 -->
+		<div class="form-group my-3">
+			<label style="font-size:14px; font-weight: bold">닉네임</label> <input type="text" style="width:100%" class="form-control" name="nickname">
+		</div>
+		내용
 		<div class="form-group my-3" >
 			<label for="content" class="col-sm-2 control-label" style="font-size:14px; font-weight: bold">내용</label><br>
 			<div>
-				<textarea th:text="${post.content}" name = "content" id="content" style="width:100%" class="form-control" placeholder="내용을 입력해 주세요."></textarea>
+				<textarea name = "content" id="content" style="width:100%" class="form-control" placeholder="내용을 입력해주세요."></textarea>
 			</div>
 		</div>
-		
-		<!-- 파일 업로드 -->
+		파일 업로드
 		<div class="form-group my-3">
 			<label for="file" class="col-sm-2 control-label" style="font-size:14px; font-weight: bold">파일 업로드</label><br>
 			<div>
-				<input type="file" accept = "image/*" id="file" name="file" class="form-control" th:text="${post.filename}" />
-				<input type="hidden" id="orgFile" name="orgFile" th:value="${post.filename}" />
+				<input type="file" accept = "image/*" id="file" name="file" class="form-control" />
 			</div>
 		
 		
 		</div>
 		
-		<!-- 등록/취소 버튼 -->
+		
+		
+		등록/취소 버튼
 		<div class="text-center">
+			요청 검증 토큰
 			<input type="hidden" name="_csrf" th:value="${token}">
-			<input type="hidden" name= "postno" th:value="${post.postno}"></input>
 			<input type="submit" class="btn btn-success waves-effect waves-light" id="registerPostBtn" value="등록" style="background-color: #5CAB7D; border-color: #5CAB7D">
 			<input type="button" class="btn btn-light waves-effect waves-light" id="cancleBtn" value="취소">	
 		</div><br><br>
 	
 	</div>
-</form>
+</form> -->
+
+
+
+	<!-- 	<div class="viewwrap">    
+    	<div class="content">
+			<div class="articlewrap">
+		<h2>새글 쓰기</h2>
+
+		<form action="/board/write" method="post" >
+			<table class="boardWrite">
+				<thead>
+					<tr>
+						<th><label for="boardname">게시판 선택</label></th>
+						<td>
+						<input type="text" id="boardname" name="boardname" class="form-control" size="70" />
+						</td>
+					</tr>
+					<tr>
+						<th><label for="title">제목</label></th>
+						<td>
+							<input type="text" id="subject" name="title" class="form-control" size="70" />
+						</td>
+					</tr>
+					<tr>
+						<th><label for="nickname">작성자</label></th>
+						<td>
+							<input type="text" id="nickname" name="nickname" class="form-control" size="70" />
+						</td>
+					</tr>
+					<tr>
+						<th><label for="content" >내용</label></th>
+						<td><textarea class="form-control" id="content" name="content" rows="3"></textarea>
+						</td>
+					</tr>
+					
+				</thead>
+			</table>
+					토큰
+					<input type="reset" class="btn btn-warning" value="재작성"></input>
+					<input type="submit" class="btn btn-success" value="작성완료"></input>
+	  		    	<input type="button" class="btn btn-secondary" onclick="location.href='/board/boardlist'" value="뒤로 가기"/>
+			</form>
+
+	</div>
+	</div>
+	</div> -->
+
+
 </body>
 </html>

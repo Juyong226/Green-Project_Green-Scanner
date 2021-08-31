@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
-<head th:replace="fragments/board_head :: head('상세보기')">
+<head th:replace="fragments/qna_head :: qna_head('상세보기')">
 <body>
 	<div class="main">
 		<div class="Title_section">
-			<label class="Title_text" th:text="${post.boardname}"></label>
+			<label class="Title_text">FAQ</label>
 			<div class="Vector_13"></div>
 		</div>
 		<div class="Post_section">
@@ -18,21 +18,21 @@
 				<div class="Title_div" th:text="${post.title}"></div>
 				<div class="Img_div" th:if="${post.filename}">
 					<img class="img_100"
-						th:src="@{'/board/display?filename='+${post.filename}}">
+						th:src="@{'/qna/display?filename='+${post.filename}}">
 				</div>
 				<div class="Content_div" th:text="${post.content}"></div>
 				<div class="Etc_wrap">
 					<div class="Edit_div">
 						<div class="ModifyPost_div">
 							<form th:if="${login_nickname == post.nickname}"
-								action="/board/updatePost" method="get">
+								action="/qna/updatePost" method="get">
 								<input type="hidden" name="postno" th:value="${post.postno}">
 								<input class="ModifyPost_btn" type="submit" value="수정" />
 							</form>
 						</div>
 						<div class="DeletePost_div">
 							<form th:if="${login_nickname == post.nickname}"
-								action="/board/deletePost" method="post"
+								action="/qna/deletePost" method="post"
 								onsubmit="return DeletePost();">
 								<input type="hidden" name="_csrf" th:value="${token}"> <input
 									type="hidden" name="postno" th:value="${post.postno}">
@@ -90,7 +90,7 @@
 							</div> -->
 							<!-- 댓글 삭제 시 board.js => DeleteComment함수에서 확인 후 삭제 처리 -->
 							<div class="Comment_delete_Btn inline_block">
-								<form name="deleteForm" action="/board/deleteReply"
+								<form name="deleteForm" action="deleteReply"
 									method="post" onsubmit="return DeleteComment();">
 									<input id="reno" type="hidden" name="reno"
 										th:value=${comment.reno}> <input type="hidden"
@@ -108,14 +108,10 @@
 				</div>
 			</div>
 			<div class="Back_to_menu">
-				<a th:if="${post.boardname=='자유게시판'}"
-					href="/board/bulletin_boardlist" id="board"
-					class="text_decoration_none"><label
-						class="Back_to_menu_text">목록으로 돌아가기</label></a>
-						<a
-					th:if="${post.boardname=='질문게시판'}" href="/board/question_boardlist"
-					id="board" class="text_decoration_none"><label
-						class="Back_to_menu_text">목록으로 돌아가기</label></a>
+				<a 
+					href="/qna" id="board"
+					class="text_decoration_none"><label class="Back_to_menu_text">목록으로
+						돌아가기</label></a> 
 			</div>
 			<!-- 			<div class="Prev"></div>
 			<div class="Next"></div> -->
@@ -124,28 +120,12 @@
 
 
 	</div>
-
-
-
-
-
-
-
-	<!-- 뒤로가기 버튼/게시판 제목 -->
-	<!-- <div class="board-font my-2" style="font-family: NanumBarunGothic">
-		<a th:if="${post.boardname=='자유게시판'}" href="/board/bulletin_boardlist"
-			id="board" class="navbar-brand" style="text-decoration: none;"> <img
-			src="../img/back.png" alt="..."
-			style="width: 20px; height: 20px; margin-left: 5px"> <label
-			id="board_name" th:text="${post.boardname}"
-			style="font-size: 20px; font-weight: bold; padding: 30px, 30px, 2px, 30px; margin-top: 10px; margin-left: 5px; color: #5A9367"></label>
-		</a> <a th:if="${post.boardname=='질문게시판'}"
-			href="/board/question_boardlist" id="board" class="navbar-brand"
-			style="text-decoration: none;"> <img src="../img/back.png"
-			alt="..." style="width: 20px; height: 20px; margin-left: 5px">
-			<label id="board_name" th:text="${post.boardname}"
-			style="font-size: 20px; font-weight: bold; padding: 30px, 30px, 2px, 30px; margin-top: 10px; margin-left: 5px; color: #5A9367"></label>
-		</a> <br>
+<!-- 	<!-- <!-- 뒤로가기 버튼/게시판 제목 -->
+<!-- 	<div class="board-font my-2" style="font-family: NanumBarunGothic">
+		<a class="navbar-brand" href="#" style="text-decoration: none;"> <label
+			style="font-size: 20px; font-weight: bold; padding: 30px, 30px, 2px, 30px; margin-top: 10px; margin-left: 5px; color: #5A9367">[QnA
+				게시판]</label>
+		</a>
 	</div>
 	글이 보이는 곳
 	<div class="postArea board-font"
@@ -171,7 +151,7 @@
 		board/display 요청 결과 ResponseEntity 객체가 리턴됨
 		<div th:if="${post.filename}">
 			<img class="image"
-				th:src="@{'/board/display?filename='+${post.filename}}" width="100%">
+				th:src="@{'/qna/display?filename='+${post.filename}}" width="100%">
 		</div>
 
 
@@ -189,7 +169,7 @@
 				<tr align="right">
 					<td><form th:if="${login_nickname == post.nickname}"
 							style="float: right; margin-right: 10px;"
-							action="/board/updatePost" method="get">
+							action="/qna/updatePost" method="get">
 							<input type="hidden" name="postno" th:value="${post.postno}">
 							<input type="submit"
 								style="background-color: transparent; border: 0px transparent solid; color: #adb5bd;"
@@ -197,7 +177,7 @@
 						</form></td>
 					게시물 삭제 시 board.js => DeletePost함수에서 확인 후 삭제 처리
 					<td><form th:if="${login_nickname == post.nickname}"
-							style="float: right;" action="/board/deletePost" method="post"
+							style="float: right;" action="/qna/deletePost" method="post"
 							onsubmit="return DeletePost();">
 							<input type="hidden" name="_csrf" th:value="${token}"> <input
 								type="hidden" name="postno" th:value="${post.postno}"> <input
@@ -221,6 +201,7 @@
 	<br />
 	<br />
 	<br /> -->
-
 </body>
+<link rel="stylesheet" href="../css/boardView.css">
+<link rel="stylesheet" href="../css/styles.css">
 </html>
