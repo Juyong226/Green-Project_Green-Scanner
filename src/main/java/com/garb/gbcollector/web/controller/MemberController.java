@@ -70,6 +70,10 @@ public class MemberController {
 	public String checkSession(HttpServletRequest request, HttpServletResponse response) {
 		JSONObject resJson = new JSONObject();
 		HttpSession session = request.getSession(false);
+		String memnickname = (String)session.getAttribute("memnickname");
+		
+		System.out.println(memnickname+"session의 닉네임");
+		
 		//세션이 만료되었을 경우 다시 로그인 해달라는 메세지를 리턴
 		if(session == null || session.getAttribute("member") == null) {
 			resJson.put("sessionNull", "로그아웃 되었습니다.\n다시 로그인 해주세요.");			
@@ -123,8 +127,6 @@ public class MemberController {
 				session.setAttribute("memnickname", memnickname);
 				loginjson.put("memnickname", memnickname);
 				System.out.println(memnickname);
-				System.out.println(session);
-				System.out.println(session.getAttribute("member"));
 			} else {
 				loginjson.put("failed","회원 정보 없음");
 			}

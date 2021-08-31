@@ -4,6 +4,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.garb.gbcollector.web.dao.MemberDAO">
+
+
+		<!-- naverlogin -->
+		<select id="naverlogin" resultType="String" parameterType="memberVO">
+			<![CDATA[
+				select nickname from member where navermemid = #{navermemid}
+			]]>
+		</select>
+
+
+		<!-- naver  회원가입 -->
+		<insert id="navermemberInsert" parameterType="memberVO">
+			<![CDATA[
+			insert into member(email,password,name,nickname,navermemid)
+			values(#{mememail},PACK_ENCRYPTION_DECRYPTION.FUNC_ENCRYPT(#{mempw}),#{memname},#{memnickname},#{navermemid})
+			]]>
+		</insert>
+
+
+		<!-- 네이버  체크 -->
+		<select id="naverIdChk" resultType="int" parameterType="memberVO">
+			<![CDATA[
+				select count(*) from member where navermemid =#{navermemid}
+			]]>
+		</select>
+		
 		<!-- 이메일 중복 체크 -->
 		<select id="emailChk" resultType="int" parameterType="memberVO">
 			<![CDATA[
