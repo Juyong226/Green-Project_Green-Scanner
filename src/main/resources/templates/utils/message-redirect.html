@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>알림</title>
+	
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+	<form 
+		th:if="${not #maps.isEmpty(params)}"
+		name="dataForm"
+		th:action="${redirectURI}"
+		th:method="${method}"
+		style="display: none">
+		<input 
+			th:each="key, status : ${params.keySet()}"
+			type="hidden"
+			th:name="${key}"
+			th:value="${params.get(key)}">
+	</form>
+	
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		window.onload = function() {
+			var message = /*[[ ${message} ]]*/;
+			if(message != null && message != "") {
+				alert(message);
+			}
+			
+			var params = /*[[ ${params} ]]*/;
+			if(params != null) {
+				document.dataForm.submit();
+			} else {
+				var redirectURI = /*[[ ${redirectURI} ]]*/
+				location.href = redirectURI;
+			}
+		}
+		/*]]>*/
+	</script>
+</body>
+</html>

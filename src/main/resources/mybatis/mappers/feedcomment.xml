@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.garb.gbcollector.web.dao.FeedCommentDAO">
+
+<resultMap type="FeedCommentVO" id="commentResult">
+	<result property="idx" column="idx"/>
+	<result property="feedNo" column="feed_no"/>
+	<result property="content" column="content"/>
+	<result property="writer" column="writer"/>
+	<result property="deleteYn" column="delete_yn"/>
+	<result property="insertTime" column="insert_time"/>
+	<result property="updateTime" column="update_time"/>
+	<result property="deleteTime" column="delete_time"/>
+	<result property="cClass" column="c_class"/>
+	<result property="cOrder" column="c_order"/>
+	<result property="cGroup" column="c_group"/>
+</resultMap>
+
+<insert id="insertComment" parameterType="FeedCommentVO">
+	<![CDATA[
+		insert into feedComment (
+			feed_no,
+			content,
+			writer
+		) values (
+			#{feedNo},
+			#{content},
+			#{writer}
+		)
+	]]>
+</insert>
+
+<select id="selectCommentDetail" parameterType="int" resultMap="commentResult">
+	<![CDATA[
+		select * from feedComment
+		where delete_yn = 'N' and idx = #{idx}
+	]]>
+</select>
+
+<update id="updateComment" parameterType="FeedCommentVO">
+	<![CDATA[
+		update feedComment
+		set
+			content = #{content},
+			update_time = current_timestamp
+		where
+			idx = #{idx}
+	]]>
+</update>
+
+<update id="deleteComment" parameterType="int">
+	<![CDATA[
+		update feedComment
+		set
+			delete_yn = 'Y',
+			delete_time = current_timestamp
+		where
+			idx = #{idx}
+	]]>
+</update>
+
+<select id="selectCommentPreview" parameterType="FeedCommentVO" resultMap="commentResult">
+	<![CDATA[
+		select * from feedComment
+		where 
+			delete_yn = 'N' 
+		and feed_no = #{feedNo}
+		and rownum <= 2
+		order by idx desc, insert_time desc		
+	]]>
+</select>
+
+<select id="selectCommentList" parameterType="FeedCommentVO" resultMap="commentResult">
+	<![CDATA[		
+		select * from feedComment
+		where 
+			delete_yn = 'N' 
+		and feed_no = #{feedNo}
+		order by idx desc, insert_time desc			
+	]]>
+</select>
+
+<select id="selectCommentTotalCount" parameterType="FeedCommentVO" resultType="int">
+	<![CDATA[
+		select count(*) from feedComment
+		where delete_yn = 'N' and feed_no = #{feedNo}
+	]]>
+</select>
+
+</mapper>

@@ -9,9 +9,10 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="mybatis/mappers/garbage.xml" />
 		<mapper resource="mybatis/mappers/trashcan.xml" />
 		<mapper resource="mybatis/mappers/zerowasteshop.xml" />
-		<mapper resource="mybatis/mappers/member.xml" />
 		<mapper resource="mybatis/mappers/board.xml" />
 		<mapper resource="mybatis/mappers/challenge.xml"/>
 		<mapper resource="mybatis/mappers/qnaboard.xml" />
+		<mapper resource="mybatis/mappers/feed.xml"/>
+		<mapper resource="mybatis/mappers/feedcomment.xml"/>
 	</mappers>
 </configuration>
