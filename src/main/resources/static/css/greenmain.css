@@ -1,0 +1,586 @@
+@charset "UTF-8";
+@import
+	url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap')
+	;
+
+@font-face {
+	font-family: 'Gmarket Sans';
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff')
+		format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+/* 데스크탑 브라우저 가로 */
+@media screen and (min-width:512px) {
+	.Header {
+		position: flex;
+		width: 100%;
+		height: 432px;
+		left: 0px;
+		top: 0px;
+	}
+	.Header .Component_Header {
+		position: absolute;
+		height: 96px;
+		left: 0px;
+		right: 0px;
+		top: 0px;
+	}
+	.GreenScanner {
+		position: absolute;
+		width: 199px;
+		height: 29px;
+		left: calc(50% - 199px/ 2 - 497.5px);
+		top: calc(50% - 29px/ 2 + 0.5px);
+		font-family: Permanent Marker;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 24px;
+		line-height: 120%;
+		/* identical to box height, or 29px */
+		/* Gray/10 */
+		color: #181919;
+	}
+	.Header .Component_Header .Element_1 {
+		display: flex;
+		flex-direction: row;
+		align-items: flex-start;
+		padding: 0px;
+		position: absolute;
+		width: 52px;
+		height: 95px;
+		left: calc(50% - 52px/ 2 + 190px);
+		top: calc(50% - 95px/ 2 - 0.5px);
+	}
+	.Header .Component_Header .Element_2 {
+		display: flex;
+		flex-direction: row;
+		align-items: flex-start;
+		padding: 0px;
+		position: absolute;
+		width: 70px;
+		height: 95px;
+		left: calc(50% - 70px/ 2 + 269px);
+		top: calc(50% - 95px/ 2 - 0.5px);
+	}
+	.Header .Component_Header .Element_3 {
+		display: flex;
+		flex-direction: row;
+		align-items: flex-start;
+		padding: 0px;
+		position: absolute;
+		width: 70px;
+		height: 95px;
+		left: calc(50% - 70px/ 2 + 356px);
+		top: calc(50% - 95px/ 2 - 0.5px);
+	}
+	.Header .Component_Header .Element_4 {
+		display: flex;
+		flex-direction: row;
+		align-items: flex-start;
+		padding: 0px;
+		position: absolute;
+		width: 42px;
+		height: 95px;
+		left: calc(50% - 42px/ 2 + 428px);
+		top: calc(50% - 95px/ 2 - 0.5px);
+	}
+	.Header .Component_Header .Element_5 {
+		display: flex;
+		flex-direction: row;
+		align-items: flex-start;
+		padding: 0px;
+		position: absolute;
+		width: 139px;
+		height: 95px;
+		left: calc(50% - 139px/ 2 + 534.5px);
+		top: calc(50% - 95px/ 2 - 0.5px);
+	}
+	.text_1, .text_2, .text_3, .text_3, .text_4, .text_5 {
+		font-family: 'Gmarket Sans';
+		display: flex;
+		flex-direction: row;
+		align-items: flex-start;
+		padding: 37px 0px;
+		position: static;
+		left: 0%;
+		right: 0%;
+		top: 0%;
+		bottom: -6.32%;
+		/* Inside Auto Layout */
+		flex: none;
+		order: 0;
+		flex-grow: 0;
+		margin: 0px 10px;
+	}
+	.Rectangle_88 {
+		position: flex;
+		left: 0%;
+		right: 0%;
+		top: 0%;
+		bottom: 0%;
+	}
+	.Rectangle_89 {
+		position: absolute;
+		left: 0%;
+		right: 0%;
+		top: 100%;
+		bottom: -1.04%;
+		/* Main */
+		background: #4CBD73;
+		transform: matrix(1, 0, 0, 0, 0); 
+	}
+
+	/* 바로가기 */
+	.Header .Component_BookMark {
+		position: absolute;
+		width: 173px;
+		height: 336px;
+		left: 1409px;
+		top: 96px;
+	}
+	.Header .Component_BookMark .Frame_1 {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		padding: 10px;
+		position: absolute;
+		left: 0%;
+		right: 0%;
+		top: 0%;
+		bottom: 83.33%;
+	}
+	.Header .Component_BookMark .Frame_1 .text_1 {
+		Md - M
+		font-family: Gmarket Sans;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 16px;
+		line-height: 150%;
+		identical to box height, or 24px
+		text-transform: capitalize;
+		color: #000000;
+		Inside Auto Layout
+		flex: none;
+		order: 0;
+		flex-grow: 0;
+		margin: 0px 10px;
+		White
+		background: #FFFFFF;
+	}
+	.Header .Component_BookMark .Frame_2 {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		padding: 10px;
+		position: absolute;
+		left: 0%;
+		right: 0%;
+		top: 16.67%;
+		bottom: 66.67%;
+		White
+		background: #FFFFFF;
+	}
+	.Header .Component_BookMark .Frame_2 .text_2 {
+		Md - M
+		font-family: Gmarket Sans;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 16px;
+		line-height: 150%;
+		identical to box height, or 24px
+		text-transform: capitalize;
+		color: #000000;
+		Inside Auto Layout
+		flex: none;
+		order: 0;
+		flex-grow: 0;
+		margin: 0px 10px;
+	}
+	.Header .Component_BookMark .Frame_3 {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		padding: 10px;
+		position: absolute;
+		left: 0%;
+		right: 0%;
+		top: 33.33%;
+		bottom: 50%;
+		White
+		background: #FFFFFF;
+	}
+	.Header .Component_BookMark .Frame_3 .text_3 {
+		Md - M
+		font-family: Gmarket Sans;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 16px;
+		line-height: 150%;
+		identical to box height, or 24px
+		text-transform: capitalize;
+		color: #000000;
+		Inside Auto Layout
+		flex: none;
+		order: 0;
+		flex-grow: 0;
+		margin: 0px 10px;
+	}
+	.Header .Component_BookMark .Frame_4 {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		padding: 10px;
+		position: absolute;
+		left: 0%;
+		right: 0%;
+		top: 50%;
+		bottom: 33.33%;
+		White
+		background: #FFFFFF;
+	}
+	.Header .Component_BookMark .Frame_4 .text_4 {
+		Md - M
+		font-family: Gmarket Sans;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 16px;
+		line-height: 150%;
+		identical to box height, or 24px
+		text-transform: capitalize;
+		color: #000000;
+		Inside Auto Layout
+		flex: none;
+		order: 0;
+		flex-grow: 0;
+		margin: 0px 10px;
+	}
+	.Header .Component_BookMark .Frame_5 {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		padding: 10px;
+		position: absolute;
+		left: 0%;
+		right: 0%;
+		top: 66.67%;
+		bottom: 16.67%;
+		White
+		background: #FFFFFF;
+	}
+	.Header .Component_BookMark .Frame_5 .text_5 {
+		Md - M
+		font-family: Gmarket Sans;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 16px;
+		line-height: 150%;
+		identical to box height, or 24px
+		text-transform: capitalize;
+		color: #000000;
+		Inside Auto Layout
+		flex: none;
+		order: 0;
+		flex-grow: 0;
+		margin: 0px 10px;
+	}
+	.Header .Component_BookMark .Frame_6 {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		padding: 10px;
+		position: absolute;
+		left: 0%;
+		right: 0%;
+		top: 83.33%;
+		bottom: 0%;
+		White
+		background: #FFFFFF;
+	}
+	.Header .Component_BookMark .Frame_6 .text_6 {
+		Md - M
+		font-family: Gmarket Sans;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 16px;
+		line-height: 150%;
+		identical to box height, or 24px
+		text-transform: capitalize;
+		color: #000000;
+		Inside Auto Layout
+		flex: none;
+		order: 0;
+		flex-grow: 0;
+		margin: 0px 10px;
+	}
+
+	.Feature_1 .text_0 {
+		/* position: flex;
+		height: 134px;
+		left: 18.96%;
+		right: 72.03%;
+		top: 273px; */
+		position : absolute;
+		width : 281px;
+		hight : 51px;
+		left : 363px;
+		top : 80px;
+		
+
+	}
+	.Feature_1 .text_1 {
+		position: absolute;
+		left: 0%;
+		right: 0%;
+		top: 84.51%;
+		bottom: 0%;
+		
+		/* Md - M */
+		font-family: Gmarket Sans;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 16px;
+		line-height: 150%;
+		/* or 24px */
+		text-align: center;
+		text-transform: capitalize;
+		/* Gray/10 */
+		color: #181919;
+	}
+	.Feature_1 .text_2 {
+		position: absolute;
+		height: 134px;
+		left: 29.53%;
+		right: 61.46%;
+		top: 273px;
+	}
+	.Feature_1 .text_3 {
+		position: absolute;
+		left: 0%;
+		right: 0%;
+		top: 84.51%;
+		bottom: 0%;
+		/* Md - M */
+		font-family: Gmarket Sans;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 16px;
+		line-height: 150%;
+		/* or 24px */
+		text-align: center;
+		text-transform: capitalize;
+		/* Gray/10 */
+		color: #181919;
+	}
+	.Feature_1 .text_4 {
+		position: absolute;
+		height: 134px;
+		left: 40.16%;
+		right: 50.83%;
+		top: 273px;
+	}
+	
+	.Rectangle_166 {
+		position: absolute;
+		height: 280px;
+		left: 0px;
+		right: 0px;
+		top: 97px;
+		padding: 60px;
+		background: #EAF8F5;
+		transform: matrix(1, 0, 0, 0, 0);
+	}
+
+	/* 꿀팁 */
+	.slider  {
+		position: absolute;
+		width: 1194px;
+		height: 371px;
+		left: 50px;
+		top: 519px;
+		
+		
+	}
+	
+	.slider .text_0 {
+		position: absolute;
+		width: 184px;
+		height: 51px;
+		left: 363px;
+		top: 519px;
+		
+	}
+	
+	.slider .tip1 img{
+	position: absolute;
+	width: 1000;
+	height:292px;
+	left: clac(5% - 582px/2 + 386px);
+	top: 598px;
+	margin :0 auto;
+	
+	}
+	ider .text2{
+	position: absolute;
+	width: 582px;
+	height:292px;
+	left: clac(5% - 582px/2 + 386px);
+	top: 598px;
+	
+	}
+
+	
+	/* 섹션3 */
+	.Section_3 {
+		position: absolute;
+		width: 786px;
+		height: 247px;
+		left: 363px;
+		top: 954px;
+	}
+		.Rectangle202{
+	position: absolute;
+	width:1000px;
+	height:56px;
+	left:60px;
+	top:1200px;
+	}
+
+	
+	.Rectangle_167 {
+		position: absolute;
+		width: 240px;
+		height: 240px;
+		left: 60px;
+		top: 1250px;
+		background: #FFFFFF;
+		/* Gray/2 */
+		border:1px solid #8F9494;
+		border-radius: 16px;
+	}
+	.Rectangle_167 .imgright{
+	position: absolute;
+	left: 57.89%;
+	right: 10.53%;
+	top: 9.21%;
+	bottom: 59.21%;
+	}
+	.Rectangle_167 .imgleft{
+	position: absolute;
+	left: 15%;
+	right: 56.58%;
+	top: 10.53%;
+	bottom: 75.66%;
+	}
+	.Rectangle_167 .CurrDate{
+	position: absolute;
+	left: 10.53%;
+	right: 53.29%;
+	top: 25%;
+	bottom: 65.13%;
+	}
+	.Rectangle_167 .City{
+	position: absolute;
+	left: 10.53%;
+	right: 53.29%;
+	top: 35%;
+	bottom: 65.13%;
+	}
+	.Rectangle_167 .CurrTemp{
+	position: absolute;
+	left: 10.53%;
+	right: 71.05%;
+	top: 61.84%;
+	bottom: 20.39%;
+	}
+
+	.Rectangle_167 .CurrTemph{
+	position: absolute;
+	left: 51.32%;
+	right: 27.63%;
+	top: 61.84%;
+	bottom: 20.39%;
+	}
+
+	.Rectangle_168 {
+		position: absolute;
+		width: 240px;
+		height: 240px;
+		left: 320px;
+		top: 1250px;
+		background: #FFFFFF;
+		/* Gray/2 */
+		border:1px solid #8F9494;
+		border-radius: 16px;
+	}
+	
+	.Rectangle_168 .imgright{
+	position: absolute;
+	left: 57.89%;
+	right: 10.53%;
+	top: 9.21%;
+	bottom: 59.21%;
+	}
+	.Rectangle_168 .imgleft{
+	position: absolute;
+	left: 15%;
+	right: 56.58%;
+	top: 10.53%;
+	bottom: 75.66%;
+	}
+	.Rectangle_168 .past{
+	position: absolute;
+	left: 10.53%;
+	right: 71.05%;
+	top: 45%;
+	bottom: 20.39%;
+	}
+	.Rectangle_168 .right{
+	position: absolute;
+	left: 115%;
+	right: 10%;
+	top:3px;
+	bottom: 20.39%;
+	height: 240px;
+	border-radius: 16px;
+	}
+	.Section_4 {
+		position: absolute;
+		width: 1194px;
+		height: 349px;
+		left: 363px;
+		top: 1281px;
+	}
+	/* ++ 4 */
+	.cardnews{
+	position: absolute;
+	width: 1800px;
+	height: 349px;
+	left: 60px;
+	top: 1600px;
+	
+	}
+
+
+
+	
+	.Footer {
+		position: absolute;
+		width: 1920px;
+		height: 112px;
+		left: 0px;
+		top: 1710px;
+	}
+}
+
+/* 모바일 */
+@media only screen and (min-device-width : 320px) and (max-device-width
+	: 480px) {
+}

@@ -71,8 +71,8 @@ public class TemperatureController {
 		}
 		
 		if(td_date.compareTo("")!=0) {
-			json.put("최저기온", td_dm2);
-			json.put("최고기온", td_dm1);
+			json.put("최저", td_dm2);
+			json.put("최고", td_dm1);
 			json.put("Date",td_date);
 			if(!todayList.isEmpty()) {
 				for(String t : todayList) {

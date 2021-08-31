@@ -42,7 +42,7 @@ $(document).ready(function(){
 			
 			
 			
-				$("#past_temperature").html("30년 전 기온"+sobj);
+				$("#past_temperature").html(sobj);
 			
 			
 						
