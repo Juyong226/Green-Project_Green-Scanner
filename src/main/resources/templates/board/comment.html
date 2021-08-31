@@ -1,0 +1,119 @@
+<!-- 댓글 리스트 -->
+<div th:fragment="comment" th:each="comment :${commentList }">
+	 <!-- 댓글 리스트 출력 -->
+
+
+		    <div class= "board-font" style="padding: 10px; border-bottom: 0.1px solid #bebebe; ">   
+				<div class="replyDiv">
+		        <label style="font-size: 0.9em; font-family: NanumBarunGothic" align="left" >
+		        <img src="../img/user.png"  style="width: 16px; height: 16px;" alt="..." >&nbsp<label th:text="${comment.nickname}"/>&nbsp&nbsp
+		        <label th:text="${#dates.format(comment.redate, 'yyyy/MM/dd HH시 mm분')}"></label></label>
+		        </div>
+				
+				
+		         <div id = "reply" style="padding-top: 10px;"><label th:text="${comment.rememo}"></label></div>
+		         <div  align="right" th:if="${session.memnickname == comment.nickname}">
+				<table>
+				
+				<tr>
+				<td ><a id = "replyUpdate" href="#" style="text-decoration: none; font-size:0.9em; color:#adb5bd;">수정</a></td>
+				<td>
+				<!-- 댓글 삭제 시 board.js => DeleteComment함수에서 확인 후 삭제 처리 -->
+				<form name = "deleteForm" action="/board/deleteReply" method="post" onsubmit="return DeleteComment();">
+					<input id = "reno" type="hidden" name="reno" th:value=${comment.reno}>
+					<input type="hidden" name="postno" th:value=${post.postno}>
+					<input id = "commentDeleteBtn" type="submit" style="background-color: transparent; border: 0px transparent solid; font-size:0.9em; color: #adb5bd;" value="삭제" />
+				</form> 
+				</td>
+				</tr>
+				</table>
+				</div>
+		    </div>
+		   
+
+</div>
+	
+
+
+	<!-- <div class="row d-flex justify-content-center">
+		<div class="col-md-8">
+			<div class="comment p-3 mt-2">
+				<div class="d-flex justify-content-between align-items-center">
+					<div class="user d-flex flex-row align-items-center">
+						<span><small class="font-weight-bold text-primary"
+							th:utext="${comment.nickname}">작성자</small> <small
+							class="font-weight-bold" th:utext="${comment.rememo}">내용</small>
+						</span>
+					</div>
+					<small th:utext="${comment.redate}">작성일</small>
+				</div>
+				<div
+					class="action d-flex justify-content-between mt-2 align-items-center">
+					<form class="align-items-rigth" action="/board/deleteReply"
+						method="post">
+						<input type="hidden" name="reno" th:value=${comment.reno}>
+						<input type="hidden" name="postno" th:value=${post.postno}>
+
+						<input type="submit" class="btn btn-danger" value="삭제 하기" />
+					</form>
+				</div>
+			</div>
+		</div>
+	</div> -->
+	<br />
+</div>
+
+<!-- 댓글 작성 폼 -->
+<div th:fragment="commentWrite">
+	<div class="replyform board-font p-3"
+		style="width: 100%; background-color: #F2F7CE">
+		<!--  #F2F7CE" >-->
+
+		<div th:if="${session.memnickname != null}">
+			<img src="../img/user.png" style="width: 24px; height: 24px;"
+				alt="...">&nbsp;<label th:text="${session.memnickname}">닉네임</label>
+		<p></p>
+			<form name="form1" action="boardReplySave" method="post" id="memoid">
+				<input type="hidden" name="postno" th:value="${post.postno}"/>
+				<textarea name="rememo" form="memoid"
+					style="width: 79%; height: 50px;" autofocus required wrap="hard"
+					placeholder="댓글을 입력하세요."></textarea>
+				<button class="btn btn-success btn-sm" id="commentInsertBtn"
+					style="float: right; background-color: #5CAB7D; border-color: #5CAB7D; width: 20%; height: 50px">등록</button>
+			</form>
+		</div>
+
+		<!-- 로그인하지 않은 사용자에게는 비활성 -->
+		<div th:if="${session.memnickname == null}">
+			<form name="form3" action="boardReplySave" method="post" id="memoid2">
+				<textarea name="rememo" form="memoid2"
+					style="width: 100%; height: 50px;" disabled wrap="hard"
+					placeholder="댓글을 입력하려면 로그인하세요."></textarea>
+			</form>
+		</div>
+	</div>
+	
+		<!-- 댓글 수정 폼 -->
+	<div id="replyUpdateDiv" class= "board-font" style="width: 99%; display:none">
+	    <form name="form2" action="updateReply" method="post">
+	        <input type="hidden" name="postno" th:value="${post.postno}"/>
+			<input type="hidden" name="reno">
+	        <input type="text" name="rememo" />
+	        <a href="#" onclick="fn_replyUpdateSave()" style="text-decoration: none; font-size:0.9em; color:#198754;">저장</a>
+	        <a href="#" onclick="fn_replyUpdateCancel()"style="text-decoration: none; font-size:0.9em; color:#198754;">취소</a>
+	    </form>
+	</div>
+
+
+	<!-- <form action="/board/boardReplySave" method="post">
+		<div class="form-floating" style="width: 50vw">
+			<textarea name="rememo" class="form-control" id="floatingTextarea2"
+				style="height: 100px">
+		    </textarea>
+			<input type="hidden" name="postno" th:value=${post.postno}>
+
+			<input style="float: right;" type="submit" class="btn btn-success"
+				value="작성하기" /> <label for="floatingTextarea2">Comments</label>
+		</div>
+	</form> -->
+</div>

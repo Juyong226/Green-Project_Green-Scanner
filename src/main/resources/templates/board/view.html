@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="fragments/common :: head('자세히 보기')">
+<body>
+	<nav th:replace="fragments/common :: nav"></nav>
+
+	<!-- 뒤로가기 버튼/게시판 제목 -->
+	<div class="board-font my-2" style="font-family: NanumBarunGothic">
+		<a th:if="${post.boardname=='자유게시판'}" href="/board/bulletin_boardlist" id="board" class="navbar-brand"
+			style="text-decoration: none;"> <img src="../img/back.png"
+			alt="..." style="width: 20px; height: 20px; margin-left: 5px">
+			<label id="board_name" th:text="${post.boardname}"
+			style="font-size: 20px; font-weight: bold; padding: 30px, 30px, 2px, 30px; margin-top: 10px; margin-left: 5px; color: #5A9367"></label>
+		</a> 
+		<a th:if="${post.boardname=='질문게시판'}" href="/board/question_boardlist" id="board" class="navbar-brand"
+			style="text-decoration: none;"> <img src="../img/back.png"
+			alt="..." style="width: 20px; height: 20px; margin-left: 5px">
+			<label id="board_name" th:text="${post.boardname}"
+			style="font-size: 20px; font-weight: bold; padding: 30px, 30px, 2px, 30px; margin-top: 10px; margin-left: 5px; color: #5A9367"></label>
+		</a> 
+		<br>
+	</div>
+	<!-- 글이 보이는 곳 -->
+	<div class="postArea board-font"
+		style="padding: 10px; border-bottom: 0.1px solid #bebebe;">
+
+		<div class="nicknameDiv"
+			style="float: left; font-family: NanumBarunGothic">
+			<img src="../img/user.png" style="width: 24px; height: 24px;"
+				alt="...">&nbsp
+				<!-- 익명 사용자 여부 표시 -->
+				<label th:if="${post.isanon} == 1" >익명</label>
+				<label th:if="${post.isanon} == 0" th:text="${post.nickname}"></label>
+		</div>
+		<br> <br>
+		<div class="titleDiv"
+			style="font-size: 1.2em; font-weight: bold; font-family: NanumBarunGothic"
+			align="left">
+			<label th:text="${post.title }"></label>
+		</div><br>
+		
+		<!-- 사진 표시 -->
+		<!-- board/display 요청 결과 ResponseEntity 객체가 리턴됨 -->
+		<div th:if="${post.filename}">
+		<img class = "image" th:src="@{'/board/display?filename='+${post.filename}}" width="100%">
+		</div>
+		
+		
+		<div class="contentDiv mx-2">
+			<label th:text="${post.content}"
+				style="font-size: 1.1em; font-family: NanumBarunGothic" align="left">
+				<br> <br>
+			</label>
+		</div>
+		<input type="hidden" name="postno"><br>
+
+		<div style="font-size: 0.9em" align="right">
+
+			<table>
+				<tr align="right">
+					<td><form th:if="${login_nickname == post.nickname}" style="float: right; margin-right: 10px;"
+							action="/board/updatePost" method="get" >
+							<input type="hidden" name="postno" th:value="${post.postno}">
+							<input type="submit"
+								style="background-color: transparent; border: 0px transparent solid; color: #adb5bd;"
+								value="게시글 수정" />
+						</form></td>
+						<!-- 게시물 삭제 시 board.js => DeletePost함수에서 확인 후 삭제 처리 -->
+					<td><form th:if="${login_nickname == post.nickname}" style="float: right;" action="/board/deletePost"
+							method="post" onsubmit="return DeletePost();">
+							<input type="hidden" name="_csrf" th:value="${token}">
+							<input type="hidden" name="postno" th:value="${post.postno}">
+							<input type="hidden" name="boardname" th:value="${post.boardname}">
+							<input type="submit"
+								style="background-color: transparent; border: 0px transparent solid; color: #adb5bd;"
+								value="게시글 삭제" />
+						</form></td>
+				</tr>
+				<tr align="right">
+					<td colspan="2"><span
+						th:text="${#dates.format(post.postdate, 'yyyy/MM/dd HH시 mm분 ss초')}"></span></td>
+				</tr>
+			</table>
+		</div>
+
+	</div>
+
+	<div th:replace="board/comment :: commentWrite"></div>
+	<div th:replace="board/comment :: comment"></div>
+	<br /><br /><br />
+</body>
+<link rel="stylesheet" href="../css/boardView.css">
+<link rel="stylesheet" href="../css/styles.css">
+</html>

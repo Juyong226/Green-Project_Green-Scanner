@@ -33,6 +33,7 @@ public class BoardService {
     }
 
     public void insertPost(BoardVO post) {
+    	System.out.println("insertPost service 진입");
         boardDAO.insertPost(post);
     }
 

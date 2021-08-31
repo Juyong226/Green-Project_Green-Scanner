@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/common.html :: header('챌린지 수정하기')">
+<body>
+	<nav th:replace="/fragments/common.html :: nav"></nav>
+	<div th:replace="/fragments/common.html :: back('/challenge/my-challenge/' + ${personalChallenge.challengeNum})"></div>
+	
+	<!-- 챌린지 수정 -->	
+	<div>
+		<p>챌린지 수정하기</p><hr>
+		<form
+			id="editForm"
+			th:data-cNum="${personalChallenge.challengeNum}"
+			onsubmit="return fn_edit_confirm(this.getAttribute('data-cNum'))" 
+			th:action="@{/challenge/my-challenge/{challengeNum}(challengeNum=${personalChallenge.challengeNum})}" th:method="put">
+			<table>
+				<tr>
+					<td>챌린지 이름: </td>
+					<td th:text="${personalChallenge.challengeName}">챌린지 이름</td>
+				</tr>
+				<tr>
+					<td>챌린지 기간: </td>
+					<td>
+						<input type="radio" id="1week" name="period" value="7">
+						<label for="1week">1주</label>&nbsp;
+						<input type="radio" id="2week" name="period" value="14">
+						<label for="2week">2주</label>&nbsp;
+						<input type="radio" id="3week" name="period" value="21">
+						<label for="3week">3주</label>&nbsp;
+						<input type="radio" id="4week" name="period" value="28">
+						<label for="4week">4주</label>
+					</td>
+				</tr>
+				<tr>
+					<td>표시 색상: </td>
+					<td>
+						<input type="radio" id="red" name="colorCode" value="#FF0000">
+						<label for="red">빨강</label>&nbsp;
+						<input type="radio" id="orange" name="colorCode" value="#FFA500">
+						<label for="orange">오렌지</label>&nbsp;
+						<input type="radio" id="pink" name="colorCode" value="#FF5675">
+						<label for="pink">핑크</label>&nbsp;
+						<input type="radio" id="green" name="colorCode" value="#80E12A">
+						<label for="green">초록</label>&nbsp;
+						<input type="radio" id="blue" name="colorCode" value="#1E90FF">
+						<label for="blue">파랑</label>
+					</td>
+				</tr>
+			</table><br>			
+			<input type="submit" value="완료">
+			<input type="reset" id="cancleBtn" value="취소">
+		</form>
+	</div>
+	
+	<!-- footer -->	
+	<nav th:replace="/fragments/common.html :: footer"></nav>	
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script>
+//여기에 이 코드를 쓰기 위해선 loginForm.html에도 위 쿠키 라이브러리르 추가해 주어야합니다.
+$(function(){
+	var blank=$.cookie("blanked");
+ 	var login=$.cookie("logined"); 
+ 	var logout=$.cookie("logouted"); 
+		$("#loginBlankDiv1").html(blank);
+		$("#loginBlankDiv2").html(blank);
+ 		$("#nicknameDiv").html(login);
+ 		$("#logoutDiv").html(logout);
+});
+
+</script>
+</html>

@@ -8,7 +8,7 @@ $(document).ready(function() {
 	fn_isLogined();
 		
 	$(document).on("click", "#logoutBtn", function(event) { //로그아웃 처리
-		$.post("../logout.do",
+		$.post("/logout.do",
 			  {			   
 			   
 			  },
@@ -41,12 +41,11 @@ $(document).ready(function() {
 			return false;
 		}
 		
-		$.post("../login.do",
-				  {
-				    email:email,
-				    pw:pw,
-				  },
-				  function(data, status){
+		$.ajax({
+				method: "POST",
+				url: "/login.do",
+				data: { email: email, pw: pw },  
+				success: function(data, status){
 				  	var obj = JSON.parse(data);
 				  	if(obj.memnickname) { 
 					  	//sample_index.html의 nav와 맞추기 위해 이렇게 넣었습니다. 이렇게 자잘하게 쪼갠 이유는 이렇게 쪼게지 않으면 현재 js에 
@@ -89,15 +88,18 @@ $(document).ready(function() {
 //						 window.opener.document.getElementById("loginBlankDiv1").innerHTML=blankspace;
 //						 window.opener.document.getElementById("loginBlankDiv2").innerHTML=blankspace;
 //						 window.opener.document.getElementById("nicknameDiv").innerHTML=html;
-//						 window.opener.document.getElementById("logoutDiv").innerHTML=logoutBtn;
-
+//						 window.opener.document.getElementById("logoutDiv").innerHTML=logoutBtn; 
 						 window.close();
+						 //로그인 완료되면 자식 창 닫은 뒤 부모 창 리로드
+						 window.opener.location.reload();
+						 
 					} else if(obj.failed) {
 						alert('입력하신 정보와 일치하는 회원이 없습니다.\n이메일과 비밀번호를 다시 확인해주세요.');
 					} else if(obj.denied) {
 						alert(obj.denied);
 					}
-				  });
+				}	
+		});
 			
 	});
 	
@@ -106,7 +108,7 @@ $(document).ready(function() {
 	//답변이 sessionNull일 경우 로그아웃 되었다는 알림을 띄우고 쿠키를 삭제함
 	//답변에 sessionNull이 아닐 경우 로그인 상태를 유지(쿠키 삭제 안 함)
 	function fn_checkSession() {
-		$.post("../checkSession.do",
+		$.post("/checkSession.do",
 				{},
 				function(data, status) {
 					let obj = JSON.parse(data);
