@@ -646,4 +646,4 @@ if __name__ == '__main__':
     detect_and_color_splash(model, dummy)
 
     # app.run(host="0.0.0.0", port=8080, ssl_context=("C:/Users/Administrator/Desktop/python/swi/certificate.crt", "C:/Users/Administrator/Desktop/python/swi/private.key"), debug=False)
-    app.run(host="0.0.0.0", port=8080, ssl_context=("certificate.crt", "private.key"), debug=False)
+    app.run(host="0.0.0.0", port=8888, ssl_context=("certificate.crt", "private.key"), debug=False)

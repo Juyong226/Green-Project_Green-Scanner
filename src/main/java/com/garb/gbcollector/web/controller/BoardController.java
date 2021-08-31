@@ -58,10 +58,15 @@ public class BoardController {
 	@GetMapping(value = "/bulletin_boardlist")
 	public ModelAndView boardListB(ModelAndView mav, HttpSession session) {
 		System.out.println("board/bulletin_boardlist진입");
-		List<BoardVO> b_boards;
-		b_boards = boardService.listPostBAll();
-		mav.addObject("b_boards", b_boards);
-		mav.setViewName("board/bulletin_boardlist");
+		List<BoardVO> boards;
+	    boards = boardService.listPostBAll();
+		mav.addObject("boards", boards);
+		String boardname = null;
+		for(BoardVO board : boards) {
+			boardname = board.getBoardname();
+		}
+		mav.addObject("boardname", boardname);
+		mav.setViewName("board/board");
 		return mav;
 	}
 
@@ -69,10 +74,15 @@ public class BoardController {
 	@GetMapping(value = "/question_boardlist")
 	public ModelAndView boardListQ(ModelAndView mav, HttpSession session) {
 		System.out.println("board/question_boardlist진입");
-		List<BoardVO> q_boards;
-		q_boards = boardService.listPostQAll();
-		mav.addObject("q_boards", q_boards);
-		mav.setViewName("board/question_boardlist");
+		List<BoardVO> boards;
+		boards = boardService.listPostQAll();
+		mav.addObject("boards", boards);
+		String boardname = null;
+		for(BoardVO board : boards) {
+			boardname = board.getBoardname();
+		}
+		mav.addObject("boardname", boardname);
+		mav.setViewName("board/board");
 		return mav;
 	}
 
@@ -107,15 +117,16 @@ public class BoardController {
 			String fileName = file.getOriginalFilename().toLowerCase();
 
 			if (fileName != null) {
-				if (fileName.endsWith(".jpg") || fileName.endsWith(".png") || fileName.endsWith(".gif")
-						|| fileName.endsWith("jpeg")) {
+				if (fileName.endsWith(".jpg") 
+					|| fileName.endsWith(".png") 
+					|| fileName.endsWith(".gif")
+					|| fileName.endsWith("jpeg")) {
 
 					System.out.println("파일 이름: " + fileName);
 					File uploadFile = new File(uploadPath + fileName);
 
 					// 폴더 경로
 					File Folder = new File(uploadPath);
-
 					if (!Folder.exists()) {
 						try {
 							Folder.mkdir(); // 폴더 생성
@@ -226,6 +237,7 @@ public class BoardController {
 		List<BoardReplyVO> boardReplyVO = boardService.viewReply(postno);
 		// 댓글 리스트를 reply라는 이름으로 뷰페이지에 추가
 		mav.addObject("commentList", boardReplyVO);
+		System.out.println(boardReplyVO);
 
 		// 세션으로부터 닉네임 얻기
 		String nickname = (String) session.getAttribute("memnickname");

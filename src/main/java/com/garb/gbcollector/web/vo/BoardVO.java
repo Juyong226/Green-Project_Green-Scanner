@@ -23,6 +23,19 @@ public class BoardVO {
 		setFilename(filename);	
 	}
 
+	//QnA게시판용
+	public BoardVO(int postno, int reply_cnt,
+			String title, String content, String email, String nickname, Date postdate, String filename) {
+		super();
+		setReply_cnt(reply_cnt);
+		setPostno(postno);
+		setTitle(title);
+		setContent(content);
+		setEmail(email);
+		setNickname(nickname);
+		setPostdate(postdate);
+		setFilename(filename);	
+	}
 	
 
 	public String getFilename() {
@@ -41,13 +54,14 @@ public class BoardVO {
 		super();
 	}
 	
-	public BoardVO(String boardname, String title, String nickname, String content) {
-		super();
-		setTitle(title);
-		setNickname(nickname);
-		setContent(content);
-		setBoardname(boardname);
-	}
+//	public BoardVO(String boardname, String title, String nickname, String content) {
+//		super();
+//		setTitle(title);
+//		setNickname(nickname);
+//		setContent(content);
+//		setBoardname(boardname);
+//	}
+	
 	
 	public BoardVO(String boardname, String title, String nickname, String content, String isanon) {
 		super();
@@ -64,6 +78,23 @@ public class BoardVO {
 		setNickname(nickname);
 		setContent(content);
 		setBoardname(boardname);
+		setIsanon(isanon);
+		setFilename(filename);
+	}
+	
+	public BoardVO(String title, String nickname, String content, String isanon) {
+		super();
+		setTitle(title);
+		setNickname(nickname);
+		setContent(content);
+		setIsanon(isanon);
+	}
+	
+	public BoardVO(int postno, String title, String nickname, String content, String isanon, String filename) {
+		super();
+		setTitle(title);
+		setNickname(nickname);
+		setContent(content);
 		setIsanon(isanon);
 		setFilename(filename);
 	}

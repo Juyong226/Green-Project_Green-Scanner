@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.garb.gbcollector.web.dao.TemperatureDAO">
+
+	<resultMap type="temperatureVO" id="temperatureResult">
+		<result property="today" column="today" />
+		<result property="average" column="average" />
+		<result property="lowest" column="lowest" />
+		<result property="highest" column="highest" />
+	</resultMap>
+	
+	<select id="showTemperature" resultMap="temperatureResult">
+			<![CDATA[
+			
+				select * from temperature
+				
+			]]>
+	</select>
+	
+</mapper>

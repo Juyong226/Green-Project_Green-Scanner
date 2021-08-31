@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="fragments/qna_head :: qna_head('상세보기')">
+<body>
+	<!-- 공통 네비게이션: top -->
+	<nav>
+		<!-- content section 크기와 같은 영역 -->
+		<div class="nav-top">
+			<div class="wrapper">
+				<div class="nav-logo">
+					<a>Green Scanner</a>
+				</div>
+				<div class="nav-menu">
+					<a>로그인</a> <a>회원가입</a> <a>공지사항</a> <a>FAQ</a>
+					<div class="nav-dropdown">
+						<button class="nav-dropdown-btn">자주사용하는기능</button>
+						<div class="dropdown-submenu">
+							<a>음성으로배출방법찾기</a> <a>사진으로배출방법찾기</a> <a>주변쓰레기통찾기</a> <a>제로웨이스트상점찾기</a>
+							<a>챌린지</a> <a>게시판</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</nav>
+	<!-- 밑줄: 디자인 요소 다운하여 사용 -->
+	<div class="nav-border"></div>
+	<div class="main">
+		<div class="Title_section">
+			<label class="Title_text">FAQ</label>
+			<div class="Vector_13"></div>
+		</div>
+		<div class="Post_section">
+			<div class="Content_wrap">
+				<div class="Nickname_div">
+					<img class="img_24" src="../img/board/User.png"> <label
+						class="text" th:if="${post.isanon} == 0"
+						th:text="${post.nickname}"></label> <label class="text"
+						th:if="${post.isanon} == 1">익명</label>
+				</div>
+				<div class="Title_div" th:text="${post.title}"></div>
+				<div class="Img_div" th:if="${post.filename}">
+					<img class="img_100"
+						th:src="@{'/qna/display?filename='+${post.filename}}">
+				</div>
+				<div class="Content_div" th:text="${post.content}"></div>
+				<div class="Etc_wrap">
+					<div class="Edit_div">
+						<div class="ModifyPost_div">
+							<form th:if="${login_nickname == post.nickname}"
+								action="/qna/updatePost" method="get">
+								<input type="hidden" name="postno" th:value="${post.postno}">
+								<input class="ModifyPost_btn" type="submit" value="수정" />
+							</form>
+						</div>
+						<div class="DeletePost_div">
+							<form th:if="${login_nickname == post.nickname}"
+								action="/qna/deletePost" method="post"
+								onsubmit="return DeletePost();">
+								<input type="hidden" name="_csrf" th:value="${token}"> <input
+									type="hidden" name="postno" th:value="${post.postno}">
+								<input type="hidden" name="boardname"
+									th:value="${post.boardname}"> <input
+									class="ModifyPost_btn" type="submit" style="" value="삭제" />
+							</form>
+						</div>
+
+					</div>
+					<div class="Date_div"
+						th:text="${#dates.format(post.postdate, 'yyyy-MM-dd HH시 mm분')}"></div>
+				</div>
+			</div>
+
+		</div>
+		<div class="Comment_section">
+			<div class="Comment_write_div">
+
+				<div class="Nickname_div" th:if="${session.memnickname != null}">
+					<img class="img_24" src="../img/board/User.png"> <label
+						class="text" th:text="${session.memnickname}"></label>
+
+					<form name="form1" action="boardReplySave" method="post"
+						id="memoid">
+						<input type="hidden" name="postno" th:value="${post.postno}" />
+						<textarea class="Comment_input" name="rememo" form="memoid"
+							required wrap="hard" placeholder="댓글을 입력하세요."></textarea>
+						<button class="Comment_Btn" id="commentInsertBtn">등록</button>
+					</form>
+				</div>
+				<!-- 로그인하지 않은 사용자에게는 비활성 -->
+				<div th:if="${session.memnickname == null}">
+					<form name="form3" action="boardReplySave" method="post"
+						id="memoid2">
+						<textarea name="rememo" form="memoid2" disabled wrap="hard"
+							class="Comment_input" placeholder="댓글을 입력하려면 로그인하세요."></textarea>
+					</form>
+				</div>
+			</div>
+			<div class="Comment_list_div" th:each="comment :${commentList }">
+				<div class="Comment_content">
+					<div class="Nickname_div inline_block">
+						<img class="img_24" src="../img/board/User.png"> <label
+							class="text" th:text="${comment.nickname}"></label>
+					</div>
+					<div class="Comment_date inline_block">
+						<label
+							th:text="${#dates.format(comment.redate, 'yyyy-MM-dd HH시 mm분')}"></label>
+					</div>
+					<div class="Comment_edit inline_block">
+						<div th:if="${session.memnickname == comment.nickname}">
+							<!-- <div class="Comment_modify_Btn inline_block">
+								<a id="replyUpdate" href="#">수정</a>
+							</div> -->
+							<!-- 댓글 삭제 시 board.js => DeleteComment함수에서 확인 후 삭제 처리 -->
+							<div class="Comment_delete_Btn inline_block">
+								<form name="deleteForm" action="deleteReply" method="post"
+									onsubmit="return DeleteComment();">
+									<input id="reno" type="hidden" name="reno"
+										th:value=${comment.reno}> <input type="hidden"
+										name="postno" th:value=${post.postno}> <input
+										id="commentDeleteBtn" type="submit" value="삭제" />
+								</form>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="Comment_memo" id="reply">
+						<label th:text="${comment.rememo}"></label>
+					</div>
+				</div>
+			</div>
+			<div class="Back_to_menu">
+				<a href="/qna" id="board" class="text_decoration_none"><label
+					class="Back_to_menu_text">목록으로 돌아가기</label></a>
+			</div>
+			<!-- 			<div class="Prev"></div>
+			<div class="Next"></div> -->
+
+		</div>
+
+
+	</div>
+	<!-- 	<!-- <!-- 뒤로가기 버튼/게시판 제목 -->
+	<!-- 	<div class="board-font my-2" style="font-family: NanumBarunGothic">
+		<a class="navbar-brand" href="#" style="text-decoration: none;"> <label
+			style="font-size: 20px; font-weight: bold; padding: 30px, 30px, 2px, 30px; margin-top: 10px; margin-left: 5px; color: #5A9367">[QnA
+				게시판]</label>
+		</a>
+	</div>
+	글이 보이는 곳
+	<div class="postArea board-font"
+		style="padding: 10px; border-bottom: 0.1px solid #bebebe;">
+
+		<div class="nicknameDiv"
+			style="float: left; font-family: NanumBarunGothic">
+			<img src="../img/user.png" style="width: 24px; height: 24px;"
+				alt="...">&nbsp
+			익명 사용자 여부 표시
+			<label th:if="${post.isanon} == 1">익명</label> <label
+				th:if="${post.isanon} == 0" th:text="${post.nickname}"></label>
+		</div>
+		<br> <br>
+		<div class="titleDiv"
+			style="font-size: 1.2em; font-weight: bold; font-family: NanumBarunGothic"
+			align="left">
+			<label th:text="${post.title }"></label>
+		</div>
+		<br>
+
+		사진 표시
+		board/display 요청 결과 ResponseEntity 객체가 리턴됨
+		<div th:if="${post.filename}">
+			<img class="image"
+				th:src="@{'/qna/display?filename='+${post.filename}}" width="100%">
+		</div>
+
+
+		<div class="contentDiv mx-2">
+			<label th:text="${post.content}"
+				style="font-size: 1.1em; font-family: NanumBarunGothic" align="left">
+				<br> <br>
+			</label>
+		</div>
+		<input type="hidden" name="postno"><br>
+
+		<div style="font-size: 0.9em" align="right">
+
+			<table>
+				<tr align="right">
+					<td><form th:if="${login_nickname == post.nickname}"
+							style="float: right; margin-right: 10px;"
+							action="/qna/updatePost" method="get">
+							<input type="hidden" name="postno" th:value="${post.postno}">
+							<input type="submit"
+								style="background-color: transparent; border: 0px transparent solid; color: #adb5bd;"
+								value="게시글 수정" />
+						</form></td>
+					게시물 삭제 시 board.js => DeletePost함수에서 확인 후 삭제 처리
+					<td><form th:if="${login_nickname == post.nickname}"
+							style="float: right;" action="/qna/deletePost" method="post"
+							onsubmit="return DeletePost();">
+							<input type="hidden" name="_csrf" th:value="${token}"> <input
+								type="hidden" name="postno" th:value="${post.postno}"> <input
+								type="hidden" name="boardname" th:value="${post.boardname}">
+							<input type="submit"
+								style="background-color: transparent; border: 0px transparent solid; color: #adb5bd;"
+								value="게시글 삭제" />
+						</form></td>
+				</tr>
+				<tr align="right">
+					<td colspan="2"><span
+						th:text="${#dates.format(post.postdate, 'yyyy/MM/dd HH시 mm분 ss초')}"></span></td>
+				</tr>
+			</table>
+		</div>
+
+	</div>
+
+	<div th:replace="board/comment :: commentWrite"></div>
+	<div th:replace="board/comment :: comment"></div>
+	<br />
+	<br />
+	<br /> -->
+</body>
+<link rel="stylesheet" href="../css/boardView.css">
+<link rel="stylesheet" href="../css/styles.css">
+</html>
