@@ -1,18 +1,16 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org/">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-<link rel="stylesheet" type="text/css" href="/css/swi.css">
+<title>로그인</title>
+<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
 <link rel="stylesheet" type="text/css" href="/css/map.css"/>
-<title>Green Scanner</title>
+<link rel="stylesheet" type="text/css" href="/css/naver.css"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-</script>
-<script src="/js/SWI.js"></script>
 <script src="/js/login.js"></script>
-<title>Green Scanner</title>
 </head>
 <body>
 	<!-- 공통 네비게이션: top -->
@@ -49,41 +47,30 @@
 	</nav>
 	<!-- 밑줄: 디자인 요소 다운하여 사용 -->
 	<div class="nav-border"></div>
-    <div id="content">
-		<div id="main_title">배출 방법을 알고싶은 쓰레기를 찍으세요.</div>
-		<div id='img_body'>
-			
-			<div id="resultDiv">
-				사진을 찍고, 조금만 기다려주세요.<br><br>
-				이미지를 분석하는데 몇 초 정도 소요됩니다.<br>
+	<!-- content section -->
+	<div class="login-content">
+		<div class="login-wrapper">
+			<div class="login-logo">Green Scanner</div>
+			<div class="form-div-login">
+				<form class="login-form">
+					<input type="text" id="login-form-email" name="email" placeholder="이메일@example.com" />
+					<input type="password" id="login-form-pw" name="pw" placeholder="비밀번호" />
+					<label id="login-form-checkbox">
+						<input type="checkbox" name="remember" value="rememberMe">로그인 기록 저장
+					</label>	
+					<input type="button" class="login-form-btn" id="loginBtn" value="로그인" />					
+				</form>
 			</div>
-			<div id='userwrapper'>
-				<img id='userPic' style="max-width:80%; height:auto">
+			<div class="form-div-btns">
+				<button id="find-pw-btn">비밀번호 찾기</button>
+				<a id="login-join-btn" href="/html/memberInsertForm.html">회원가입</a>
 			</div>
+			<div id="naver_id_login"></div>
 		</div>
-
-		<div id="btnGroup">
-			<label for='imageInput'>
-				<span class='cameraOpenBtn' style='cursor:pointer;'><img id="imgBtn" src="../img/cam_btn2.png"></span>
-				<input 
-					id='imageInput'
-					type='file'
-					accept='image/*'
-					capture='camera'
-					style='display: none;'
-				/>
-			</label>
-		</div>
-		<div id="descript">카메라 아이콘을 눌러 사진을 업로드하세요.</div>
+		<div class="login-space"></div>
 	</div>
-	<div id="loading">
-		<span class="content">
-			<img src="../img/loading_spiner_1.gif">
-			<p>조회중입니다.</p>
-		</span>
-	</div>
-    
-    <!-- 밑줄: 디자인 요소 다운하여 사용 -->
+	
+	<!-- 밑줄: 디자인 요소 다운하여 사용 -->
 	<div class="footer-border"></div>
 	<!-- 공통 footer -->
 	<div class="footer">
@@ -98,5 +85,6 @@
 			</div>
 		</div>
 	</div>
+	<script src="/js/naver.js"></script>
 </body>
 </html>

@@ -1,79 +1,103 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-
-<!-- jQuery library -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+<title>회원가입</title>
+<link rel="stylesheet" type="text/css" href="/css/map.css"/>
+<link rel="stylesheet" type="text/css" href="/css/lolo.css"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-<!-- Latest compiled JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
-<script src="../js/memberInsert.js"></script>
-
-		<style>
-			img { display: block; margin: 0px auto; }
-		</style>
-
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="/js/lolo.js"></script>
 </head>
 <body>
-	<!-- 반응형으로 바꿔야함, bootstrap이 옛날 버전이라 손못대겠음 -->
-		<div class="img-rounded img-thumbnail" style="margin:15px; width:93%; height:100%">
-            <div class="page-header">
-                <div class="col-md-6 col-md-offset-3" style="color:#5eb95e; font:NanumBarunGothic; font-size:1.5em">
-                <img src="/img/user.png" style="float:left">&nbsp;Create your account!
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-offset-3">
-                <form role="form">
-                    <div class="form-group">
-                        <label for="inputName" style="color:#333030">Name</label>
-                        <input type="text" class="form-control" id="name" placeholder="이름을 입력해 주세요">
-                    </div>
-                    <div class="form-group">
-                        <label for="InputEmail" style="color:#333030">E-mail</label>
-                        <input type="text" class="form-control" id="email" placeholder="Email을 입력해주세요" check_result="fail" required>
-                        <button style="margin-top: 6px; background-color:#5eb95e; border:0; outline:0; border-color:#fff; color:#fff; border-radius:30px 30px 30px 30px" type="button" id="emailChkBtn" class="id_config_button" value="N">중복확인</button>
-                        <img id="id_check_sucess" style="display: none;"> 
-                    </div>
-                    <div class="form-group">
-                        <label for="InputNickname"  style="color:#333030">Nickname</label>
-                        <input type="text" class="form-control" id="nickname" placeholder="별명을 입력해주세요" check_result="fail" required>
-                        <button style="margin-top: 6px; background-color:#5eb95e; border:0; outline:0; border-color:#fff; color:#fff; border-radius:30px 30px 30px 30px" type="button" id="nicknameChkBtn" class="id_config_button" value="N">중복확인</button>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputPassword" style="color:#333030">Password</label>
-                        <input type="password" class="form-control" id="pw" placeholder="비밀번호를 입력해주세요" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputPasswordCheck" style="color:#333030">Confirm Password</label>
-                        <input type="password" class="form-control" id="pwcfm" placeholder="비밀번호 확인을 위해 다시한번 입력 해 주세요" required>
-                    </div>
+	<!-- 공통 네비게이션: top -->
+	<nav>
+		<!-- content section 크기와 같은 영역 -->
+		<div class="nav-top">
+			<div class="wrapper">
+				<div class="nav-logo">
+					<a href="/">Green Scanner</a>
+				</div>
+				<div class="nav-menu">
+					<div class="login-nickname">
+						<a id="login-btn" href="/html/login.html">로그인</a>
+					</div>
+					<div class="join-logout">
+						<a id="join-btn" href="/html/memberInsertForm.html">회원가입</a>
+					</div>
+					<a>공지사항</a>
+					<a>FAQ</a>
+					<div class="nav-dropdown">
+						<button class="nav-dropdown-btn">자주사용하는기능</button>
+						<div class="dropdown-submenu">
+							<a>음성으로배출방법찾기</a>
+							<a>사진으로배출방법찾기</a>
+							<a>주변쓰레기통찾기</a>
+							<a>제로웨이스트상점찾기</a>
+							<a>챌린지</a>
+							<a>게시판</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</nav>
+	<!-- 밑줄: 디자인 요소 다운하여 사용 -->
+	<div class="nav-border"></div>
+	
+	<div class="signup-content">
+		<div class="signup-wrapper">
+		<div class="signup-logo" style="margin-bottom:64px; margin-top:0px;">Green Scanner</div>	
+			<div class="form-div-signup">
+				<form role="form" class="signup-form">
+					<div>
+						<div style="margin-bottom:9px; margin-top:16px;" class="signup-name">이름</div>
+						<input type="text" id="signup-form-name"placeholder="이름을 입력해주세요." >
+	
+						<div style="margin-bottom:9px; margin-top:16px;" class="signup-email">이메일</div>
+						<div class="form-div-btns">
+							<input type="text" id="signup-form-email" placeholder="이메일을 입력해주세요." check_result="fail" required>						
+							<button type="button" id="check-email-btn" style="margin-left: 14px;" value="N">중복확인</button>
+						</div>
+						
+						<div style="margin-bottom:9px; margin-top:16px;" class="signup-nickname">닉네임</div>
+						<div class="form-div-btns">
+							<input type="text" id="signup-form-nickname" placeholder="닉네임을 입력해주세요." check_result="fail" required>
+							<button type="button"  id="check-nickname-btn" style="margin-left: 14px;" value="N">중복확인</button>
+						</div>
+						
+						<div style="margin-bottom:9px; margin-top:16px;" class="signup-pw">비밀번호</div>
+						<input type="password" id="signup-form-pw" placeholder="비밀번호를 입력해주세요." >
+						
+						<div style="margin-bottom:9px; margin-top:16px;" class="signup-confirmpw">비밀번호 확인</div>
+						<input type="password" id="signup-form-confirmpw" placeholder="비밀번호를 입력해주세요.">
+						
+						<div class="form-div-signbtns">
+							<button id="cancle">가입취소</button>
+							<button type="submit" id="login-join-btn-m">회원가입</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 
-
-                    <div class="form-group">
-                    <label>약관 동의</label>
-                    <div data-toggle="buttons">
-                    <label class="btn btn-primary active" style="background-color:#5eb95e; border-color:#5CAB7D">
-                    <span class="fa fa-check"></span>
-                    <input id="agree" type="checkbox" autocomplete="off" checked>
-                    </label>
-                    <a href="#" style="color:#5eb95e">이용약관</a>에 동의합니다.
-                    </div> 
-                    </div>
-
-                    <div class="form-group text-center">
-                        <input type="button" id="memberInsertBtn" class="btn btn-primary" value="회원가입" style="background-color:#5eb95e; border-color:#5eb95e">&nbsp;
-                        <button type="submit" class="btn btn-warning" style="background-color:#adb5bd; border-color:#adb5bd">가입취소<i class="fa fa-times spaceLeft"></i>
-                        </button>
-                    </div>
-                    <!-- <img  src="../img/naver_id_White.png" width="170" height="50" > -->
-                </form>
-            </div>
-    	</div>
+	<!-- 밑줄: 디자인 요소 다운하여 사용 -->
+	<div class="footer-border"></div>
+	<!-- 공통 footer -->
+	<div class="footer">
+		<!-- content section 크기와 같은 영역 -->
+		<div class="wrapper">
+			<div class="footer-left">
+				<a>개인정보처리방침</a>
+				<a>이용약관</a>
+			</div>
+			<div class="footer-right">
+				<span>Copyright @ GREEN SCANNER</span>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

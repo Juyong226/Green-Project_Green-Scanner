@@ -141,17 +141,18 @@ $(document).ready(function() {
 	
     $("#speakBtn").click(function() {
     	startSpeechRecognition();
-    	$("#speakImg").attr("src", "../img/microphoneanimation2.gif");
     });
-	
-    $('#loading').hide();
     
+	$('#loading').hide();
+
     function getResult(){
-    	$("#speakImg").attr("src", "../img/microphoneanimation2.jpg");
+
 		if(fulltext=="" ||  fulltext=="empty string"){
 			return;
 		}
+		$('#content').hide();
 		$('#loading').show(); //로딩표시
+		
 		$.post("../selectGarbageList.do",
 				{
 					fulltext:fulltext
@@ -160,51 +161,52 @@ $(document).ready(function() {
 					var obj=JSON.parse(data);
 					flag = 0;
 					$('#loading').hide();
+					$('#content').show();
 					if(obj.garbagefound){
 						var str = "";
 						if(obj.garbageList){
-							str += "<h5>이런 쓰레기도 검색해보세요 : "
+							str += "이런 쓰레기도 검색해보세요 : "
 							for(var i=0; i<obj.garbageList.length-1; i++){
 								str += obj.garbageList[i] + ","
 							}
-							str += obj.garbageList[obj.garbageList.length-1] + "</h5>";
+							str += obj.garbageList[obj.garbageList.length-1];
 						}
-						
-						data = "<h1>"+obj.garbagefound+"</h1><br>"
-						+"<h3>"+obj.garbagedmfound+"</h3><br>"
+						$("#question").html(obj.garbagefound);
+						data = obj.garbagedmfound+"<br><br>"
 						+ str
-						+"<div id='searchWaste'><input size='15' id='fulltext1'><input type='button' id='selectGarbageListBtn1' value='직접 검색'></div>";
-						$("#resultDiv").html(data);
+						+"<div id='boxComponent'><input id='textBox'><input id='searchBtn' type='button' value='직접 검색'>";
+						$("#box").html(data);
 						// 소리가 중복으로 나오는 문제 해결
 						speech(""+obj.garbagedmfound);
 
 					}else{
-						data = "<h1>"+obj.msg+".</h1><br>"
-						+"<h3>인식한 문장 : \"" + fulltext + "\"</h3><br>"
-						+"<h5>원하는 결과를 얻지 못하셨다면 쓰레기 이름을 직접 입력해 검색해 보세요.</h5><br>"
-						+"<div id='searchWaste'><input class='mx-1'size='15' id='fulltext1'>"
-						+"<input class='mx-1' type='button' id='selectGarbageListBtn1' value='직접 검색'>"
+						data = obj.msg+".<br><br>"
+						+"인식한 문장 : \"" + fulltext + "\"<br>"
+						+"원하는 결과를 얻지 못하셨다면 쓰레기 이름을 직접 입력해 검색해 보세요.<br>"
+						+"<div id='boxComponent'><input id='textBox'><input id='searchBtn' type='button' value='직접 검색'>"
 						+"<a href='questionBoard.html'><button style='background-color: #5CAB7D;'>질문하러가기</button></a></div>";
-						$("#resultDiv").html(data);
+						$("#box").attr(data);
 					}
 				});
     }
 
 	// 검색 버튼 클릭시
-	$(document).on("click", "#selectGarbageListBtn1", function(event){
-		fulltext = $("#fulltext1").val();
+	$(document).on("click", "#searchBtn", function(event){
+		fulltext = $("#textBox").val();
 		if(fulltext==""){
 			return;
 		}
+		$('#content').hide();
 		$('#loading').show(); //로딩표시
+		
 		$.post("../selectGarbageList.do",
 				{
 					fulltext:fulltext	
 				}, 
 				function(data, status){
 					var obj=JSON.parse(data);
-					
 					$('#loading').hide();
+					$('#content').show();
 					var str = "";
 					if(obj.garbageList){
 						for(var i=0; i<obj.garbageList.length-1; i++){
@@ -213,17 +215,17 @@ $(document).ready(function() {
 						str += obj.garbageList[obj.garbageList.length-1];
 					}
 					if(obj.garbagefound){
-						data = "<h1>"+obj.garbagefound+"</h1><br>"
-						+"<h3>"+obj.garbagedmfound+"</h3><br>"
-						+"<h5>이런 쓰레기도 검색해보세요:<h5>"
-						+ str;
-						$("#resultDiv").html(data);
+						$("#question").text(obj.garbagefound);
+						data = obj.garbagedmfound+"<br><br>"
+						+"이런 쓰레기도 검색해보세요: "
+						+str;
+						$("#box").html(data);
 						speech(""+obj.garbagedmfound);
 					}else{
-						data = "<h1>"+obj.msg+".</h1><br>"
-						+"<h5>원하는 결과를 얻지 못하셨다면 쓰레기 이름을 직접 입력해 검색해 보세요.</h5><br>"
-						+"<div id='searchWaste'><input size='15' id='fulltext1'><input type='button' id='selectGarbageListBtn1' value='직접 검색'></div>";
-						$("#resultDiv").html(data);
+						data = obj.msg+".<br><br>"
+						+"원하는 결과를 얻지 못하셨다면 쓰레기 이름을 직접 입력해 검색해 보세요.<br>"
+						+"<div id='boxComponent'><input id='textBox'><input id='searchBtn' type='button' value='직접 검색'>";
+						$("#box").html(data);
 					}
 				}); 
 	});
