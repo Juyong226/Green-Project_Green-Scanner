@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head th:replace="fragments/board_head :: head('글쓰기')">
+<head th:replace="fragments/qna_head :: head('수정하기')">
 </head>
 <body>
 	<!-- 공통 네비게이션: top -->
@@ -30,14 +30,14 @@
 		<label class="Title_text">글쓰기</label>
 		<div class="Vector_13"></div>
 	</div>
-	<form action="/board/write" method="post" enctype="multipart/form-data"
-		onsubmit="return writePost();">
+	<form action="/qna/updatePostSave" method="post"
+		enctype="multipart/form-data" onsubmit="return writePost();">
 		<div class="Write_form">
 
 			<div class="Post_title">
 				<div class="write_label">제목</div>
-				<input type="text" class="input_title" name="title" id="title"
-					placeholder="제목을 입력해주세요!!!">
+				<input th:value="${post.title}" type="text" class="input_title"
+					name="title" id="title" placeholder="제목을 입력해주세요.">
 			</div>
 			<div class="Post_boardType">
 				<div class="write_label">게시판 구분</div>
@@ -50,23 +50,29 @@
 			</div>
 			<div class="Post_anonymous">
 				<input class="input_checkbox" type="checkbox" name="isanon"
-					value="1"><label class="write_label">익명</label>
+					th:if="${post.isanon} == 1" value="1" checked="checked"> <input
+					class="input_checkbox" type="checkbox" name="isanon"
+					th:if="${post.isanon} == 0" value="0"> <label
+					class="write_label">익명</label>
 			</div>
 			<div class="Post_content">
 				<div class="write_label">내용</div>
-				<textarea name="content" id="content" class="input_content"
-					placeholder="내용을 입력해주세요"></textarea>
+				<textarea th:text="${post.content}" name="content" id="content"
+					class="input_content" placeholder="내용을 입력해주세요"></textarea>
 			</div>
 			<div class="Post_file">
 				<div class="file-upload preview-image">
 					<label for="input"><img src="../img/board/Insert-photo.png"></label>
 					<input type="text" class="upload-name" disabled="disabled">
-					<input accept="image/*" type="file" id="input" name="file"
-						class="upload-hidden">
+					<input accept="image/*" type="file" name=file id="input"
+						th:text="${post.filename}" class="upload-hidden"> <input
+						type="hidden" id="orgFile" name="orgFile"
+						th:value="${post.filename}" />
 				</div>
 			</div>
 			<div class="Btn_group">
 				<input type="hidden" name="_csrf" th:value="${token}"> <input
+					type="hidden" name="postno" th:value="${post.postno}"></input> <input
 					type="button" class="Btn_cancle" id="cancleBtn" value="취소">
 				<input type="submit" class="Btn_submit" id="registerPostBtn"
 					value="등록">
@@ -75,20 +81,5 @@
 
 		</div>
 	</form>
-<!-- 	<!-- 밑줄: 디자인 요소 다운하여 사용 -->
-<!-- 	<div class="footer-border"></div>
-	공통 footer
-	<div class="footer">
-		content section 크기와 같은 영역
-		<div class="wrapper">
-			<div class="footer-left">
-				<a>개인정보처리방침</a> <a>이용약관</a>
-			</div>
-			<div class="footer-right">
-				<span>Copyright @ GREEN SCANNER</span>
-			</div>
-		</div> -->
-	</div> 
-
 </body>
 </html>
