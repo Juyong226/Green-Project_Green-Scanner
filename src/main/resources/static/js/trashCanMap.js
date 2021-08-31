@@ -6,7 +6,8 @@
   		
   		// 맵 <div>에 맵을 표시 
   		// 기본 맵의 중심은 '역삼동 삼성 멀티캠퍼스 빌딩(역삼역 주변)'으로 설정
-  		const multiCampus = new naver.maps.LatLng(37.5012743, 127.039585);
+  		// const multiCampus = new naver.maps.LatLng(37.5012743, 127.039585);
+  		const shinchonStation = new naver.maps.LatLng(37.555177412589, 126.93691740057484);
 	 	var map = new naver.maps.Map(document.getElementById('map'), {
 			    zoom: 17,
 			    mapTypeId: 'normal',
@@ -16,7 +17,7 @@
             		position: naver.maps.Position.RIGHT_TOP
             		},
             	mapDataControl: false,
-			    center: multiCampus
+			    center: shinchonStation
 			});	
 		// 사용자의 현재 위치를 얻은 후 이를 맵의 중심으로 설정하는 fn_setUserCurrentLct() 선언
 		// 지속적으로 변하는 userCurrentLocation은 전역변수로 한 번만 선언하여 여러개의 변수가 생기지 않도록 함
@@ -29,7 +30,7 @@
 			strokeOpacity: 0.3,
 			fillColor: '#7FFF00',
 			fillOpacity: 0.3,
-			center: multiCampus
+			center: shinchonStation
 		});
 		
 		// Web API인 navigator를 이용하여 사용자의 위치 정보(위도와 경도)를 얻고,
@@ -41,9 +42,9 @@
 		        navigator.geolocation.getCurrentPosition(function(position){
 		        	userCurrentLocation = new naver.maps.LatLng(position.coords.latitude, position.coords.longitude);
 		        	
-		        	map.setCenter(userCurrentLocation);
+		        	map.setCenter(shinchonStation);
 		        	map.setZoom(17);
-		        	circle.setCenter(userCurrentLocation);
+		        	circle.setCenter(shinchonStation);
 		        }, function(error){
 		        	alert('에러메세지: ' + error.message);
 		        }, {
@@ -56,7 +57,7 @@
 		    	alert("geolocation을 지원하지 않음");
 		        
 		    }
-		    $("#map").css("position", "fixed");	
+		    //$(".map-div").css("position", "fixed");	
 	    }
 	    // 함수를 실행
 	    // fn_setUserCurrentLct();
@@ -64,7 +65,7 @@
 	    var currentLocationBtnHtml = '<a href="#"><image src="../img/userLocation.png" style="border: solid 1px black"></a>';	
 	    naver.maps.Event.once(map, 'init_stylemap', function() {
 	    	var customControl = new naver.maps.CustomControl(currentLocationBtnHtml, {
-	    		position: naver.maps.Position.RIGHT_TOP
+	    		position: naver.maps.Position.RIGHT_CENTER
 	    	});
 	    	
 	    	customControl.setMap(map);
@@ -178,7 +179,10 @@
 			
 				// 각 latlngs 요소의 위치를 marker에 저장하고 이를 미리 선언한 markers 배열에 추가
 					marker = new naver.maps.Marker({
-					position: latlngs[i]
+					position: latlngs[i],
+					icon: {
+						url: '/img/marker.png'
+					}
 				});
 				markers.push(marker);
 			}
@@ -192,10 +196,8 @@
 				// 각 contentString을 infoWindow에 저장한 뒤
 				// 각 infoWindow를 미리 선언한 infoWindows 배열에 추가
 				let contentString = [
-					'<div style="padding-top:5px;padding-bottom:5px;padding-left:5px;padding-right:5px;background-color:#fff;color:black; text-align:center;border:1px solid #008000; border-radius:14px; opacity:75%">'+					
-					'<div style="font-weight: bold;font-size:14px">',addressArr[i],
-					'<div>'+
-					'</div>'
+					'<div class="info-window">',
+					'<span class="trash-info-location">' + addressArr[i] + '</span></div>'
 				].join('');
 				infoWindow = new naver.maps.InfoWindow({
 					content: contentString,

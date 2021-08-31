@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	$('#loading').hide();
-	
+	$('#boxComponent').hide();
 	var voices = [];
 	
 	function setVoiceList() {
@@ -71,7 +71,9 @@ $(document).ready(function() {
 	   	console.log(JSON.stringify(userImgData));         	  
 	   	var detectionResult;
 	   	var detectedImg;
+		$('#content').hide();
 	   	$('#loading').show();
+		
 	   	// 서버로 base64 데이터를 보내 이미지 분석을 요청 
 		$.post('https://greenscanner.org:8888/swi',
 				JSON.stringify(userImgData),
@@ -85,14 +87,16 @@ $(document).ready(function() {
 						$('#userPic').attr('src', detectedImg);
 						$('#userwrapper').css("overflow", "hidden");
 						$('#userPic').css("margin","-10% -10% -10% -10%");
-						$('#userPic').css('max-width', '80%');
+						$('#userPic').css('max-width', '720px');
+						$('#userPic').css('max-height', '540px');
 						$('#userPic').css('height', 'auto');
 						// 이미지 분석 서버의 응답이 성공적인 경우 배출 방법을 조회함 
 						getGarbageDM(imgClass);
 		            } else {
-		            	const msg = '<h3>이미지 분석에 실패하였습니다.<h3><br>다시 시도해 주세요.';
-		                $('#content').html(msg);
 						$('#loading').hide();
+						$('#content').show();
+		            	const msg = '이미지 분석에 실패하였습니다. 다시 시도해 주세요.';
+						
 		            }
 				});
 	});	
@@ -104,7 +108,6 @@ $(document).ready(function() {
 	// 사진을 업로드하면 업로드한 사진을 userPic에 보여준다.
 	
 	$('#imageInput').change(function(e) {
-		$('#content').empty();
 		$('#userPic').empty();
 		$('#userPic').attr('src', URL.createObjectURL(e.target.files[0]));
 
@@ -129,29 +132,31 @@ $(document).ready(function() {
 				fulltext: userKeyword	
 			},
 			function(data, status) {
-	 			$('#loading').hide();
-	 			$('#content').empty();
+				$('#loading').hide();
+				$('#content').show();
 				var obj = JSON.parse(data);
-				if(obj.garbagefound) {					
-					data = "<h1>" + obj.garbagefound + "</h1><br>"
-						+ "<h3>" + obj.garbagedmfound + "</h3><br>"
-						+ "<h5>원하는 결과를 얻지 못하셨다면 쓰레기 이름을 직접 입력해 검색해 보세요.</h5><br>"
-						+ "<div id='searchWaste'><input size='15' id='fulltext1'><input type='button' id='selectGarbageListBtn1' value='검색'></div>";
+				if(obj.garbagefound) {		
+					$('#main_title').html(obj.garbagefound);			
+					data = obj.garbagedmfound + "<br><br>"
+						+ "원하는 결과를 얻지 못하셨다면 쓰레기 이름을 직접 입력해 검색해 보세요.<br><br>"
+						+ "<div id='boxComponent'><input id='textBox'><input id='searchBtn' type='button' value='직접 검색'>";
 	       			$("#resultDiv").html(data);
 	       			speech("" + obj.garbagedmfound);
 				} else {
-					data = "<h1>" + obj.msg + "</h1><br>"
-						+ "<h5>원하는 결과를 얻지 못하셨다면 쓰레기 이름을 직접 입력해 검색해 보세요.</h5><br>"
-						+ "<div id='searchWaste'><input size='15' id='fulltext1'><input type='button' id='selectGarbageListBtn1' value='검색'></div>";
+					data = obj.msg + "<br><br>"
+						+ "원하는 결과를 얻지 못하셨다면 쓰레기 이름을 직접 입력해 검색해 보세요.<br><br>"
+						+ "<div id='boxComponent'><input id='textBox'><input id='searchBtn' type='button' value='직접 검색'>"
+						+ "<a href='questionBoard.html'><button style='background-color: #5CAB7D;'>질문하러가기</button></a></div>";
 					$("#resultDiv").html(data);
 				}
+				$('#boxComponent').show();
 	 		});
 	 };
 	 
 	 // 원하는 값을 얻지 못했을 때 사용자가 직접 검색한 키워드를 가지고 배출방법을 조회하는 함수
 	$(document).on("click", "#selectGarbageListBtn1", function(event) {
+		$('#content').hide();
 		$('#loading').show(); //로딩표시
-	 	$('#content').html('배출방법을 조회하는 중입니다.<br>잠시만 기다려 주세요.');
 		var userKeyword = $("#fulltext1").val();
 		
 		$.post("../selectGarbageList.do",
@@ -160,21 +165,21 @@ $(document).ready(function() {
 			}, 
 			function(data, status) {
 				$('#loading').hide();
-				$('#content').empty();
+				$('#content').show();
 				var obj=JSON.parse(data);
-				if(obj.garbagefound) {						
-					data = "<h1>"+obj.garbagefound+"</h1><br>"
-						+"<h3>"+obj.garbagedmfound+"</h3><br>";
-					$('#loading').hide();
+				if(obj.garbagefound) {	
+					$('#main_title').html(obj.garbagefound);					
+					data = obj.garbagedmfound+"<br>";
 					$("#resultDiv").html(data);
 					speech(""+obj.garbagedmfound);
 				} else {
-					data = "<h1>"+obj.msg+"</h1><br>"
-						+"<h5>원하는 결과를 얻지 못하셨다면 쓰레기 이름을 직접 입력해 검색해 보세요.</h5><br>"
-						+"<div id='searchWaste'><input size='15' id='fulltext1'><input type='button' id='selectGarbageListBtn1' value='검색'></div>";
+					data = obj.msg+"<br><br>"
+						+"원하는 결과를 얻지 못하셨다면 쓰레기 이름을 직접 입력해 검색해 보세요.<br><br>"
+						+"<div id='searchWaste'><input size='15' id='fulltext1'><input type='button' id='selectGarbageListBtn1' value='직접 검색'></div>";
 					$("#resultDiv").html(data);
 					
 				}
+				$('#boxComponent').show();
 			});
 	});
 

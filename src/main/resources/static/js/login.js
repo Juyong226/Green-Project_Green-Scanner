@@ -1,83 +1,77 @@
-$(function(){
+
+
+$(document).ready(function() {
 	//페이지를 새로고침하거나 다른 링크로 옮겨가면서 새로 페이지가 로드되면,
 	//쿠키와 세션을 확인하여 아직 로그인 상태가 유효한 지 체크하고,
 	//세션이 만료된 경우 쿠키를 삭제함으로써 재로그인을 유도
 	//맨 아래 함수를 참고
 	fn_isLogined();
-		
+	fn_login_data();
+	
 	$(document).on("click", "#logoutBtn", function(event) { //로그아웃 처리
-		$.post("/logout.do",
-			  {			   
-			   
-			  },
-			  function(data, status){
+		$.post("/logout.do", {},
+			  function(data, status) {
 			  	var obj = JSON.parse(data);
-			  	if(obj.success) {  	
+			  	if(obj.success) { 	
 				  	alert(obj.success);
-				  	$.removeCookie("logined", {path: '/' }); //path를 명시하여 쿠키가 잘 삭제 됨.
-				  	$.removeCookie("blanked", {path: '/' });
-				  	$.removeCookie("logouted", {path: '/' });
-					location.reload();
-				} else {
-					$.removeCookie("logined", {path: '/' });
-				  	$.removeCookie("blanked", {path: '/' });
-				  	$.removeCookie("logouted", {path: '/' });
+				  	$.removeCookie("nick-cookie", {path: '/' }); //path를 명시하여 쿠키가 잘 삭제 됨.
+				  	$.removeCookie("logout-btn-cookie", {path: '/' });
+				  	$("#login-btn").show();
+				  	$("#join-btn").show();
 					location.reload();
 				}						   
-			  }
-		);//end post() 
-	
+		});//end post() 
 	});
 	
 	$("#loginBtn").click(function(){
-		var email=$("#email").val();
-		var pw=$("#pw").val();
-		var space = /\s/g;
-		if(email.match(space)){
-			alert("이메일에는 공백이 포함될 수 없습니다.");
-			$("#email").focus();
+		let email = $("#login-form-email").val();
+		let pw = $("#login-form-pw").val();
+		var regExp =  /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+		
+		if(!regExp.test(email) || email == "") {
+			alert("이메일을 다시 확인해주세요.");
+			$("#login-form-email").focus();
+			return false;
+		} else if(pw == "") {
+			alert("비밀번호를 입력해주세요.");
+			$("#login-form-pw").focus();
 			return false;
 		}
 		
-		$.ajax({
-				method: "POST",
-				url: "/login.do",
-				data: { email: email, pw: pw },  
-				success: function(data, status){
-				  	var obj = JSON.parse(data);
-				  	if(obj.memnickname) { 
-					  	//sample_index.html의 nav와 맞추기 위해 이렇게 넣었습니다. 이렇게 자잘하게 쪼갠 이유는 이렇게 쪼게지 않으면 현재 js에 
-					  	//sample_index의 script가 참고되지 않아서 그런지 class나 ara-current에서 오류가 나기 때문입니다.
-					  	//때문에 콘솔창에서 에러가 안나는대로 쪼개서 넣느라 이런 모양이 되었습니다.
-						 var nickname = obj.memnickname;
-	
-						 var nick='<a style="color:white;" class="nav-link" href="#" aria-disabled="true">'
-							 + nickname
-							 + '</a>';
-						 var logout='<li id="logoutBtn" class="nav-item"><a style="color:white;" class="nav-link" href="#" aria-disabled="true">로그아웃</a></li>';
-						 
-						 var blankspace="";
-						 
-						 $.cookie("logined", nick, {expires: 1, path: '/' });
-						 $.cookie("blanked", blankspace, {expires: 1, path: '/' });
-						 $.cookie("logouted", logout, {expires: 1, path: '/' });
-						 //현재 이 팝업창은 자식창입니다. 이 코드는 이 자식창이 열린 부모창의 nicknameDiv에 값을 넣는 코드입니다.
-						 
-						 location.replace("https://localhost/")
-						 
-//						 window.close();
-						 //로그인 완료되면 자식 창 닫은 뒤 부모 창 리로드
-//						 window.opener.location.reload();
-						 
-					} else if(obj.failed) {
-						alert('입력하신 정보와 일치하는 회원이 없습니다.\n이메일과 비밀번호를 다시 확인해주세요.');
-					} else if(obj.denied) {
-						alert(obj.denied);
-					}
-				}	
-		});
-			
+		$.post("/login.do", 
+			{ 
+				email: email, 
+				pw: pw 
+			},  
+			function(data, status) {
+			  	var obj = JSON.parse(data);
+			  	if(obj.memnickname) {
+				  	
+				  	let nickname = ['<span id="nickname">' + obj.memnickname + '</span>'].join('');
+					let logout = ['<span id="logoutBtn">로그아웃</span>'].join('');
+					
+					$.cookie('nick-cookie', nickname, {expires: 1, path: '/'});
+					$.cookie('logout-btn-cookie', logout, {expires: 1, path: '/'});
+					
+					location.replace(document.referrer);
+					
+				} else if(obj.failed) {
+					alert('입력하신 정보와 일치하는 회원이 없습니다.\n이메일과 비밀번호를 다시 확인해주세요.');
+				} else if(obj.denied) {
+					alert(obj.denied);
+				}
+		});			
 	});
+	
+	//화면에 로그인 정보(쿠키)를 표시하는 함수
+	function fn_login_data() {
+		if($.cookie("nick-cookie") && $.cookie("logout-btn-cookie")) {
+			$("#login-btn").hide();
+			$("#join-btn").hide();
+			$(".login-nickname").html($.cookie("nick-cookie"));
+			$(".join-logout").html($.cookie("logout-btn-cookie"));
+		}
+	}
 	
 	//logined 쿠키가 존재할 경우 아직 세션이 유효한 지 검사하는 함수
 	//서버로 세션을 체크하라는 요청을 보내고,
@@ -90,9 +84,10 @@ $(function(){
 					let obj = JSON.parse(data);
 					if(obj.sessionNull) {
 						alert(obj.sessionNull);
-						$.removeCookie("logined", {path: '/' });
-				  		$.removeCookie("blanked", {path: '/' });
-				  		$.removeCookie("logouted", {path: '/' });
+						$.removeCookie("nick-cookie", {path: '/' });
+				  		$.removeCookie("logout-btn-cookie", {path: '/' });
+				  		$("#login-btn").show();
+				  		$("#join-btn").show();
 						location.reload();
 					}
 				});
@@ -102,9 +97,9 @@ $(function(){
 	//logined 쿠키가 존재한다면(로그인을 했었다는 의미) 세션이 아직 유효한 지 검사하는 함수를 호출
 	//logined 쿠키가 없다면(로그인을 안 했었다는 의미) 상태 유지
 	function fn_isLogined() {
-		var loginCookie = $.cookie('logined');
+		var loginCookie = $.cookie('nick-cookie');
 		if(loginCookie) {
 			fn_checkSession();
 		}
 	}
-})
+});

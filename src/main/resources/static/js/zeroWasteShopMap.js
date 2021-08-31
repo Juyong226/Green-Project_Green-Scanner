@@ -6,7 +6,8 @@
   		
   		// 맵 <div>에 맵을 표시
   		// 기본 맵의 중심은 '역삼동 삼성 멀티캠퍼스 빌딩(역삼역 주변)'으로 설정
-  		const multiCampus = new naver.maps.LatLng(37.5012743, 127.039585); 
+  		// const multiCampus = new naver.maps.LatLng(37.5012743, 127.039585); 
+  		const shinchonStation = new naver.maps.LatLng(37.555177412589, 126.93691740057484);
 	 	var map = new naver.maps.Map(document.getElementById('map'), {
 			    zoom: 17,
 			    mapTypeId: 'normal',
@@ -16,7 +17,7 @@
             		position: naver.maps.Position.RIGHT_TOP
             		},
             	mapDataControl: false,
-			    center: multiCampus
+			    center: shinchonStation
 			});	
 		// 사용자의 현재 위치를 얻은 후 이를 맵의 중심으로 설정하는 fn_setUserCurrentLct() 선언
 		// 지속적으로 변하는 userCurrentLocation은 전역변수로 한 번만 선언하여 여러개의 변수가 생기지 않도록 함
@@ -29,7 +30,7 @@
 			strokeOpacity: 0.3,
 			fillColor: '#7FFF00',
 			fillOpacity: 0.3,
-			center: multiCampus
+			center: shinchonStation
 		});
 		// Web API인 navigator를 이용하여 사용자의 위치 정보(위도와 경도)를 얻고,
 		// 이를 userCurrentLocation 변수에 초기화하여
@@ -40,9 +41,9 @@
 		        navigator.geolocation.getCurrentPosition(function(position){
 		        	userCurrentLocation = new naver.maps.LatLng(position.coords.latitude, position.coords.longitude);
 		        	
-		        	map.setCenter(multiCampus); //임시로 multiCampus로 맵의 센터를 적용
+		        	map.setCenter(shinchonStation); //임시로 multiCampus로 맵의 센터를 적용
 		        	map.setZoom(17);
-		        	circle.setCenter(multiCampus);
+		        	circle.setCenter(shinchonStation);
 		        }, function(error){
 		        	alert('에러메세지: ' + error.message);
 		        }, {
@@ -55,7 +56,7 @@
 		    	alert("geolocation을 지원하지 않음");
 		        
 		    }
-		    $("#map").css("position", "fixed");		    
+		    //$("#map").css("position", "fixed");		    
 	    }
 	    // 함수를 실행
 	    fn_setUserCurrentLct(); 
@@ -63,7 +64,7 @@
 	    var currentLocationBtnHtml = '<a href="#"><image src="../img/userLocation.png" style="border: solid 1px black"></a>';	
 	    naver.maps.Event.once(map, 'init_stylemap', function() {
 	    	var customControl = new naver.maps.CustomControl(currentLocationBtnHtml, {
-	    		position: naver.maps.Position.RIGHT_TOP
+	    		position: naver.maps.Position.RIGHT_CENTER
 	    	});
 	    	
 	    	customControl.setMap(map);
@@ -149,14 +150,14 @@
   								marker = new naver.maps.Marker({
   								position: latlngs[i],
   								icon: {
-									url:'../img/greenmarker.png'
+									url:'../img/marker.png'
 								}
 							});													
 						} else {
 								marker = new naver.maps.Marker({
 								position: latlngs[i],
 								icon: {
-									url:'../img/purplemarker.png'
+									url:'../img/marker.png'
 								}
 							});
 						};
@@ -166,18 +167,19 @@
 						// 각 contentString을 infoWindow에 저장한 뒤
 						// 각 infoWindow를 미리 선언한 infoWindows 배열에 추가
 						let contentString = [
-							'<div style="padding-top:18px;padding-bottom:4px;padding-left:5px;padding-right:5px;background-color:#fff;color:black; text-align:center;border:1px solid #008000; border-radius:14px; opacity:75%">'+					
-							'<div style="font-weight: bold;font-size:14px">'+
-							'<h3>&nbsp;&nbsp;' + nameArr[i] + '&nbsp;&nbsp;</h3>',
-							'<p>&nbsp;&nbsp;' + addressArr[i] + '&nbsp;&nbsp;<br>',							
-							'&nbsp;&nbsp;전화번호: ' + contactArr[i] + '&nbsp;&nbsp;<br>',
-							'&nbsp;&nbsp;휴무일: ' + cdayArr[i] + '&nbsp;&nbsp;',
-							'<div>'+
-							'</div>'	
+							'<div class="info-window">' +
+							'<div class="shop-info-name">' + nameArr[i] + '</div>' +
+							'<div class="shop-info-addr">' + addressArr[i] + '</div>' +
+							'<div class="shop-info-detail">' +
+							'<div>' + 
+							'<span>전화번호</span><span class="shop-info-number">: ' + contactArr[i] + '</span>' +
+							'</div><div>' +
+							'<span>휴무일</span><span class="shop-info-cday">: ' + cdayArr[i] + '</span>' +
+							'</div></div></div>'	
 						].join('');
 						infoWindow = new naver.maps.InfoWindow({
 							content: contentString,
-							maxWidth: 350,
+							maxWidth: 380,
 							anchorColor: "#008000",
 							borderWidth: 0,
 							anchorSize: new naver.maps.Size(10, 10)
@@ -233,7 +235,7 @@
   		});
   		
   		// 상점 리스트 클릭 시 해당 상점의 이름을 받아 showThisOnly()를 호출
-  		$('#markerList tbody').on('click', '.shopName', function() {
+  		$('#marker-list tbody').on('click', '.shop-name', function() {
 			let thisShop = $(this).text();
 			let index;
 			for (var i=0; i<nameArr.length; i++) {
@@ -280,14 +282,14 @@
 						shopsOnMap.push(nameArr[i]);
 						markersOnMap.push(marker);
 						content = [
-							'<tr class="elements" id=' + i + '><td style="font-weight: bold;font-size:25px; padding-left:15px;" class="shopName" colspan="3"><b>' + nameArr[i] + '</b></td></tr>',
-							'<tr class="elements" id=' + i + '><td style="padding-left:20px;" colspan="3">' + addressArr[i] + '</td></tr>',
-							'<tr class="elements" id=' + i + '><td style="padding-left:20px;">전화번호</td><td style="position:absolute; left: 100px;" colspan="2">' + ": "+contactArr[i] + '</td></tr>',
-							'<tr class="elements" id=' + i + '><td style=" padding-left:20px;">휴무일 </td><td style="position:absolute; left: 100px;" colspan="2">' + ": "+cdayArr[i] + '</td></tr>',							
-							'<tr class="elements" id=' + i + '><td colspan="3"><hr></td></tr>'
+							'<tr class="elements" id=' + i + '><td class="shop-name" colspan="2"><b>' + nameArr[i] + '</b></td></tr>',
+							'<tr class="elements" id=' + i + '><td class="shop-addr" colspan="2">' + addressArr[i] + '</td></tr>',
+							'<tr class="elements" id=' + i + '><td class="shop-detail">전화번호</td><td class="shop-detail">' + ": "+contactArr[i] + '</td></tr>',
+							'<tr class="elements" id=' + i + '><td class="shop-detail">휴무일</td><td class="shop-detail">' + ": "+cdayArr[i] + '</td></tr>',							
+							'<tr class="elements" id=' + i + '><td colspan="2"><div class="shop-table-border"></div></td></tr>'
 						]
 						html = content.join('');
-						$('#markerList>tbody').append(html);
+						$('#marker-list>tbody').append(html);
 					}
 				
 				// 현재 Bounds에 position이 포함되지 않은 경우
@@ -298,7 +300,7 @@
 					// 있다면(이전 Bounds 내부에 위치하였다가 현재 Bounds 밖에 위치한 경우) shopsOnMap 배열에서 해당 상점의 이름을, markersOnMap에서 해당 상점의 마커를 삭제
 					for (var j=0; j<shopsOnMap.length; j++) {
 						if(shopsOnMap[j] === nameArr[i]) {
-							$('#markerList>tbody>tr').remove('#' + i);
+							$('#marker-list>tbody>tr').remove('#' + i);
 							shopsOnMap.splice(j, 1);
 							markersOnMap.splice(j, 1);
 							j--;
@@ -307,15 +309,14 @@
 				} 
 			}
 							
-			if( $('#markerList>tbody>tr').hasClass('elements') ) {
-				$('#markerList>tbody>tr').remove('.tableIsEmpty');
+			if( $('#marker-list>tbody>tr').hasClass('elements') ) {
+				$('#marker-list>tbody>tr>td').remove('.shop-empty');
 			} else {		
-				if( !$('#markerList>tbody>tr').hasClass('tableIsEmpty') ) {				
+				if( !$('#marker-list>tbody>tr>td').hasClass('shop-empty') ) {				
 					content = [
-						'<tr class="tableIsEmpty"><td></td></tr>',
-						'<tr class="tableIsEmpty"><td><h3 id="zerowastenone"><br><br><br>주변에 위치한 제로 웨이스트 상점이 없습니다</h3></td></tr>'
+						'<tr><td class="shop-empty">주변에 위치한<br>제로웨이스트 상점이 없습니다.</td></tr>'
 					].join('');
-					$('#markerList>tbody').append(content);
+					$('#marker-list>tbody').append(content);
 				}
 			}
 		}
