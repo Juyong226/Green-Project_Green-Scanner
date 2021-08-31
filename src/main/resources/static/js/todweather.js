@@ -22,7 +22,7 @@ $(document).ready(function(){
 			$('.City').append($city)
 			//$('.CurrIcon').append("http://openweathermap.org/img/wn/"+ $Icon +"@2x.png");
 			$('.CurrTemp').prepend("최저기온 "+$Temp_min);
-			$('.CurrTemph').prepend("최고기온 "+$Temp_max);
+			$('.CurrTemph').prepend("최고 기온 "+$Temp_max);
 			$('.CurrDate').prepend($tdate);
 			
 		}
