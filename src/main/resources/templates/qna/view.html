@@ -2,6 +2,29 @@
 <html>
 <head th:replace="fragments/qna_head :: qna_head('상세보기')">
 <body>
+	<!-- 공통 네비게이션: top -->
+	<nav>
+		<!-- content section 크기와 같은 영역 -->
+		<div class="nav-top">
+			<div class="wrapper">
+				<div class="nav-logo">
+					<a>Green Scanner</a>
+				</div>
+				<div class="nav-menu">
+					<a>로그인</a> <a>회원가입</a> <a>공지사항</a> <a>FAQ</a>
+					<div class="nav-dropdown">
+						<button class="nav-dropdown-btn">자주사용하는기능</button>
+						<div class="dropdown-submenu">
+							<a>음성으로배출방법찾기</a> <a>사진으로배출방법찾기</a> <a>주변쓰레기통찾기</a> <a>제로웨이스트상점찾기</a>
+							<a>챌린지</a> <a>게시판</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</nav>
+	<!-- 밑줄: 디자인 요소 다운하여 사용 -->
+	<div class="nav-border"></div>
 	<div class="main">
 		<div class="Title_section">
 			<label class="Title_text">FAQ</label>
@@ -90,8 +113,8 @@
 							</div> -->
 							<!-- 댓글 삭제 시 board.js => DeleteComment함수에서 확인 후 삭제 처리 -->
 							<div class="Comment_delete_Btn inline_block">
-								<form name="deleteForm" action="deleteReply"
-									method="post" onsubmit="return DeleteComment();">
+								<form name="deleteForm" action="deleteReply" method="post"
+									onsubmit="return DeleteComment();">
 									<input id="reno" type="hidden" name="reno"
 										th:value=${comment.reno}> <input type="hidden"
 										name="postno" th:value=${post.postno}> <input
@@ -108,10 +131,8 @@
 				</div>
 			</div>
 			<div class="Back_to_menu">
-				<a 
-					href="/qna" id="board"
-					class="text_decoration_none"><label class="Back_to_menu_text">목록으로
-						돌아가기</label></a> 
+				<a href="/qna" id="board" class="text_decoration_none"><label
+					class="Back_to_menu_text">목록으로 돌아가기</label></a>
 			</div>
 			<!-- 			<div class="Prev"></div>
 			<div class="Next"></div> -->
@@ -120,8 +141,8 @@
 
 
 	</div>
-<!-- 	<!-- <!-- 뒤로가기 버튼/게시판 제목 -->
-<!-- 	<div class="board-font my-2" style="font-family: NanumBarunGothic">
+	<!-- 	<!-- <!-- 뒤로가기 버튼/게시판 제목 -->
+	<!-- 	<div class="board-font my-2" style="font-family: NanumBarunGothic">
 		<a class="navbar-brand" href="#" style="text-decoration: none;"> <label
 			style="font-size: 20px; font-weight: bold; padding: 30px, 30px, 2px, 30px; margin-top: 10px; margin-left: 5px; color: #5A9367">[QnA
 				게시판]</label>

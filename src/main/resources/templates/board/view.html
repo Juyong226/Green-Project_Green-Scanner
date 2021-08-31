@@ -2,9 +2,32 @@
 <html>
 <head th:replace="fragments/board_head :: head('상세보기')">
 <body>
+	<!-- 공통 네비게이션: top -->
+	<nav>
+		<!-- content section 크기와 같은 영역 -->
+		<div class="nav-top">
+			<div class="wrapper">
+				<div class="nav-logo">
+					<a>Green Scanner</a>
+				</div>
+				<div class="nav-menu">
+					<a>로그인</a> <a>회원가입</a> <a>공지사항</a> <a>FAQ</a>
+					<div class="nav-dropdown">
+						<button class="nav-dropdown-btn">자주사용하는기능</button>
+						<div class="dropdown-submenu">
+							<a>음성으로배출방법찾기</a> <a>사진으로배출방법찾기</a> <a>주변쓰레기통찾기</a> <a>제로웨이스트상점찾기</a>
+							<a>챌린지</a> <a>게시판</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</nav>
+	<!-- 밑줄: 디자인 요소 다운하여 사용 -->
+	<div class="nav-border"></div>
 	<div class="main">
 		<div class="Title_section">
-			<label class="Title_text" th:text="${post.boardname}"></label>
+			<label class="Title_text" th:text="${post.title}"></label>
 			<div class="Vector_13"></div>
 		</div>
 		<div class="Post_section">
@@ -15,7 +38,7 @@
 						th:text="${post.nickname}"></label> <label class="text"
 						th:if="${post.isanon} == 1">익명</label>
 				</div>
-				<div class="Title_div" th:text="${post.title}"></div>
+				<!-- <div class="Title_div" th:text="${post.title}"></div> -->
 				<div class="Img_div" th:if="${post.filename}">
 					<img class="img_100"
 						th:src="@{'/board/display?filename='+${post.filename}}">
@@ -86,7 +109,7 @@
 					<div class="Comment_edit inline_block">
 						<div th:if="${session.memnickname == comment.nickname}">
 							<!-- <div class="Comment_modify_Btn inline_block">
-								<a id="replyUpdate" href="#">수정</a>
+								<a id="replyUpdate" href="#" onclick="fn_replyUpdate('th:value=${comment.reno}/>')" >수정</a>
 							</div> -->
 							<!-- 댓글 삭제 시 board.js => DeleteComment함수에서 확인 후 삭제 처리 -->
 							<div class="Comment_delete_Btn inline_block">
@@ -100,127 +123,49 @@
 							</div>
 						</div>
 					</div>
-
-
-					<div class="Comment_memo" id="reply">
-						<label th:text="${comment.rememo}"></label>
+					<div id="replyUpdateDiv" class="board-font"
+						style="width: 99%; display: none">
+						<form name="form2" action="updateReply" method="post">
+							<input type="hidden" name="postno" th:value=${post.postno} /> <input
+								type="hidden" name="reno"> <input type="text"
+								name="rememo" /> <a href="#" onclick="fn_replyUpdateSave()"
+								style="text-decoration: none; font-size: 0.9em; color: #198754;">저장</a>
+							<a href="#" onclick="fn_replyUpdateCancel()"
+								style="text-decoration: none; font-size: 0.9em; color: #198754;">취소</a>
+						</form>
+					</div>
+					<div class="Comment_memo">
+						<label th:id=${comment.reno} th:text="${comment.rememo}"></label>
 					</div>
 				</div>
 			</div>
 			<div class="Back_to_menu">
 				<a th:if="${post.boardname=='자유게시판'}"
 					href="/board/bulletin_boardlist" id="board"
-					class="text_decoration_none"><label
-						class="Back_to_menu_text">목록으로 돌아가기</label></a>
-						<a
-					th:if="${post.boardname=='질문게시판'}" href="/board/question_boardlist"
-					id="board" class="text_decoration_none"><label
-						class="Back_to_menu_text">목록으로 돌아가기</label></a>
+					class="text_decoration_none"><label class="Back_to_menu_text">목록으로
+						돌아가기</label></a> <a th:if="${post.boardname=='질문게시판'}"
+					href="/board/question_boardlist" id="board"
+					class="text_decoration_none"><label class="Back_to_menu_text">목록으로
+						돌아가기</label></a>
 			</div>
 			<!-- 			<div class="Prev"></div>
 			<div class="Next"></div> -->
-
 		</div>
-
-
 	</div>
-
-
-
-
-
-
-
-	<!-- 뒤로가기 버튼/게시판 제목 -->
-	<!-- <div class="board-font my-2" style="font-family: NanumBarunGothic">
-		<a th:if="${post.boardname=='자유게시판'}" href="/board/bulletin_boardlist"
-			id="board" class="navbar-brand" style="text-decoration: none;"> <img
-			src="../img/back.png" alt="..."
-			style="width: 20px; height: 20px; margin-left: 5px"> <label
-			id="board_name" th:text="${post.boardname}"
-			style="font-size: 20px; font-weight: bold; padding: 30px, 30px, 2px, 30px; margin-top: 10px; margin-left: 5px; color: #5A9367"></label>
-		</a> <a th:if="${post.boardname=='질문게시판'}"
-			href="/board/question_boardlist" id="board" class="navbar-brand"
-			style="text-decoration: none;"> <img src="../img/back.png"
-			alt="..." style="width: 20px; height: 20px; margin-left: 5px">
-			<label id="board_name" th:text="${post.boardname}"
-			style="font-size: 20px; font-weight: bold; padding: 30px, 30px, 2px, 30px; margin-top: 10px; margin-left: 5px; color: #5A9367"></label>
-		</a> <br>
-	</div>
-	글이 보이는 곳
-	<div class="postArea board-font"
-		style="padding: 10px; border-bottom: 0.1px solid #bebebe;">
-
-		<div class="nicknameDiv"
-			style="float: left; font-family: NanumBarunGothic">
-			<img src="../img/user.png" style="width: 24px; height: 24px;"
-				alt="...">&nbsp
-			익명 사용자 여부 표시
-			<label th:if="${post.isanon} == 1">익명</label> <label
-				th:if="${post.isanon} == 0" th:text="${post.nickname}"></label>
+	<!-- <!-- 밑줄: 디자인 요소 다운하여 사용 -->
+<!-- 	<div class="footer-border"></div>
+	공통 footer
+	<div class="footer">
+		content section 크기와 같은 영역
+		<div class="wrapper">
+			<div class="footer-left">
+				<a>개인정보처리방침</a> <a>이용약관</a>
+			</div>
+			<div class="footer-right">
+				<span>Copyright @ GREEN SCANNER</span>
+			</div>
 		</div>
-		<br> <br>
-		<div class="titleDiv"
-			style="font-size: 1.2em; font-weight: bold; font-family: NanumBarunGothic"
-			align="left">
-			<label th:text="${post.title }"></label>
-		</div>
-		<br>
-
-		사진 표시
-		board/display 요청 결과 ResponseEntity 객체가 리턴됨
-		<div th:if="${post.filename}">
-			<img class="image"
-				th:src="@{'/board/display?filename='+${post.filename}}" width="100%">
-		</div>
-
-
-		<div class="contentDiv mx-2">
-			<label th:text="${post.content}"
-				style="font-size: 1.1em; font-family: NanumBarunGothic" align="left">
-				<br> <br>
-			</label>
-		</div>
-		<input type="hidden" name="postno"><br>
-
-		<div style="font-size: 0.9em" align="right">
-
-			<table>
-				<tr align="right">
-					<td><form th:if="${login_nickname == post.nickname}"
-							style="float: right; margin-right: 10px;"
-							action="/board/updatePost" method="get">
-							<input type="hidden" name="postno" th:value="${post.postno}">
-							<input type="submit"
-								style="background-color: transparent; border: 0px transparent solid; color: #adb5bd;"
-								value="게시글 수정" />
-						</form></td>
-					게시물 삭제 시 board.js => DeletePost함수에서 확인 후 삭제 처리
-					<td><form th:if="${login_nickname == post.nickname}"
-							style="float: right;" action="/board/deletePost" method="post"
-							onsubmit="return DeletePost();">
-							<input type="hidden" name="_csrf" th:value="${token}"> <input
-								type="hidden" name="postno" th:value="${post.postno}"> <input
-								type="hidden" name="boardname" th:value="${post.boardname}">
-							<input type="submit"
-								style="background-color: transparent; border: 0px transparent solid; color: #adb5bd;"
-								value="게시글 삭제" />
-						</form></td>
-				</tr>
-				<tr align="right">
-					<td colspan="2"><span
-						th:text="${#dates.format(post.postdate, 'yyyy/MM/dd HH시 mm분 ss초')}"></span></td>
-				</tr>
-			</table>
-		</div>
-
-	</div>
-
-	<div th:replace="board/comment :: commentWrite"></div>
-	<div th:replace="board/comment :: comment"></div>
-	<br />
-	<br />
-	<br /> -->
+	</div> --> -->
 
 </body>
 </html>

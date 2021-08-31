@@ -13,6 +13,116 @@
 	font-style: normal;
 }
 
+/*nav/footer css*/
+html, body {
+	width: 99.7%;
+}
+
+.nav-top {
+	width: 100%;
+	height: 96px;
+	display: flex;
+	justify-content: center;
+}
+
+.footer {
+	width: 100%;
+	height: 111px;
+	display: flex;
+	justify-content: center;
+	color: #5f6262;
+	font-size: 0.8rem;
+}
+
+.wrapper {
+	width: 1194px;
+	height: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between; 
+	align-content: center;
+	align-items: center;
+	font-family: Gmarket Sans;
+}
+
+.footer-left {
+	width: 180px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.nav-logo {
+	font-family: Permanent Marker;
+	font-size: 1.8rem;
+	color: black;
+}
+
+.nav-menu {
+	width: 420px;
+	display: flex;
+	justify-content: space-between;
+	color: black;
+}
+
+#nickname {
+	color: #4cbd73; 	
+}
+
+.nav-dropdown-btn {
+	width: 150px;
+	border: none;
+	background: #ffffff;
+	font-family: Gmarket Sans;
+	font-size: 1rem;
+}
+
+.dropdown-submenu {
+	display: none;
+	box-shadow: 2px 2px 10px #5f6262;
+	width: 150px;
+	height: 170px;
+	font-size: 0.9rem;
+	text-align: center;
+	z-index: 1;
+	background: #ffffff;
+}
+
+.dropdown-submenu a {
+	color: #5f6262;
+	display: block;
+}
+
+.nav-dropdown:hover .dropdown-submenu {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+}
+
+.dropdown-submenu a:hover {
+	color: #4cbd73;
+}
+
+/* 링크 관련 css*/
+a, a:link, a:visited {
+	text-decoration: none;
+	color: inherit;
+}
+
+/*상하단 border*/
+.nav-border {
+	width: 100%;
+  	height: 1px;
+  	background-color: #4cbd73;
+}
+
+.footer-border {
+	width: 100%;
+	height: 1px;
+	background-color: #d6dddd;
+}
+
+
 /* 전체게시판 */
 .Title {
 	position: absolute;
@@ -557,7 +667,7 @@ input[type="checkbox"]+label {
 	width: 1194px;
 	display: table;
 	position: relative;
-	top: 48px;
+	top: 22px;
 }
 
 .Content_wrap {
@@ -568,12 +678,13 @@ input[type="checkbox"]+label {
 	font-family: Gmarket Sans;
 	font-style: normal;
 	font-weight: normal;
-	font-size: 16px;
+	font-size: 18px;
 	line-height: 150%;
 	/* identical to box height, or 24px */
 	text-transform: capitalize;
 	/* Gray/10 */
 	color: #181919;
+	padding-bottom: 20px;
 }
 
 .img_24 {
@@ -603,7 +714,7 @@ input[type="checkbox"]+label {
 	font-family: Gmarket Sans;
 	font-style: normal;
 	font-weight: normal;
-	font-size: 16px;
+	font-size: 18px;
 	line-height: 150%;
 	/* identical to box height, or 24px */
 	text-transform: capitalize;
@@ -614,6 +725,8 @@ input[type="checkbox"]+label {
 
 .img_100 {
 	width: 400px;
+	padding-bottom: 20px;
+	
 }
 
 .Img_div {
@@ -755,7 +868,7 @@ input[type="checkbox"]+label {
 	font-family: Gmarket Sans;
 	font-style: normal;
 	font-weight: normal;
-	font-size: 12px;
+	font-size: 14px;
 	line-height: 150%;
 	/* identical to box height, or 18px */
 	text-align: right;
@@ -790,7 +903,7 @@ input[type="checkbox"]+label {
 	font-family: Gmarket Sans;
 	font-style: normal;
 	font-weight: normal;
-	font-size: 12px;
+	font-size: 15px;
 	line-height: 150%;
 	/* identical to box height, or 18px */
 	text-align: right;
