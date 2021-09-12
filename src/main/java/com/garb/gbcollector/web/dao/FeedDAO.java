@@ -4,12 +4,13 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.garb.gbcollector.web.vo.FeedPaginationVO;
 import com.garb.gbcollector.web.vo.FeedVO;
 
 @Repository
 public interface FeedDAO {
 	
-	List<FeedVO> selectAllFeedList();
+	List<FeedVO> selectAllFeedList(FeedPaginationVO params);
 	
 	List<FeedVO> selectMyFeedList(String challengeNum);
 	
@@ -22,5 +23,7 @@ public interface FeedDAO {
 	int updateFeed(FeedVO params);
 	
 	int deleteFeed(int feedNo);
+	
+	int selectFeedTotalCount();
 
 }

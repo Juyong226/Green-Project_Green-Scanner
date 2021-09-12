@@ -1,85 +1,145 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="/fragments/common.html :: header('전체 피드 리스트')">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+<title>피드 모아보기</title>
+<link rel="stylesheet" type="text/css" href="/css/map.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=sv7ubxvg8l"></script>
+<script src="/js/challenge.js"></script>
+<script src="/js/login.js"></script>
+</head>
 <body>
-	<nav th:replace="/fragments/common.html :: nav"></nav>
-	<div th:replace="/fragments/common.html :: back('/challenge/main')"></div>
-	
-	<div>
-		<div>
-			<p>전체 피드</p>
-		</div><hr>
-		<!-- 피드 리스트 출력 -->	
-		<div style="width: 1194px">
-			<!-- 리스트가 존재할 때 -->
-			<div th:if="${#lists.isEmpty(feedList)}">
-				<table>
-					<tr><td colspan="2">아직 등록된 피드가 없습니다.</td></tr>
-				</table>
+	<!-- 공통 네비게이션: top -->
+	<nav>
+		<!-- content section 크기와 같은 영역 -->
+		<div class="nav-top">
+			<div class="wrapper">
+				<div class="nav-logo">
+					<a href="/">Green Scanner</a>
+				</div>
+				<div class="nav-menu">
+					<div class="login-nickname">
+						<a id="login-btn" href="/html/login.html">로그인</a>
+					</div>
+					<div class="join-logout">
+						<a id="join-btn" href="/html/memberInsertForm.html">회원가입</a>
+					</div>
+					<a>공지사항</a>
+					<a>FAQ</a>
+					<div class="nav-dropdown">
+						<button class="nav-dropdown-btn">자주사용하는기능</button>
+						<div class="dropdown-submenu">
+							<a href="/html/SWV.html">음성으로배출방법찾기</a>
+							<a href="/html/SWI.html">사진으로배출방법찾기</a>
+							<a href="/html/trashCanMap.html">주변쓰레기통찾기</a>
+							<a href="/html/zeroWasteShopMap.html">제로웨이스트상점찾기</a>
+							<a href="/challenge/main">챌린지</a>
+							<a href="/board/boardlist">게시판</a>
+						</div>
+					</div>
+				</div>
 			</div>
+		</div>
+	</nav>
+	<!-- 밑줄: 디자인 요소 다운하여 사용 -->
+	<div class="nav-border"></div>
+	<!-- content 영역 -->
+	<div class="chall-cont-body">
+		<div class="chall-cont-wrapper">
+			<div class="chall-cont-top">
+				<span id="chall-cont-top-title">피드 모아보기</span>
+			</div>
+			<!-- feed list border -->
+			<div class="content-border"></div>
 			<!-- 리스트가 존재하지 않을 때 -->
-			<div th:unless="${#lists.isEmpty(feedList)}">
-				<!-- 로그인 했을 때 -->
-				<div 
-					style="width: 582px; border: 0.1px solid #bebebe; float: left; margin-left: 7.5px; margin-right: 7.5px;" 
-					th:if="${nickname}"
-					th:object="${params}"
-					th:each="feed : ${feedList}">
-					<table style="width: 100%">
-						<tr><td>번호</td><td th:text="${feed.feedNo}"></td></tr>
-						<tr><td>닉네임</td><td th:text="${feed.writer}"></td></tr>
-						<tr><td>작성시간</td><td th:text="${#dates.format(feed.postTime, 'yyyy/MM/dd HH시 mm분')}"></td></tr>
-						<tr><td>내용</td><td th:text="${feed.content}"></td></tr>
-						<tr><td>댓글 수</td><td><a th:href="@{'/feed/comments/' + ${feed.feedNo} (challengeNum = ${challengeNum})}" th:text="${feed.commentCnt}"></a></td></tr>
-						<tr th:if="${nickname == feed.writer}">
-							<td>
-								<a th:href="@{'/challenge/feed/' + ${challengeNum} +'/set' (feedNo = ${feed.feedNo})}">수정하기</a>
-							</td>
-							<td>
-								<form
-									id="deleteForm"
-									onsubmit="return fn_feed_delete_confirm()"
-									th:action="@{/challenge/feed/{challengeNum}/{feedNo} (challengeNum = ${challengeNum}, feedNo = ${feed.feedNo})}"
-									th:method="delete">
-									<input type="submit" value="삭제하기" />
-								</form>
-							</td>
-						</tr>
-					</table>
+			<div th:if="${#lists.isEmpty(feedList)}" class="chall-cont-no-feed">
+				<span id="chall-no-list">아직 등록된 피드가 없습니다.</span>
+			</div>
+			<!-- 리스트가 존재할 때 -->
+			<div  class="chall-cont-feed-wrapper" th:unless="${#lists.isEmpty(feedList)}">
+				<div class="chall-cont-feed" th:each="feed : ${feedList}">
+					<div class="feed-top">
+						<div class="feed-top-left">
+							<div class="feed-top-icon">
+								<img src="/img/profile.png">
+							</div>
+							<div class="feed-top-text">
+								<span id="feed-top-nickname" th:text="${feed.writer}"></span>
+								<span id="feed-top-post-time" th:text="${#dates.format(feed.postTime, 'yyyy/MM/dd HH시 mm분')}"></span>
+							</div>
+						</div>
+						<div class="feed-top-right">
+							<a id="feed-top-chall-name">챌린지명(예정)</a>
+							<div class="chall-feed-dropdown">
+								<label th:if="${nickname} and ${nickname == feed.writer}" for="chall-feed-3dots">
+									<img id="chall-feed-3dots" src="/img/3dots.png">
+								</label>
+								<div class="feed-3dots-submenu">	
+									<a	id="feed-edit-btn" 
+										th:href="@{'/challenge/feed/' + ${feed.challengeNum} +'/set' (feedNo = ${feed.feedNo})}">수정</a>
+									<form
+										id="deleteForm"
+										onsubmit="return fn_feed_delete_confirm()"
+										th:action="@{/challenge/feed/{challengeNum}/{feedNo} (challengeNum = ${feed.challengeNum}, feedNo = ${feed.feedNo})}"
+										th:method="delete">
+										<input type="submit" value="삭제" />
+									</form>
+								</div>
+							</div>	
+						</div>
+					</div>
+					<div class="feed-cont">
+						<div class="feed-cont-pic"></div>
+						<div class="feed-cont-text" th:text="${feed.content}"></div>
+					</div>
+					<div class="feed-cmt">
+						<div class="feed-cmt-link">
+							<a th:href="@{'/feed/comments/' + ${feed.feedNo} (challengeNum = ${feed.challengeNum})}">
+								<img src="/img/comment.png">
+								<span></span>
+								<span th:text="${feed.commentCnt}"></span>
+							</a>	
+						</div>
+						<div class="feed-cmt-preview"></div>
+					</div>
 				</div>
-				<!-- 로그인 하지 않았을 때 -->
-				<div 
-					style="width: 582px; border: 0.1px solid #bebebe; float: left; margin-left: 7.5px; margin-right: 7.5px;" 
-					th:unless="${nickname}"
-					th:object="${params}"
-					th:each="feed : ${feedList}">
-					<table style="width: 100%">
-						<tr><td>번호</td><td th:text="${feed.feedNo}"></td></tr>
-						<tr><td>닉네임</td><td th:text="${feed.writer}"></td></tr>
-						<tr><td>작성시간</td><td th:text="${#dates.format(feed.postTime, 'yyyy/MM/dd HH시 mm분')}"></td></tr>
-						<tr><td>내용</td><td th:text="${feed.content}"></td></tr>
-						<tr><td>댓글 수</td><td><a th:href="@{'/feed/comments/' + ${feed.feedNo} (challengeNum = ${challengeNum})}" th:text="${feed.commentCnt}"></a></td></tr>
-					</table>
-				</div>
-			</div>	
+			</div>
+			<div class="chall-cont-btn">
+				<button id="chall-more-btn">더 보기</button>
+			</div>
+		</div>
+	</div>
+	<!-- 밑줄: 디자인 요소 다운하여 사용 -->
+	<div class="footer-border"></div>
+	<!-- 공통 footer -->
+	<div class="footer">
+		<!-- content section 크기와 같은 영역 -->
+		<div class="wrapper">
+			<div class="footer-left">
+				<a>개인정보처리방침</a>
+				<a>이용약관</a>
+			</div>
+			<div class="footer-right">
+				<span>Copyright @ GREEN SCANNER</span>
+			</div>
 		</div>
 	</div>
 	
-	<!-- footer -->	
-	<nav th:replace="/fragments/common.html :: footer"></nav>	
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		var totalFeedCnt = /*[[ ${totalFeedCnt} ]]*/;
+	 	var startIdx = 1;
+	 	var searchStep = 5;
+	 	
+	 	$('#chall-more-btn').click(function() {
+	 		startIdx += searchStep;
+	 		more_feed(startIdx);
+	 	});
+	 	/*]]>*/
+	</script>
 </body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-<script>
-//여기에 이 코드를 쓰기 위해선 loginForm.html에도 위 쿠키 라이브러리르 추가해 주어야합니다.
-$(function(){
-	var blank=$.cookie("blanked");
- 	var login=$.cookie("logined"); 
- 	var logout=$.cookie("logouted"); 
-		$("#loginBlankDiv1").html(blank);
-		$("#loginBlankDiv2").html(blank);
- 		$("#nicknameDiv").html(login);
- 		$("#logoutDiv").html(logout);
-});
-
-</script>
 </html>

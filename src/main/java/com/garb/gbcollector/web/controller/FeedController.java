@@ -19,10 +19,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.garb.gbcollector.constant.Method;
 import com.garb.gbcollector.util.UiUtils;
 import com.garb.gbcollector.web.service.ChallengeService;
 import com.garb.gbcollector.web.service.FeedService;
+import com.garb.gbcollector.web.vo.FeedPaginationVO;
 import com.garb.gbcollector.web.vo.FeedVO;
 import com.garb.gbcollector.web.vo.PersonalChallengeVO;
 
@@ -137,15 +140,28 @@ public class FeedController extends UiUtils {
 	
 	/*전체 피드 리스트 요청*/
 	@GetMapping(value = "/")
-	public String openFeedList(Model model, HttpServletRequest request) {
+	public String openFeedList(FeedPaginationVO params, Model model, HttpServletRequest request) {
 		
 		HttpSession session = request.getSession(false);
 		if(session != null) {
 			model.addAttribute("nickname", session.getAttribute("memnickname"));
-		}
-		List<FeedVO> feedList = feedService.getAllFeedList();
+		}		
+		params.setStartIdx("1");
+		params.setEndIdx("5");
+		int totalFeedCnt = feedService.getFeedTotalCount();
+		List<FeedVO> feedList = feedService.getAllFeedList(params);
 		model.addAttribute("feedList", feedList);
+		model.addAttribute("totalFeedCnt", totalFeedCnt);
 		return "challenge/feed/list";
+	}
+	
+	@PostMapping(value = "/more_feed")
+	public String more_feed(FeedPaginationVO params, Model model, HttpServletRequest request) {
+		params.setStartIdx((String)request.getParameter("startIdx"));
+		params.setEndIdx((String)request.getParameter("endIdx"));
+		List<FeedVO> feedList = feedService.getAllFeedList(params);
+		model.addAttribute("feedList", feedList);
+		return "challenge/feed/partial-content :: more-feed";		
 	}
 	
 	/*피드 삭제 요청*/
