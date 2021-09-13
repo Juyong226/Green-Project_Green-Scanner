@@ -145,9 +145,7 @@ public class FeedController extends UiUtils {
 		HttpSession session = request.getSession(false);
 		if(session != null) {
 			model.addAttribute("nickname", session.getAttribute("memnickname"));
-		}		
-		params.setStartIdx("1");
-		params.setEndIdx("5");
+		}
 		int totalFeedCnt = feedService.getFeedTotalCount();
 		List<FeedVO> feedList = feedService.getAllFeedList(params);
 		model.addAttribute("feedList", feedList);

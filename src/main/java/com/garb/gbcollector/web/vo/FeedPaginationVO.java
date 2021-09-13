@@ -2,13 +2,13 @@ package com.garb.gbcollector.web.vo;
 
 public class FeedPaginationVO {
 
-	String startIdx;
-	String endIdx;
-	String challengeNum;
+	private String startIdx;
+	private String endIdx;
+	private String challengeNum;
 	
 	public FeedPaginationVO() {
-		super();
-		// TODO Auto-generated constructor stub
+		setStartIdx("1");
+		setEndIdx("5");
 	}
 	
 	public FeedPaginationVO(String startIdx, String endIdx, String challengeNum) {
