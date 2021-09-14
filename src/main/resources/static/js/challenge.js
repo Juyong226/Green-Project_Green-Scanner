@@ -1,17 +1,10 @@
-/**
- * 
- */
- 
- $(document).ready(function() {
- 
- 	$("#cancleBtn").click(function() {
+$(document).ready(function() {
 
+ 	$("#cancleBtn").click(function() {
  		if(confirm("선택한 내용이 저장되지 않습니다.\n취소하시겠습니까?")) {
- 			history.back();
- 			
+ 			history.back();			
  		} 
- 	});
- 		
+ 	});		
  });
  
 function fn_duplicate_check(code) {
@@ -39,7 +32,7 @@ function fn_duplicate_check(code) {
  	
  }
  
- function fn_feed_duplicate_check(cNum) {
+function fn_feed_duplicate_check(cNum) {
  	let result = true;
  	let challengeNum = cNum;
  	alert(challengeNum);
@@ -61,9 +54,9 @@ function fn_duplicate_check(code) {
  	});
  	return result;
  	
- }
+}
  
-  function fn_comment_write_confirm() {
+function fn_comment_write_confirm() {
  	let content = $("#cmt-txtarea").val();
  	if(content == "") {
  		alert("댓글 내용을 입력해주세요.");
@@ -75,9 +68,9 @@ function fn_duplicate_check(code) {
  			return false;
  		}
  	}
- }
+}
  
- function fn_comment_update_confirm(index) {
+function fn_comment_update_confirm(index) {
  	let content = $("#cmt-update-txtarea-" + index).val();
  	if(content == "") {
  		alert("댓글 내용을 입력해주세요.");
@@ -89,9 +82,9 @@ function fn_duplicate_check(code) {
  			return false;
  		}
  	}
- }
+}
  
- function fn_cmt_delete_confirm() {
+function fn_cmt_delete_confirm() {
  
  	if(confirm("댓글을 삭제하시겠습니까?")) {
  		return true;
@@ -100,39 +93,39 @@ function fn_duplicate_check(code) {
  		return false;
  		
  	}
- }
+}
 
- function fn_edit_confirm(challengeNum) {
+function fn_edit_confirm(challengeNum) {
  	
- 	let cNum = challengeNum;
- 	let period = $("#editForm input[name='period']:checked").val();
- 	let colorCode = $("#editForm input[name='colorCode']:checked").val();
- 	
- 	if(period === undefined || colorCode === undefined ) {
- 		alert("기간과 색상을 선택해주세요.");
- 		return false;
- 		
- 	} else {
+	let cNum = challengeNum;
+	let period = $("#editForm input[name='period']:checked").val();
+	let colorCode = $("#editForm input[name='colorCode']:checked").val();
+	
+	if(period === undefined || colorCode === undefined ) {
+		alert("기간과 색상을 선택해주세요.");
+		return false;
+		
+	} else {
 	 	if(confirm("챌린지를 수정하시겠습니까?")) {	 		
 	 		let result;
 	 		
 	 		$.ajax({
 	 			method: "POST",
- 				url: "/challenge/period_check",
- 				data: { cNum: cNum, newPeriod: period },
- 				async: false,
- 				success: function(data) {					
- 					let obj = JSON.parse(data);
- 					
- 					if(obj.msg) {
- 						alert(obj.msg);
- 						result = false;
- 						
- 					} else {
- 						result = true;
- 						
- 					}
- 				}
+				url: "/challenge/period_check",
+				data: { cNum: cNum, newPeriod: period },
+				async: false,
+				success: function(data) {					
+					let obj = JSON.parse(data);
+					
+					if(obj.msg) {
+						alert(obj.msg);
+						result = false;
+						
+					} else {
+						result = true;
+						
+					}
+				}
 	 		});
 	 		return result;
 	 			 		
@@ -141,18 +134,18 @@ function fn_duplicate_check(code) {
 	 		
 	 	}
 	}
- }
+}
  
- function fn_create_confirm() {
+function fn_create_confirm() {
  
- 	let period = $("#createForm input[name='period']:checked").val();
- 	let colorCode = $("#createForm input[name='colorCode']:checked").val();
- 	
- 	if(period === undefined || colorCode === undefined ) {
- 		alert("기간과 색상을 선택해주세요.");
- 		return false;
- 		
- 	} else {
+	let period = $("#createForm input[name='period']:checked").val();
+	let colorCode = $("#createForm input[name='colorCode']:checked").val();
+	
+	if(period === undefined || colorCode === undefined ) {
+		alert("기간과 색상을 선택해주세요.");
+		return false;
+		
+	} else {
 	 	if(confirm("챌린지를 생성하시겠습니까?")) {
 	 		return true;
 	 		
@@ -161,29 +154,29 @@ function fn_duplicate_check(code) {
 	 		
 	 	}
 	 }
- }
+}
  
- function fn_write_confirm() {
+function fn_write_confirm() {
  	
- 	let content = $("#feedWriteForm textarea[name='content']").val();
+	let content = $("#feedWriteForm textarea[name='content']").val();
+	
+	if(content == "") {
+		alert("피드 내용을 입력해주세요.");
+		return false;
+		
+	} else {
+		if(confirm("피드를 등록하시겠습니까?")) {
+			return true;
+			
+		} else {
+			return false;
+			
+		}	
+	}
  	
- 	if(content == "") {
- 		alert("피드 내용을 입력해주세요.");
- 		return false;
- 		
- 	} else {
- 		if(confirm("피드를 등록하시겠습니까?")) {
- 			return true;
- 			
- 		} else {
- 			return false;
- 			
- 		}	
- 	}
- 	
- }
+}
  
- function fn_delete_confirm() {
+function fn_delete_confirm() {
  
  	if(confirm("챌린지를 삭제하시겠습니까?")) {
  		return true;
@@ -192,9 +185,9 @@ function fn_duplicate_check(code) {
  		return false;
  		
  	}
- }
+}
  
- function fn_feed_delete_confirm() {
+function fn_feed_delete_confirm() {
  	
  	if(confirm("피드를 삭제하시겠습니까?")) {
  		return true;
@@ -203,4 +196,27 @@ function fn_duplicate_check(code) {
  		return false;
  		
  	}
+}
+ 
+ /*---------더 보기 관련 script---------*/
+ function more_feed(startIdx) {
+ 	let endIdx;
+ 	if( (startIdx + searchStep - 1) > totalFeedCnt ) {
+ 		endIdx = totalFeedCnt;
+ 	} else {
+ 		endIdx = startIdx + searchStep -1;
+ 	}
+ 	$.ajax({
+ 		method: "POST",
+ 		url: "/challenge/feed/more_feed",
+ 		data: { startIdx: startIdx, endIdx: endIdx },
+ 		dataType: "html",
+ 		success: function(html) {
+ 			$(html).appendTo($(".chall-cont-feed-wrapper")).slideDown();
+ 			
+ 			if( (startIdx + searchStep) > totalFeedCnt ) {
+ 				$('#chall-more-btn').remove();
+ 			}
+ 		}
+ 	});
  }

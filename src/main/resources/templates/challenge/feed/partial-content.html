@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<div th:fragment="more-feed" class="chall-cont-feed" th:each="feed : ${feedList}">
+		<div class="feed-top">
+			<div class="feed-top-left">
+				<div class="feed-top-icon">
+					<img src="/img/profile.png">
+				</div>
+				<div class="feed-top-text">
+					<span id="feed-top-nickname" th:text="${feed.writer}"></span>
+					<span id="feed-top-post-time" th:text="${#dates.format(feed.postTime, 'yyyy/MM/dd HH시 mm분')}"></span>
+				</div>
+			</div>
+			<div class="feed-top-right">
+				<a>챌린지명(예정)</a>
+				<div class="chall-feed-dropdown">
+					<label th:if="${nickname} and ${nickname == feed.writer}" for="chall-feed-3dots">
+						<img id="chall-feed-3dots" src="/img/3dots.png">
+					</label>
+					<div class="feed-3dots-submenu">	
+						<a	id="feed-edit-btn" 
+							th:href="@{'/challenge/feed/' + ${feed.challengeNum} +'/set' (feedNo = ${feed.feedNo})}">수정</a>
+						<form
+							id="deleteForm"
+							onsubmit="return fn_feed_delete_confirm()"
+							th:action="@{/challenge/feed/{challengeNum}/{feedNo} (challengeNum = ${feed.challengeNum}, feedNo = ${feed.feedNo})}"
+							th:method="delete">
+							<input type="submit" value="삭제" />
+						</form>
+					</div>
+				</div>	
+			</div>
+		</div>
+		<div class="feed-cont">
+			<div class="feed-cont-pic"></div>
+			<div class="feed-cont-text" th:text="${feed.content}"></div>
+		</div>
+		<div class="feed-cmt">
+			<div class="feed-cmt-link">
+				<a th:href="@{'/feed/comments/' + ${feed.feedNo} (challengeNum = ${feed.challengeNum})}" id="feed-cmt-link">
+					<img src="/img/comment.png">
+					<span></span>
+					<span th:text="${feed.commentCnt}"></span>
+				</a>	
+			</div>
+			<div class="feed-cmt-preview"></div>
+		</div>
+	</div>
+</body>
+</html>

@@ -10,12 +10,12 @@
 <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=jmywHAbDp9K6YoNogNJG-Q4erf4EKqZJfetUSyfvugHwiCp5quXB2A8wLnVOGCzmSTSrilJE5acMk0iNaQ67Mbzl65ptDbJJWfouKAVXcxGdt7ws6A2zm_NVJmXKAZL2wX6Rtg61RzpKuinZh767HA" charset="UTF-8"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-<script type="text/javascript" src="js/login.js"></script>
-<script type="text/javascript" src="js/main.js"></script>
-<script type="text/javascript" src="js/slider.js"></script>
-<script type="text/javascript" src="js/temperature.js"></script>
-<script type="text/javascript" src="js/todweather.js"></script>
-<script type="text/javascript" src="js/navercallback.js"></script>
+<script type="text/javascript" src="/js/login.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+<script type="text/javascript" src="/js/slider.js"></script>
+<script type="text/javascript" src="/js/temperature.js"></script>
+<script type="text/javascript" src="/js/todweather.js"></script>
+<script type="text/javascript" src="/js/navercallback.js"></script>
 
 </head>
 <body>
@@ -62,65 +62,79 @@
 				<a href="/html/SWI.html"><img src="/img/mainpicture.png"></a> 
 				<a href='/html/trashCanMap.html'><img src="/img/maingarbage.png"></a> 
 				<a href='/html/zeroWasteShopMap.html'><img src="/img/mainzero.png"></a> 
-				<a href='/html/challenge.html'><img src="/img/mainchallenge.png"></a>
+				<a href='/challenge/main'><img src="/img/mainchallenge.png"></a>
 				<a href="/board/boardlist"><img src="/img/mainboard.png"></a>
 			</div>
 		</div>
 	</div>
 
-<!-- 오늘의 꿀팁 --> 
-<div class="slider">
-<img src="img/todaytips.png" width=150><label class="text_0"></label>
-
-
-	<div id="carouselExampleIndicators" class="carousel slide mx-2 my-3" >
-
-		 <!--  <img src="img/glass.png" class="d-block w-100" alt="..." width =1000>
-		   <a href='http://www.15990903.or.kr/user/index.do' target="_blank"><img src="img/freecollector.png" class="d-block w-100" alt="..."width =1000></a> -->
-		   <a href='http://www.s8272.co.kr/' target="_blank"><img src="img/seorecycle.png" class="d-block w-100" alt="..." width =1200></a>
+	<!-- 오늘의 꿀팁 --> 
+	<div class="slider">
+	<img src="img/todaytips.png" width=150><label class="text_0"></label>
+	
+	
+		<div id="carouselExampleIndicators" class="carousel slide mx-2 my-3" >
+	
+			 <!--  <img src="img/glass.png" class="d-block w-100" alt="..." width =1000>
+			   <a href='http://www.15990903.or.kr/user/index.do' target="_blank"><img src="img/freecollector.png" class="d-block w-100" alt="..."width =1000></a> -->
+			   <a href='http://www.s8272.co.kr/' target="_blank"><img src="img/seorecycle.png" class="d-block w-100" alt="..." width =1200></a>
+		</div>
 	</div>
-</div>
-
-
-
-<div class="Rectangle202">
-<img src=img/down.png width=220 >
-</div>
-
-<!--30년 전 오늘 -->
-<div class="Rectangle_167">
-<img src=img/todaycast.png width=90 class="imgleft">
-<img src=img/todayearth.png width=80 class="imgright">
-<div class = 'City'></div>
-<div class = 'CurrIcon'></div>
-<div class = 'CurrDate'></div>
-<div class = 'CurrTemp'></div>
-<div class = 'CurrTemph'></div>
-
-</div>
-
-
-<div class="Rectangle_168">
-<img src=img/pastcast.png width=80 class="imgleft">
-<img src=img/pastearth.png width=80 class="imgright">
-<div id="past_temperature" class="past"></div>
-<a href='http://www.15990903.or.kr/user/index.do' target="_blank"><img src=img/freerecycle.png class=right width=700></a>
-</div>
-
-<!--카드뉴스 목록-->
-		<div class="cardnews">
-		<img src="img/cardnewsbanner.png" class=banner width=100>
-		<table id="img_table" class="table">
-		
-			<td width=240px><a href="#"><img class="img-rounded" src="img/001.png" width=240px alt="..." ></figure></a></td>
-			<td width=240px><a href="#"><img class="img-rounded" src="img/002.png" width=240px alt="..." ></figure></a></td>
-			<td width=240px><a href="#"><img class="img-rounded" src="img/003.png" width=240px alt="..." ></figure></a></td>
-			<td width=240px><a href="#"><img class="img-rounded" src="img/006.png" width=240px alt="..." ></figure></a></td>
-			<td width=240px><a href="#"><img class="img-rounded" src="img/005.png" width=240px alt="..." ></figure></a></td>
-		
-		</table>
+	
+	
+	
+	<div class="Rectangle202">
+	<img src=img/down.png width=220 >
 	</div>
-</div>
-
+	
+	<!--30년 전 오늘 -->
+	<div class="Rectangle_167">
+	<img src=img/todaycast.png width=90 class="imgleft">
+	<img src=img/todayearth.png width=80 class="imgright">
+	<div class = 'City'></div>
+	<div class = 'CurrIcon'></div>
+	<div class = 'CurrDate'></div>
+	<div class = 'CurrTemp'></div>
+	<div class = 'CurrTemph'></div>
+	
+	</div>
+	
+	
+	<div class="Rectangle_168">
+	<img src=img/pastcast.png width=80 class="imgleft">
+	<img src=img/pastearth.png width=80 class="imgright">
+	<div id="past_temperature" class="past"></div>
+	<a href='http://www.15990903.or.kr/user/index.do' target="_blank"><img src=img/freerecycle.png class=right width=700></a>
+	</div>
+	
+	<!--카드뉴스 목록-->
+			<div class="cardnews">
+			<img src="img/cardnewsbanner.png" class=banner width=100>
+			<table id="img_table" class="table">
+			
+				<td width=240px><a href="#"><img class="img-rounded" src="img/001.png" width=240px alt="..." ></figure></a></td>
+				<td width=240px><a href="#"><img class="img-rounded" src="img/002.png" width=240px alt="..." ></figure></a></td>
+				<td width=240px><a href="#"><img class="img-rounded" src="img/003.png" width=240px alt="..." ></figure></a></td>
+				<td width=240px><a href="#"><img class="img-rounded" src="img/006.png" width=240px alt="..." ></figure></a></td>
+				<td width=240px><a href="#"><img class="img-rounded" src="img/005.png" width=240px alt="..." ></figure></a></td>
+			
+			</table>
+		</div>
+	</div>
+	<!-- 밑줄: 디자인 요소 다운하여 사용 -->
+	<div class="footer-border"></div>
+	<!-- 공통 footer -->
+	<div class="footer">
+		<!-- content section 크기와 같은 영역 -->
+		<div class="wrapper">
+			<div class="footer-left">
+				<a>개인정보처리방침</a>
+				<a>이용약관</a>
+			</div>
+			<div class="footer-right">
+				<span>Copyright @ GREEN SCANNER</span>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

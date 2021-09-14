@@ -16,9 +16,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<result property="postTime" column="post_time"/>
 </resultMap>
 
-<select id="selectAllFeedList" resultMap="feedResult">
+<select id="selectAllFeedList" parameterType="FeedPaginationVO" resultMap="feedResult">
 	<![CDATA[
-		select * from challengeFeed
+		select * 
+		from (
+				select row_number() over(order by post_time desc) num
+				, challengeFeed.*
+				from challengeFeed
+				order by post_time desc
+			 )
+		where num between to_number(#{startIdx}) and to_number(#{endIdx})	
 		order by post_time desc
 	]]>
 </select>
@@ -81,4 +88,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where feed_no = #{feedNo}
 	]]>
 </delete>
+
+<select id="selectFeedTotalCount" resultType="int">
+	<![CDATA[
+		select count(*) from challengeFeed
+	]]>
+</select>
 </mapper>

@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="/fragments/common.html :: header('챌린지')">
 <body>
-	<nav th:replace="/fragments/common.html :: nav"></nav>
+	<nav th:replace="/fragments/common.html :: nav-top"></nav>
 	<div th:replace="/fragments/common.html :: back('/index.html')"></div>
 
 	<div>
@@ -69,22 +69,7 @@
 				</tbody>
 			</table>
 		</div>
-	</div>		
-	<!-- footer -->	
-	<nav th:replace="/fragments/common.html :: footer"></nav>
+	</div>
+	<div th:replace="/fragments/common.html :: new-footer"></nav>
 </body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-<script>
-//여기에 이 코드를 쓰기 위해선 loginForm.html에도 위 쿠키 라이브러리르 추가해 주어야합니다.
-$(function(){
-	var blank=$.cookie("blanked");
- 	var login=$.cookie("logined"); 
- 	var logout=$.cookie("logouted"); 
-		$("#loginBlankDiv1").html(blank);
-		$("#loginBlankDiv2").html(blank);
- 		$("#nicknameDiv").html(login);
- 		$("#logoutDiv").html(logout);
-});
-
-</script>
 </html>

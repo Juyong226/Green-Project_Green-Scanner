@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/common.html :: header('전체 피드 리스트')">
+<body>
+	<nav th:replace="/fragments/common.html :: nav"></nav>
+	<div th:replace="/fragments/common.html :: back('/challenge/main')"></div>
+	
+	<div>
+		<div>
+			<p>전체 피드</p>
+		</div><hr>
+		<!-- 피드 리스트 출력 -->	
+		<div style="width: 1194px">
+			<!-- 리스트가 존재할 때 -->
+			<div th:if="${#lists.isEmpty(feedList)}">
+				<table>
+					<tr><td colspan="2">아직 등록된 피드가 없습니다.</td></tr>
+				</table>
+			</div>
+			<!-- 리스트가 존재하지 않을 때 -->
+			<div th:unless="${#lists.isEmpty(feedList)}">
+				<!-- 로그인 했을 때 -->
+				<div 
+					style="width: 582px; border: 0.1px solid #bebebe; float: left; margin-left: 7.5px; margin-right: 7.5px;" 
+					th:if="${nickname}"
+					th:object="${params}"
+					th:each="feed : ${feedList}">
+					<table style="width: 100%">
+						<tr><td>번호</td><td th:text="${feed.feedNo}"></td></tr>
+						<tr><td>닉네임</td><td th:text="${feed.writer}"></td></tr>
+						<tr><td>작성시간</td><td th:text="${#dates.format(feed.postTime, 'yyyy/MM/dd HH시 mm분')}"></td></tr>
+						<tr><td>내용</td><td th:text="${feed.content}"></td></tr>
+						<tr><td>댓글 수</td><td><a th:href="@{'/feed/comments/' + ${feed.feedNo} (challengeNum = ${feed.challengeNum})}" th:text="${feed.commentCnt}"></a></td></tr>
+						<tr th:if="${nickname == feed.writer}">
+							<td>
+								<a th:href="@{'/challenge/feed/' + ${challengeNum} +'/set' (feedNo = ${feed.feedNo})}">수정하기</a>
+							</td>
+							<td>
+								<form
+									id="deleteForm"
+									onsubmit="return fn_feed_delete_confirm()"
+									th:action="@{/challenge/feed/{challengeNum}/{feedNo} (challengeNum = ${feed.challengeNum}, feedNo = ${feed.feedNo})}"
+									th:method="delete">
+									<input type="submit" value="삭제하기" />
+								</form>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<!-- 로그인 하지 않았을 때 -->
+				<div 
+					style="width: 582px; border: 0.1px solid #bebebe; float: left; margin-left: 7.5px; margin-right: 7.5px;" 
+					th:unless="${nickname}"
+					th:object="${params}"
+					th:each="feed : ${feedList}">
+					<table style="width: 100%">
+						<tr><td>번호</td><td th:text="${feed.feedNo}"></td></tr>
+						<tr><td>닉네임</td><td th:text="${feed.writer}"></td></tr>
+						<tr><td>작성시간</td><td th:text="${#dates.format(feed.postTime, 'yyyy/MM/dd HH시 mm분')}"></td></tr>
+						<tr><td>내용</td><td th:text="${feed.content}"></td></tr>
+						<tr><td>댓글 수</td><td><a th:href="@{'/feed/comments/' + ${feed.feedNo} (challengeNum = ${feed.challengeNum})}" th:text="${feed.commentCnt}"></a></td></tr>
+					</table>
+				</div>
+			</div>	
+		</div>
+	</div>
+	
+	<!-- footer -->	
+	<nav th:replace="/fragments/common.html :: footer"></nav>	
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script>
+//여기에 이 코드를 쓰기 위해선 loginForm.html에도 위 쿠키 라이브러리르 추가해 주어야합니다.
+$(function(){
+	var blank=$.cookie("blanked");
+ 	var login=$.cookie("logined"); 
+ 	var logout=$.cookie("logouted"); 
+		$("#loginBlankDiv1").html(blank);
+		$("#loginBlankDiv2").html(blank);
+ 		$("#nicknameDiv").html(login);
+ 		$("#logoutDiv").html(logout);
+});
+
+</script>
+</html>

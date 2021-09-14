@@ -24,8 +24,12 @@
 }
 
 /*nav/footer css*/
-html, body {
+html{
 	width: 99.7%;
+}
+
+body {
+	width: 100%;
 }
 
 .nav-top {
@@ -39,7 +43,9 @@ html, body {
 	width: 100%;
 	height: 111px;
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
+	align-items: center;
 	color: #5f6262;
 	font-size: 0.8rem;
 }
@@ -49,8 +55,8 @@ html, body {
 	height: 100%;
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: space-between; 
-	align-content: center;
+	justify-content: space-between;
+	align-content: center; 
 	align-items: center;
 	font-family: GmarketSans;
 }
@@ -64,7 +70,7 @@ html, body {
 .nav-logo {
 	font-family: PermanentMarker;
 	font-size: 1.8rem;
-	color: black;
+	color: #4cbd73;
 }
 
 .nav-menu {
@@ -132,7 +138,7 @@ html, body {
 
 #main-icons-title {
 	font-family: GmarketSans;
-	font-size: 1.5rem;
+	font-size: 1.8rem;
 	font-weight: 700;
 }
 
@@ -581,6 +587,214 @@ input::placeholder{
 
 .shop-info-cday {
 	font-weight: 400;
+}
+
+/*챌린지 css*/
+.chall-cont-body {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
+.chall-cont-wrapper {
+	width: 1194px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	font-family: GmarketSans;
+}
+
+.chall-cont-top {
+	width: 100%;
+	height: 135.5px;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	font-size: 1.8rem;
+	font-weight: 700;
+	font-height: 1.5;
+}
+
+#chall-cont-top-title {
+	padding: 5.5px 0px;
+}
+
+.content-border {
+	width: 100%;
+  	height: 1px;
+  	background-color: #4cbd73;
+}
+
+.chall-cont-no-feed {
+	width: 100%;
+	height: 871px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#chall-no-list {
+	font-size: 1.2rem;
+	font-weight: 400;
+	font-height: 1.5;
+}
+
+.chall-cont-feed-wrapper {
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+.chall-cont-feed {
+	width: 582px;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	margin: 7px 0px;
+	border: solid 1px #d6dddd;
+	border-radius: 16px;
+}
+
+.feed-top {
+	width: 100%;
+	height: 136px;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.feed-top-left {
+	width: 230px;
+	height: 72px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.feed-top-text {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+#feed-top-nickname {
+	font-size: 1rem;
+	font-weight: 400;
+	line-height: 1.5;
+}
+
+#feed-top-post-time {
+	font-size: 0.8rem;
+	font-weight: 400;
+	line-height: 1.5;
+	color: #8f9494;
+}
+
+.feed-top-right {
+	width: 210px;
+	height: 72px;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+
+#feed-top-chall-name {
+	font-size: 0.8rem;
+	font-weight: 400;
+	line-height: 1.5;
+	color: #8f9494;
+}
+
+.chall-feed-dropdown {
+	width: 40px;
+}
+
+#chall-feed-3dots {
+	width: 32px;
+	border: none;
+	background: #ffffff;
+}
+
+.feed-3dots-submenu {
+	display: none;
+	box-shadow: 2px 2px 10px #5f6262;
+	width: 100px;
+	height: 112px;
+	font-size: 0.8rem;
+	text-align: center;
+	z-index: 1;
+	background: #ffffff;
+}
+
+.feed-3dots-submenu a, #deleteForm input {
+	color: #5f6262;
+	display: block;
+}
+
+#chall-feed-3dots:click .feed-3dots-submenu {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+}
+
+#chall-feed-3dots a:hover, #deleteForm input:hover {
+	color: #4cbd73;
+}
+
+.feed-cont {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.feed-cont-pic {
+	width: 100%;
+	height: 582px;
+	background-color: #d6dddd;
+}
+
+.feed-cont-text {
+	border-bottom: solid 1px #d6dddd;
+	padding: 24px;
+	font-size: 0.9rem;
+	font-wieght: 400;
+	line-height: 1.5;
+}
+
+.feed-cmt {
+	width: 100%;
+	height: 75px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center; 
+	font-size: 0.9rem;
+	font-weight: 400;
+	line-height: 1.5;
+}
+
+.feed-cmt-link {
+	padding-left: 24px;
+}
+
+.chall-cont-btn {
+	width: 100%;
+	height: 182px;
+	display: flex;
+	justify-content: center;
+	align-items: center; 
+}
+
+#chall-more-btn {
+	width: 378px;
+	height: 56px;
+	border: solid 1px #d6dddd;
+	background: #ffffff;
+	font-size: 0.9rem;
+	font-weight: 400;
+	color: #8f9494;
 }
 
 /*음성인식 css*/

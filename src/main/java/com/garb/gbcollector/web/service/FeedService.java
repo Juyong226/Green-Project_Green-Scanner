@@ -10,7 +10,7 @@ import com.garb.gbcollector.util.GSCalendar;
 import com.garb.gbcollector.web.dao.ChallengeDAO;
 import com.garb.gbcollector.web.dao.FeedCommentDAO;
 import com.garb.gbcollector.web.dao.FeedDAO;
-import com.garb.gbcollector.web.vo.FeedCommentVO;
+import com.garb.gbcollector.web.vo.FeedPaginationVO;
 import com.garb.gbcollector.web.vo.FeedVO;
 import com.garb.gbcollector.web.vo.PersonalChallengeVO;
 
@@ -83,9 +83,9 @@ public class FeedService {
 		return (queryResult == 1) ? true : false;
 	}
 	
-	public List<FeedVO> getAllFeedList() {
+	public List<FeedVO> getAllFeedList(FeedPaginationVO params) {
 		List<FeedVO> feedList = new ArrayList<FeedVO>();
-		feedList = feedDAO.selectAllFeedList();
+		feedList = feedDAO.selectAllFeedList(params);
 		return feedList;
 	}
 	
@@ -94,6 +94,8 @@ public class FeedService {
 		feedList = feedDAO.selectMyFeedList(challengeNum);
 		return feedList;
 	}
-
 	
+	public int getFeedTotalCount() {
+		return feedDAO.selectFeedTotalCount();
+	}
 }
