@@ -30,10 +30,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	]]>
 </select>
 
-<select id="selectMyFeedList" resultMap="feedResult">
+<select id="selectMyFeedList" parameterType="FeedPaginationVO" resultMap="feedResult">
 	<![CDATA[
-		select * from challengeFeed
-		where challengeNum = #{challengeNum}
+		select * 
+		from (
+				select row_number() over(order by post_time desc) num
+				, challengeFeed.*
+				from challengeFeed
+				where challengeNum = #{challengeNum}
+				order by post_time desc
+			 )
+		where num between to_number(#{startIdx}) and to_number(#{endIdx})	
 		order by post_time desc
 	]]>
 </select>
@@ -45,7 +52,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	]]>
 </select>
 
-<select id="duplicateCheck" resultMap="feedResult">
+<select id="duplicateCheck" parameterType="String" resultMap="feedResult">
 	<![CDATA[
 		select * from challengeFeed
 		where challengeNum = #{challengeNum}
@@ -92,6 +99,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <select id="selectFeedTotalCount" resultType="int">
 	<![CDATA[
 		select count(*) from challengeFeed
+	]]>
+</select>
+
+<select id="selectMyFeedCount" parameterType="String" resultType="int">
+	<![CDATA[
+		select count(*) from challengeFeed
+		where challengeNum = #{challengeNum}
 	]]>
 </select>
 </mapper>

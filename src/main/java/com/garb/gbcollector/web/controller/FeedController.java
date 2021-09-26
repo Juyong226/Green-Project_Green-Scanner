@@ -52,7 +52,9 @@ public class FeedController extends UiUtils {
 		} else {
 			PersonalChallengeVO pc = challengeService.getPersonalChallenge(challengeNum);
 			if(feedNo == null) {
-				model.addAttribute("feed", new FeedVO());
+				FeedVO feed = new FeedVO();
+				feed.setWriter((String)session.getAttribute("memnickname"));
+				model.addAttribute("feed", feed);
 			} else {
 				FeedVO feed = feedService.getFeedDetail(feedNo);
 				if(feed == null) {
@@ -61,7 +63,6 @@ public class FeedController extends UiUtils {
 				}
 				model.addAttribute("feed", feed);				
 			}
-			model.addAttribute("nickname", session.getAttribute("memnickname"));
 			model.addAttribute("challengeName", pc.getChallengeName());
 			model.addAttribute("challengeNum", challengeNum);
 		}
@@ -95,7 +96,7 @@ public class FeedController extends UiUtils {
 			e.printStackTrace();
 			return showMessageWithRedirection("시스템에 문제가 발생하였습니다.", redirectURI, Method.GET, null, model);			
 		}
-		return "redirect:/challenge/feed/" + challengeNum; 
+		return "redirect:/challenge/my-challenge/" + challengeNum; 
 	}
 	
 	/*동일 챌린지 피드 중복 체크 요청*/
@@ -131,9 +132,9 @@ public class FeedController extends UiUtils {
 			String redirectURI = "/challenge/main";
 			return showMessageWithRedirection("로그인 후 이용이 가능합니다.", redirectURI, Method.GET, null, model);
 		} else {
-			List<FeedVO> feedList = feedService.getMyFeedList(challengeNum);
-			model.addAttribute("nickname", session.getAttribute("memnickname"));
-			model.addAttribute("feedList", feedList);
+//			List<FeedVO> feedList = feedService.getMyFeedList(challengeNum);
+//			model.addAttribute("nickname", session.getAttribute("memnickname"));
+//			model.addAttribute("feedList", feedList);
 		}
 		return "challenge/feed/my-list";
 	}
@@ -147,6 +148,9 @@ public class FeedController extends UiUtils {
 			model.addAttribute("nickname", session.getAttribute("memnickname"));
 		}
 		int totalFeedCnt = feedService.getFeedTotalCount();
+		if(totalFeedCnt < Integer.parseInt(params.getEndIdx())) {
+			params.setEndIdx(Integer.toString(totalFeedCnt));
+		}
 		List<FeedVO> feedList = feedService.getAllFeedList(params);
 		model.addAttribute("feedList", feedList);
 		model.addAttribute("totalFeedCnt", totalFeedCnt);
@@ -157,7 +161,13 @@ public class FeedController extends UiUtils {
 	public String more_feed(FeedPaginationVO params, Model model, HttpServletRequest request) {
 		params.setStartIdx((String)request.getParameter("startIdx"));
 		params.setEndIdx((String)request.getParameter("endIdx"));
-		List<FeedVO> feedList = feedService.getAllFeedList(params);
+		params.setChallengeNum((String)request.getParameter("challengeNum"));
+		List<FeedVO> feedList;
+		if(((String)request.getParameter("requestPage")).equals("all")) {
+			feedList = feedService.getAllFeedList(params);
+		} else {
+			feedList = feedService.getMyFeedList(params);
+		}
 		model.addAttribute("feedList", feedList);
 		return "challenge/feed/partial-content :: more-feed";		
 	}

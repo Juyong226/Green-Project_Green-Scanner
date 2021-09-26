@@ -40,5 +40,10 @@ public class FeedPaginationVO {
 
 	public void setChallengeNum(String challengeNum) {
 		this.challengeNum = challengeNum;
+	}
+
+	@Override
+	public String toString() {
+		return "FeedPaginationVO [startIdx=" + startIdx + ", endIdx=" + endIdx + ", challengeNum=" + challengeNum + "]";
 	}	
 }

@@ -2,74 +2,85 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="/fragments/common.html :: header('챌린지')">
 <body>
+	<!-- 상단 nav -->
 	<nav th:replace="/fragments/common.html :: nav-top"></nav>
-	<div th:replace="/fragments/common.html :: back('/index.html')"></div>
-
-	<div>
-		<div>
-			<p>챌린지</p>&nbsp;&nbsp;&nbsp;
-			<p><a th:href="@{/challenge/feed/}">모든 피드 보기</a></p><hr>
-		</div>
-		<!-- 로그인 하지 않았을 때 -->
-		<div th:if="${login_required}">		
-			<div style="width=100%; height=20vh;">
-				<span th:text="${login_required}">텍스트 알림</span><hr>
+	<!-- content 영역 -->
+	<div class="chall-cont-body">
+		<div class="chall-cont-wrapper">
+			<div class="chall-cont-top">
+				<div class="chall-cont-top-main">
+					<span class="chall-cont-top-title">챌린지</span>
+					<a id="chall-all-feed" href="/challenge/feed/ ">피드모아보기 ></a>
+				</div>
 			</div>
-		</div>
-		
-		<!-- 로그인 했을 때 -->
-		<div th:unless="${login_required}">
-			<!-- myChallenge(진행 중인 챌린지 표시) -->
-			<div th:if="${#lists.isEmpty(proceeding)}" style="width=100%; height=10vh;">
-				<span>진행 중인 챌린지가 없습니다</span>
-			</div>
-			<div th:unless="${#lists.isEmpty(proceeding)}" style="width=100%; height=30vh;">
-				<table>
-					<tr th:each="pc : ${proceeding}">
-						<td>
-							<a th:href="@{/challenge/my-challenge/{challengeNum}(challengeNum=${pc.challengeNum})}">
-								<span th:text="${pc.challengeName}"></span>
-							</a>								
-						</td>
-						<td><span th:text="${pc.startDate}"></span></td>
-						<td><span th:text="${pc.endDate}"></span></td>
-					</tr>
-				</table>
-			</div>
-			
-			<!-- myChallengeHistory(진행/완료 챌린지 갯수 표시) -->
-			<div style="width=100%; height=15vh;">	
-				<table>						
-					<tr>
-						<td><span>진행 중: </span></td>
-						<td><span th:text="${proceedingNum}">0 </span></td>
-						<td><span> 완료:</span></td>
-						<td><span th:text="${completedNum}">0 </span></td>
-						<td>
-							<a th:href="@{/challenge/my-challenge}">
-								<span> 상세보기</span>
+			<div class="content-border"></div>
+			<div class="chall-cont-main-wrapper">
+				<!-- 비로그인 -->
+				<div th:if="${login_required}" class="chall-cont-no">
+					<div></div>
+					<div class="chall-cont-min-border"></div>
+				</div>
+				<!-- 로그인  -->
+				<!-- 진행중인 챌린지가 존재하지 않을 때 -->
+				<div th:if="!${login_required} and ${#lists.isEmpty(proceeding)}" class="chall-cont-no-proceeding">
+					<span>진행중인 챌린지가 없습니다</span>
+					<div class="chall-cont-min-border"></div>
+				</div>
+				<!-- 진행중인 챌린지가 존재 -->
+				<div th:if="!${login_required} and !${#lists.isEmpty(proceeding)}" class="chall-cont-main-proceeding">
+					<div class="chall-cont-min-title">진행중인 챌린지</div>
+					<div class="chall-cont-proceeding">
+						<div th:each="pc : ${proceeding}" class="chall-cont-my">
+							<div class="my-thumb">
+								<img>
+							</div>
+							<div class="my-text">
+								<a th:href="@{/challenge/my-challenge/{challengeNum} (challengeNum=${pc.challengeNum})}">
+									<span class="my-text-chall-name" th:text="${pc.challengeName}"></span>
+								</a>	
+								<div class="my-text-dates">
+									<div class="my-dates-start">
+										<span>시작일</span>
+										<span th:text="${pc.startDate}"></span>
+									</div>
+									<div class="my-dates-end">
+										<span>종료일</span>
+										<span th:text="${pc.endDate}"></span>
+									</div>
+								</div>								
+							</div>
+						</div>
+					</div>					
+					<div class="chall-cont-my-btn">
+						<a href="/challenge/my-challenge" class="my-btn-text">
+							<div>
+								<span>진행중 </span>
+								<span th:text="${proceedingNum}"></span>
+							</div>
+							<div>
+								<span>완료 </span>
+								<span th:text="${completedNum}"></span>
+							</div>
+						</a>
+					</div>
+					<div class="chall-cont-min-border"></div>
+				</div>
+				<div class="chall-cont-main-basic">
+					<div class="chall-cont-min-title">시작 가능한 챌린지</div>
+					<div class="chall-cont-basic-list">
+						<div th:each="bc : ${bcList}" class="chall-cont-basic">
+							<a th:href="@{/challenge/basic/{challengeCode} (challengeCode=${bc.challengeCode})}" class="basic-thumb">
+								<img>
 							</a>
-						</td>
-					</tr>	
-				</table>
+							<span th:text="${bc.challengeName}"></span>
+						</div>
+					</div>
+					<div class="chall-cont-min-border"></div>
+				</div>
 			</div>
-		</div>
-		<!-- basicChallenge(시작 가능한 챌린지 표시) -->
-		<div style="width=100%; height=30vh;">
-			<table style="width: 100%; background-color: #F8F9FA;">
-				<tbody>
-					<tr th:each="bc : ${bcList}">
-						<td><span th:text="${bc.challengeCode}"></span></td>
-						<td>
-							<a th:href="@{/challenge/basic/{challengeCode}(challengeCode=${bc.challengeCode})}">
-								<span th:text="${bc.challengeName}"></span>
-							</a>
-						</td>
-					</tr>
-				</tbody>
-			</table>
 		</div>
 	</div>
-	<div th:replace="/fragments/common.html :: new-footer"></nav>
+	<!-- 하단 footer -->
+	<div th:replace="/fragments/common.html :: new-footer"></div>
 </body>
 </html>

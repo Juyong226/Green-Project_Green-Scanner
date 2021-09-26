@@ -89,13 +89,17 @@ public class FeedService {
 		return feedList;
 	}
 	
-	public List<FeedVO> getMyFeedList(String challengeNum) {
+	public List<FeedVO> getMyFeedList(FeedPaginationVO params) {
 		List<FeedVO> feedList = new ArrayList<FeedVO>();
-		feedList = feedDAO.selectMyFeedList(challengeNum);
+		feedList = feedDAO.selectMyFeedList(params);
 		return feedList;
 	}
 	
 	public int getFeedTotalCount() {
 		return feedDAO.selectFeedTotalCount();
+	}
+
+	public int getMyFeedCnt(String challengeNum) {
+		return feedDAO.selectMyFeedCount(challengeNum);
 	}
 }
