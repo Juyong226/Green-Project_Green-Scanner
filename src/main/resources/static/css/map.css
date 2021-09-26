@@ -1,4 +1,4 @@
-/*폰트 적용 css*/
+/*�룿�듃 �쟻�슜 css*/
 @font-face {
 	font-family: GmarketSans;
 	src: url("/fonts/GmarketSansTTFBold.ttf");
@@ -26,10 +26,13 @@
 /*nav/footer css*/
 html{
 	width: 99.7%;
+	
 }
 
 body {
 	width: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
 }
 
 .nav-top {
@@ -44,7 +47,7 @@ body {
 	height: 111px;
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
+	justify-content: flex-end;
 	align-items: center;
 	color: #5f6262;
 	font-size: 0.8rem;
@@ -119,7 +122,7 @@ body {
 	color: #4cbd73;
 }
 
-/*메인화면 아이콘 영역*/
+/*硫붿씤�솕硫� �븘�씠肄� �쁺�뿭*/
 .main-top {
 	width: 100%;
 	height: 360px;
@@ -150,13 +153,13 @@ body {
 	align-items: center;
 }
 
-/* 링크 관련 css*/
+/* 留곹겕 愿��젴 css*/
 a, a:link, a:visited {
 	text-decoration: none;
 	color: inherit;
 }
 
-/*상하단 border*/
+/*�긽�븯�떒 border*/
 .nav-border {
 	width: 100%;
   	height: 1px;
@@ -169,7 +172,7 @@ a, a:link, a:visited {
 	background-color: #d6dddd;
 }
 
-/*로그인 페이지*/
+/*濡쒓렇�씤 �럹�씠吏�*/
 .login-content {
 	width: 100%;
 	height: 871px;
@@ -264,7 +267,7 @@ a, a:link, a:visited {
   	font-weight: 700;
 }
 
-/*회원가입*/
+/*�쉶�썝媛��엯*/
 #signup-form-email{
 	width:276px;
 	height:52px;
@@ -433,7 +436,7 @@ input::placeholder{
 }
 
 
-/*지도*/
+/*吏��룄*/
 .map-content {
 	width: 100%;
 	height: 871px;
@@ -470,13 +473,13 @@ input::placeholder{
 	color: #5f6262;
 }
 
-/*쓰레기통 맵 영역*/
+/*�벐�젅湲고넻 留� �쁺�뿭*/
 .map-trash {
 	width: 1194px;
 	height: 617px;
 }
 
-/*제로웨이스트 맵 영역*/
+/*�젣濡쒖썾�씠�뒪�듃 留� �쁺�뿭*/
 .map-div {
 	width: 1194px;
 	height: 617px;
@@ -589,7 +592,7 @@ input::placeholder{
 	font-weight: 400;
 }
 
-/*챌린지 css*/
+/*梨뚮┛吏� css*/
 .chall-cont-body {
 	width: 100%;
 	display: flex;
@@ -797,7 +800,7 @@ input::placeholder{
 	color: #8f9494;
 }
 
-/*음성인식 css*/
+/*�쓬�꽦�씤�떇 css*/
 .div-swv-content {
 	width: 100%;
 	height: 871px;
@@ -874,99 +877,105 @@ input::placeholder{
 	height: 334px;
 }
 
-/*지원: 메인 중하부*/
-	/* 꿀팁 */
+/*吏��썝: 硫붿씤 以묓븯遺�*/
+	/* 轅��똻 */
 	.slider  {
-		position: absolute;
-		width: 1194px;
-		height: 371px;
-		left: 50px;
-		top: 519px;
-		
-		
-	}
-	
-	.slider .text_0 {
-		position: absolute;
-		width: 184px;
-		height: 51px;
-		left: 363px;
-		top: 519px;
-		
-	}
-	
-	.slider .tip1 img{
-	position: absolute;
-	width: 1000;
-	height:292px;
-	left: clac(5% - 582px/2 + 386px);
-	top: 598px;
-	margin :0 auto;
+		width: 100%;
+		height: 1500px;
+		display: flex;
+		justify-content: center;
 	
 	}
-	ider .text2{
-	position: absolute;
-	width: 582px;
-	height:292px;
-	left: clac(5% - 582px/2 + 386px);
-	top: 598px;
-	
-	}
+.wrapper-slider{
+	width: 1194px;
+	height: 650px;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
 
-		.Rectangle202{
+	}
+#slider-title{
+	font-family: GmarketSans;
+	font-size: 1.8rem;
+	font-weight: 700;
+}
+	
+	
+.slider-link{
+	width: 100%;
+	height: 600px;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+	
+.wrapper-rectangle{
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+}
+.Rectangle202{
 	position: absolute;
 	width:1000px;
 	height:56px;
-	left:60px;
+	display: flex;
 	top:1200px;
+	left:60px;
 	}
-
 	
+#Rectangle_202-title{
+	font-family: GmarketSans;
+	font-size: 1.8rem;
+	font-weight: 700;
+}
+
 	.Rectangle_167 {
 		position: absolute;
 		width: 240px;
 		height: 240px;
-		left: 60px;
+		left:60px;
 		top: 1250px;
 		background: #FFFFFF;
 		/* Gray/2 */
 		border:1px solid #8F9494;
 		border-radius: 16px;
 	}
+	
+	
 	.Rectangle_167 .imgright{
 	position: absolute;
 	left: 57.89%;
 	right: 10.53%;
 	top: 9.21%;
-	bottom: 59.21%;
+	
 	}
 	.Rectangle_167 .imgleft{
 	position: absolute;
 	left: 15%;
 	right: 56.58%;
 	top: 10.53%;
-	bottom: 75.66%;
+	
 	}
 	.Rectangle_167 .CurrDate{
 	position: absolute;
 	left: 10.53%;
 	right: 53.29%;
 	top: 25%;
-	bottom: 65.13%;
+
 	}
 	.Rectangle_167 .City{
 	position: absolute;
 	left: 10.53%;
 	right: 53.29%;
 	top: 35%;
-	bottom: 65.13%;
+
 	}
 	.Rectangle_167 .CurrTemp{
 	position: absolute;
 	left: 10.53%;
 	right: 71.05%;
 	top: 61.84%;
-	bottom: 20.39%;
+
 	}
 
 	.Rectangle_167 .CurrTemph{
@@ -974,7 +983,7 @@ input::placeholder{
 	left: 51.32%;
 	right: 27.63%;
 	top: 61.84%;
-	bottom: 20.39%;
+
 	}
 
 	.Rectangle_168 {
@@ -994,49 +1003,54 @@ input::placeholder{
 	left: 57.89%;
 	right: 10.53%;
 	top: 9.21%;
-	bottom: 59.21%;
+	
 	}
 	.Rectangle_168 .imgleft{
 	position: absolute;
 	left: 15%;
 	right: 56.58%;
 	top: 10.53%;
-	bottom: 75.66%;
+	
 	}
 	.Rectangle_168 .past{
 	position: absolute;
 	left: 10.53%;
 	right: 71.05%;
 	top: 45%;
-	bottom: 20.39%;
+	
 	}
 	.Rectangle_168 .right{
 	position: absolute;
 	left: 115%;
 	right: 10%;
 	top:3px;
-	bottom: 20.39%;
 	height: 240px;
 	border-radius: 16px;
 	}
-	.Section_4 {
-		position: absolute;
-		width: 1194px;
-		height: 349px;
-		left: 363px;
-		top: 1281px;
-	}
-	/* ++ 4 */
-	.cardnews{
+	
+.grid-image{
+	display: flex;
+	flex-wrap:flex;
+	align-items:flex-start;
+	margin: 30px 0;
+}
+.cardnews{
 	position: absolute;
-	width: 1800px;
-	height: 349px;
-	left: 60px;
+	width: 100%;
+	height:320px;
 	top: 1600px;
-	
+	display: flex;
+	justify-content: center;
 	}
-	
-/*인수: SWI*/
+
+#img_table_title{
+	font-family: GmarketSans;
+	font-size: 1.8rem;
+	font-weight: 700;
+	text-align: left;
+}
+
+/*�씤�닔: SWI*/
 #img_body{
 	text-align: center;
     margin: 0 auto;
@@ -1198,7 +1212,7 @@ input::placeholder{
     padding: 0;
 }
 
-/*인수: SWV*/
+/*�씤�닔: SWV*/
 #input {
     position: static;
     width: 582px;
@@ -1397,8 +1411,8 @@ input::placeholder{
     color: #4CBD73;
 }
 
-/* 혜린 - 게시판, QNA게시판 */
-/* 전체게시판 */
+/* �삙由� - 寃뚯떆�뙋, QNA寃뚯떆�뙋 */
+/* �쟾泥닿쾶�떆�뙋 */
 .Title {
 	position: absolute;
 	width: 1194px;
@@ -1585,7 +1599,7 @@ input::placeholder{
 	color: #000000;
 }
 
-/* 개별게시판 */
+/* 媛쒕퀎寃뚯떆�뙋 */
 .Section {
 	position: absolute;
 	width: 1194px;
@@ -1631,7 +1645,7 @@ input::placeholder{
 	width: 120px;
 }
 
-/* 글쓰기/수정 */
+/* 湲��벐湲�/�닔�젙 */
 .Write_form {
 	position: absolute;
 	width: 990px;
@@ -1769,7 +1783,7 @@ input[type="checkbox"]+label {
 	cursor: pointer;
 }
 
-.file-upload input[type="file"] { /* 파일 필드 숨기기 */
+.file-upload input[type="file"] { /* �뙆�씪 �븘�뱶 �닲湲곌린 */
 	position: absolute;
 	width: 1px;
 	height: 1px;
@@ -1793,7 +1807,7 @@ input[type="checkbox"]+label {
 /* named upload */
 .file-upload .upload-name {
 	display: inline-block;
-	padding: .5em .75em; /* label의 패딩값과 일치 */
+	padding: .5em .75em; /* label�쓽 �뙣�뵫媛믨낵 �씪移� */
 	font-size: inherit;
 	font-family: inherit;
 	line-height: normal;
@@ -1802,7 +1816,7 @@ input[type="checkbox"]+label {
 	border: 1px solid #ebebeb;
 	border-bottom-color: #e2e2e2;
 	border-radius: .25em;
-	-webkit-appearance: none; /* 네이티브 외형 감추기 */
+	-webkit-appearance: none; /* �꽕�씠�떚釉� �쇅�삎 媛먯텛湲� */
 	-moz-appearance: none;
 	appearance: none;
 	border: 1px solid #ebebeb;
@@ -1811,7 +1825,7 @@ input[type="checkbox"]+label {
 	-webkit-appearance: none;
 }
 /* imaged preview */
-.file-upload .upload-display { /* 이미지가 표시될 지역 */
+.file-upload .upload-display { /* �씠誘몄�媛� �몴�떆�맆 吏��뿭 */
 	margin-bottom: 5px;
 }
 
@@ -1823,7 +1837,7 @@ input[type="checkbox"]+label {
 	}
 }
 
-.file-upload .upload-thumb-wrap { /* 추가될 이미지를 감싸는 요소 */
+.file-upload .upload-thumb-wrap { /* 異붽��맆 �씠誘몄�瑜� 媛먯떥�뒗 �슂�냼 */
 	display: inline-block;
 	width: 54px;
 	padding: 2px;
@@ -1833,7 +1847,7 @@ input[type="checkbox"]+label {
 	background-color: #fff;
 }
 
-.file-upload .upload-display img { /* 추가될 이미지 */
+.file-upload .upload-display img { /* 異붽��맆 �씠誘몄� */
 	display: block;
 	max-width: 100%;
 	width: 100% \9;
@@ -1903,7 +1917,7 @@ input[type="checkbox"]+label {
 	color: #181919;
 }
 
-/* 상세보기 */
+/* �긽�꽭蹂닿린 */
 .main {
 	position: absolute;
 	width: 1194px;
