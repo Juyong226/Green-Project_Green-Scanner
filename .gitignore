@@ -13,13 +13,13 @@ local.properties
 .target/
 
 # ignore properties file
-application.properties
+# application.properties
 
 # SSL files
-*.key
-*.crt
-*.p12
-*.jks
+# *.key
+# *.crt
+# *.p12
+# *.jks
 
 # External tool builders
 .externalToolBuilders/

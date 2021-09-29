@@ -1,13 +1,18 @@
 package com.garb.gbcollector.web.vo;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PersonalChallengeVO {
+import com.garb.gbcollector.util.GSCalendar;
 
+public class PersonalChallengeVO {
+	GSCalendar gsCalendar = GSCalendar.getInstance();
+	
 	private String challengeCode, challengeName, challengeNum, email, thumbnailURL, colorCode, period,
 				startDate, endDate, calendar;
-	private int isCompleted, isSucceeded, executionNum, achievementRate;
+	private int isCompleted, isSucceeded, executionNum, achievementRate, daysRemained;
 	private List<ArrayList<Character>> calList;
 
 	public PersonalChallengeVO() {
@@ -117,6 +122,7 @@ public class PersonalChallengeVO {
 
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
+		countDatesToEnd();
 	}
 
 
@@ -169,6 +175,14 @@ public class PersonalChallengeVO {
 		this.achievementRate = achievementRate;
 	}
 	
+	public int getDaysRemained() {
+		return daysRemained;
+	}
+
+	public void setDaysRemained(int daysRemained) {
+		this.daysRemained = daysRemained;
+	}
+
 	public List<ArrayList<Character>> getCalList() {
 		return calList;
 	}
@@ -191,5 +205,12 @@ public class PersonalChallengeVO {
 		double p = Double.parseDouble(period);
 		double result = Math.round((executionNum/p)*100);
 		setAchievementRate((int) result);
-	}	
+	}
+	
+	public void countDatesToEnd() {
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+		LocalDate toDay = LocalDate.now();
+		LocalDate endDate = LocalDate.parse(this.endDate, format);
+		setDaysRemained(gsCalendar.between2Dates(endDate, toDay));
+	}
 }

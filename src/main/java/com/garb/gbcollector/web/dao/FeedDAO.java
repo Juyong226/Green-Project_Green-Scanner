@@ -12,7 +12,7 @@ public interface FeedDAO {
 	
 	List<FeedVO> selectAllFeedList(FeedPaginationVO params);
 	
-	List<FeedVO> selectMyFeedList(String challengeNum);
+	List<FeedVO> selectMyFeedList(FeedPaginationVO params);
 	
 	FeedVO selectFeedDetail(int feedNo);
 	
@@ -25,5 +25,7 @@ public interface FeedDAO {
 	int deleteFeed(int feedNo);
 	
 	int selectFeedTotalCount();
+
+	int selectMyFeedCount(String challengeNum);
 
 }

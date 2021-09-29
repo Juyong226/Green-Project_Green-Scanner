@@ -244,6 +244,11 @@ public class GSCalendar {
 	    return calList;
 	} 
 
+	/*
+	 * date = 비교하는 두 날짜 중 더 이후의 날
+	 * otherDate = 비교하는 두 날짜 중 더 이전의 날
+	 * 두 날짜 사이의 일수를 구하는 함수
+	 * */
 	public int between2Dates(LocalDate date, LocalDate otherDate) {
 		int cmp = (date.getYear() - otherDate.getYear());
 		if (cmp == 0) {

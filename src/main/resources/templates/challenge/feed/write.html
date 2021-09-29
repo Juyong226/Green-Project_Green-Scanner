@@ -1,70 +1,37 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="/fragments/common.html :: header('피드 작성하기')">
+<head th:replace="/fragments/common.html :: header('피드 쓰기')">
 <body>
-	<nav th:replace="/fragments/common.html :: nav"></nav>
-	<div th:replace="/fragments/common.html :: back('/challenge/feed/' + ${challengeNum})"></div>
-	
-	<!-- 피드 쓰기 폼 -->
-	<div>
-		<div><p>피드 쓰기</p></div>
-		
-		<form
-			id="feedWriteForm"
-			th:action="@{/challenge/feed/{challengeNum} (challengeNum = ${challengeNum})}"
-			onsubmit="return fn_write_confirm()"
-			th:object="${feed}"
-			method="post">
-			<input type="hidden" th:if="*{feedNo > 0}" th:field="*{feedNo}" />
-			<!-- 챌린지 이름 -->
-			<div>
-				<p th:text="${challengeName}"></p>
+	<nav th:replace="fragments/common.html :: nav-top"></nav>
+	<!-- content 영역 -->
+	<div class="chall-cont-body">
+		<div class="chall-cont-wrapper">
+			<div class="chall-cont-top">
+				<span class="chall-cont-top-title">피드쓰기</span>
 			</div>
-			<!-- 작성자(닉네임) -->
-			<div>
-				<label for="writer">닉네임</label>
-				<input type="text" th:value="${nickname}" id="writer" name="writer" readonly />
-			</div>
-			<!-- 사진 영역 -->
-			<div>
-				
-			</div>
-			<!-- 내용 입력란 -->
-			<div>
-				<div>
-					<label for="content">내용</label>
+			<div class="content-border"></div>
+			<div class="chall-feed-write-wrapper">
+				<form
+					id="feed-write-form"
+					th:action="@{/challenge/feed/{challengeNum} (challengeNum = ${challengeNum})}"
+					onsubmit="return fn_write_confirm()"
+					th:object="${feed}"
+					method="post">
+					<span class="chall-cont-min-title" th:text="${challengeName}"></span>
+					<input type="hidden" th:if="*{feedNo > 0}" th:field="*{feedNo}">
+					<input type="hidden" th:if="*{writer != null}" th:field="*{writer}">
+					<div class="chall-feed-write-img-preview"></div>
 					<textarea th:field="*{content}" placeholder="내용을 입력해주세요."></textarea>
-				</div>
+					<div class="chall-cont-min-border"></div>
+					<div class="chall-form-btns">
+						<input id="cancle-btn" type="reset" value="취소">
+						<input id="complete-btn" type="submit" value="완료">
+					</div>
+				</form>
 			</div>
-			<!-- 파일 업로드 -->
-			<div>
-				<label>
-					<span><img></span>
-				</label>
-			</div>
-			<!-- 버튼 -->
-			<div>
-				<a th:href="@{/challenge/my-challenge/{challengeNum} (challengeNum = ${challengeNum})}">취소</a>
-				<button type="submit">완료</button>
-			</div>
-		</form>
+		</div>
 	</div>
-	
-	<!-- footer -->
-	<nav th:replace="/fragments/common.html :: footer"></nav>
+	<!-- 하단 footer -->
+	<div th:replace="/fragments/common.html :: new-footer"></div>
 </body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-<script>
-//여기에 이 코드를 쓰기 위해선 loginForm.html에도 위 쿠키 라이브러리르 추가해 주어야합니다.
-$(function(){
-	var blank=$.cookie("blanked");
- 	var login=$.cookie("logined"); 
- 	var logout=$.cookie("logouted"); 
-		$("#loginBlankDiv1").html(blank);
-		$("#loginBlankDiv2").html(blank);
- 		$("#nicknameDiv").html(login);
- 		$("#logoutDiv").html(logout);
-});
-
-</script>
 </html>

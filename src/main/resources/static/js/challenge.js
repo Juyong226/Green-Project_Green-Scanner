@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
- 	$("#cancleBtn").click(function() {
+ 	$("#cancle-btn").click(function() {
  		if(confirm("선택한 내용이 저장되지 않습니다.\n취소하시겠습니까?")) {
  			history.back();			
  		} 
@@ -9,7 +9,6 @@ $(document).ready(function() {
  
 function fn_duplicate_check(code) {
  	let result;
- 	alert("중복 체크 함수 진입 with code = " + code);
  	$.ajax({
  		method: "POST",
  		url: "/challenge/duplicate_check",
@@ -35,7 +34,6 @@ function fn_duplicate_check(code) {
 function fn_feed_duplicate_check(cNum) {
  	let result = true;
  	let challengeNum = cNum;
- 	alert(challengeNum);
  	
  	$.ajax({
  		method: "POST",
@@ -138,10 +136,10 @@ function fn_edit_confirm(challengeNum) {
  
 function fn_create_confirm() {
  
-	let period = $("#createForm input[name='period']:checked").val();
+	let period = $("#createForm select[name='period']").val();
 	let colorCode = $("#createForm input[name='colorCode']:checked").val();
 	
-	if(period === undefined || colorCode === undefined ) {
+	if(period == undefined || period == null || colorCode === undefined ) {
 		alert("기간과 색상을 선택해주세요.");
 		return false;
 		
@@ -199,17 +197,24 @@ function fn_feed_delete_confirm() {
 }
  
  /*---------더 보기 관련 script---------*/
- function more_feed(startIdx) {
+ function more_feed(startIdx, requestPage, challengeNum) {
  	let endIdx;
  	if( (startIdx + searchStep - 1) > totalFeedCnt ) {
  		endIdx = totalFeedCnt;
  	} else {
  		endIdx = startIdx + searchStep -1;
  	}
+ 	alert("startIdx: " + startIdx + "/ endIdx: " + endIdx + "/ requestPage: " + requestPage + "/ challengeNum: " + challengeNum); 
  	$.ajax({
  		method: "POST",
  		url: "/challenge/feed/more_feed",
- 		data: { startIdx: startIdx, endIdx: endIdx },
+ 		data: 
+ 		{ 
+ 			startIdx: startIdx, 
+ 			endIdx: endIdx, 
+ 			requestPage: requestPage, 
+ 			challengeNum: challengeNum 
+ 		},
  		dataType: "html",
  		success: function(html) {
  			$(html).appendTo($(".chall-cont-feed-wrapper")).slideDown();
