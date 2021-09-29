@@ -19,13 +19,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.garb.gbcollector.constant.Method;
-import com.garb.gbcollector.util.GbcException;
 import com.garb.gbcollector.util.UiUtils;
 import com.garb.gbcollector.web.service.ChallengeService;
+import com.garb.gbcollector.web.service.FeedService;
 import com.garb.gbcollector.web.vo.BasicChallengeVO;
+import com.garb.gbcollector.web.vo.FeedPaginationVO;
+import com.garb.gbcollector.web.vo.FeedVO;
 import com.garb.gbcollector.web.vo.MemberVO;
 import com.garb.gbcollector.web.vo.PersonalChallengeVO;
 
@@ -35,6 +36,8 @@ public class ChallengeController extends UiUtils {
 
 	@Autowired
 	ChallengeService challengeService;
+	@Autowired
+	FeedService feedService;
 	
 	List<BasicChallengeVO> bcList; 
 	
@@ -45,7 +48,7 @@ public class ChallengeController extends UiUtils {
 		String redirectURI = "";
 		bcList = challengeService.selectBasicChallenge();
 		model.addAttribute("bcList", bcList);
-		if(session != null) {
+		if(session != null && (MemberVO)session.getAttribute("member") != null) {
 				try {
 					MemberVO member = (MemberVO)session.getAttribute("member");
 					List<PersonalChallengeVO> tempList = challengeService.selectChallengeList(member.getMememail());	
@@ -87,14 +90,23 @@ public class ChallengeController extends UiUtils {
 	}	
 	
 	@GetMapping(value = "/my-challenge/{challengeNum}")
-	public String pcDetail2(@PathVariable("challengeNum") String challengeNum, Model model, HttpServletRequest request) {
+	public String pcDetail2(@PathVariable("challengeNum") String challengeNum, FeedPaginationVO params, Model model, HttpServletRequest request) {
 		
 		HttpSession session = request.getSession(false);
 		String redirectURI = "/challenge/main";
 		if(session != null) {
 			try {
 				PersonalChallengeVO pc = challengeService.getPersonalChallenge(challengeNum);
+				BasicChallengeVO bc = challengeService.getBasicChallenge(pc.getChallengeCode());
+				int myFeedCnt = feedService.getMyFeedCnt(challengeNum);
+				if(myFeedCnt < Integer.parseInt(params.getEndIdx())) {
+					params.setEndIdx(Integer.toString(myFeedCnt));
+				}
+				List<FeedVO> feedList = feedService.getMyFeedList(params);
 				model.addAttribute("personalChallenge", pc);
+				model.addAttribute("basicChallenge", bc);
+				model.addAttribute("feedList", feedList);
+				model.addAttribute("myFeedCnt", myFeedCnt);
 				return "challenge/my-challenge-detail";
 			} catch (NullPointerException e) {
 				e.printStackTrace();			

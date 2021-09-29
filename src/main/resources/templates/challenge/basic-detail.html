@@ -2,42 +2,37 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="/fragments/common.html :: header('챌린지 상세 내용')">
 <body>
-	<nav th:replace="/fragments/common.html :: nav"></nav>
-	<div th:replace="/fragments/common.html :: back('/challenge/main')"></div>
-	
-	<!-- 챌린지 세부사항 -->
-		<div>
-			<p th:text="${basicChallenge.challengeName}"></p><br>
-			<img src="../" th:attrappend="src=${basicChallenge.thumbnailURL}">
-			<div>
-				<p>이렇게 해주세요!</p><hr>
-					<div th:text="${basicChallenge.toDo}">내용</div>
-			</div><hr>	
+	<!-- 상단 nav -->
+	<nav th:replace="/fragments/common.html :: nav-top"></nav>
+	<!-- content 영역 -->
+	<div class="chall-cont-body">
+		<div class="chall-cont-wrapper">
+			<div class="chall-cont-top">
+				<span class="chall-cont-top-title" th:text="${basicChallenge.challengeName}"></span>
+			</div>
+			<div class="content-border"></div>
+			<div class="chall-cont-basic-detail">
+				<form
+					id="basic-detail-form"
+					th:data-code="${basicChallenge.challengeCode}"
+					onsubmit="return fn_duplicate_check(this.getAttribute('data-code'))" 
+					th:action="@{/challenge/basic/{challengeCode}/set (challengeCode=${basicChallenge.challengeCode})}">
+					<div class="basic-detail">
+						<div class="basic-detail-thumb">
+							<img>
+						</div>
+						<div class="basic-detail-description">
+							<span class="description-title">이렇게 해주세요</span>
+							<div class="description" th:text="${basicChallenge.toDo}"></div>
+						</div>
+					</div>	
+					<div class="chall-cont-min-border"></div>
+					<input id="basic-start-btn" type="submit" value="시작하기">
+				</form>
+			</div>
 		</div>
-		
-	<!-- 챌린지 시작하기 -->
-		<form
-			th:data-code="${basicChallenge.challengeCode}"
-			onsubmit="return fn_duplicate_check(this.getAttribute('data-code'))" 
-			th:action="@{/challenge/basic/{challengeCode}/set (challengeCode=${basicChallenge.challengeCode})}">
-			<input type="submit" value="시작하기" />
-		</form>	
-		
-	<!-- footer -->	
-	<nav th:replace="/fragments/common.html :: footer"></nav>	
+	</div>
+	<!-- 하단 footer -->
+	<div th:replace="/fragments/common.html :: new-footer"></div>
 </body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-<script>
-//여기에 이 코드를 쓰기 위해선 loginForm.html에도 위 쿠키 라이브러리르 추가해 주어야합니다.
-$(function(){
-	var blank=$.cookie("blanked");
- 	var login=$.cookie("logined"); 
- 	var logout=$.cookie("logouted"); 
-		$("#loginBlankDiv1").html(blank);
-		$("#loginBlankDiv2").html(blank);
- 		$("#nicknameDiv").html(login);
- 		$("#logoutDiv").html(logout);
-});
-
-</script>
 </html>
