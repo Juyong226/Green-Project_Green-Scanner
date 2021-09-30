@@ -2,71 +2,94 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="/fragments/common.html :: header('챌린지 수정하기')">
 <body>
-	<nav th:replace="/fragments/common.html :: nav"></nav>
-	<div th:replace="/fragments/common.html :: back('/challenge/my-challenge/' + ${personalChallenge.challengeNum})"></div>
+	<!-- 상단 nav -->
+	<nav th:replace="/fragments/common.html :: nav-top"></nav>
+	<!-- content 영역 -->
+	<div class="chall-cont-body">
+		<div class="chall-cont-wrapper">
+			<div class="chall-cont-top">
+				<span class="chall-cont-top-title">챌린지 수정하기</span>
+			</div>
+			<div class="content-border"></div>
+			<div class="chall-cont-basic-detail">
+				<form
+					id="editForm"
+					th:data-cNum="${personalChallenge.challengeNum}"
+					onsubmit="return fn_edit_confirm(this.getAttribute('data-cNum'))" 
+					th:action="@{/challenge/my-challenge/{challengeNum} (challengeNum = ${personalChallenge.challengeNum})}" th:method="put">
+					<span class="chall-cont-min-title" th:text="${personalChallenge.challengeName}"></span>
+					<div class="basic-detail">
+						<div class="basic-detail-thumb">
+							<img>
+						</div>
+						<div class="basic-detail-description">
+							<span class="description-title">이렇게 해주세요</span>
+							<div class="description" th:text="${basicChallenge.toDo}"></div>
+						</div>
+					</div>	
+					<div class="chall-cont-min-border"></div>
+					<div class="chall-basic-setting">
+						<div class="basic-setting-left">
+							<span class="chall-cont-min-title-x2">색상</span>
+							<div class="basic-setting-color">
+								<div class="basic-setting-color-1">
+									<input type="radio" id="#fab005" name="colorCode" value="#fab005">
+									<label for="#fab005" class="color-circle" style="background-color: #fab005;"></label>
+									<input type="radio" id="#fd7e14" name="colorCode" value="#fd7e14">
+									<label for="#fd7e14" class="color-circle" style="background-color: #fd7e14;"></label>
+									<input type="radio" id="#fa5252" name="colorCode" value="#fa5252">
+									<label for="#fa5252" class="color-circle" style="background-color: #fa5252;"></label>
+									<input type="radio" id="#e64980" name="colorCode" value="#e64980">
+									<label for="#e64980" class="color-circle" style="background-color: #e64980;"></label>
+									<input type="radio" id="#be4bdb" name="colorCode" value="#be4bdb">
+									<label for="#be4bdb" class="color-circle" style="background-color: #be4bdb;"></label>								
+								</div>
+								<div class="basic-setting-color-2">
+									<input type="radio" id="#7950f2" name="colorCode" value="#7950f2">
+									<label for="#7950f2" class="color-circle" style="background-color: #7950f2;"></label>
+									<input type="radio" id="#4c6ef5" name="colorCode" value="#4c6ef5">
+									<label for="#4c6ef5" class="color-circle" style="background-color: #4c6ef5;"></label>
+									<input type="radio" id="#15aabf" name="colorCode" value="#15aabf">
+									<label for="#15aabf" class="color-circle" style="background-color: #15aabf;"></label>
+									<input type="radio" id="#12b886" name="colorCode" value="#12b886">
+									<label for="#12b886" class="color-circle" style="background-color: #12b886;"></label>
+									<input type="radio" id="#82c91e" name="colorCode" value="#82c91e">
+									<label for="#82c91e" class="color-circle" style="background-color: #82c91e;"></label>
+								</div>
+							</div>
+						</div>
+						<div class="basic-setting-right">
+							<span class="chall-cont-min-title-x2">기간</span>
+							<div class="basic-setting-period">
+								<select name="period">
+									<option value="" disabled selected hidden>기간을 선택해주세요</option>
+									<option value="7">1주일</option>
+									<option value="14">2주일</option>
+									<option value="21">3주일</option>
+									<option value="28">4주일</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="chall-cont-min-border"></div>
+					<div class="chall-form-btns">
+						<input id="cancle-btn" type="reset" value="취소">
+						<input id="complete-btn" type="submit" value="완료">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>	
+	<!-- 하단 footer -->
+	<div th:replace="/fragments/common.html :: new-footer"></div>
 	
-	<!-- 챌린지 수정 -->	
-	<div>
-		<p>챌린지 수정하기</p><hr>
-		<form
-			id="editForm"
-			th:data-cNum="${personalChallenge.challengeNum}"
-			onsubmit="return fn_edit_confirm(this.getAttribute('data-cNum'))" 
-			th:action="@{/challenge/my-challenge/{challengeNum}(challengeNum=${personalChallenge.challengeNum})}" th:method="put">
-			<table>
-				<tr>
-					<td>챌린지 이름: </td>
-					<td th:text="${personalChallenge.challengeName}">챌린지 이름</td>
-				</tr>
-				<tr>
-					<td>챌린지 기간: </td>
-					<td>
-						<input type="radio" id="1week" name="period" value="7">
-						<label for="1week">1주</label>&nbsp;
-						<input type="radio" id="2week" name="period" value="14">
-						<label for="2week">2주</label>&nbsp;
-						<input type="radio" id="3week" name="period" value="21">
-						<label for="3week">3주</label>&nbsp;
-						<input type="radio" id="4week" name="period" value="28">
-						<label for="4week">4주</label>
-					</td>
-				</tr>
-				<tr>
-					<td>표시 색상: </td>
-					<td>
-						<input type="radio" id="red" name="colorCode" value="#FF0000">
-						<label for="red">빨강</label>&nbsp;
-						<input type="radio" id="orange" name="colorCode" value="#FFA500">
-						<label for="orange">오렌지</label>&nbsp;
-						<input type="radio" id="pink" name="colorCode" value="#FF5675">
-						<label for="pink">핑크</label>&nbsp;
-						<input type="radio" id="green" name="colorCode" value="#80E12A">
-						<label for="green">초록</label>&nbsp;
-						<input type="radio" id="blue" name="colorCode" value="#1E90FF">
-						<label for="blue">파랑</label>
-					</td>
-				</tr>
-			</table><br>			
-			<input type="submit" value="완료">
-			<input type="reset" id="cancleBtn" value="취소">
-		</form>
-	</div>
-	
-	<!-- footer -->	
-	<nav th:replace="/fragments/common.html :: footer"></nav>	
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+			var pre_period = /*[[ ${personalChallenge.period} ]]*/;
+			var pre_colorCode = /*[[ ${personalChallenge.colorCode} ]]*/;
+			$('#editForm select[name="period"]').val(pre_period).prop("selected", true);
+			$('#editForm input[name="colorCode"]:radio[value="' + pre_colorCode + '"]').prop("checked", true);
+		/*]]>*/
+	</script>
 </body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-<script>
-//여기에 이 코드를 쓰기 위해선 loginForm.html에도 위 쿠키 라이브러리르 추가해 주어야합니다.
-$(function(){
-	var blank=$.cookie("blanked");
- 	var login=$.cookie("logined"); 
- 	var logout=$.cookie("logouted"); 
-		$("#loginBlankDiv1").html(blank);
-		$("#loginBlankDiv2").html(blank);
- 		$("#nicknameDiv").html(login);
- 		$("#logoutDiv").html(logout);
-});
-
-</script>
 </html>

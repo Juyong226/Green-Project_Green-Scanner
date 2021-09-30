@@ -42,7 +42,6 @@ function fn_feed_duplicate_check(cNum) {
  		async: false,
  		success: function(data) {
  			let obj = JSON.parse(data);
- 			alert(obj);
  			if(obj.msg) {
  				alert(obj.msg);
  				result = false;
@@ -96,7 +95,7 @@ function fn_cmt_delete_confirm() {
 function fn_edit_confirm(challengeNum) {
  	
 	let cNum = challengeNum;
-	let period = $("#editForm input[name='period']:checked").val();
+	let period = $("#editForm select[name='period']").val();
 	let colorCode = $("#editForm input[name='colorCode']:checked").val();
 	
 	if(period === undefined || colorCode === undefined ) {
@@ -204,7 +203,7 @@ function fn_feed_delete_confirm() {
  	} else {
  		endIdx = startIdx + searchStep -1;
  	}
- 	alert("startIdx: " + startIdx + "/ endIdx: " + endIdx + "/ requestPage: " + requestPage + "/ challengeNum: " + challengeNum); 
+ 	/*alert("startIdx: " + startIdx + "/ endIdx: " + endIdx + "/ requestPage: " + requestPage + "/ challengeNum: " + challengeNum);*/ 
  	$.ajax({
  		method: "POST",
  		url: "/challenge/feed/more_feed",
@@ -224,4 +223,42 @@ function fn_feed_delete_confirm() {
  			}
  		}
  	});
+ }
+ 
+ /*---------toggle 관련 script---------*/
+ function chall_toggle(e) {		
+	var point = $(e.target);
+	console.log(point);
+	if(point.attr('class') === '3dots-label-img') {
+		console.log(menu);
+		if(menu !== undefined && menu.css('display') === 'flex') {
+			menu.css('display', 'none');
+		}
+		if(point.attr('id') === 'my-detail-3dots') {
+			menu = $('.my-detail-dropdown-submenu');
+			if(menu.css('display') === 'none') {
+	 			menu.css('position', 'absolute');
+	 			menu.css('display', 'flex');
+	 			menu.css('flex-direction', 'column');
+	 			menu.css('justify-content','space-evenly');
+	 		} else {
+	 			menu.css('display', 'none');
+	 		}
+		} else {
+			menu = $('#feed-3dots-submenu-' + point.attr('id'));
+			if(menu.css('display') === 'none') {
+	 			menu.css('position', 'absolute');
+	 			menu.css('display', 'flex');
+	 			menu.css('flex-direction', 'column');
+	 			menu.css('justify-content','space-evenly');
+	 		} else {
+	 			menu.css('display', 'none');
+	 		}
+		}
+	} else {
+		console.log(menu);
+		if(menu !== undefined && menu.css('display') === 'flex') {
+			menu.css('display', 'none');
+		}
+	}
  }

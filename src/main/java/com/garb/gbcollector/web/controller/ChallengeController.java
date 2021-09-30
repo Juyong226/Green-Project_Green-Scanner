@@ -103,6 +103,8 @@ public class ChallengeController extends UiUtils {
 					params.setEndIdx(Integer.toString(myFeedCnt));
 				}
 				List<FeedVO> feedList = feedService.getMyFeedList(params);
+				model.addAttribute("idx", params.getStartIdx());
+				model.addAttribute("nickname", session.getAttribute("memnickname"));
 				model.addAttribute("personalChallenge", pc);
 				model.addAttribute("basicChallenge", bc);
 				model.addAttribute("feedList", feedList);
@@ -221,7 +223,9 @@ public class ChallengeController extends UiUtils {
 		HttpSession session = request.getSession(false);
 		if(session != null) {
 			PersonalChallengeVO pc = challengeService.getPersonalChallenge(challengeNum);
+			BasicChallengeVO bc = challengeService.getBasicChallenge(pc.getChallengeCode());
 			model.addAttribute("personalChallenge", pc);
+			model.addAttribute("basicChallenge", bc);
 			return "challenge/edit-my-challenge";						
 		}
 		String redirectURI = "/challenge/main";
@@ -289,7 +293,7 @@ public class ChallengeController extends UiUtils {
 				redirectURI = "/challenge/my-challenge/" + challengeNum;
 				return showMessageWithRedirection("챌린지 삭제에 실패하였습니다.", redirectURI, Method.GET, null, model);
 			}
-			redirectURI = "/challenge/my-challenge";
+			redirectURI = "/challenge/main";
 			return showMessageWithRedirection("챌린지가 삭제되었습니다.", redirectURI, Method.GET, null, model);			
 		}
 		redirectURI = "/challenge/main";

@@ -82,6 +82,10 @@ body {
 	color: #4cbd73; 	
 }
 
+#logoutBtn {
+	cursor: pointer;
+}
+
 .nav-dropdown-btn {
 	width: 150px;
 	border: none;
@@ -862,9 +866,10 @@ input::placeholder{
 }
 
 .feed-top-chall-name {
+	height: 100%;
 	font-size: 0.8rem;
 	font-weight: 400;
-	line-height: 1.5;
+	line-height: 1.5px;
 	color: #8f9494;
 }
 
@@ -884,9 +889,10 @@ input::placeholder{
 
 .feed-3dots-submenu {
 	display: none;
-	box-shadow: 2px 2px 10px #5f6262;
-	width: 65px;
+	box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.16);
+	width: 85px;
 	height: 65px;
+	border-radius: 8px;
 	font-size: 0.8rem;
 	font-weight: 400;
 	text-align: center;
@@ -902,6 +908,7 @@ input::placeholder{
 }
 
 #chall-delete-form input {
+	width: 100%;
 	border: none;
 	background-color: #ffffff;
 	font-family: GmarketSans;
@@ -913,13 +920,6 @@ input::placeholder{
 .feed-3dots-submenu a, #chall-delete-form input {
 	color: #5f6262;
 	display: block;
-}
-
-.chall-feed-dropdown input:checked ~ .feed-3dots-submenu {
-	position: absolute;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-evenly;
 }
 
 .feed-3dots-submenu a:hover, #chall-delete-form input:hover {
@@ -977,6 +977,7 @@ input::placeholder{
 	font-size: 0.9rem;
 	font-weight: 400;
 	color: #8f9494;
+	cursor: pointer;
 }
 
 /*�쓬�꽦�씤�떇 css*/
@@ -1042,7 +1043,7 @@ input::placeholder{
 	cursor: pointer;
 }
 
-#createForm {
+#createForm, #editForm {
 	width: 100%;
 	display: flex;
 	flex-direction: column;
@@ -1188,7 +1189,7 @@ select::-ms-expand {
 	border-radius: 8px;
 	background-color: #ffffff;
 	color: #181919;
-	box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.16);
+	box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.16);
 }
 
 .my-detail-btn-feed-edit {
@@ -1199,7 +1200,7 @@ select::-ms-expand {
 	text-align: center;
 }
 
-.my-detail-delete-form {
+#my-detail-delete-form {
 	width: 100%;	
 }
 
@@ -1212,6 +1213,10 @@ select::-ms-expand {
 	font-weight: 700;
 	line-height: 1.5;
 	cursor: pointer;
+}
+
+.my-detail-dropdown-submenu a:hover, #my-detail-delete-form input:hover {
+	color: #4cbd73;
 }
 
 .chall-cont-my-detail-wrapper {
