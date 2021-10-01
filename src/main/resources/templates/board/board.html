@@ -5,44 +5,45 @@
 	<nav th:replace="fragments/common.html :: nav-top"></nav>
 	<!-- 밑줄: 디자인 요소 다운하여 사용 -->
 	<div class="nav-border"></div>
-	<div class="Title">
-		<label class="Title_text" th:text="${boardname}"></label>
-		<div class="Vector_13"></div>
-	</div>
-	<div class="Section">
-		<input id="sessionNickname" type="hidden"
-			th:value="${session.memnickname}" /> <span class="Section_title_1"
-			th:text="${boardname}"></span>
-		<button class="Btn_write" id="writeBtn">글쓰기</button>
-		<div class="Post_wrapper">
-			<div class="ContentBox" th:each="board:${boards}">
-				<a class="link" id="index" th:attrappend="id=${boardStat.index}"
-					th:name="postno"
-					th:href="@{/board/viewpost(postno=${board.postno})}">
-					<div class="Post_title" th:text="${board.title}"></div>
-					<div class="Post_content" th:text="${board.content}"></div>
-					<div class="Post_etc">
-						<div class="Nickname">
-							<img class="img_16" src="../img/board/User.png"> <label
-								class="text" th:if="${board.isanon} == 0"
-								th:text="${board.nickname}"></label> <label class="text"
-								th:if="${board.isanon} == 1">익명</label>
-						</div>
-						<div class="Comments">
-							<img class="img_16" src="../img/board/Comment.png"> <label
-								class="text" th:text="${board.reply_cnt}"></label>
-						</div>
-						<div class="Post_date"
-							th:text="${#dates.format(board.postdate, 'yyyy-MM-dd HH시 mm분')}"></div>
-					</div>
-				</a>
-			</div>
+	<div class="main">
+		<div class="Title">
+			<label class="Title_text" th:text="${boardname}"></label>
+			<div class="Vector_13"></div>
 		</div>
-		<input th:if="${totalBoardCnt > 5}" type="button" value="더보기"
-		id="board_more_btn">
-
+		<div class="Section">
+			<input id="sessionNickname" type="hidden"
+				th:value="${session.memnickname}" /> <span class="Section_title_1"
+				th:text="${boardname}"></span>
+			<button class="Btn_write" id="writeBtn">글쓰기</button>
+			<div class="Post_wrapper">
+				<div class="ContentBox" th:each="board:${boards}">
+					<a class="link" id="index" th:attrappend="id=${boardStat.index}"
+						th:name="postno"
+						th:href="@{/board/viewpost(postno=${board.postno})}">
+						<div class="Post_title" th:text="${board.title}"></div>
+						<div class="Post_content" th:text="${board.content}"></div>
+						<div class="Post_etc">
+							<div class="Nickname">
+								<img class="img_16" src="../img/board/User.png"> <label
+									class="text" th:if="${board.isanon} == 0"
+									th:text="${board.nickname}"></label> <label class="text"
+									th:if="${board.isanon} == 1">익명</label>
+							</div>
+							<div class="Comments">
+								<img class="img_16" src="../img/board/Comment.png"> <label
+									class="text" th:text="${board.reply_cnt}"></label>
+							</div>
+							<div class="Post_date"
+								th:text="${#dates.format(board.postdate, 'yyyy-MM-dd HH시 mm분')}"></div>
+						</div>
+					</a>
+				</div>
+			</div>
+			<input th:if="${totalBoardCnt > 5}" type="button" value="더보기"
+				id="board_more_btn">
+		</div>
 	</div>
-	
+
 
 	<script th:inline="javascript">
 		/*<![CDATA[*/

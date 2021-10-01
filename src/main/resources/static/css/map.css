@@ -1366,7 +1366,6 @@ ider .text2 {
 /* 혜린 - 게시판, QNA게시판 */
 /* 전체게시판 */
 .Title {
-	position: absolute;
 	width: 1194px;
 	height: 57px;
 	left: 363px;
@@ -1553,11 +1552,10 @@ ider .text2 {
 
 /* 개별게시판 */
 .Section {
-	position: absolute;
 	width: 1194px;
 	height: 654px;
-	left: 363px;
-	top: 265px;
+	margin-top: 30px;
+
 }
 
 .Section .ContentBox {
@@ -1572,7 +1570,6 @@ ider .text2 {
 }
 
 .Btn_write {
-	position: absolute;
 	top: -7px;
 	right: 2px;
 	width: 120px;
@@ -1871,11 +1868,13 @@ input[type="checkbox"]+label {
 
 /* 상세보기 */
 .main {
-	position: absolute;
-	width: 1194px;
-	display: table;
-	top: 176px;
-	left: 363px;
+	position: relative;
+    width: 100%;
+    margin-top: 50px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .text_decoration_none {

@@ -2,27 +2,7 @@
 <html>
 <head th:replace="fragments/board_head :: head('상세보기')">
 <body>
-	<!-- 공통 네비게이션: top -->
-	<nav>
-		<!-- content section 크기와 같은 영역 -->
-		<div class="nav-top">
-			<div class="wrapper">
-				<div class="nav-logo">
-					<a>Green Scanner</a>
-				</div>
-				<div class="nav-menu">
-					<a>로그인</a> <a>회원가입</a> <a>공지사항</a> <a>FAQ</a>
-					<div class="nav-dropdown">
-						<button class="nav-dropdown-btn">자주사용하는기능</button>
-						<div class="dropdown-submenu">
-							<a>음성으로배출방법찾기</a> <a>사진으로배출방법찾기</a> <a>주변쓰레기통찾기</a> <a>제로웨이스트상점찾기</a>
-							<a>챌린지</a> <a>게시판</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</nav>
+	<nav th:replace="fragments/common.html :: nav-top"></nav>
 	<!-- 밑줄: 디자인 요소 다운하여 사용 -->
 	<div class="nav-border"></div>
 	<div class="main">
@@ -165,7 +145,7 @@
 				<span>Copyright @ GREEN SCANNER</span>
 			</div>
 		</div>
-	</div> --> -->
+	</div> --> 
 
 </body>
 </html>
