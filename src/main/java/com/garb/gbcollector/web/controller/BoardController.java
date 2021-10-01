@@ -28,8 +28,10 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.garb.gbcollector.web.service.BoardService;
+import com.garb.gbcollector.web.service.FeedService;
 import com.garb.gbcollector.web.vo.BoardReplyVO;
 import com.garb.gbcollector.web.vo.BoardVO;
+import com.garb.gbcollector.web.vo.BoardPageNationVO;
 
 @RequestMapping("board")
 @Controller
@@ -54,13 +56,21 @@ public class BoardController {
 		return mav;
 	}
 
-	/* 자유게시판 조회 */
+	/* 자유게시판 조회 - 최신순 4개 */
 	@GetMapping(value = "/bulletin_boardlist")
-	public ModelAndView boardListB(ModelAndView mav, HttpSession session) {
+	public ModelAndView boardListB(BoardPageNationVO page, ModelAndView mav, HttpSession session) {
 		System.out.println("board/bulletin_boardlist진입");
-		List<BoardVO> boards;
-	    boards = boardService.listPostBAll();
+		
+		page.setStartIdx("1");
+		page.setEndIdx("4");
+		
+		int totalBoardCnt = boardService.getTotalBoardCnt();
+		List<BoardVO> boards = boardService.listPostBAll(page);
+		
+		mav.addObject("totalBoardCnt", totalBoardCnt);
 		mav.addObject("boards", boards);
+		
+		// 조회된 게시글객체에서 게시판이름을 얻어 화면에 전달 
 		String boardname = null;
 		for(BoardVO board : boards) {
 			boardname = board.getBoardname();
@@ -69,6 +79,46 @@ public class BoardController {
 		mav.setViewName("board/board");
 		return mav;
 	}
+	
+	/* 자유게시판 조회 - 더보기 */
+	@PostMapping(value = "/bulletin_boardlist/more_post")
+	public ModelAndView morePost(BoardPageNationVO page, ModelAndView mav, HttpServletRequest request) {
+		System.out.println("더보기 진입");
+	
+		page.setStartIdx((String)request.getParameter("startIdx"));
+		page.setEndIdx((String)request.getParameter("EndIdx"));
+		
+		List<BoardVO> boards = boardService.listPostBAll(page);
+		
+		mav.addObject("boards", boards);
+		
+		// 조회된 게시글객체에서 게시판이름을 얻어 화면에 전달 
+		String boardname = null;
+		for(BoardVO board : boards) {
+			boardname = board.getBoardname();
+		}
+		mav.addObject("boardname", boardname);
+		mav.setViewName("board/partial-board  :: more-post");
+		return mav;
+		
+	}
+	
+	
+//	/* 자유게시판 조회 */
+//	@GetMapping(value = "/bulletin_boardlist")
+//	public ModelAndView boardListB(ModelAndView mav, HttpSession session) {
+//		System.out.println("board/bulletin_boardlist진입");
+//		List<BoardVO> boards = boardService.listPostBAll();
+//		mav.addObject("boards", boards);
+//		String boardname = null;
+//		for(BoardVO board : boards) {
+//			boardname = board.getBoardname();
+//		}
+//		mav.addObject("boardname", boardname);
+//		mav.setViewName("board/board");
+//		return mav;
+//	}
+	
 
 	/* 질문게시판 조회 */
 	@GetMapping(value = "/question_boardlist")

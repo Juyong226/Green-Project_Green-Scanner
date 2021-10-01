@@ -1,28 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head th:replace="fragments/board_head :: head('자유게시판')">
 <body>
-	<!-- 공통 네비게이션: top -->
-	<nav>
-		<!-- content section 크기와 같은 영역 -->
-		<div class="nav-top">
-			<div class="wrapper">
-				<div class="nav-logo">
-					<a>Green Scanner</a>
-				</div>
-				<div class="nav-menu">
-					<a>로그인</a> <a>회원가입</a> <a>공지사항</a> <a>FAQ</a>
-					<div class="nav-dropdown">
-						<button class="nav-dropdown-btn">자주사용하는기능</button>
-						<div class="dropdown-submenu">
-							<a>음성으로배출방법찾기</a> <a>사진으로배출방법찾기</a> <a>주변쓰레기통찾기</a> <a>제로웨이스트상점찾기</a>
-							<a>챌린지</a> <a>게시판</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</nav>
+	<nav th:replace="fragments/common.html :: nav-top"></nav>
 	<!-- 밑줄: 디자인 요소 다운하여 사용 -->
 	<div class="nav-border"></div>
 	<div class="Title">
@@ -34,72 +14,47 @@
 			th:value="${session.memnickname}" /> <span class="Section_title_1"
 			th:text="${boardname}"></span>
 		<button class="Btn_write" id="writeBtn">글쓰기</button>
-		<div class="ContentBox" th:each="board:${boards}">
-			<a class="link" id="index" th:attrappend="id=${boardStat.index}"
-				name="postno" th:href="@{/board/viewpost(postno=${board.postno})}">
-				<div class="Post_title" th:text="${board.title}"></div>
-				<div class="Post_content" th:text="${board.content}"></div>
-				<div class="Post_etc">
-					<div class="Nickname">
-						<img class="img_16" src="../img/board/User.png"> <label
-							class="text" th:if="${board.isanon} == 0"
-							th:text="${board.nickname}"></label> <label class="text"
-							th:if="${board.isanon} == 1">익명</label>
+		<div class="Post_wrapper">
+			<div class="ContentBox" th:each="board:${boards}">
+				<a class="link" id="index" th:attrappend="id=${boardStat.index}"
+					th:name="postno"
+					th:href="@{/board/viewpost(postno=${board.postno})}">
+					<div class="Post_title" th:text="${board.title}"></div>
+					<div class="Post_content" th:text="${board.content}"></div>
+					<div class="Post_etc">
+						<div class="Nickname">
+							<img class="img_16" src="../img/board/User.png"> <label
+								class="text" th:if="${board.isanon} == 0"
+								th:text="${board.nickname}"></label> <label class="text"
+								th:if="${board.isanon} == 1">익명</label>
+						</div>
+						<div class="Comments">
+							<img class="img_16" src="../img/board/Comment.png"> <label
+								class="text" th:text="${board.reply_cnt}"></label>
+						</div>
+						<div class="Post_date"
+							th:text="${#dates.format(board.postdate, 'yyyy-MM-dd HH시 mm분')}"></div>
 					</div>
-					<div class="Comments">
-						<img class="img_16" src="../img/board/Comment.png"> <label
-							class="text" th:text="${board.reply_cnt}"></label>
-					</div>
-					<div class="Post_date"
-						th:text="${#dates.format(board.postdate, 'yyyy-MM-dd HH시 mm분')}"></div>
-				</div>
-			</a>
+				</a>
+			</div>
 		</div>
-	</div>
-	<!-- <div class="mx-3 my-2">
-</div>
-Bulletin board Div
-<div class="img-rounded img-thumbnail mx-3 mb-3 p-0">
-<input id = "sessionNickname" type="hidden" th:value="${session.memnickname}"/>
-	<input style="float:right; margin-top:10px; margin-right: 10px; background-color: #5CAB7D; border-color: #5CAB7D;" type="button" id="writeBtn" value="글쓰기" class="btn btn-success">
-	전체게시판조회 페이지로 이동/게시판 제목
-	<div class= "board-font my-2" style="font-family:NanumBarunGothic">
-		<a class="navbar-brand" href="/board/boardlist" style="text-decoration:none;">
-		<img src="../img/back.png" alt="..." style="width: 20px; height:20px; margin-left:5px" >
-		<label style="font-size: 20px; font-weight: bold; padding: 30px,30px,2px,30px; margin-top:10px; margin-left: 5px; color:#5A9367">[자유게시판]</label>
-		
-		</a>
-	</div>
+		<input th:if="${totalBoardCnt > 5}" type="button" value="더보기"
+		id="board_more_btn">
 
-	<div> 
-		<div id='Bulletin_board' class="postno board-font" style="padding-top:3px; padding-bottom:3px; border-top: 0.1px solid #bebebe;">
-			<div class ="mx-2 my-1" th:each="b_board:${b_boards}">
-			<a class="cls1" style="text-decoration: none; color:black" id="index" th:attrappend="id=${b_boardStat.index}" name="postno" th:href="@{/board/viewpost(postno=${b_board.postno})}">
-				<label class = "txt_line" style="font-weight:bold; padding:5px,5px,5px,5px" th:text="${b_board.title}"></label>
-				<label class = "txt_line" style="color: #424242; font-size:4" th:text="${b_board.content}"></label></a><br>
-				<img src="../img/user.png" style="width: 18px; height: 18px;"alt="...">&nbsp
-				<label th:if="${b_board.isanon} == 1" style="font-weight:lighter; font-size:0.9em">익명</label>
-				<label th:if="${b_board.isanon} == 0" th:text="${b_board.nickname}" style="font-weight:lighter; font-size:0.9em"></label>
-				&nbsp&nbsp&nbsp<img src="../img/bubble.png">&nbsp<label style="font-size:0.9em" th:text="${b_board.reply_cnt}"></label>
-				&nbsp&nbsp&nbsp<label th:text="${#dates.format(b_board.postdate, 'yyyy/MM/dd HH시 mm분')}"></label><hr>	
-			</div>
-		</div>
-	</div>	
-</div>
-<br><br> -->
-	<!-- 밑줄: 디자인 요소 다운하여 사용 -->
-<!-- 	<div class="footer-border"></div>
-	공통 footer
-	<div class="footer">
-		content section 크기와 같은 영역
-		<div class="wrapper">
-			<div class="footer-left">
-				<a>개인정보처리방침</a> <a>이용약관</a>
-			</div>
-			<div class="footer-right">
-				<span>Copyright @ GREEN SCANNER</span>
-			</div>
-		</div>
-	</div> -->
+	</div>
+	
+
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		var totalBoardCnt = /*[[ ${totalBoardCnt} ]]*/;
+	 	var startIdx = 1;
+	 	var searchStep = 4;
+	 	
+	 	$('#board_more_btn').click(function() {
+	 		startIdx += searchStep;
+	 		more_post(startIdx);
+	 	});
+	 	/*]]>*/
+	</script>
 </body>
 </html>

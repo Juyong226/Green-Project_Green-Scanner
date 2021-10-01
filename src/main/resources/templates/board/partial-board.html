@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<div th:fragment="more-post" class="ContentBox" th:each="board:${boards}">
+		<a class="link" id="index" th:attrappend="id=${boardStat.index}"
+			th:name="postno" th:href="@{/board/viewpost(postno=${board.postno})}">
+			<div class="Post_title" th:text="${board.title}"></div>
+			<div class="Post_content" th:text="${board.content}"></div>
+			<div class="Post_etc">
+				<div class="Nickname">
+					<img class="img_16" src="../img/board/User.png"> <label
+						class="text" th:if="${board.isanon} == 0"
+						th:text="${board.nickname}"></label> <label class="text"
+						th:if="${board.isanon} == 1">익명</label>
+				</div>
+				<div class="Comments">
+					<img class="img_16" src="../img/board/Comment.png"> <label
+						class="text" th:text="${board.reply_cnt}"></label>
+				</div>
+				<div class="Post_date"
+					th:text="${#dates.format(board.postdate, 'yyyy-MM-dd HH시 mm분')}"></div>
+			</div>
+		</a>
+	</div>
+
+</body>
+</html>

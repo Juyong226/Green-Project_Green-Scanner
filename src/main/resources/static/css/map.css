@@ -24,7 +24,7 @@
 }
 
 /*nav/footer css*/
-html{
+html {
 	width: 99.7%;
 }
 
@@ -56,7 +56,7 @@ body {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
-	align-content: center; 
+	align-content: center;
 	align-items: center;
 	font-family: GmarketSans;
 }
@@ -81,7 +81,7 @@ body {
 }
 
 #nickname {
-	color: #4cbd73; 	
+	color: #4cbd73;
 }
 
 .nav-dropdown-btn {
@@ -159,8 +159,8 @@ a, a:link, a:visited {
 /*상하단 border*/
 .nav-border {
 	width: 100%;
-  	height: 1px;
-  	background-color: #4cbd73;
+	height: 1px;
+	background-color: #4cbd73;
 }
 
 .footer-border {
@@ -216,19 +216,19 @@ a, a:link, a:visited {
 #login-form-email {
 	height: 64px;
 	border-radius: 8px;
-  	border: solid 1px #d6dddd;
-  	font-family: GmarketSans;
-  	font-size: 1rem;
-  	font-weight: 200;
+	border: solid 1px #d6dddd;
+	font-family: GmarketSans;
+	font-size: 1rem;
+	font-weight: 200;
 }
 
 #login-form-pw {
 	height: 64px;
 	border-radius: 8px;
-  	border: solid 1px #d6dddd;
-  	font-family: GmarketSans;
-  	font-size: 1rem;
-  	font-weight: 200;
+	border: solid 1px #d6dddd;
+	font-family: GmarketSans;
+	font-size: 1rem;
+	font-weight: 200;
 }
 
 #login-form-checkbox {
@@ -240,12 +240,13 @@ a, a:link, a:visited {
 	height: 64px;
 	border: 0;
 	border-radius: 8px;
-  	background-color: #4cbd73;
-  	color: #ffffff;
-  	font-family: GmarketSans;
-  	font-size: 1rem;
-  	font-weight: 700;
+	background-color: #4cbd73;
+	color: #ffffff;
+	font-family: GmarketSans;
+	font-size: 1rem;
+	font-weight: 700;
 }
+
 .form-div-btns {
 	width: 100%;
 	display: flex;
@@ -260,178 +261,175 @@ a, a:link, a:visited {
 	background-color: #eef6f6;
 	color: #181919;
 	font-family: GmarketSans;
-  	font-size: 1rem;
-  	font-weight: 700;
+	font-size: 1rem;
+	font-weight: 700;
 }
 
 /*회원가입*/
-#signup-form-email{
-	width:276px;
-	height:52px;
+#signup-form-email {
+	width: 276px;
+	height: 52px;
 	border-radius: 8px;
 	border-radius: 8px;
-  	border: solid 1px #d6dddd;
-  	font-family: GmarketSans;
-  	font-size: 1rem;
-  	font-weight: 200;
+	border: solid 1px #d6dddd;
+	font-family: GmarketSans;
+	font-size: 1rem;
+	font-weight: 200;
 }
 
-#signup-form-nickname{
-	width:276px;
-	height:52px;
+#signup-form-nickname {
+	width: 276px;
+	height: 52px;
 	border-radius: 8px;
 	border-radius: 8px;
-  	border: solid 1px #d6dddd;
-  	font-family: GmarketSans;
-  	font-size: 1rem;
-  	font-weight: 200;	
+	border: solid 1px #d6dddd;
+	font-family: GmarketSans;
+	font-size: 1rem;
+	font-weight: 200;
 }
 
-#signup-form-name{
+#signup-form-name {
 	width: 378px;
 	height: 52px;
 	border-radius: 8px;
-  	border: solid 1px #d6dddd;
-  	font-family: GmarketSans;
-  	font-size: 1rem;
-  	font-weight: 200;	
+	border: solid 1px #d6dddd;
+	font-family: GmarketSans;
+	font-size: 1rem;
+	font-weight: 200;
 }
 
-#signup-form-pw{
+#signup-form-pw {
 	width: 378px;
 	height: 52px;
-  	border: solid 1px #d6dddd;
-  	font-family: GmarketSans;
-  	font-size: 1rem;
-  	font-weight: 200;	
+	border: solid 1px #d6dddd;
+	font-family: GmarketSans;
+	font-size: 1rem;
+	font-weight: 200;
 }
 
-#signup-form-confirmpw{
+#signup-form-confirmpw {
 	width: 378px;
 	height: 52px;
 	border-radius: 8px;
-  	border: solid 1px #d6dddd;
-  	font-family: GmarketSans;
-  	font-size: 1rem;
-  	font-weight: 200;
+	border: solid 1px #d6dddd;
+	font-family: GmarketSans;
+	font-size: 1rem;
+	font-weight: 200;
 }
 
-.form-div-btns{
+.form-div-btns {
 	width: 100%;
 	display: flex;
-/* 	justify-content: space-between; */	
+	/* 	justify-content: space-between; */
 }
 
-
-.form-div-signup{
+.form-div-signup {
 	width: 100%;
 	height: 280px;
 }
 
-.signup-form{
-
+.signup-form {
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;	
+	justify-content: space-between;
 }
 
-.signup-logo{
-	top:191px;
+.signup-logo {
+	top: 191px;
 	text-align: center;
-	width : 369px;
-	height : 41px;
+	width: 369px;
+	height: 41px;
 	color: #4cbd73;
 	font-family: PermanentMarker;
 	font-size: 2.5rem;
 }
 
-.signup-content{
+.signup-content {
 	width: 100%;
 	height: 871px;
 	display: flex;
 	flex-direction: column;
 	flex-wrap: wrap;
-	margin-top:95px;
-/*  justify-content: center;*/
-	align-content: center;	
+	margin-top: 95px;
+	/*  justify-content: center;*/
+	align-content: center;
 }
 
-.signup-wrapper{
+.signup-wrapper {
 	width: 378px;
-	top:95px;
-	height:619px;
+	top: 95px;
+	height: 619px;
 	display: flex;
 	flex-direction: column;
-/* 	justify-content: space-between; */
+	/* 	justify-content: space-between; */
 	align-items: center;
-	font-family: GmarketSans;	
+	font-family: GmarketSans;
 }
 
-#check-email-btn{
+#check-email-btn {
 	width: 88px;
 	height: 56px;
 	border: 0;
 	border-radius: 8px;
-  	background-color: #4cbd73;
-  	color: #ffffff;
-  	font-family: GmarketSans;
-  	font-size: 1rem;
-  	font-weight: 700;	
+	background-color: #4cbd73;
+	color: #ffffff;
+	font-family: GmarketSans;
+	font-size: 1rem;
+	font-weight: 700;
 }
 
-#check-nickname-btn{
+#check-nickname-btn {
 	width: 88px;
 	height: 56px;
 	border: 0;
 	border-radius: 8px;
-  	background-color: #4cbd73;
-  	color: #ffffff;
-  	font-family: GmarketSans;
-  	font-size: 1rem;
-  	font-weight: 700;		
+	background-color: #4cbd73;
+	color: #ffffff;
+	font-family: GmarketSans;
+	font-size: 1rem;
+	font-weight: 700;
 }
 
-input::placeholder{
-	padding-left:16px;
-	padding-right:94px;
-	padding-top:16.62px;
-	padding-bottom:12.37px;
+input::placeholder {
+	padding-left: 16px;
+	padding-right: 94px;
+	padding-top: 16.62px;
+	padding-bottom: 12.37px;
 }
 
-.form-div-signbtns{
+.form-div-signbtns {
 	width: 100%;
 	display: flex;
 	justify-content: space-between;
 }
 
-#cancle{
-	margin-left:10px;
-	margin-top:40px;
-	margin-right:28px;
+#cancle {
+	margin-left: 10px;
+	margin-top: 40px;
+	margin-right: 28px;
 	width: 174px;
 	height: 64px;
 	border: 0;
 	border-radius: 8px;
-  	background-color: #4cbd73;
-  	color: #ffffff;
-  	font-family: GmarketSans;
-  	font-size: 1rem;
-  	font-weight: 700;		
+	background-color: #4cbd73;
+	color: #ffffff;
+	font-family: GmarketSans;
+	font-size: 1rem;
+	font-weight: 700;
 }
 
-#login-join-btn-m{
-	margin-top:40px;
+#login-join-btn-m {
+	margin-top: 40px;
 	width: 174px;
 	height: 64px;
 	border: 0;
 	border-radius: 8px;
-  	background-color: #4cbd73;
-  	color: #ffffff;
-  	font-family: GmarketSans;
-  	font-size: 1rem;
-  	font-weight: 700;		
+	background-color: #4cbd73;
+	color: #ffffff;
+	font-family: GmarketSans;
+	font-size: 1rem;
+	font-weight: 700;
 }
-
 
 /*지도*/
 .map-content {
@@ -441,7 +439,7 @@ input::placeholder{
 	flex-direction: column;
 	flex-wrap: wrap;
 	justify-content: center;
-	align-content: center;	
+	align-content: center;
 }
 
 .map-title {
@@ -458,7 +456,7 @@ input::placeholder{
 	font-weight: bold;
 	line-height: 1.5;
 	text-align: left;
-	color: #181919;	
+	color: #181919;
 }
 
 .map-title-regular {
@@ -553,19 +551,19 @@ input::placeholder{
 	text-align: center;
 	font-size: 0.9rem;
 	font-weight: 400;
-	color:	#5f6262;
+	color: #5f6262;
 }
 
 .shop-info-name {
 	padding: 10px;
-    text-align: center;
+	text-align: center;
 	font-size: 1.3rem;
 	color: #4cbd73;
 }
 
 .shop-info-addr {
 	padding: 5px 5px 5px 10px;
-    text-align: center;
+	text-align: center;
 	font-size: 0.9rem;
 	font-weight: 400;
 	color: #5f6262;
@@ -573,8 +571,8 @@ input::placeholder{
 
 .shop-info-detail {
 	width: 100%;
-    display: flex;
-    justify-content: space-around; 
+	display: flex;
+	justify-content: space-around;
 	padding: 5px 5px 5px 10px;
 	font-size: 0.9rem;
 	font-weight: 200;
@@ -621,8 +619,8 @@ input::placeholder{
 
 .content-border {
 	width: 100%;
-  	height: 1px;
-  	background-color: #4cbd73;
+	height: 1px;
+	background-color: #4cbd73;
 }
 
 .chall-cont-no-feed {
@@ -769,7 +767,7 @@ input::placeholder{
 	height: 75px;
 	display: flex;
 	flex-direction: column;
-	justify-content: center; 
+	justify-content: center;
 	font-size: 0.9rem;
 	font-weight: 400;
 	line-height: 1.5;
@@ -784,7 +782,7 @@ input::placeholder{
 	height: 182px;
 	display: flex;
 	justify-content: center;
-	align-items: center; 
+	align-items: center;
 }
 
 #chall-more-btn {
@@ -845,7 +843,7 @@ input::placeholder{
 	flex-wrap: wrap;
 	justify-content: center;
 	align-content: center;
-	align-items: center;		
+	align-items: center;
 }
 
 .swv-default-text {
@@ -875,526 +873,494 @@ input::placeholder{
 }
 
 /*지원: 메인 중하부*/
-	/* 꿀팁 */
-	.slider  {
-		position: absolute;
-		width: 1194px;
-		height: 371px;
-		left: 50px;
-		top: 519px;
-		
-		
-	}
-	
-	.slider .text_0 {
-		position: absolute;
-		width: 184px;
-		height: 51px;
-		left: 363px;
-		top: 519px;
-		
-	}
-	
-	.slider .tip1 img{
+/* 꿀팁 */
+.slider {
+	position: absolute;
+	width: 1194px;
+	height: 371px;
+	left: 50px;
+	top: 519px;
+}
+
+.slider .text_0 {
+	position: absolute;
+	width: 184px;
+	height: 51px;
+	left: 363px;
+	top: 519px;
+}
+
+.slider .tip1 img {
 	position: absolute;
 	width: 1000;
-	height:292px;
-	left: clac(5% - 582px/2 + 386px);
+	height: 292px;
+	left: clac(5% - 582px/ 2 + 386px);
 	top: 598px;
-	margin :0 auto;
-	
-	}
-	ider .text2{
+	margin: 0 auto;
+}
+
+ider .text2 {
 	position: absolute;
 	width: 582px;
-	height:292px;
-	left: clac(5% - 582px/2 + 386px);
+	height: 292px;
+	left: clac(5% - 582px/ 2 + 386px);
 	top: 598px;
-	
-	}
+}
 
-		.Rectangle202{
+.Rectangle202 {
 	position: absolute;
-	width:1000px;
-	height:56px;
-	left:60px;
-	top:1200px;
-	}
+	width: 1000px;
+	height: 56px;
+	left: 60px;
+	top: 1200px;
+}
 
-	
-	.Rectangle_167 {
-		position: absolute;
-		width: 240px;
-		height: 240px;
-		left: 60px;
-		top: 1250px;
-		background: #FFFFFF;
-		/* Gray/2 */
-		border:1px solid #8F9494;
-		border-radius: 16px;
-	}
-	.Rectangle_167 .imgright{
+.Rectangle_167 {
+	position: absolute;
+	width: 240px;
+	height: 240px;
+	left: 60px;
+	top: 1250px;
+	background: #FFFFFF;
+	/* Gray/2 */
+	border: 1px solid #8F9494;
+	border-radius: 16px;
+}
+
+.Rectangle_167 .imgright {
 	position: absolute;
 	left: 57.89%;
 	right: 10.53%;
 	top: 9.21%;
 	bottom: 59.21%;
-	}
-	.Rectangle_167 .imgleft{
+}
+
+.Rectangle_167 .imgleft {
 	position: absolute;
 	left: 15%;
 	right: 56.58%;
 	top: 10.53%;
 	bottom: 75.66%;
-	}
-	.Rectangle_167 .CurrDate{
+}
+
+.Rectangle_167 .CurrDate {
 	position: absolute;
 	left: 10.53%;
 	right: 53.29%;
 	top: 25%;
 	bottom: 65.13%;
-	}
-	.Rectangle_167 .City{
+}
+
+.Rectangle_167 .City {
 	position: absolute;
 	left: 10.53%;
 	right: 53.29%;
 	top: 35%;
 	bottom: 65.13%;
-	}
-	.Rectangle_167 .CurrTemp{
+}
+
+.Rectangle_167 .CurrTemp {
 	position: absolute;
 	left: 10.53%;
 	right: 71.05%;
 	top: 61.84%;
 	bottom: 20.39%;
-	}
+}
 
-	.Rectangle_167 .CurrTemph{
+.Rectangle_167 .CurrTemph {
 	position: absolute;
 	left: 51.32%;
 	right: 27.63%;
 	top: 61.84%;
 	bottom: 20.39%;
-	}
+}
 
-	.Rectangle_168 {
-		position: absolute;
-		width: 240px;
-		height: 240px;
-		left: 320px;
-		top: 1250px;
-		background: #FFFFFF;
-		/* Gray/2 */
-		border:1px solid #8F9494;
-		border-radius: 16px;
-	}
-	
-	.Rectangle_168 .imgright{
+.Rectangle_168 {
+	position: absolute;
+	width: 240px;
+	height: 240px;
+	left: 320px;
+	top: 1250px;
+	background: #FFFFFF;
+	/* Gray/2 */
+	border: 1px solid #8F9494;
+	border-radius: 16px;
+}
+
+.Rectangle_168 .imgright {
 	position: absolute;
 	left: 57.89%;
 	right: 10.53%;
 	top: 9.21%;
 	bottom: 59.21%;
-	}
-	.Rectangle_168 .imgleft{
+}
+
+.Rectangle_168 .imgleft {
 	position: absolute;
 	left: 15%;
 	right: 56.58%;
 	top: 10.53%;
 	bottom: 75.66%;
-	}
-	.Rectangle_168 .past{
+}
+
+.Rectangle_168 .past {
 	position: absolute;
 	left: 10.53%;
 	right: 71.05%;
 	top: 45%;
 	bottom: 20.39%;
-	}
-	.Rectangle_168 .right{
+}
+
+.Rectangle_168 .right {
 	position: absolute;
 	left: 115%;
 	right: 10%;
-	top:3px;
+	top: 3px;
 	bottom: 20.39%;
 	height: 240px;
 	border-radius: 16px;
-	}
-	.Section_4 {
-		position: absolute;
-		width: 1194px;
-		height: 349px;
-		left: 363px;
-		top: 1281px;
-	}
-	/* ++ 4 */
-	.cardnews{
+}
+
+.Section_4 {
+	position: absolute;
+	width: 1194px;
+	height: 349px;
+	left: 363px;
+	top: 1281px;
+}
+/* ++ 4 */
+.cardnews {
 	position: absolute;
 	width: 1800px;
 	height: 349px;
 	left: 60px;
 	top: 1600px;
-	
-	}
-	
+}
+
 /*인수: SWI*/
-#img_body{
+#img_body {
 	text-align: center;
-    margin: 0 auto;
+	margin: 0 auto;
 }
 
 #main_title {
-    height: 51px;
-    top: 0px;
-    
-    /* 2xl - M */
-    font-family: "GmarketSans";
-    font-style: normal;
-    font-weight: normal;
-    font-size: 34px;
-    line-height: 150%;
-    text-align: center;
-    text-transform: capitalize;
-
-    /* Gray/10 */
-    color: #181919;
-
-    /* Inside Auto Layout */
-    flex: none;
-    order: 0;
-    flex-grow: 0;
-    margin: 32px 0px;
-    margin-top: 64px;
+	height: 51px;
+	top: 0px;
+	/* 2xl - M */
+	font-family: "GmarketSans";
+	font-style: normal;
+	font-weight: normal;
+	font-size: 34px;
+	line-height: 150%;
+	text-align: center;
+	text-transform: capitalize;
+	/* Gray/10 */
+	color: #181919;
+	/* Inside Auto Layout */
+	flex: none;
+	order: 0;
+	flex-grow: 0;
+	margin: 32px 0px;
+	margin-top: 64px;
 }
 
-#resultDiv{
-
-    justify-content: center;
-    
-    align-items: center;
-    position: static;
-
-    width: 582px;
-    left: 50%;
-    /* Xl - M */
-    font-family: "GmarketSans";
-    font-style: normal;
-    font-weight: normal;
-    font-size: 24px;
-    line-height: 150%;
-    /* or 36px */
-    text-align: center;
-    text-transform: capitalize;
-
-    /* Gray/10 */
-    color: #181919;
-
-    background: #EEF6F6;
-    border-radius: 16px;
-
-    /* Inside Auto Layout */
-    flex: none;
-    order: 1;
-    flex-grow: 0;
-
-    padding: 60px 40px;
-    display: inline-block;
-
+#resultDiv {
+	justify-content: center;
+	align-items: center;
+	position: static;
+	width: 582px;
+	left: 50%;
+	/* Xl - M */
+	font-family: "GmarketSans";
+	font-style: normal;
+	font-weight: normal;
+	font-size: 24px;
+	line-height: 150%;
+	/* or 36px */
+	text-align: center;
+	text-transform: capitalize;
+	/* Gray/10 */
+	color: #181919;
+	background: #EEF6F6;
+	border-radius: 16px;
+	/* Inside Auto Layout */
+	flex: none;
+	order: 1;
+	flex-grow: 0;
+	padding: 60px 40px;
+	display: inline-block;
 }
 
 #btnGroup {
-    position: static;
-    width: 100%;
-    top: 507px;
-    flex: content;
-    text-align: center;
+	position: static;
+	width: 100%;
+	top: 507px;
+	flex: content;
+	text-align: center;
 }
 
 #imgBtn {
-    overflow: hidden;
-    left: calc(50% - 174px/2);
-    /* top: calc(60% - 80px/2 + 254px); */
-    background: none;
-    border: none;
+	overflow: hidden;
+	left: calc(50% - 174px/ 2);
+	/* top: calc(60% - 80px/2 + 254px); */
+	background: none;
+	border: none;
 }
 
 #descript {
-    height: 24px;
-
-    /* Md - M */
-    font-family: "GmarketSans";
-    font-style: normal;
-    font-weight: normal;
-    font-size: 16px;
-    line-height: 150%;
-    /* identical to box height, or 24px */
-    text-align: center;
-    text-transform: capitalize;
-    margin-top: 20px;
-    margin-bottom: 40px;
-    /* Main */
-    color: #4CBD73;
+	height: 24px;
+	/* Md - M */
+	font-family: "GmarketSans";
+	font-style: normal;
+	font-weight: normal;
+	font-size: 16px;
+	line-height: 150%;
+	/* identical to box height, or 24px */
+	text-align: center;
+	text-transform: capitalize;
+	margin-top: 20px;
+	margin-bottom: 40px;
+	/* Main */
+	color: #4CBD73;
 }
 
 #userPic {
 	width: inherit;
 	height: auto;
-    padding: 30px;
+	padding: 30px;
 }
 
 /* Icon / Spinner */
 #loading {
-    padding: 10% 0;
-	text-align:center;
-    color: #4CBD73;
+	padding: 10% 0;
+	text-align: center;
+	color: #4CBD73;
 }
 
 #boxComponent {
-    position: static;
-
-    /* Inside Auto Layout */
-    flex: none;
-    order: 2;
-    flex-grow: 0;
+	position: static;
+	/* Inside Auto Layout */
+	flex: none;
+	order: 2;
+	flex-grow: 0;
 }
 
 /* Rectangle 17 */
 #textBox {
-    position: static;
-    right: 26.98%;
-    width: 276px;
-    height: 56px;
-    font-size: 20px;
-    background: #FFFFFF;
-
-    /* Gray/2 */
-    border: 1px solid #D6DDDD;
-    box-sizing: border-box;
-    border-radius: 8px;
-    margin-right: 10px;
+	position: static;
+	right: 26.98%;
+	width: 276px;
+	height: 56px;
+	font-size: 20px;
+	background: #FFFFFF;
+	/* Gray/2 */
+	border: 1px solid #D6DDDD;
+	box-sizing: border-box;
+	border-radius: 8px;
+	margin-right: 10px;
 }
 
 #searchBtn {
-    position: static;
-    width: 88px;
-    height: 56px;
-    left: 76.72%;
-
-    background: #4CBD73;
-    border-radius: 8px;
-
-    /* Md - B */
-    font-family: "GmarketSans";
-    font-style: normal;
-    font-weight: normal;
-    font-size: 16px;
-    line-height: 150%;
-    /* or 24px */
-    text-align: center;
-    text-transform: capitalize;
-    /* White */
-    color: #FFFFFF;
-    border: 0;
-    outline: 0;
-    padding: 0;
+	position: static;
+	width: 88px;
+	height: 56px;
+	left: 76.72%;
+	background: #4CBD73;
+	border-radius: 8px;
+	/* Md - B */
+	font-family: "GmarketSans";
+	font-style: normal;
+	font-weight: normal;
+	font-size: 16px;
+	line-height: 150%;
+	/* or 24px */
+	text-align: center;
+	text-transform: capitalize;
+	/* White */
+	color: #FFFFFF;
+	border: 0;
+	outline: 0;
+	padding: 0;
 }
 
 /*인수: SWV*/
 #input {
-    position: static;
-    width: 582px;
-    height: 500px;
-    margin: 0 auto;
+	position: static;
+	width: 582px;
+	height: 500px;
+	margin: 0 auto;
 }
 
 #search {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0px;
-
-    position: static;
-    width: 582px;
-    height: 443px;
-    left: 669px;
-    top: 120px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 0px;
+	position: static;
+	width: 582px;
+	height: 443px;
+	left: 669px;
+	top: 120px;
 }
 
 #question {
-    position: static;
-    width: 473px;
-    height: 51px;
-    left: calc(50% - 473px/2);
-    top: 0px;
-    
-    /* 2xl - M */
-    font-family: "GmarketSans";
-    font-style: normal;
-    font-weight: normal;
-    font-size: 34px;
-    line-height: 150%;
-    text-align: center;
-    text-transform: capitalize;
-
-    /* Gray/10 */
-    color: #181919;
-
-    /* Inside Auto Layout */
-    flex: none;
-    order: 0;
-    flex-grow: 0;
-    margin: 32px 0px;
-    margin-top: 64px;
+	position: static;
+	width: 473px;
+	height: 51px;
+	left: calc(50% - 473px/ 2);
+	top: 0px;
+	/* 2xl - M */
+	font-family: "GmarketSans";
+	font-style: normal;
+	font-weight: normal;
+	font-size: 34px;
+	line-height: 150%;
+	text-align: center;
+	text-transform: capitalize;
+	/* Gray/10 */
+	color: #181919;
+	/* Inside Auto Layout */
+	flex: none;
+	order: 0;
+	flex-grow: 0;
+	margin: 32px 0px;
+	margin-top: 64px;
 }
 
 #box {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 0px;
-    
-    position: static;
-    width: 582px;
-    left: 0px;
-    top: 83px;
-    
-    /* Xl - M */
-    font-family: "GmarketSans";
-    font-style: normal;
-    font-weight: normal;
-    font-size: 24px;
-    line-height: 150%;
-    /* or 36px */
-    text-align: center;
-    text-transform: capitalize;
-
-    /* Gray/1 */
-    background: #EEF6F6;
-    border-radius: 16px;
-    
-    /* Inside Auto Layout */
-    flex: none;
-    order: 1;
-    flex-grow: 0;
-    padding: 60px 40px;
-
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 0px;
+	position: static;
+	width: 582px;
+	left: 0px;
+	top: 83px;
+	/* Xl - M */
+	font-family: "GmarketSans";
+	font-style: normal;
+	font-weight: normal;
+	font-size: 24px;
+	line-height: 150%;
+	/* or 36px */
+	text-align: center;
+	text-transform: capitalize;
+	/* Gray/1 */
+	background: #EEF6F6;
+	border-radius: 16px;
+	/* Inside Auto Layout */
+	flex: none;
+	order: 1;
+	flex-grow: 0;
+	padding: 60px 40px;
 }
 
 #examText {
-    position: static;
-    width: 276px;
-    height: 108px;
-    left: calc(50% - 276px/2);
-    top: 82px;
-
-    /* Xl - M */
-    font-family: "GmarketSans";
-    font-style: normal;
-    font-weight: normal;
-    font-size: 24px;
-    line-height: 150%;
-    /* or 36px */
-    text-align: center;
-    text-transform: capitalize;
-
-    /* Gray/10 */
-    color: #181919;
-
-    
-    /* Inside Auto Layout */
-    flex: none;
-    order: 0;
-    flex-grow: 0;
-    margin-bottom: 32px;
-
+	position: static;
+	width: 276px;
+	height: 108px;
+	left: calc(50% - 276px/ 2);
+	top: 82px;
+	/* Xl - M */
+	font-family: "GmarketSans";
+	font-style: normal;
+	font-weight: normal;
+	font-size: 24px;
+	line-height: 150%;
+	/* or 36px */
+	text-align: center;
+	text-transform: capitalize;
+	/* Gray/10 */
+	color: #181919;
+	/* Inside Auto Layout */
+	flex: none;
+	order: 0;
+	flex-grow: 0;
+	margin-bottom: 32px;
 }
 
 #boxComponent {
-    position: static;
-
-    /* Inside Auto Layout */
-    flex: none;
-    order: 2;
-    flex-grow: 0;
+	position: static;
+	/* Inside Auto Layout */
+	flex: none;
+	order: 2;
+	flex-grow: 0;
 }
 
 /* Rectangle 17 */
 #textBox {
-    position: static;
-    right: 26.98%;
-    width: 276px;
-    height: 56px;
-    font-size: 20px;
-    background: #FFFFFF;
-
-    /* Gray/2 */
-    border: 1px solid #D6DDDD;
-    box-sizing: border-box;
-    border-radius: 8px;
-    margin-right: 10px;
+	position: static;
+	right: 26.98%;
+	width: 276px;
+	height: 56px;
+	font-size: 20px;
+	background: #FFFFFF;
+	/* Gray/2 */
+	border: 1px solid #D6DDDD;
+	box-sizing: border-box;
+	border-radius: 8px;
+	margin-right: 10px;
 }
 
 #searchBtn {
-    position: static;
-    width: 88px;
-    height: 56px;
-    left: 76.72%;
-
-    background: #4CBD73;
-    border-radius: 8px;
-
-    /* Md - B */
-    font-family: "GmarketSans";
-    font-style: normal;
-    font-weight: normal;
-    font-size: 16px;
-    line-height: 150%;
-    /* or 24px */
-    text-align: center;
-    text-transform: capitalize;
-    /* White */
-    color: #FFFFFF;
-    border: 0;
-    outline: 0;
-    padding: 0;
+	position: static;
+	width: 88px;
+	height: 56px;
+	left: 76.72%;
+	background: #4CBD73;
+	border-radius: 8px;
+	/* Md - B */
+	font-family: "GmarketSans";
+	font-style: normal;
+	font-weight: normal;
+	font-size: 16px;
+	line-height: 150%;
+	/* or 24px */
+	text-align: center;
+	text-transform: capitalize;
+	/* White */
+	color: #FFFFFF;
+	border: 0;
+	outline: 0;
+	padding: 0;
 }
 
 #btnGroup {
-    position: static;
-    text-align: center;
+	position: static;
+	text-align: center;
 }
 
 #speakBtn {
-    overflow: hidden;
-    position: static;
-    text-align: center;
-    margin-top: 40px;
-    background: none;
-    border: none;
+	overflow: hidden;
+	position: static;
+	text-align: center;
+	margin-top: 40px;
+	background: none;
+	border: none;
 }
 
 #descript {
-    height: 24px;
-
-    /* Md - M */
-    font-family: "GmarketSans";
-    font-style: normal;
-    font-weight: normal;
-    font-size: 16px;
-    line-height: 150%;
-    /* identical to box height, or 24px */
-    text-align: center;
-    text-transform: capitalize;
-    margin-top: 20px;
-    margin-bottom: 40px;
-    /* Main */
-    color: #4CBD73;
+	height: 24px;
+	/* Md - M */
+	font-family: "GmarketSans";
+	font-style: normal;
+	font-weight: normal;
+	font-size: 16px;
+	line-height: 150%;
+	/* identical to box height, or 24px */
+	text-align: center;
+	text-transform: capitalize;
+	margin-top: 20px;
+	margin-bottom: 40px;
+	/* Main */
+	color: #4CBD73;
 }
 
 #loading {
-    padding: 10% 0;
-	text-align:center;
-    color: #4CBD73;
+	padding: 10% 0;
+	text-align: center;
+	color: #4CBD73;
 }
 
 /* 혜린 - 게시판, QNA게시판 */
@@ -2001,7 +1967,6 @@ input[type="checkbox"]+label {
 .img_100 {
 	width: 400px;
 	padding-bottom: 20px;
-	
 }
 
 .Img_div {
@@ -2236,4 +2201,16 @@ input[type="checkbox"]+label {
 	text-transform: capitalize;
 	/* Gray/5 */
 	color: #8F9494;
+}
+
+#board_more_btn {
+	width: 378px;
+	height: 56px;
+	border: solid 1px #d6dddd;
+	background: #ffffff;
+	font-size: 0.9rem;
+	font-weight: 400;
+	color: #8f9494;
+	margin-top: 20px;
+	margin-bottom: 20px;
 }
