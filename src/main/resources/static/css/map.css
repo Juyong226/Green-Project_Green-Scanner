@@ -1375,8 +1375,6 @@ ider .text2 {
 .Title .Title_text {
 	width: 174px;
 	height: 51px;
-	left: 363px;
-	top: 176px;
 	/* 2xl - B */
 	font-family: GmarketSans;
 	font-style: normal;
@@ -1555,11 +1553,9 @@ ider .text2 {
 	width: 1194px;
 	height: 654px;
 	margin-top: 30px;
-
 }
 
 .Section .ContentBox {
-	position: relative;
 	width: 1194px;
 	height: 141px;
 	border: 1px solid #D6DDDD;
@@ -1596,24 +1592,16 @@ ider .text2 {
 
 /* 글쓰기/수정 */
 .Write_form {
-	position: absolute;
-	width: 990px;
 	height: 634px;
-	left: 465px;
-	top: 265px;
+	margin-top: 50px;
 }
 
 .Write_form .Post_title {
-	display: inline-block;
-	width: 684px;
-	height: 90px;
 	width: 684px;
 }
 
 .input_title {
-	position: relative;
-	top: 12px;
-	height: 56px;
+	
 	width: 684px;
 	border: 1px solid #D6DDDD;
 	box-sizing: border-box;
@@ -1629,16 +1617,12 @@ ider .text2 {
 	text-transform: capitalize;
 	/* Gray/5 */
 	color: #8F9494;
-	height: 56px;
 }
 
 .Write_form .Post_boardType {
 	display: inline-block;
-	position: absolute;
-	right: 2px;
 	width: 276px;
 	height: 90px;
-	position: absolute;
 }
 
 .select_boardType {
@@ -1869,12 +1853,12 @@ input[type="checkbox"]+label {
 /* 상세보기 */
 .main {
 	position: relative;
-    width: 100%;
-    margin-top: 50px;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+	width: 100%;
+	margin-top: 50px;
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 
 .text_decoration_none {
@@ -2210,6 +2194,16 @@ input[type="checkbox"]+label {
 	font-size: 0.9rem;
 	font-weight: 400;
 	color: #8f9494;
-	margin-top: 20px;
+	margin-top: 60px;
 	margin-bottom: 20px;
+}
+
+.space_between {
+	width: 1194px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-content: center;
+	align-items: center;
+	font-family: GmarketSans;
 }

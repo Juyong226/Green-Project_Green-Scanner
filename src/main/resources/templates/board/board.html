@@ -11,10 +11,12 @@
 			<div class="Vector_13"></div>
 		</div>
 		<div class="Section">
-			<input id="sessionNickname" type="hidden"
-				th:value="${session.memnickname}" /> <span class="Section_title_1"
-				th:text="${boardname}"></span>
-			<button class="Btn_write" id="writeBtn">글쓰기</button>
+			<div class="space_between">
+				<input id="sessionNickname" type="hidden"
+					th:value="${session.memnickname}" /> <span class="Section_title_1"
+					th:text="${boardname}"></span>
+				<button class="Btn_write" id="writeBtn">글쓰기</button>
+			</div>
 			<div class="Post_wrapper">
 				<div class="ContentBox" th:each="board:${boards}">
 					<a class="link" id="index" th:attrappend="id=${boardStat.index}"
@@ -39,9 +41,12 @@
 					</a>
 				</div>
 			</div>
-			<input th:if="${totalBoardCnt > 5}" type="button" value="더보기"
-				id="board_more_btn">
+			<div>
+				<input th:if="${totalBoardCnt > 5}" type="button" value="더보기"
+					id="board_more_btn">
+			</div>
 		</div>
+
 	</div>
 
 
