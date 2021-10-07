@@ -26,8 +26,8 @@
 								<img src="/img/profile.png">
 							</div>
 							<div class="feed-top-text">
-								<span id="feed-top-nickname" th:text="${feed.writer}"></span>
-								<span id="feed-top-post-time" th:text="${#dates.format(feed.postTime, 'yyyy/MM/dd HH시 mm분')}"></span>
+								<span class="feed-top-nickname" th:text="${feed.writer}"></span>
+								<span class="feed-top-post-time" th:text="${#dates.format(feed.postTime, 'yyyy/MM/dd HH시 mm분')}"></span>
 							</div>
 						</div>
 						<div class="feed-top-right">
@@ -55,11 +55,10 @@
 						<div class="feed-cont-text" th:text="${feed.content}"></div>
 					</div>
 					<div class="feed-cmt">
-						<div class="feed-cmt-link">
-							<a th:href="@{'/feed/comments/' + ${feed.feedNo} (challengeNum = ${feed.challengeNum})}">
+						<div class="feed-cmt-div">
+							<a class="feed-cmt-link" th:href="@{|/feed/${feed.feedNo}/comments| (challengeNum = ${feed.challengeNum})}">
 								<img src="/img/comment.png">
-								<span></span>
-								<span th:text="${feed.commentCnt}"></span>
+								<span th:text="|${feed.commentCnt}개 댓글 모두 보기|"></span>
 							</a>	
 						</div>
 						<div class="feed-cmt-preview"></div>
@@ -75,21 +74,22 @@
 	
 	<script th:inline="javascript">
 		/*<![CDATA[*/
-		var requestPage = "all";
-		var challengeNum = null;
-		var totalFeedCnt = /*[[ ${totalFeedCnt} ]]*/;
-	 	var startIdx = 1;
-	 	var searchStep = 5;
-	 	
-	 	var menu;
-	 	$('body').click(function(e) {		
- 			chall_toggle(e);
- 		});
-	 	
-	 	$('#chall-more-btn').click(function() {
-	 		startIdx += searchStep;
-	 		more_feed(startIdx, requestPage, challengeNum);
-	 	});
+			const requestPage = "all";
+			const challengeNum = null;
+			const totalFeedCnt = /*[[ ${totalFeedCnt} ]]*/;
+		 	var startIdx = 1;
+		 	var searchStep = 5;
+		 	
+		 	var menu;
+		 	var pointId;
+		 	$('body').click(function(e) {		
+	 			chall_toggle(e);
+	 		});
+		 	
+		 	$('#chall-more-btn').click(function() {
+		 		startIdx += searchStep;
+		 		more_feed(startIdx, requestPage, challengeNum);
+		 	});
 	 	/*]]>*/
 	</script>
 </body>

@@ -15,14 +15,20 @@ public class FeedCommentService {
 	@Autowired
 	private FeedCommentDAO feedCommentDAO;
 	
-	public boolean registerComment(FeedCommentVO params) {
+	public FeedCommentVO registerComment(FeedCommentVO params) {
 		int queryResult = 0;
 		if(params.getIdx() == null) {
 			queryResult = feedCommentDAO.insertComment(params);
 		} else {
 			queryResult = feedCommentDAO.updateComment(params);
 		}
-		return (queryResult == 1) ? true : false;
+		FeedCommentVO comment;
+		if(queryResult == 1) {
+			comment = feedCommentDAO.selectCommentDetail(params.getIdx());
+		} else {
+			comment = null;
+		}
+		return comment;
 	}
 	
 	public boolean deleteComment(Integer idx) {
@@ -50,5 +56,10 @@ public class FeedCommentService {
 			commentList = feedCommentDAO.selectCommentList(params);
 		}
 		return commentList;
+	}
+
+	public FeedCommentVO getCommentDetail(Integer idx) {
+		FeedCommentVO comment = feedCommentDAO.selectCommentDetail(idx);
+		return comment;
 	}
 }

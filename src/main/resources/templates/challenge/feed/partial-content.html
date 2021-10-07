@@ -10,8 +10,8 @@
 					<img src="/img/profile.png">
 				</div>
 				<div class="feed-top-text">
-					<span id="feed-top-nickname" th:text="${feed.writer}"></span>
-					<span id="feed-top-post-time" th:text="${#dates.format(feed.postTime, 'yyyy/MM/dd HH시 mm분')}"></span>
+					<span class="feed-top-nickname" th:text="${feed.writer}"></span>
+					<span class="feed-top-post-time" th:text="${#dates.format(feed.postTime, 'yyyy/MM/dd HH시 mm분')}"></span>
 				</div>
 			</div>
 			<div class="feed-top-right">
@@ -39,15 +39,62 @@
 			<div class="feed-cont-text" th:text="${feed.content}"></div>
 		</div>
 		<div class="feed-cmt">
-			<div class="feed-cmt-link">
-				<a th:href="@{'/feed/comments/' + ${feed.feedNo} (challengeNum = ${feed.challengeNum})}" id="feed-cmt-link">
+			<div class="feed-cmt-div">
+				<a class="feed-cmt-link" th:href="@{|/feed/${feed.feedNo}/comments| (challengeNum = ${feed.challengeNum})}" id="feed-cmt-link">
 					<img src="/img/comment.png">
-					<span></span>
-					<span th:text="${feed.commentCnt}"></span>
+					<span th:text="|${feed.commentCnt}개 댓글 모두 보기|"></span>
 				</a>	
 			</div>
 			<div class="feed-cmt-preview"></div>
 		</div>
+	</div>
+	
+	<div th:fragment="cmt-regi" class="cmt-cont" th:object="${comment}" th:id="|cmt-content-*{idx}|">
+		<div class="cmt-cont-top">
+			<div class="cmt-cont-top-left">
+				<div class="cmt-top-icon">
+					<img src="/img/challenge/user.png">
+				</div>
+				<div class="cmt-top-text">
+					<span class="cmt-top-nickname" th:text="${comment.writer}"></span>
+					<span th:if="${comment.updateTime} == null" class="cmt-top-time" th:text="${#dates.format(comment.insertTime, 'yyyy/MM/dd HH시 mm분')}"></span>
+					<span th:unless="${comment.updateTime} == null" class="cmt-top-time" th:text="${#dates.format(comment.updateTime, 'yyyy/MM/dd HH시 mm분')}"></span>						
+				</div>
+			</div>
+			<div th:if="${nickname == comment.writer}" class="cmt-cont-top-right">
+				<button type="button" class="cmt-delete-btn" th:onclick="chall_delete_cmt([[${comment.idx}]])">댓글삭제</button>							
+				<button type="button" class="cmt-update-form-btn" th:onclick="fn_update_form([[${comment.idx}]])">댓글수정</button>
+			</div>
+		</div>
+		<div class="cmt-cont-bot">
+			<div class="cmt-bot-cont" th:text="${comment.content}"></div>
+		</div>
+		<div class="chall-cont-min-border"></div>
+	</div>
+	
+	<div th:fragment="cmt-update-form" class="cmt-update-wrapper">
+		<form th:if="${nickname}" id="cmt-update-form" th:object="${params}">
+			<input type="hidden" name="challengeNum" th:value="${challengeNum}">
+			<input type="hidden" name="feedNo" th:field="*{feedNo}">
+			<input type="hidden" name="writer" th:field="*{writer}">
+			<input th:if="*{idx}" type="hidden" name="idx" th:field="*{idx}">
+			<div class="cmt-write-form-top">
+				<div class="cmt-top-icon">
+					<img src="/img/challenge/user.png">
+				</div>
+				<div class="cmt-top-text">
+					<span class="cmt-top-nickname" th:text="${nickname}"></span>
+				</div>
+			</div>
+			<div class="cmt-write-form-cont">
+				<textarea class="cmt-textarea" th:id="cmt-update-textarea" name="content" placeholder="내용을 입력해주세요." th:field="*{content}"></textarea>
+				<div class="cmt-update-btns">
+					<input type="button" class="cmt-cancle-btn" th:onclick="fn_delete_update_form([[*{idx}]])" value="취소">
+					<input type="button" class="cmt-update-btn" th:onclick="chall_update_cmt([[*{idx}]])" value="수정">
+				</div>
+			</div>
+			<div class="chall-cont-min-border"></div>
+		</form>
 	</div>
 </body>
 </html>

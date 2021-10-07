@@ -1,113 +1,88 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="/fragments/common.html :: header('피드 댓글 리스트')">
+<head th:replace="/fragments/common.html :: header('댓글 보기')">
 <body>
-	<nav th:replace="/fragments/common.html :: nav"></nav>
-	<div th:replace="/fragments/common.html :: back('/challenge/feed/' + ${challengeNum})"></div>
-	
-	<!-- 피드 내용 영역 -->
-	<div>
-		<div
-			style="width: 1000px; border: 0.1px solid #bebebe; float: left; margin-left: 7.5px; margin-right: 7.5px;" 
-			th:object=${feed}>
-			<table>
-				<tr><td>작성자:</td><td th:text="*{writer}"></td></tr>
-				<tr><td>내용:</td><td th:text="*{content}"></td></tr>
-				<tr><td>작성일:</td><td th:text="${#dates.format(feed.postTime, 'yyyy/MM/dd HH시 mm분')}"></td></tr>
-			</table>
-		</div>
-		<!-- 댓글 영역 -->
-		<div style="width: 1000px;">
-			<!-- 댓글 쓰기 폼 -->
-			<div id="commentWriteDiv" th:object=${params}>
-				<form 
-					id="commentWriteForm"
-					onsubmit="return fn_comment_write_confirm()"
-					th:action="@{'/feed/comments/' + ${feed.feedNo}  (challengeNum = ${challengeNum})}"
-					th:method="post">
-					<div>
-						<input type="hidden" name="feedNo" th:value="${feed.feedNo}" />
-						<input type="text" name="writer" th:value="${nickname}" style="width: 10%" />
-						<textarea id="cmt-txtarea" name="content" style="width: 70%; height: 50px; float: left;" placeholder="댓글을 입력하세요."></textarea>
-						<table style="width: 20%; height: 50px;">
-							<tr><td></td></tr>
-							<tr><td><input type="submit" value="등록" /></td></tr>
-						</table>
+	<nav th:replace="fragments/common.html :: nav-top"></nav>
+	<!-- content 영역 -->
+	<div class="chall-cont-body">
+		<div class="chall-cont-wrapper">
+			<!-- 피드 내용 -->
+			<div class="cmt-feed-detail">
+				<div class="cmt-feed-detail-top">
+					<div class="feed-top-icon">
+						<img src="/img/profile.png">
 					</div>
-				</form>	
-			</div>
-			<!-- 댓글 리스트 -->
-			<div class="cmt-list" style="width: 1000px;">
-				<div  class="cmt-content" th:id="|cmt-content-${commentStat.index}|" th:each="comment : ${commentList}">
-					<!-- 댓글 내용 테이블 -->
-					<div class="cmt-table" th:id="|cmt-table-${commentStat.index}|" style="border: 0.1px solid #bebebe;">
-						<table class="cmt-detail" style="width: 100%;">
-							<tr>
-								<td>작성자:</td>
-								<td th:text="${comment.writer}"></td>
-								<td th:if="${comment.updateTime} == null">등록시간:</td><td th:if="${comment.updateTime} == null" th:text="${#dates.format(comment.insertTime, 'yyyy/MM/dd HH시 mm분')}"></td>
-								<td th:unless="${comment.updateTime} == null">수정시간:</td><td th:unless="${comment.updateTime} == null" th:text="${#dates.format(comment.updateTime, 'yyyy/MM/dd HH시 mm분')}"></td>
-							</tr>
-							<tr>
-								<td>내용:</td>
-								<td th:text="${comment.content}" colspan="3"></td>
-							</tr>
-							<tr class="cmt-button-section">
-								<td></td>
-								<td></td>
-								<td th:if="${nickname == comment.writer}"><button type="button" class="cmt-update-btn" th:onclick="fn_update_form([[${commentStat.index}]])">수정</button></td>
-								<td th:if="${nickname == comment.writer}">
-									<form
-										class="cmt-delete-form" th:id="|cmt-delete-form-${commentStat.index}|"
-										onsubmit="return fn_cmt_delete_confirm()"
-										th:action="@{'/feed/comments/' + ${comment.idx} (challengeNum = ${challengeNum}, feedNo = ${feed.feedNo})}"
-										th:method="delete">
-										<input type="submit" id="cmt-delete-btn" value="삭제" />
-									</form>
-								</td>
-							</tr>
-						</table>
-					</div>
-					<!-- 댓글 수정 입력 폼 -->
-					<div class="cmt-update" th:id="|cmt-update-${commentStat.index}|" style="background-color: #bebebe">
-						<form
-							class="cmt-update-form"
-							th:id="|cmt-update-form-${commentStat.index}|"
-							th:onsubmit="return fn_comment_update_confirm([[${commentStat.index}]])"
-							th:action="@{|/feed/comments/${comment.feedNo}/${comment.idx}| (challengeNum = ${challengeNum})}"
-							th:method="patch">
-							<div>
-								<input type="hidden" name="feedNo" th:value="${comment.feedNo}" />
-								<input type="hidden" name="idx" th:value="${comment.idx}" />
-								<input type="text" name="writer" th:value="${comment.writer}" />
-								<textarea th:id="|cmt-update-txtarea-${commentStat.index}|" name="content" style="width: 80%; height: 50px" placeholder="댓글을 입력하세요." th:text="${comment.content}"></textarea>
-								<table style="width: 20%; height: 50px">
-									<tr><td><input type="reset" class="cmt-cancle" value="취소" /></td></tr>
-									<tr><td><input type="submit" value="수정" /></td></tr>
-								</table>
-							</div>
-						</form>
+					<div class="feed-top-text">
+						<span class="feed-top-nickname" th:text="${feed.writer}"></span>
+						<span class="feed-top-post-time" th:text="${#dates.format(feed.postTime, 'yyyy/MM/dd HH시 mm분')}"></span>
 					</div>
 				</div>
-			</div>	
+				<div class="cmt-feed-detail-cont" th:text="${feed.content}"></div>
+			</div>
+			<!-- 댓글 입력 창 -->
+			<div class="cmt-write-wrapper">
+				<form th:if="${nickname}" id="cmt-write-form">
+					<input type="hidden" name="challengeNum" th:value="${challengeNum}">
+					<input type="hidden" name="feedNo" th:value="${feed.feedNo}">
+					<input type="hidden" name="writer" th:value="${nickname}">
+					<div class="cmt-write-form-top">
+						<div class="cmt-top-icon">
+							<img src="/img/challenge/user.png">
+						</div>
+						<div class="cmt-top-text">
+							<span class="cmt-top-nickname" th:text="${nickname}"></span>
+						</div>
+					</div>
+					<div class="cmt-write-form-cont">
+						<textarea class="cmt-textarea" id="cmt-write-textarea" name="content" placeholder="내용을 입력해주세요."></textarea>
+						<input class="cmt-write-btn" id="cmt-write-btn" type="button" onclick="chall_regi_cmt()" value="등록">
+					</div>
+				</form>
+				<div th:unless="${nickname}" class="cmt-write-login-required">
+					<span>댓글을 작성하려면 <a href="/html/login.html"><strong>로그인</strong></a>해주세요.</span>
+				</div>
+			</div>
+			<!-- 댓글 리스트 -->
+			<div class="cmt-list-wrapper">
+				<!-- 댓글 있음 -->
+				<div class="cmt-cont" th:if="${commentList}" th:id="|cmt-content-${comment.idx}|" th:each="comment : ${commentList}">
+					<div class="cmt-cont-top">
+						<div class="cmt-cont-top-left">
+							<div class="cmt-top-icon">
+								<img src="/img/challenge/user.png">
+							</div>
+							<div class="cmt-top-text">
+								<span class="cmt-top-nickname" th:text="${comment.writer}"></span>
+								<span th:if="${comment.updateTime} == null" class="cmt-top-time" th:text="${#dates.format(comment.insertTime, 'yyyy/MM/dd HH시 mm분')}"></span>
+								<span th:unless="${comment.updateTime} == null" class="cmt-top-time" th:text="${#dates.format(comment.updateTime, 'yyyy/MM/dd HH시 mm분')}"></span>						
+							</div>
+						</div>
+						<div th:if="${nickname == comment.writer}" class="cmt-cont-top-right">
+							<button type="button" class="cmt-delete-btn" th:onclick="chall_delete_cmt([[${comment.idx}]])">댓글삭제</button>							
+							<button type="button" class="cmt-update-form-btn" th:onclick="fn_update_form([[${comment.idx}]])">댓글수정</button>
+						</div>
+					</div>
+					<div class="cmt-cont-bot">
+						<div class="cmt-bot-cont" th:text="${comment.content}"></div>
+					</div>
+					<div class="chall-cont-min-border"></div>
+				</div>
+				<!-- 댓글 없음 -->
+				<div th:unless="${commentList}" class="no-cmt-list">
+					<span>아직 등록된 댓글이 없습니다.</span>
+				</div>
+			</div>
 		</div>
 	</div>
-		
-	<!-- footer -->	
-	<nav th:replace="/fragments/common.html :: footer"></nav>	
+	<div th:replace="/fragments/common.html :: new-footer"></div>
+	
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+		var urlHead = /*[[ |/feed/${feed.feedNo}/comments/|]]*/;
+		var cmtIdHead = '#cmt-content-';
+		var challengeNum = /*[[ ${challengeNum} ]]*/;
+		var writeTextarea = $('#cmt-write-textarea');
+	/*]]>*/
+	</script>
 </body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-<script>
-//여기에 이 코드를 쓰기 위해선 loginForm.html에도 위 쿠키 라이브러리르 추가해 주어야합니다.
-$(function(){
-	var blank=$.cookie("blanked");
- 	var login=$.cookie("logined"); 
- 	var logout=$.cookie("logouted"); 
-		$("#loginBlankDiv1").html(blank);
-		$("#loginBlankDiv2").html(blank);
- 		$("#nicknameDiv").html(login);
- 		$("#logoutDiv").html(logout);
-});
-
-</script>
 </html>
