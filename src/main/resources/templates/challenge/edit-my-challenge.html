@@ -84,12 +84,16 @@
 	<div th:replace="/fragments/common.html :: new-footer"></div>
 	
 	<script th:inline="javascript">
-		/*<![CDATA[*/
-			var pre_period = /*[[ ${personalChallenge.period} ]]*/;
-			var pre_colorCode = /*[[ ${personalChallenge.colorCode} ]]*/;
-			$('#editForm select[name="period"]').val(pre_period).prop("selected", true);
-			$('#editForm input[name="colorCode"]:radio[value="' + pre_colorCode + '"]').prop("checked", true);
-		/*]]>*/
+	/*<![CDATA[*/
+		const html = /*[[${basicChallenge.toDo}]]*/;
+		const targetArea = $('.basic-detail-description');
+		targetArea.html(html);
+		
+		const pre_period = /*[[ ${personalChallenge.period} ]]*/;
+		const pre_colorCode = /*[[ ${personalChallenge.colorCode} ]]*/;
+		$('#editForm select[name="period"]').val(pre_period).prop("selected", true);
+		$('#editForm input[name="colorCode"]:radio[value="' + pre_colorCode + '"]').prop("checked", true);
+	/*]]>*/
 	</script>
 </body>
 </html>

@@ -1062,23 +1062,60 @@ input::placeholder{
 .basic-detail {
 	width: 100%;
 	display: flex;
-	justify-content: space-around;
+	flex-wrap: wrap;
+	justify-content: center;
 	margin-bottom: 24px;
 }
 
 .basic-detail-thumb {
-	width: 45%;
+	width: 80%;
 	height: 537.3px;
 	border-radius: 16px;
 	background-color: #d6dddd;
+	margin-bottom: 36px;
 }
 
 .basic-detail-description {
-	width: 45%;
+	width: 80%;
 	display: flex;
 	flex-direction: column;
+	align-items: center;
 }
 
+.detail-description {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.detail-guide {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  border: solid #CD853F;
+  border-width: 0px 5px;
+  margin: 24px 0;
+  padding-top: 12px;
+  padding-left: 12px;
+  line-height: 1.5;
+}
+
+.detail-guide-title {
+  margin-bottom: 12px;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #228B22;
+}
+
+.detail-description-para, .detail-guide-cont {
+  margin-bottom: 12px;
+  font-size: 1rem;
+  font-weight: 200;
+  line-height: 1.7;
+}
+
+/*
 .description-title {
 	margin-bottom: 24px;
 	font-size: 1.2rem;
@@ -1089,6 +1126,7 @@ input::placeholder{
 	font-size: 1rem;
 	font-weigth: 400;	
 }
+*/
 
 #basic-start-btn {
 	width: 20%;

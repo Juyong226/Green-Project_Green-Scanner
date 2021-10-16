@@ -73,9 +73,8 @@
 					</div>
 				</div>
 				<div class="chall-cont-min-border"></div>
-				<div class="my-detail-basic-description">
-					<span class="description-title">이렇게 해주세요</span>
-					<div class="description" th:text="${basicChallenge.toDo}"></div>
+				<div class="basic-detail">
+					<div class="basic-detail-description"></div>
 				</div>
 				<div class="chall-cont-min-border"></div>
 				<span class="chall-cont-min-title">실천 피드</span>
@@ -141,6 +140,10 @@
 	
 	<script th:inline="javascript">
 		/*<![CDATA[*/
+			const html = /*[[${basicChallenge.toDo}]]*/;
+			const targetArea = $('.basic-detail-description');
+			targetArea.html(html);
+		
 			const requestPage = "my"
 			const challengeNum = /*[[ ${personalChallenge.challengeNum} ]]*/;
 			const myFeedCnt = /*[[ ${myFeedCnt} ]]*/;
