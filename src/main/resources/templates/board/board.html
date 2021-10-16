@@ -41,15 +41,17 @@
 					</a>
 				</div>
 			</div>
-			<div>
+			<div class="board_more_area">
 				<input th:if="${totalBoardCnt > 5}" type="button" value="더보기"
 					id="board_more_btn">
 			</div>
 		</div>
 
 	</div>
-
-
+	<div class="board_footer">
+<!-- 	<div th:replace="/fragments/common.html :: new-footer"></div> -->
+	</div>
+	
 	<script th:inline="javascript">
 		/*<![CDATA[*/
 		var totalBoardCnt = /*[[ ${totalBoardCnt} ]]*/;

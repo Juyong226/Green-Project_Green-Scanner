@@ -1852,7 +1852,7 @@ input[type="checkbox"]+label {
 
 /* 상세보기 */
 .main {
-	position: relative;
+	position: absolute;
 	width: 100%;
 	margin-top: 50px;
 	align-items: center;
@@ -2206,4 +2206,14 @@ input[type="checkbox"]+label {
 	align-content: center;
 	align-items: center;
 	font-family: GmarketSans;
+}
+
+.board_more_area {
+	display: flex;
+	justify-content: center;
+	align-content: center;
+}
+
+.board_footer {
+	
 }

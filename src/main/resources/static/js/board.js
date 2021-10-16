@@ -120,9 +120,9 @@ $(document).ready(function() {
 });
 
 function more_post(startIdx) {
-	alert(startIdx);
+/*	alert(startIdx);
 	alert(searchStep);
-	alert(totalBoardCnt);
+	alert(totalBoardCnt);*/
 	
 	let endIdx;
  	if( (startIdx + searchStep - 1) > totalBoardCnt ) {
