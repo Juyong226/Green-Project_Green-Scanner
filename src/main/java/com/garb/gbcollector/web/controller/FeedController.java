@@ -152,6 +152,7 @@ public class FeedController extends UiUtils {
 			params.setEndIdx(Integer.toString(totalFeedCnt));
 		}
 		List<FeedVO> feedList = feedService.getAllFeedList(params);
+		model.addAttribute("idx", params.getStartIdx());
 		model.addAttribute("feedList", feedList);
 		model.addAttribute("totalFeedCnt", totalFeedCnt);
 		return "challenge/feed/list";
@@ -159,6 +160,11 @@ public class FeedController extends UiUtils {
 	
 	@PostMapping(value = "/more_feed")
 	public String more_feed(FeedPaginationVO params, Model model, HttpServletRequest request) {
+		
+		HttpSession session = request.getSession(false);
+		if(session != null) {
+			model.addAttribute("nickname", session.getAttribute("memnickname"));
+		}
 		params.setStartIdx((String)request.getParameter("startIdx"));
 		params.setEndIdx((String)request.getParameter("endIdx"));
 		params.setChallengeNum((String)request.getParameter("challengeNum"));
@@ -168,6 +174,7 @@ public class FeedController extends UiUtils {
 		} else {
 			feedList = feedService.getMyFeedList(params);
 		}
+		model.addAttribute("idx", (String)request.getParameter("startIdx"));
 		model.addAttribute("feedList", feedList);
 		return "challenge/feed/partial-content :: more-feed";		
 	}
@@ -179,7 +186,7 @@ public class FeedController extends UiUtils {
 		
 		System.out.println("요청들어옴: POST /deleteFeed with challengeNum/feedNo = " + challengeNum + "/" + feedNo);
 		HttpSession session = request.getSession(false);
-		String redirectURI = "/challenge/feed/" + challengeNum;
+		String redirectURI = "/challenge/my-challenge/" + challengeNum;
 		if(session == null) {
 			redirectURI = "/challenge/main";
 			return showMessageWithRedirection("로그인 후 이용이 가능합니다.", redirectURI, Method.GET, null, model);

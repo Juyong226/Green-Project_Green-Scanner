@@ -21,10 +21,7 @@
 						<div class="basic-detail-thumb">
 							<img>
 						</div>
-						<div class="basic-detail-description">
-							<span class="description-title">이렇게 해주세요</span>
-							<div class="description" th:text="${basicChallenge.toDo}"></div>
-						</div>
+						<div class="basic-detail-description"></div>
 					</div>	
 					<div class="chall-cont-min-border"></div>
 					<input id="basic-start-btn" type="submit" value="시작하기">
@@ -34,5 +31,13 @@
 	</div>
 	<!-- 하단 footer -->
 	<div th:replace="/fragments/common.html :: new-footer"></div>
+	
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+		const html = /*[[${basicChallenge.toDo}]]*/;
+		const targetArea = $('.basic-detail-description');
+		targetArea.html(html);
+	/*]]>*/	
+	</script>
 </body>
 </html>

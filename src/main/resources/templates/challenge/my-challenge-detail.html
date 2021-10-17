@@ -73,9 +73,8 @@
 					</div>
 				</div>
 				<div class="chall-cont-min-border"></div>
-				<div class="my-detail-basic-description">
-					<span class="description-title">이렇게 해주세요</span>
-					<div class="description" th:text="${basicChallenge.toDo}"></div>
+				<div class="basic-detail">
+					<div class="basic-detail-description"></div>
 				</div>
 				<div class="chall-cont-min-border"></div>
 				<span class="chall-cont-min-title">실천 피드</span>
@@ -92,28 +91,28 @@
 									<img src="/img/profile.png">
 								</div>
 								<div class="feed-top-text">
-									<span id="feed-top-nickname" th:text="${feed.writer}"></span>
-									<span id="feed-top-post-time" th:text="${#dates.format(feed.postTime, 'yyyy/MM/dd HH시 mm분')}"></span>
+									<span class="feed-top-nickname" th:text="${feed.writer}"></span>
+									<span class="feed-top-post-time" th:text="${#dates.format(feed.postTime, 'yyyy/MM/dd HH시 mm분')}"></span>
 								</div>
 							</div>
 							<div class="feed-top-right">
 								<div class="chall-feed-dropdown">
-									<input th:id="|chall-feed-3dots-${feedStat.index}|" type="checkbox">
-									<label th:for="|chall-feed-3dots-${feedStat.index}|" class="chall-feed-3dots-label">
-										<img class="3dots-label-img" src="/img/challenge/3dots.png"></img>
-									</label>
-									<div class="feed-3dots-submenu">	
+									<a class="feed-top-chall-name">챌린지명(예정)</a>
+									<div class="feed-3dots-submenu" th:id="|feed-3dots-submenu-${idx}-${feedStat.index}|">	
 										<a	id="feed-edit-btn" 
 											th:href="@{'/challenge/feed/' + ${feed.challengeNum} +'/set' (feedNo = ${feed.feedNo})}">수정</a>
 										<form
-											id="chall-feed-delete-form"
+											id="chall-delete-form"
 											onsubmit="return fn_feed_delete_confirm()"
 											th:action="@{/challenge/feed/{challengeNum}/{feedNo} (challengeNum = ${feed.challengeNum}, feedNo = ${feed.feedNo})}"
 											th:method="delete">
 											<input type="submit" value="삭제" />
 										</form>
-									</div>
-								</div>	
+									</div>	
+								</div>
+								<label th:for="|${idx}-${feedStat.index}|" class="chall-feed-3dots-label" th:if="${nickname} and ${nickname == feed.writer}">
+									<img class="3dots-label-img" th:id="|${idx}-${feedStat.index}|" src="/img/challenge/3dots.png"></img>
+								</label>	
 							</div>
 						</div>
 						<div class="feed-cont">
@@ -121,11 +120,10 @@
 							<div class="feed-cont-text" th:text="${feed.content}"></div>
 						</div>
 						<div class="feed-cmt">
-							<div class="feed-cmt-link">
-								<a th:href="@{'/feed/comments/' + ${feed.feedNo} (challengeNum = ${feed.challengeNum})}">
+							<div class="feed-cmt-div">
+								<a class="feed-cmt-link" th:href="@{|/feed/${feed.feedNo}/comments| (challengeNum = ${feed.challengeNum})}">
 									<img src="/img/comment.png">
-									<span></span>
-									<span th:text="${feed.commentCnt}"></span>
+									<span th:text="|${feed.commentCnt}개 댓글 모두 보기|"></span>
 								</a>	
 							</div>
 							<div class="feed-cmt-preview"></div>
@@ -142,37 +140,26 @@
 	
 	<script th:inline="javascript">
 		/*<![CDATA[*/
-		var requestPage = "my"
-		var challengeNum = /*[[ ${personalChallenge.challengeNum}]]*/;
-		var myFeedCnt = /*[[ ${myFeedCnt} ]]*/;
-	 	var startIdx = 1;
-	 	var searchStep = 5;
-	 	
-	 	window.onload = function () {
-	 		var menu = $('.my-detail-dropdown-submenu');
+			const html = /*[[${basicChallenge.toDo}]]*/;
+			const targetArea = $('.basic-detail-description');
+			targetArea.html(html);
+		
+			const requestPage = "my"
+			const challengeNum = /*[[ ${personalChallenge.challengeNum} ]]*/;
+			const myFeedCnt = /*[[ ${myFeedCnt} ]]*/;
+		 	var startIdx = 1;
+		 	var searchStep = 5;
+		 	
+	 		var menu;
+	 		var pointId;
 	 		$('body').click(function(e) {		
-	 			var point = $(e.target);
-	 			if(point.attr('class') === '3dots-label-img') {
-			 		if(menu.css('display') === 'none') {
-			 			menu.css('position', 'absolute');
-			 			menu.css('display', 'flex');
-			 			menu.css('flex-direction', 'column');
-			 			menu.css('justify-content','space-evenly');
-			 		} else {
-			 			menu.css('display', 'none');
-			 		}
-	 			} else {
-	 				if(menu.css('display') === 'flex') {
-	 					menu.css('display', 'none');
-	 				}
-	 			}
+	 			chall_toggle(e);
 	 		});
 	 		
 		 	$('#chall-more-btn').click(function() {
 		 		startIdx += searchStep;
 		 		more_feed(startIdx, requestPage, challengeNum);
-		 	});
-	 	}
+		 	});	 	
 	 	/*]]>*/
 	</script>
 </body>

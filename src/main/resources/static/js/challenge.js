@@ -42,7 +42,6 @@ function fn_feed_duplicate_check(cNum) {
  		async: false,
  		success: function(data) {
  			let obj = JSON.parse(data);
- 			alert(obj);
  			if(obj.msg) {
  				alert(obj.msg);
  				result = false;
@@ -53,50 +52,11 @@ function fn_feed_duplicate_check(cNum) {
  	return result;
  	
 }
- 
-function fn_comment_write_confirm() {
- 	let content = $("#cmt-txtarea").val();
- 	if(content == "") {
- 		alert("댓글 내용을 입력해주세요.");
- 		return false;
- 	} else {
- 		if(confirm("댓글을 등록하시겠습니까?")) {
- 			return true;
- 		} else {
- 			return false;
- 		}
- 	}
-}
- 
-function fn_comment_update_confirm(index) {
- 	let content = $("#cmt-update-txtarea-" + index).val();
- 	if(content == "") {
- 		alert("댓글 내용을 입력해주세요.");
- 		return false;
- 	} else {
- 		if(confirm("댓글을 수정하시겠습니까?")) {
- 			return true;
- 		} else {
- 			return false;
- 		}
- 	}
-}
- 
-function fn_cmt_delete_confirm() {
- 
- 	if(confirm("댓글을 삭제하시겠습니까?")) {
- 		return true;
- 		
- 	} else {
- 		return false;
- 		
- 	}
-}
 
 function fn_edit_confirm(challengeNum) {
  	
 	let cNum = challengeNum;
-	let period = $("#editForm input[name='period']:checked").val();
+	let period = $("#editForm select[name='period']").val();
 	let colorCode = $("#editForm input[name='colorCode']:checked").val();
 	
 	if(period === undefined || colorCode === undefined ) {
@@ -204,7 +164,7 @@ function fn_feed_delete_confirm() {
  	} else {
  		endIdx = startIdx + searchStep -1;
  	}
- 	alert("startIdx: " + startIdx + "/ endIdx: " + endIdx + "/ requestPage: " + requestPage + "/ challengeNum: " + challengeNum); 
+ 	/*alert("startIdx: " + startIdx + "/ endIdx: " + endIdx + "/ requestPage: " + requestPage + "/ challengeNum: " + challengeNum);*/ 
  	$.ajax({
  		method: "POST",
  		url: "/challenge/feed/more_feed",
@@ -225,3 +185,140 @@ function fn_feed_delete_confirm() {
  		}
  	});
  }
+ 
+/*---------toggle 관련 script---------*/
+ function chall_toggle(e) {		
+	let pointClass = $(e.target).attr('class');
+	let pointIdTmp = $(e.target).attr('id');
+	console.log("pointClass: " + pointClass + " / pointId: " + pointId);
+	if(pointClass === '3dots-label-img') {
+		console.log(menu);
+		if(menu !== undefined && pointId !== undefined && pointId !== pointIdTmp && menu.css('display') === 'flex') {
+			menu.css('display', 'none');
+		}
+		if(pointIdTmp === 'my-detail-3dots') {
+			menu = $('.my-detail-dropdown-submenu');
+			pointId = pointIdTmp;
+			if(menu.css('display') === 'none') {
+	 			menu.css('position', 'absolute');
+	 			menu.css('display', 'flex');
+	 			menu.css('flex-direction', 'column');
+	 			menu.css('justify-content','space-evenly');
+	 		} else {
+	 			menu.css('display', 'none');
+	 		}
+		} else {
+			menu = $('#feed-3dots-submenu-' + pointIdTmp);
+			pointId = pointIdTmp;
+			if(menu.css('display') === 'none') {
+	 			menu.css('position', 'absolute');
+	 			menu.css('display', 'flex');
+	 			menu.css('flex-direction', 'column');
+	 			menu.css('justify-content','space-evenly');
+	 		} else {
+	 			menu.css('display', 'none');
+	 		}
+		}
+	} else {
+		console.log(menu);
+		if(menu !== undefined && menu.css('display') === 'flex') {
+			menu.css('display', 'none');
+		}
+	}
+ }
+ 
+ /*---------댓글 등록 관련 script---------*/
+  function chall_regi_cmt() {
+    let content = writeTextarea.val();
+    console.log(writeTextarea);
+ 	if(content == "") {
+ 		alert("댓글 내용을 입력해주세요.");
+ 	} else {
+ 		if(confirm("댓글을 등록하시겠습니까?")) {
+ 			let requestUrl = urlHead;
+			let queryString = $('#cmt-write-form').serialize();
+			writeTextarea.val('');
+ 			$.ajax({
+		  		method: "POST",
+		  		url: requestUrl,
+		  		data: queryString,
+		  		dataType: "html",
+		  		success: function(html) {
+		  			$(html).prependTo($(".cmt-list-wrapper")).slideDown();
+		  		}
+  			});
+ 		}
+ 	}		
+  }
+  
+/*---------댓글 수정폼 요청 script---------*/
+	function fn_update_form(idx) {
+		let requestUrl = urlHead + idx;
+		let originCmtId = cmtIdHead + idx;
+		console.log("requestUrl: " + requestUrl + " / challengeNum: " + challengeNum + " / originCmtId: " + originCmtId);
+		$.ajax({
+			method: "GET",
+			url: requestUrl,
+			data: { challengeNum: challengeNum },
+			dataType: "html",
+			success: function(html) {
+				$(originCmtId).hide();
+				$(originCmtId).after(html);
+			}
+		});
+	}
+	
+/*---------댓글 수정 script---------*/	
+	function chall_update_cmt(idx) {
+		let content = $('#cmt-update-textarea').val();
+		console.log(content);
+	 	if(content == "") {
+	 		alert("댓글 내용을 입력해주세요.");
+	 	} else {
+	 		if(confirm("댓글을 수정하시겠습니까?")) {
+	 			let requestUrl = urlHead + idx;
+				let originCmtId = cmtIdHead + idx;
+				let queryString = $('#cmt-update-form').serialize();
+				$.ajax({
+					method: "PATCH",
+					url: requestUrl,
+					data: queryString,
+					dataType: "html",
+					success: function(html) {
+						let updateForm = ".cmt-update-wrapper"
+						$(originCmtId).remove();
+						$(updateForm).after(html);
+						$(updateForm).remove();
+					}
+				});
+	 		}
+	 	}
+	}  
+
+/*---------댓글 수정폼 삭제 script---------*/	
+	function fn_delete_update_form(idx) {
+		$('.cmt-update-wrapper').remove();
+		$('#cmt-content-' + idx).show();
+	}
+
+/*---------댓글 삭제 script---------*/	
+	function chall_delete_cmt(idx) {
+		let requestUrl = urlHead + idx;
+		if(confirm("댓글을 삭제하시겠습니까?")) {
+	 		$.ajax({
+	 			method: "DELETE",
+	 			url: requestUrl,
+	 			success: function(data) {
+	 				let obj = JSON.parse(data);
+	 				if(obj.success) {
+	 					$('#cmt-content-' + idx).remove();
+	 				} else if(obj.failed) {
+	 					alert(obj.failed);
+	 				} else {
+	 					alert(obj.loginRequired);
+	 					location.replace('/challenge/main');
+	 				}
+	 			}
+	 		});
+	 	}
+	}

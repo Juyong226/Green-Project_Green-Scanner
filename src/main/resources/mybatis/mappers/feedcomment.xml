@@ -19,7 +19,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<result property="cGroup" column="c_group"/>
 </resultMap>
 
-<insert id="insertComment" parameterType="FeedCommentVO">
+<insert id="insertComment" parameterType="FeedCommentVO" useGeneratedKeys="true" keyColumn="idx" keyProperty="idx">
 	<![CDATA[
 		insert into feedComment (
 			feed_no,

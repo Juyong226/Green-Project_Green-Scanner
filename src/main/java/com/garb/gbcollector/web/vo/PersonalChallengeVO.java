@@ -211,6 +211,10 @@ public class PersonalChallengeVO {
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 		LocalDate toDay = LocalDate.now();
 		LocalDate endDate = LocalDate.parse(this.endDate, format);
-		setDaysRemained(gsCalendar.between2Dates(endDate, toDay));
+		if(toDay.isEqual(endDate) || toDay.isAfter(endDate)) {
+			setDaysRemained(0);
+		} else {
+			setDaysRemained(gsCalendar.between2Dates(endDate, toDay));
+		}
 	}
 }
