@@ -1093,8 +1093,8 @@ input::placeholder{
   width: 90%;
   display: flex;
   flex-direction: column;
-  border: solid #CD853F;
-  border-width: 0px 5px;
+  border-radius: 8px;
+  background-color: #d6dddd;
   margin: 24px 0;
   padding-top: 12px;
   padding-left: 12px;
