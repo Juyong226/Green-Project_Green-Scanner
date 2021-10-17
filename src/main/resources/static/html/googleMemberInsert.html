@@ -4,15 +4,12 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-<meta name="google-signin-client_id" content="217359302270-1i4jue4kpvrh8g7g5k9m3l55ieq1qnmp.apps.googleusercontent.com">
-<script src="https://apis.google.com/js/platform.js" async defer></script>
-<title>로그인</title>
-<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+<title>회원가입</title>
+<link rel="stylesheet" type="text/css" href="../css/naveridlogin.css"/>
 <link rel="stylesheet" type="text/css" href="/css/map.css"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-<script src="/js/login.js"></script>
-<script src="/js/googleoauth.js"></script>
+<script src="../js/googlememberinsert.js"></script>
 </head>
 <body>
 	<!-- 공통 네비게이션: top -->
@@ -25,10 +22,10 @@
 				</div>
 				<div class="nav-menu">
 					<div class="login-nickname">
-						<a id="login-btn" href="/html/login.html">로그인</a>
+						<a id="login-btn">로그인</a>
 					</div>
 					<div class="join-logout">
-						<a id="join-btn" href="/html/memberInsertForm.html">회원가입</a>
+						<a id="join-btn">회원가입</a>
 					</div>
 					<a>공지사항</a>
 					<a>FAQ</a>
@@ -49,31 +46,43 @@
 	</nav>
 	<!-- 밑줄: 디자인 요소 다운하여 사용 -->
 	<div class="nav-border"></div>
-	<!-- content section -->
-	<div class="login-content">
-		<div class="login-wrapper">
-			<div class="login-logo">Green Scanner</div>
-			<div class="form-div-login">
-				<form class="login-form">
-					<input type="text" id="login-form-email" name="email" placeholder="이메일@example.com" />
-					<input type="password" id="login-form-pw" name="pw" placeholder="비밀번호" />
-					<label id="login-form-checkbox">
-						<input type="checkbox" name="remember" value="rememberMe">  로그인 기록 저장
-					</label>	
-					<input type="button" class="login-form-btn" id="loginBtn" value="로그인" />					
+	
+	
+	<div class="signup-content">
+		<div class="signup-wrapper">
+		<div class="signup-logo" style="margin-bottom:64px; margin-top:0px;">Green Scanner</div>	
+			<div class="form-div-signup">
+				<form role="form" class="signup-form">
+					<div>
+						<div style="margin-bottom:9px; margin-top:16px;" class="signup-name">이름</div>
+						<input name="gooname" type="text" id="signup-form-name"placeholder="이름을 입력해주세요." >
+	
+						<div style="margin-bottom:9px; margin-top:16px;" class="signup-email">이메일</div>
+						<div class="form-div-btns">
+							<input name="gooemail" type="text" id="signup-form-email" placeholder="이메일을 입력해주세요." check_result="fail" required>						
+							<button type="button" id="check-email-btn" style="margin-left: 14px;" value="N">중복확인</button>
+						</div>
+						
+						<div style="margin-bottom:9px; margin-top:16px;" class="signup-nickname">닉네임</div>
+						<div class="form-div-btns">
+							<input type="text" id="signup-form-nickname" placeholder="닉네임을 입력해주세요." check_result="fail" required>
+							<button type="button" id="check-nickname-btn" style="margin-left: 14px;" value="N">중복확인</button>
+						</div>
+						
+						<div class="form-div-signbtns">
+							<button id="cancle">가입취소</button>
+							<input type="button" id="login-join-btn-n" value ="회원가입">
+						</div>
+					</div>
 				</form>
 			</div>
-			<div class="form-div-btns">
-				<button id="find-pw-btn">비밀번호 찾기</button>
-				<a href="/html/memberInsertForm.html"><button id="login-join-btn">회원가입</button></a>
-			</div>
-			<div class="form-div-btns">
-				<div style="margin:10px,10px;" id="naver_id_login"></div>
-				<div style="height:65px; width:170px;" class="g-signin2" onClick="GoogleLogin()" data-onsuccess="onSignIn"></div>
-			</div>
 		</div>
-		<div class="login-space"></div>
 	</div>
+	
+	
+	
+	
+	
 	
 	<!-- 밑줄: 디자인 요소 다운하여 사용 -->
 	<div class="footer-border"></div>
@@ -90,7 +99,13 @@
 			</div>
 		</div>
 	</div>
-	<script src="/js/naver.js"></script>
-	
 </body>
+<script>
+$(function(){
+	var gooemail = $.cookie('gooemail');
+	if(gooemail != "null"){
+		$('input[name=gooemail]').attr('value',gooemail)
+	}	 
+	});
+</script>
 </html>

@@ -39,7 +39,7 @@ public class NaverController {
 			int index=random.nextInt(25)+65; //A~Z까지 랜덤 알파벳 생성
 			mempw+=(char)index;
 		}
-		int numIndex=random.nextInt(9999)+1000; //4자리 랜덤 정수를 생성
+		int numIndex=random.nextInt(9999)+1000; //4자리 랜덤 정수를 생성1
 		mempw+=numIndex;
 		
 		System.out.println("음");
@@ -60,7 +60,7 @@ public class NaverController {
 	
 	}
 	
-	@RequestMapping(value = "naverSingUp.do",
+	@RequestMapping(value = "naverSignUp.do",
 					method = {RequestMethod.POST},
 					produces = "application/text; charset=utf-8")
 	@ResponseBody
@@ -94,6 +94,7 @@ public class NaverController {
 				System.out.println("123");
 				try {
 					MemberVO n = new MemberVO(navermemid);
+					session.setAttribute("member", n);
 					String memnickname = naverMemberService.naverlogin(n);
 					System.out.println(memnickname);
 					session.setAttribute("memnickname", memnickname);

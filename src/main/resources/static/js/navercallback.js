@@ -8,7 +8,7 @@
 		var naveruseremail = naver_id_login.getProfileData("email");
 		var naverusername = naver_id_login.getProfileData("name");
 	
-		$.post("naverSingUp.do",
+		$.post("naverSignUp.do",
 			{
 				navermemid : navermemid,
 				naveruseremail : naveruseremail,
@@ -30,22 +30,25 @@
 					}
 				else{
 					var redirect = obj.naverredirect;
-					var nickname = obj.memnickname;
-					
-					var nick='<a style="color:white;" class="nav-link" href="#" aria-disabled="true">'
+/*					var nick = obj.memnickname;
+					alert(nick)*/
+					let nickname = ['<span id="nickname">' + obj.memnickname + '</span>'].join('');
+/*					var nickname='<a style="color:white;" class="nav-link" href="#" aria-disabled="true">'
 						 + nickname
-						 + '</a>';
-					var logout='<li id="logoutBtn" class="nav-item"><a style="color:white;" class="nav-link" href="#" aria-disabled="true">로그아웃</a></li>';
+						 + '</a>';*/
+					let logout = ['<span id="logoutBtn">로그아웃</span>'].join('');
+					/*var logout='<li id="logoutBtn" class="nav-item"><a style="color:white;" class="nav-link" href="#" aria-disabled="true">로그아웃</a></li>';*/
 					var blankspace="";
 					
-					 $.cookie("logined", nick, {expires: 1, path: '/' });
-					 $.cookie("blanked", blankspace, {expires: 1, path: '/' });
-					 $.cookie("logouted", logout, {expires: 1, path: '/' });
+					 $.cookie("nick-cookie", nickname, {expires: 1, path: '/' });
+/*					 $.cookie("blanked", blankspace, {expires: 1, path: '/' });*/
+					 $.cookie("logout-btn-cookie", logout, {expires: 1, path: '/' });
 					 location.replace(redirect)
 				}
 				
 			}
 		)};
+		
 		
 	
 	

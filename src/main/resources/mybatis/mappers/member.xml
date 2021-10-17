@@ -4,8 +4,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.garb.gbcollector.web.dao.MemberDAO">
+		
+		<!-- googlelogin -->
+		<select id="googlelogin" resultType="String" parameterType="memberVO">
+			<![CDATA[
+				select nickname from member where googleid = #{googlememid}
+			]]>
+		</select>
 
+		<!-- google  회원가입 -->
+		<insert id="googlememberInsert" parameterType="memberVO">
+			<![CDATA[
+			insert into member(email,password,name,nickname,googleid)
+			values(#{mememail},PACK_ENCRYPTION_DECRYPTION.FUNC_ENCRYPT(#{mempw}),#{memname},#{memnickname},#{googlememid})
+			]]>
+		</insert>
 
+		<!-- 구글 아이디 체크 -->
+		<select id="googleIdChk" resultType="int" parameterType="memberVO">
+			<![CDATA[
+				select count(*) from member where googleid =#{googlememid}
+			]]>
+		</select>
+		
+		
 		<!-- naverlogin -->
 		<select id="naverlogin" resultType="String" parameterType="memberVO">
 			<![CDATA[

@@ -8,6 +8,9 @@ import com.garb.gbcollector.web.vo.MemberVO;
 @Mapper
 @Repository("memberDAO")
 public interface MemberDAO {
+	public String googlelogin(MemberVO memberVO);
+	public void googlememberInsert(MemberVO memberVO);
+	public int googleIdChk(MemberVO memberVO);
 	public String naverlogin(MemberVO memberVO);
 	public int naverIdChk(MemberVO memberVO);
 	public void navermemberInsert(MemberVO memberVO);
