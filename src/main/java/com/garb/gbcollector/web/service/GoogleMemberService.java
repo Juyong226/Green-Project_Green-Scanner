@@ -1,5 +1,7 @@
 package com.garb.gbcollector.web.service;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +22,7 @@ public class GoogleMemberService {
 			memberDAO.googlememberInsert(m);
 		}
 	 
-	 public int googleIdChk(MemberVO m) throws Exception{
+	 public Map googleIdChk(MemberVO m) throws Exception{
 		 return memberDAO.googleIdChk(m);
 	 }
 }

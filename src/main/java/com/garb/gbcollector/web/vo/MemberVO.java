@@ -11,6 +11,7 @@ public class MemberVO {
 	private Integer navermemid;
 	private Double googlememid;
 	private Date memdate;
+	private Integer fornavermememail;
 	
 	public MemberVO() {
 		super();
@@ -31,6 +32,17 @@ public class MemberVO {
 	public MemberVO(String memnickname) throws GbcException {
 		super();
 		setMemnickname(memnickname);
+	}
+	
+	public MemberVO(Integer navermemid, String mememail) throws GbcException{
+		super();
+		setNavermemid(navermemid);
+		setGooglememid(getGooglememid());
+	}
+	
+	public MemberVO(String mememail, Integer fornavermememail) throws GbcException {
+		super();
+		setMememail(mememail);
 	}
 	
 	public MemberVO(String mememail, String mempw) throws GbcException {

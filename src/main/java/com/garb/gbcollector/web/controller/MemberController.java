@@ -19,15 +19,6 @@ public class MemberController {
 	
 	@Autowired
 	MemberService memberService;
-	
-	/*
-	@RequestMapping(value = "/member-join",
-					method = {RequestMethod.GET})
-	@ResponseBody
-	public String joinPage() {
-		return "login-redirect.html";
-	}
-	*/
 	@RequestMapping(value = "emailChk.do", 
 					method= {RequestMethod.POST},
 					produces = "application/text; charset=utf8")

@@ -32,18 +32,17 @@ $(document).on("click", "#check-email-btn", function(event){
 	});	
 
 $(document).on("click", "#check-nickname-btn", function(event){
-	alert("sadfas")
 	var nickName = $('#signup-form-nickname').val();
 	if(nickName == '') {
 		alert('닉네임을 입력해주세요.');
 		$("#signup-form-nickname").focus();
 		return false;
 	} else if(nickName.length < 2) {
-		alert('닉네임을 2자 이상 6자 이하로 입력해주세요.');
+		alert('닉네임을 2자 이상 12자 이하로 입력해주세요.');
 		$("#signup-form-nickname").focus();
 		return false;
-	} else if(nickName.length > 6) {
-		alert('닉네임을 2자 이상 6자 이하로 입력해주세요.');
+	} else if(nickName.length > 12) {
+		alert('닉네임을 2자 이상 12자 이하로 입력해주세요.');
 		$("#signup-form-nickname").focus();
 		return false;
 	} else {
@@ -65,12 +64,10 @@ $(document).on("click", "#check-nickname-btn", function(event){
 	}
 });
 
-$(document).on("click", "#login-join-btn", function(event){//회원 가입 처리
-	alert("sa")
+$(document).on("click", "#login-join-btn-n", function(event){//회원 가입 처리
 	var name=$("#signup-form-name").val();
 	var email=$("#signup-form-email").val();
 	var nickname=$("#signup-form-nickname").val();
-	alert(name)
 	//이메일 형식제한
 	var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 	//띄어쓰기
@@ -98,13 +95,13 @@ $(document).on("click", "#login-join-btn", function(event){//회원 가입 처�
 		return false;
 	}
 	else if(nickname.length < 2){
-		alert("닉네임은 2글자 이상 6글자 이하로 입력해주세요.");
+		alert("닉네임은 2글자 이상 12글자 이하로 입력해주세요.");
 		//focus함수는 #name의 창에 커서를 위치시켜 바로 입력이 가능하게 한다.
 		$("#signup-form-nickname").focus();
 		return false;
 	}
-	else if(nickname.length > 6){
-		alert("닉네임은 2글자 이상 6글자 이하로 입력해주세요.");
+	else if(nickname.length > 12){
+		alert("닉네임은 2글자 이상 12글자 이하로 입력해주세요.");
 		$("#signup-form-nickname").focus();
 		return false;
 	}
@@ -137,7 +134,7 @@ $(document).on("click", "#login-join-btn", function(event){//회원 가입 처�
 		  	var obj = JSON.parse(data);
 		  	if(obj.success) {
 		  		alert(obj.success+" 다시 한번 로그인 해주세요!");
-		  		document.location.replace("https://localhost/html/loginForm.html");
+		  		document.location.replace("https://localhost/html/login.html");
 		    } else {
 		    	alert(obj.failed);
 		    }

@@ -21,17 +21,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</insert>
 
 		<!-- 구글 아이디 체크 -->
-		<select id="googleIdChk" resultType="int" parameterType="memberVO">
+		<select id="googleIdChk" resultType="map" parameterType="memberVO">
 			<![CDATA[
-				select count(*) from member where googleid =#{googlememid}
+				select * from member where googleid =#{googlememid}
 			]]>
 		</select>
 		
 		
 		<!-- naverlogin -->
-		<select id="naverlogin" resultType="String" parameterType="memberVO">
+		<select id="naverlogin" resultType="map" parameterType="memberVO">
 			<![CDATA[
-				select nickname from member where navermemid = #{navermemid}
+				select nickname,email from member where navermemid = #{navermemid}
 			]]>
 		</select>
 
@@ -46,9 +46,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 		<!-- 네이버  체크 -->
-		<select id="naverIdChk" resultType="int" parameterType="memberVO">
+		<select id="naverIdChk" resultType="map" parameterType="memberVO">
 			<![CDATA[
-				select count(*) from member where navermemid =#{navermemid}
+				select * from member where navermemid =#{navermemid}
 			]]>
 		</select>
 		

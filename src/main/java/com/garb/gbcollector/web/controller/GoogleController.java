@@ -1,5 +1,6 @@
 package com.garb.gbcollector.web.controller;
 
+import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
@@ -79,24 +80,29 @@ public class GoogleController {
 		
 		try {
 			MemberVO m = new MemberVO(googlememid);
-			int returngoogleid = googleMemberService.googleIdChk(m);
+			Map returngoogledata = googleMemberService.googleIdChk(m);
 		
-			if(returngoogleid == 0) {
+			if(returngoogledata == null) {
 				googleloginjson.put("googleredirect","https://localhost/html/googleMemberInsert.html");
 				googleloginjson.put("googleuseremail", googleuseremail);
-				googleloginjson.put("returngoogleid", returngoogleid);
+				googleloginjson.put("returngoogleid", 0);
 				
 				return googleloginjson.toJSONString();
-			}else if(returngoogleid == 1) {
-				System.out.println("123");
+			}else {
 				try {
-					MemberVO g = new MemberVO(googlememid);
+					String mememail = (String) returngoogledata.get("EMAIL");
+					String memnickname = (String) returngoogledata.get("NICKNAME");
+					Integer forgooglemememail = 200000;
+					
+					MemberVO g = new MemberVO(mememail, forgooglemememail);
+					
 					session.setAttribute("member", g);
-					String memnickname = googleMemberService.googlelogin(g);
-					System.out.println(memnickname);
+					session.setAttribute("email", mememail);
 					session.setAttribute("memnickname", memnickname);
+					
 					googleloginjson.put("googleredirect","https://localhost" );
 					googleloginjson.put("memnickname",memnickname);
+					
 					return googleloginjson.toJSONString();
 				}catch(Exception e) {
 					

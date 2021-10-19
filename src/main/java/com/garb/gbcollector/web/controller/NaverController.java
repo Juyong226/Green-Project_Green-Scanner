@@ -1,5 +1,6 @@
 package com.garb.gbcollector.web.controller;
 
+import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
@@ -55,67 +56,60 @@ public class NaverController {
 			naverJson.put("failed", e.getMessage());
 			return naverJson.toJSONString();
 		}
-		
-		
-	
+			
 	}
 	
 	@RequestMapping(value = "naverSignUp.do",
 					method = {RequestMethod.POST},
 					produces = "application/text; charset=utf-8")
 	@ResponseBody
-	public String naverSignUp(HttpServletRequest request, HttpServletResponse response) {
+	public String naverSignUp(HttpServletRequest request, HttpServletResponse response) {		
 		HttpSession session = request.getSession();
 		
 		Integer navermemid = Integer.parseInt(request.getParameter("navermemid"));
 		String naveruseremail = request.getParameter("naveruseremail");
 		String naverusername = request.getParameter("naverusername");
-		
 		session.setAttribute("navermemid",navermemid);
 		JSONObject naverloginjson = new JSONObject();
 		
 		try {
 			MemberVO m = new MemberVO(navermemid);
-			System.out.println(m.getNavermemid());
-			System.out.println("try들어옴");
-			int returnnaverid = naverMemberService.naverIdChk(m);
-			System.out.println("네이버리턴아이디"+returnnaverid);
-			if(returnnaverid == 0) {
-				System.out.println("토큰0");
-				naverloginjson.put("naverredirect","https://localhost/html/naverMemberInsert.html" );	
+			Map returnnaverdata = naverMemberService.naverIdChk(m);
+			if(returnnaverdata == null) {
+				
+				naverloginjson.put("naverredirect","https://localhost/html/naverMemberInsert.html" );
 				naverloginjson.put("naveruseremail",naveruseremail);
 				naverloginjson.put("naverusername",naverusername);
-				naverloginjson.put("returnnaverid", returnnaverid);
-				System.out.println("마지막들옴?");
-				System.out.println(naverusername);
+				naverloginjson.put("returnnaverid", 0);
+				
 				
 				return naverloginjson.toJSONString();
-			}else if(returnnaverid == 1) {
-				System.out.println("123");
+			}else {
 				try {
-					MemberVO n = new MemberVO(navermemid);
-					session.setAttribute("member", n);
-					String memnickname = naverMemberService.naverlogin(n);
-					System.out.println(memnickname);
+					String mememail = (String) returnnaverdata.get("EMAIL");
+					String memnickname = (String) returnnaverdata.get("NICKNAME");
+					Integer fornavermememail = 100000;
+					
+					MemberVO n = new MemberVO(mememail, fornavermememail);
+					
+					session.setAttribute("member",n);				
+					session.setAttribute("email", mememail);
 					session.setAttribute("memnickname", memnickname);
-					naverloginjson.put("naverredirect","https://localhost" );
-					naverloginjson.put("memnickname",memnickname);
+					
+					naverloginjson.put("memnickname",memnickname);				
+					naverloginjson.put("naverredirect","https://localhost");
+					
 					return naverloginjson.toJSONString();
 				}catch(Exception e) {
 					
 				}
+				
 			}
+			
 		}catch(Exception e) {
 			naverloginjson.put("failed", e.getMessage());
 			return naverloginjson.toJSONString();
 		}
-		
-		
-
-		return naverloginjson.toJSONString();	
-	
-	
-	
-	
+		return naverloginjson.toJSONString();
 	}
 }
