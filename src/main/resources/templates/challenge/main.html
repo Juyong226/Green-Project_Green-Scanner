@@ -35,8 +35,8 @@
 									<div class="chall-cont-min-title">진행중인 챌린지</div>
 									<div class="chall-cont-proceeding">
 										<div th:each="pc : ${proceeding}" class="chall-cont-my">
-											<div class="my-thumb">
-												<img>
+											<div class="my-thumb-div">
+												<img th:if="${pc.thumbnailURL}" class="my-thumb" th:src="${pc.thumbnailURL}">
 											</div>
 											<div class="my-text">
 												<a th:href="@{/challenge/my-challenge/{challengeNum} (challengeNum=${pc.challengeNum})}">
@@ -68,8 +68,8 @@
 									<div class="chall-cont-min-title">완료한 챌린지</div>
 									<div class="chall-cont-completed">
 										<div th:each="pc : ${completed}" class="chall-cont-my">
-											<div class="my-thumb">
-												<img>
+											<div class="my-thumb-div">
+												<img th:if="${pc.thumbnailURL}" class="my-thumb" th:src="${pc.thumbnailURL}">
 											</div>
 											<div class="my-text">
 												<a th:href="@{/challenge/my-challenge/{challengeNum} (challengeNum=${pc.challengeNum})}">
@@ -110,8 +110,8 @@
 					<div class="chall-cont-min-title">시작 가능한 챌린지</div>
 					<div class="chall-cont-basic-list">
 						<div th:each="bc : ${bcList}" class="chall-cont-basic">
-							<a th:href="@{/challenge/basic/{challengeCode} (challengeCode=${bc.challengeCode})}" class="basic-thumb">
-								<img>
+							<a th:href="@{/challenge/basic/{challengeCode} (challengeCode=${bc.challengeCode})}" class="basic-thumb-div">
+								<img th:if="${bc.thumbnailURL}" class="basic-thumb" th:src="${bc.thumbnailURL}">
 							</a>
 							<span th:text="${bc.challengeName}"></span>
 						</div>

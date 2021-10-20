@@ -9,6 +9,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="challengeName" column="challengeName"/>
 		<result property="challengeCode" column="challengeCode"/>
 		<result property="thumbnailURL" column="thumbnailURL"/>
+		<result property="mainImageURL" column="mainImageURL"/>
+		<result property="listImageURL" column="listImageURL"/>
 		<result property="toDo" column="toDo"/>
 		<result property="isAvailable" column="isAvailable"/>
 	</resultMap>

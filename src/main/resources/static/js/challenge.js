@@ -244,7 +244,10 @@ function fn_feed_delete_confirm() {
 		  		data: queryString,
 		  		dataType: "html",
 		  		success: function(html) {
-		  			$(html).prependTo($(".cmt-list-wrapper")).slideDown();
+		  			$(html).prependTo(cmtListWrapper).slideDown();
+		  			if(document.querySelector('.no-cmt-list')) {
+		  				$('.no-cmt-list').remove();
+		  			} 
 		  		}
   			});
  		}
@@ -312,6 +315,16 @@ function fn_feed_delete_confirm() {
 	 				let obj = JSON.parse(data);
 	 				if(obj.success) {
 	 					$('#cmt-content-' + idx).remove();
+	 					if(!document.querySelector('.cmt-cont')) {
+	 						if(!document.querySelector('.no-cmt-list')) {
+	 							let html = `
+	 								<div class="no-cmt-list">
+	 									<span>아직 등록된 댓글이 없습니다.</span>
+	 								</div>
+	 								`;
+	 							$(html).prependTo(cmtListWrapper).slideDown();
+	 						}
+	 					} 
 	 				} else if(obj.failed) {
 	 					alert(obj.failed);
 	 				} else {
