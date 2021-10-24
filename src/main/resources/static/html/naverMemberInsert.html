@@ -32,12 +32,12 @@
 					<div class="nav-dropdown">
 						<button class="nav-dropdown-btn">자주사용하는기능</button>
 						<div class="dropdown-submenu">
-							<a href="/html/SWV.html">음성으로배출방법찾기</a>
-							<a href="/html/SWI.html">사진으로배출방법찾기</a>
-							<a href="/html/trashCanMap.html">주변쓰레기통찾기</a>
-							<a href="/html/zeroWasteShopMap.html">제로웨이스트상점찾기</a>
-							<a href="/challenge/main">챌린지</a>
-							<a href="/board/boardlist">게시판</a>
+							<a>음성으로배출방법찾기</a>
+							<a>사진으로배출방법찾기</a>
+							<a>주변쓰레기통찾기</a>
+							<a>제로웨이스트상점찾기</a>
+							<a>챌린지</a>
+							<a>게시판</a>
 						</div>
 					</div>
 				</div>
@@ -71,7 +71,7 @@
 						
 						<div class="form-div-signbtns">
 							<button id="cancle">가입취소</button>
-							<button type="submit" id="login-join-btn">회원가입</button>
+							<input type="button" id="login-join-btn-n" value ="회원가입">
 						</div>
 					</div>
 				</form>
@@ -104,7 +104,6 @@
 $(function(){
 	var nuemail = $.cookie('nuemail');
 	var nuname = $.cookie('nuname');
-	
  	if(nuemail != "null" && nuname != "null"){
 		$('input[name=nuname]').attr('value',nuname)
 		$('input[name=nuemail]').attr('value',nuemail)

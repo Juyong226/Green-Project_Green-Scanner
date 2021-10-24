@@ -9,13 +9,21 @@ import com.garb.gbcollector.util.GbcException;
 public class MemberVO {
 	private String mememail, mempw, memname, memnickname;
 	private Integer navermemid;
+	private Double googlememid;
 	private Date memdate;
+	private Integer fornavermememail;
 	
 	public MemberVO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
+	public MemberVO(Double googlememid) throws GbcException {
+		super();
+		setGooglememid(googlememid);
+	}
+	
+
 	public MemberVO(Integer navermemid) throws GbcException {
 		super();
 		setNavermemid(navermemid);
@@ -26,10 +34,30 @@ public class MemberVO {
 		setMemnickname(memnickname);
 	}
 	
+	public MemberVO(Integer navermemid, String mememail) throws GbcException{
+		super();
+		setNavermemid(navermemid);
+		setGooglememid(getGooglememid());
+	}
+	
+	public MemberVO(String mememail, Integer fornavermememail) throws GbcException {
+		super();
+		setMememail(mememail);
+	}
+	
 	public MemberVO(String mememail, String mempw) throws GbcException {
 		super();
 		setMememail(mememail);
 		setMempw(mempw);
+	}
+	
+	public MemberVO(String mememail, String mempw, String memname, String memnickname, Double googlememid) throws GbcException {
+		super();
+		setMememail(mememail);
+		setMempw(mempw);
+		setMemname(memname);
+		setMemnickname(memnickname);
+		setGooglememid(googlememid);
 	}
 	
 	public MemberVO(String mememail, String mempw, String memname, String memnickname, Integer navermemid) throws GbcException {
@@ -57,6 +85,14 @@ public class MemberVO {
 		setMemname(memname);
 		setMemnickname(memnickname);
 		setMemdate(memdate);
+	}
+	
+	public Double getGooglememid() {
+		return googlememid;
+	}
+	
+	public void setGooglememid(Double googlememid) {
+		this.googlememid = googlememid;
 	}
 	
 	

@@ -1,5 +1,7 @@
 package com.garb.gbcollector.web.service;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,11 +14,11 @@ public class NaverMemberService {
 	@Autowired
 	MemberDAO memberDAO;
 	
-	public String naverlogin(MemberVO n) {
+	public Map naverlogin(MemberVO n) {
 		return memberDAO.naverlogin(n);
 	}
 
-	public int naverIdChk(MemberVO m) throws Exception{
+	public Map naverIdChk(MemberVO m) throws Exception{
 		return memberDAO.naverIdChk(m);
 	}
 	
