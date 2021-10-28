@@ -59,7 +59,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	]]>
 </select>
 
-<insert id="insertFeed" parameterType="FeedVO">
+<insert id="insertFeed" parameterType="FeedVO" useGeneratedKeys="true" keyColumn="feed_no" keyProperty="feedNo">
 	<![CDATA[
 		insert into challengeFeed (
 			feed_no, 

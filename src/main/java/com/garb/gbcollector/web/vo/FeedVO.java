@@ -1,13 +1,15 @@
 package com.garb.gbcollector.web.vo;
 
 import java.util.Date;
+import java.util.List;
 
 public class FeedVO {
 
 	//field
 	private int feedNo, commentCnt;
-	private String challengeNum, email, writer, content, postDate;
+	private String challengeNum, email, writer, content, postDate, changeYn;
 	private Date postTime;
+	private List<Integer> imageIdxs;
 	
 	//constructor
 	public FeedVO() {
@@ -92,10 +94,26 @@ public class FeedVO {
 		this.postTime = postTime;
 	}
 
+	public String getChangeYn() {
+		return changeYn;
+	}
+
+	public void setChangeYn(String changeYn) {
+		this.changeYn = changeYn;
+	}
+
+	public List<Integer> getImageIdxs() {
+		return imageIdxs;
+	}
+
+	public void setImageIdxs(List<Integer> imageIdxs) {
+		this.imageIdxs = imageIdxs;
+	}
+
 	@Override
 	public String toString() {
 		return "FeedVO [feedNo=" + feedNo + ", commentCnt=" + commentCnt + ", challengeNum=" + challengeNum + ", email="
-				+ email + ", writer=" + writer + ", content=" + content + ", postDate=" + postDate + ", postTime="
-				+ postTime + "]";
+				+ email + ", writer=" + writer + ", content=" + content + ", postDate=" + postDate + ", changeYn="
+				+ changeYn + ", postTime=" + postTime + ", imageIdxs=" + imageIdxs + "]";
 	}	
 }

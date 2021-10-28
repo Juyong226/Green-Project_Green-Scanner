@@ -18,16 +18,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.garb.gbcollector.constant.Method;
 import com.garb.gbcollector.util.UiUtils;
+import com.garb.gbcollector.util.UploadFileException;
 import com.garb.gbcollector.web.service.ChallengeService;
 import com.garb.gbcollector.web.service.FeedService;
 import com.garb.gbcollector.web.vo.FeedPaginationVO;
 import com.garb.gbcollector.web.vo.FeedVO;
 import com.garb.gbcollector.web.vo.PersonalChallengeVO;
+import com.garb.gbcollector.web.vo.UploadImageVO;
 
 @Controller
 @RequestMapping("challenge/feed")
@@ -51,18 +52,20 @@ public class FeedController extends UiUtils {
 			
 		} else {
 			PersonalChallengeVO pc = challengeService.getPersonalChallenge(challengeNum);
+			FeedVO feed;
 			if(feedNo == null) {
-				FeedVO feed = new FeedVO();
-				feed.setWriter((String)session.getAttribute("memnickname"));
-				model.addAttribute("feed", feed);
+				feed = new FeedVO();
+				feed.setWriter((String)session.getAttribute("memnickname"));				
 			} else {
-				FeedVO feed = feedService.getFeedDetail(feedNo);
+				feed = feedService.getFeedDetail(feedNo);
 				if(feed == null) {
 					redirectURI = "/challenge/my-challenge/" + challengeNum;
 					return showMessageWithRedirection("올바르지 않은 접근입니다.", redirectURI, Method.GET, null, model);
 				}
-				model.addAttribute("feed", feed);				
+				List<UploadImageVO> imageList = feedService.getFeedImageList(feedNo);
+				model.addAttribute("imageList", imageList);
 			}
+			model.addAttribute("feed", feed);
 			model.addAttribute("challengeName", pc.getChallengeName());
 			model.addAttribute("challengeNum", challengeNum);
 		}
@@ -71,7 +74,7 @@ public class FeedController extends UiUtils {
 	
 	/*피드 글 등록 요청*/
 	@PostMapping(value = "/{challengeNum}")
-	public String registerFeed(final FeedVO params, Model model,
+	public String registerFeed(final FeedVO params, final MultipartFile[] images, Model model,
 			@PathVariable("challengeNum") String challengeNum, HttpServletRequest request) {
 		
 		String redirectURI = "/challenge/my-challenge/" + challengeNum;
@@ -84,7 +87,7 @@ public class FeedController extends UiUtils {
 			} else {
 				params.setEmail((String) session.getAttribute("email"));
 				params.setPostDate(challengeService.getCurrentTime());
-				boolean isRegistered = feedService.registerFeed(params, challengeNum);
+				boolean isRegistered = feedService.registerFeed(params, challengeNum, images);
 				if(isRegistered == false) {
 					return showMessageWithRedirection("피드를 등록할 수 없습니다.", redirectURI, Method.GET, null, model);
 				}	
@@ -92,6 +95,9 @@ public class FeedController extends UiUtils {
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 			return showMessageWithRedirection("데이터베이스 처리 과정에 문제가 발생하였습니다.", redirectURI, Method.GET, null, model);			
+		} catch (UploadFileException e) {
+			e.printStackTrace();
+			return showMessageWithRedirection("이미지 업로드에 실패하였습니다.\n파일의 확장자가 다음과 같은 지 확인해주세요.\n[ jpg, jpeg, png ]", redirectURI, Method.GET, null, model);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return showMessageWithRedirection("시스템에 문제가 발생하였습니다.", redirectURI, Method.GET, null, model);			
@@ -121,22 +127,6 @@ public class FeedController extends UiUtils {
 			resJson.put("msg", "로그인 후 이용할 수 있습니다.");
 		}
 		return resJson.toJSONString();
-	}
-	
-	/*마이 피드 리스트 요청*/
-	@GetMapping(value = "/{challengeNum}")
-	public String openMyFeedList(@PathVariable("challengeNum") String challengeNum, Model model, HttpServletRequest request) {
-		
-		HttpSession session = request.getSession(false);
-		if(session == null) {
-			String redirectURI = "/challenge/main";
-			return showMessageWithRedirection("로그인 후 이용이 가능합니다.", redirectURI, Method.GET, null, model);
-		} else {
-//			List<FeedVO> feedList = feedService.getMyFeedList(challengeNum);
-//			model.addAttribute("nickname", session.getAttribute("memnickname"));
-//			model.addAttribute("feedList", feedList);
-		}
-		return "challenge/feed/my-list";
 	}
 	
 	/*전체 피드 리스트 요청*/

@@ -14,13 +14,36 @@
 				<form
 					id="feed-write-form"
 					th:action="@{/challenge/feed/{challengeNum} (challengeNum = ${challengeNum})}"
+					enctype="multipart/form-data"
 					onsubmit="return fn_write_confirm()"
 					th:object="${feed}"
 					method="post">
 					<span class="chall-cont-min-title" th:text="${challengeName}"></span>
-					<input type="hidden" th:if="*{feedNo > 0}" th:field="*{feedNo}">
+					<input type="hidden" th:if="*{feedNo != null and feedNo > 0}" th:field="*{feedNo}">
+					<input type="hidden" th:field="*{changeYn}" value="N">
 					<input type="hidden" th:if="*{writer != null}" th:field="*{writer}">
-					<div class="chall-feed-write-img-preview"></div>
+					<!-- 업로드 이미지가 존재하지 않을 경우 -->
+					<div th:if="${#lists.isEmpty(imageList)}" class="chall-feed-write-img-preview">
+						<div class="feed-img-div" id="feed-img-div-0">
+							<input type="file" id="feed-img-0" name="images" accept=".jpg, .jpeg, .png" onchange="previewImg(this)">
+							<label for="feed-img-0" class="feed-img-add">사진추가</label>
+							<div class="img-prev-div"></div>
+						</div>
+					</div>
+					<!-- 업로드 이미지가 존재할 경우 -->
+					<div th:unless="${#lists.isEmpty(imageList)}" class="chall-feed-write-img-preview">
+						<div th:each="img, stat : ${imageList}" class="feed-img-div" th:id="|feed-img-div-${stat.index}|">
+							<input type="hidden" name="imageIdxs" th:value="${img.idx}">
+							<input type="file" th:id="|feed-img-${stat.index}|" name="images" accept=".jpg, .jpeg, .png" onchange="previewImg(this)">
+							<div class="img-prev-div"><img></div>
+							<button type='button' class='feed-img-remove' onclick='removeImg(this)'>사진삭제</button>
+						</div>
+						<div th:if="${#lists.size(imageList) < 3}" class="feed-img-div" th:id="|feed-img-div-${#lists.size(imageList)}|">
+							<input type="file" th:id="|feed-img-${#lists.size(imageList)}|" name="images" accept=".jpg, .jpeg, .png" onchange="previewImg(this)">
+							<label th:for="|feed-img-${#lists.size(imageList)}|" class="feed-img-add">사진추가</label>
+							<div class="img-prev-div"></div>
+						</div>
+					</div>
 					<textarea th:field="*{content}" placeholder="내용을 입력해주세요."></textarea>
 					<div class="chall-cont-min-border"></div>
 					<div class="chall-form-btns">
@@ -33,5 +56,72 @@
 	</div>
 	<!-- 하단 footer -->
 	<div th:replace="/fragments/common.html :: new-footer"></div>
+	
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	const imgList = /*[[${imageList}]]*/;
+	let imageIdx = isEmpty(imgList) ? 0 : imgList.length;
+	
+	function previewImg(fileInput) {
+		const file = $(fileInput);
+		const fileDiv = file.parent();
+		var reader = new FileReader();
+		
+		reader.addEventListener('load', function() {
+			const image = new Image();
+			const removeBtn = `<button type='button' class='feed-img-remove' onclick='removeImg(this)'>사진삭제</button>`;
+			file.nextAll('label').remove();
+			$(image).attr('src', reader.result);
+			$(image).appendTo(file.nextAll('.img-prev-div'));
+			$('#changeYn').val('Y');
+			$(removeBtn).appendTo(fileDiv);
+			createImgDiv();
+		});
+		
+		if(file) {
+			reader.readAsDataURL(file[0].files[0]);	
+		}
+	}
+	
+	function createImgDiv() {
+		const imgDivs = $('.feed-img-div');
+		console.log("createImgDiv()에서의 imgDivs의 length: " + imgDivs.length);
+		if(imgDivs.length > 2) {
+			return false;
+		}
+		
+		imageIdx++;
+		const newDiv = `
+			<div class="feed-img-div" id="feed-img-div-${imageIdx}">
+				<input type="file" id="feed-img-${imageIdx}" name="images" accept=".jpg, .jpeg, .png" onchange="previewImg(this)">
+				<label for="feed-img-${imageIdx}" class="feed-img-add">사진추가</label>
+				<div class="img-prev-div"></div>
+			</div>
+			`;
+		$(newDiv).appendTo('.chall-feed-write-img-preview');
+	}
+	
+	function removeImg(button) {
+		const removeBtn = $(button);
+		const fileDiv = removeBtn.parent();		
+		fileDiv.remove();
+		$('#changeYn').val('Y');
+		
+		const imgDivs = $('.feed-img-div');
+		console.log("imgDivs.length: " + imgDivs.length + "/ imageIdx: " + imageIdx);
+		if(imgDivs.length === 2) {
+			createImgDiv();
+		}
+	}
+	
+	function isEmpty(imgList) {
+		if(imgList.constructor === Object &&
+			Object.keys(imgList).length === 0) {
+			return true;
+		}
+		return false;
+	}
+	/*]]>*/
+	</script>
 </body>
 </html>

@@ -5,13 +5,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.garb.gbcollector.web.dao.FeedImageDAO">
 
-<resultMap type="FeedImageVO" id="feedImageResult">
+<resultMap type="UploadImageVO" id="feedImageResult">
 	<result property="idx" column="idx"/>
 	<result property="feedNo" column="feed_no"/>
 	<result property="originalName" column="original_name"/>
 	<result property="saveName" column="save_name"/>
 	<result property="imgSize" column="img_size"/>
 	<result property="insertTime" column="insert_time"/>
+	<result property="deleteTime" column="delete_time"/>
+	<result property="deleteYn" column="delete_yn"/>
 </resultMap>
 
 <insert id="insertFeedImage" parameterType="java.util.List">
@@ -22,7 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				original_name,
 				save_name,
 				img_size
-			) value (
+			) values (
 				#{item.feedNo},
 				#{item.originalName},
 				#{item.saveName},
@@ -34,9 +36,39 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <delete id="deleteFeedImage" parameterType="Integer">
 	<![CDATA[
-		delete from feedImages
-		where feed = #{idx}
+		update feedImages
+		set
+			delete_yn = 'Y',
+			delete_time = current_timestamp
+		where
+			feed_no = #{feedNo}
 	]]>
 </delete>
+
+<update id="undeleteFeedImage" parameterType="java.util.List">
+	<foreach collection="list" item="item" separator=";" open="DECLARE BEGIN" close="; END;">
+		<![CDATA[
+			update feedImages
+			set
+				delete_yn = 'N'
+			where
+				idx = #{item}	
+		]]>
+	</foreach>
+</update>
+
+<select id="selectFeedImageList" parameterType="Integer" resultMap="feedImageResult">
+	<![CDATA[
+		select * from feedImages
+		where delete_yn = 'N' and feed_no = #{feedNo}
+	]]>
+</select>
+
+<select id="selectFeedImageTotalCount" parameterType="Integer" resultType="int">
+	<![CDATA[
+		select count(*) from feedImages
+		where delete_yn = 'N' and feed_no = #{feedNo}
+	]]>
+</select>
 
 </mapper>

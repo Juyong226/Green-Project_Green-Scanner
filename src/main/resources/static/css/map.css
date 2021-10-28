@@ -1436,11 +1436,61 @@ select::-ms-expand {
 }
 
 .chall-feed-write-img-preview {
-	width: 400px;
-	height: 400px;
+	width: 80%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: none;
+	margin-bottom: 24px;
+}
+
+.feed-img-div {
+	width: 32%;
+	height: calc(1194px * 0.8 * 0.32);
+	margin: 0 0.5%;
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+}
+
+.feed-img-div input[type=file] {
+	display: none;
+}
+
+.feed-img-div input[type=file] + label {
+	position: absolute;
+	cursor: pointer;
+}
+
+.img-prev-div {
+	width: 100%;
+	height: 100%;
+	border: 1px solid #d6dddd;
+	border-radius: 16px;
+	overflow: hidden;
+}
+
+.img-prev-div img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.feed-img-remove {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	opacity: 0%;
+}
+
+.feed-img-remove:hover {
+	border: none;
 	border-radius: 16px;
 	background-color: #d6dddd;
-	margin-bottom: 24px;
+	opacity: 50%;
+	cursor: pointer;
 }
 
 .cmt-feed-detail {
