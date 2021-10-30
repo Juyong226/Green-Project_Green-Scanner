@@ -44,7 +44,10 @@
 							<div class="img-prev-div"></div>
 						</div>
 					</div>
-					<textarea th:field="*{content}" placeholder="내용을 입력해주세요."></textarea>
+					<div class="feed-cont-textarea-div">
+						<textarea th:field="*{content}" onkeyup="fn_checkByte(this)" placeholder="내용을 입력해주세요."></textarea>
+						<sup>(<span id="nowByte">0</span>/300bytes)</sup>
+					</div>
 					<div class="chall-cont-min-border"></div>
 					<div class="chall-form-btns">
 						<input id="cancle-btn" type="reset" value="취소">
@@ -85,7 +88,6 @@
 	
 	function createImgDiv() {
 		const imgDivs = $('.feed-img-div');
-		console.log("createImgDiv()에서의 imgDivs의 length: " + imgDivs.length);
 		if(imgDivs.length > 2) {
 			return false;
 		}
@@ -108,9 +110,14 @@
 		$('#changeYn').val('Y');
 		
 		const imgDivs = $('.feed-img-div');
-		console.log("imgDivs.length: " + imgDivs.length + "/ imageIdx: " + imageIdx);
 		if(imgDivs.length === 2) {
-			createImgDiv();
+			const lastImg = imgDivs.last().children('input[type="file"]').val();
+			if(lastImg) {
+				createImgDiv();
+			} else {
+				const lastImgIdx = $(".feed-img-div").last().children("input[type='hidden']").val();
+				if(lastImgIdx) createImgDiv();
+			}		
 		}
 	}
 	

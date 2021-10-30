@@ -62,7 +62,7 @@ public class FeedService {
 			System.out.println("========================================================================================");
 			if("Y".equals(params.getChangeYn())) {
 				feedImageDAO.deleteFeedImage(params.getFeedNo());
-				if(params.getImageIdxs().isEmpty() == false) {
+				if(params.getImageIdxs() != null && params.getImageIdxs().isEmpty() == false) {
 					feedImageDAO.undeleteFeedImage(params.getImageIdxs());
 				}
 			}

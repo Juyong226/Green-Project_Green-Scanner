@@ -595,6 +595,7 @@ input::placeholder{
 .chall-cont-body {
 	width: 100%;
 	min-width: calc(1194px + 1rem);
+	min-height: 871px;
 	display: flex;
 	justify-content: center;
 }
@@ -603,7 +604,6 @@ input::placeholder{
 	width: 1194px;
 	display: flex;
 	flex-direction: column;
-	justify-content: space-around;
 	font-family: GmarketSans;
 }
 
@@ -822,9 +822,14 @@ input::placeholder{
 	width: 100%;
 	height: 200px;
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	margin-bottom: 50px;
+	font-size: 1rem;
+	font-weight: 400;
+	font-height: 1.5;
+	color: #8f9494;
 }
 
 .chall-cont-main-basic {
@@ -1009,12 +1014,18 @@ input::placeholder{
 }
 
 .feed-cont-text {
+	height: 50px;
+	display: block;
 	border-top: solid 1px #d6dddd;
 	border-bottom: solid 1px #d6dddd;
 	padding: 24px;
 	font-size: 0.9rem;
-	font-wieght: 400;
+	font-weight: 400;
 	line-height: 1.5;
+	word-break: break-all;
+	white-space: nowrap;
+	overflow: hidden;
+  	text-overflow: ellipsis;
 }
 
 .feed-cmt {
@@ -1418,7 +1429,7 @@ select::-ms-expand {
 }
 
 #feed-write-form textarea {
-	width: 50%;
+	width: 100%;
 	height: 240px;
 	border: solid 1px #d6dddd;
 	border-radius: 8px;
@@ -1427,7 +1438,7 @@ select::-ms-expand {
 	font-weight: 400;
 	line-height: 1.5;
 	padding: 5.5px 0 0 5.5px;
-	margin-bottom: 24px;
+	margin-bottom: 12px;
 }
 
 .chall-feed-write-img-preview {
@@ -1488,6 +1499,17 @@ select::-ms-expand {
 	cursor: pointer;
 }
 
+.feed-cont-textarea-div {
+	width: 50%;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+}
+
+.feed-cont-textarea-div sup {
+	margin-bottom: 24px;
+}
+
 .cmt-feed-detail {
 	width: 100%;
 	margin: 80px 0 24px 0;
@@ -1498,8 +1520,10 @@ select::-ms-expand {
 }
 
 .cmt-feed-detail-cont {
-	width: 60%;
+	width: 85%;
 	margin-bottom: 24px;
+	line-height: 1.5;
+	word-break: break-all;
 }
 
 .cmt-write-wrapper {
@@ -1540,6 +1564,7 @@ select::-ms-expand {
 	display: flex;
 	align-items: center;
 	margin-bottom: 24px;
+	font-size: 0.8rem;
 }
 
 .cmt-textarea {
@@ -1561,6 +1586,7 @@ select::-ms-expand {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-evenly;
+	margin-left: 12px;
 }
 
 .cmt-write-btn {
@@ -1574,16 +1600,16 @@ select::-ms-expand {
 	font-weight: 700;
 	line-height: 1.5;
 	color: #ffffff;
-	cursor: pointer; 
+	cursor: pointer;
+	margin-left: 12px; 
 }
 
 .no-cmt-list {
 	width: 100%;
-	height: 400px;
 	display: flex;
 	justify-content: center;
 	margin-top: 24px;
-	font-size: 1.2rem;
+	font-size: 1rem;
 	font-weight: 400;
 	font-height: 1.5;
 	color: #8f9494; 
@@ -1649,6 +1675,7 @@ select::-ms-expand {
 	font-size: 1rem;
 	font-weight: 200;
 	line-height: 1.5;
+	word-break: break-all;
 }
 
 /*음성인식 css*/

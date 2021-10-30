@@ -80,7 +80,8 @@
 				<span class="chall-cont-min-title">실천 피드</span>
 				<!-- 리스트가 존재하지 않을 때 -->
 				<div th:if="${#lists.isEmpty(feedList)}" class="chall-cont-no-feed">
-					<span id="chall-no-list">아직 등록된 피드가 없습니다.</span>
+					<span id="chall-no-list">아직 등록된 피드가 없습니다</span>
+					<span id="chall-no-list">오늘 챌린지를 잘 실천했다면 지금 바로 피드를 등록하세요!</span>
 				</div>
 				<!-- 리스트가 존재할 때 -->
 				<div  class="chall-cont-feed-wrapper" th:unless="${#lists.isEmpty(feedList)}">
@@ -126,7 +127,9 @@
 								<div class="swiper-button-prev"></div>
 								<div class="swiper-button-next"></div>
 							</div>
-							<div class="feed-cont-text" th:text="${feed.content}"></div>
+						</div>
+						<div class="feed-cont-text">
+							<a th:href="@{|/feed/${feed.feedNo}/comments| (challengeNum = ${feed.challengeNum})}" th:text="${feed.content}"></a>
 						</div>
 						<div class="feed-cmt">
 							<div class="feed-cmt-div">
