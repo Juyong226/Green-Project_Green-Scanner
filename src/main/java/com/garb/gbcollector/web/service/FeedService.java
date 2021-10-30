@@ -1,5 +1,6 @@
 package com.garb.gbcollector.web.service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -15,6 +16,7 @@ import com.garb.gbcollector.web.dao.ChallengeDAO;
 import com.garb.gbcollector.web.dao.FeedCommentDAO;
 import com.garb.gbcollector.web.dao.FeedDAO;
 import com.garb.gbcollector.web.dao.FeedImageDAO;
+import com.garb.gbcollector.web.vo.FeedCommentVO;
 import com.garb.gbcollector.web.vo.FeedPaginationVO;
 import com.garb.gbcollector.web.vo.FeedVO;
 import com.garb.gbcollector.web.vo.PersonalChallengeVO;
@@ -126,15 +128,13 @@ public class FeedService {
 	}
 	
 	public List<FeedVO> getAllFeedList(FeedPaginationVO params) {
-		List<FeedVO> feedList = new ArrayList<FeedVO>();
-		feedList = feedDAO.selectAllFeedList(params);
-		return feedList;
+		List<FeedVO> feedList = feedDAO.selectAllFeedList(params);
+		return setCommentCntAndImageIdxs(feedList);
 	}
 	
 	public List<FeedVO> getMyFeedList(FeedPaginationVO params) {
-		List<FeedVO> feedList = new ArrayList<FeedVO>();
-		feedList = feedDAO.selectMyFeedList(params);
-		return feedList;
+		List<FeedVO> feedList = feedDAO.selectMyFeedList(params);
+		return setCommentCntAndImageIdxs(feedList);
 	}
 	
 	public int getFeedTotalCount() {
@@ -151,5 +151,25 @@ public class FeedService {
 			return Collections.emptyList();
 		}
 		return feedImageDAO.selectFeedImageList(feedNo);
+	}
+
+	public File getFeedImageDetail(Integer idx) {
+		UploadImageVO image = feedImageDAO.selectFeedImageDetail(idx);
+		return fileUtils.getImagePath(image);
+	}
+	
+	public List<FeedVO> setCommentCntAndImageIdxs(List<FeedVO> feedList) {
+		for(FeedVO feed : feedList) {
+			List<UploadImageVO> imageList = getFeedImageList(feed.getFeedNo());
+			List<Integer> imageIdxs = new ArrayList<>();
+			for(UploadImageVO image : imageList) {
+				imageIdxs.add(image.getIdx());
+			}
+			FeedCommentVO comment = new FeedCommentVO();
+			comment.setFeedNo(feed.getFeedNo());
+			feed.setCommentCnt(feedCommentDAO.selectCommentTotalCount(comment));
+			feed.setImageIdxs(imageIdxs);
+		}
+		return feedList;
 	}
 }

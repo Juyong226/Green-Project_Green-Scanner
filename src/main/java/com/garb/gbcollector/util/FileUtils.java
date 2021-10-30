@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -102,5 +103,15 @@ public class FileUtils {
 			}
 		} // end for()
 		return uploadList;
+	}
+	
+	public File getImagePath(UploadImageVO image) {
+		LocalDate insertTime = LocalDate.ofInstant(image.getInsertTime().toInstant(), ZoneId.systemDefault());
+		String feedImgDir = Paths.get("C:", "GreenScanner", "upload", "challenge", insertTime.format(DateTimeFormatter.ofPattern("yyyyMMdd"))).toString();
+		File target = new File(feedImgDir, image.getSaveName());
+		System.out.println("======================================");
+		System.out.println("feedImgDir: " + feedImgDir + "\ntargetFile: " + target.toString());
+		System.out.println("======================================");
+		return target;
 	}
 }

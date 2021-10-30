@@ -861,7 +861,7 @@ input::placeholder{
 	overflow: hidden;
 }
 
-.basic-thumb, .my-thumb, .basic-detail-thumb {
+.basic-thumb, .my-thumb, .basic-detail-thumb, .feed-images {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
@@ -890,6 +890,7 @@ input::placeholder{
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
+	border-bottom: solid 1px #d6dddd;
 }
 
 .feed-top-left, .cmt-feed-detail-top {
@@ -959,7 +960,7 @@ input::placeholder{
 	font-size: 0.8rem;
 	font-weight: 400;
 	text-align: center;
-	z-index: 1;
+	z-index: 11;
 	background: #ffffff;
 }
 
@@ -989,19 +990,26 @@ input::placeholder{
 	color: #4cbd73;
 }
 
-.feed-cont {
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-}
-
-.feed-cont-pic {
+.swiper {
 	width: 100%;
 	height: 582px;
-	background-color: #d6dddd;
+}
+
+.swiper-pagination-bullet-active {
+	background: #4cbd73;	
+}
+
+.swiper-button-prev, .swiper-button-next {
+	opacity: 35%;
+	color: #4cbd73;	
+}
+
+.swiper-button-next.swiper-button-disabled, .swiper-button-prev.swiper-button-disabled {
+	opacity: 0%;
 }
 
 .feed-cont-text {
+	border-top: solid 1px #d6dddd;
 	border-bottom: solid 1px #d6dddd;
 	padding: 24px;
 	font-size: 0.9rem;
@@ -1123,19 +1131,6 @@ input::placeholder{
   font-weight: 200;
   line-height: 1.7;
 }
-
-/*
-.description-title {
-	margin-bottom: 24px;
-	font-size: 1.2rem;
-	font-weight: 700;
-}
-
-.description {
-	font-size: 1rem;
-	font-weigth: 400;	
-}
-*/
 
 #basic-start-btn {
 	width: 20%;

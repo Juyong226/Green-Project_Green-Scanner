@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.garb.gbcollector.web.vo.FeedVO;
 import com.garb.gbcollector.web.vo.UploadImageVO;
 
 @Repository

@@ -35,7 +35,7 @@
 						<div th:each="img, stat : ${imageList}" class="feed-img-div" th:id="|feed-img-div-${stat.index}|">
 							<input type="hidden" name="imageIdxs" th:value="${img.idx}">
 							<input type="file" th:id="|feed-img-${stat.index}|" name="images" accept=".jpg, .jpeg, .png" onchange="previewImg(this)">
-							<div class="img-prev-div"><img></div>
+							<div class="img-prev-div"><img th:src="|/challenge/feed/${img.feedNo}/img/${img.idx}|"></div>
 							<button type='button' class='feed-img-remove' onclick='removeImg(this)'>사진삭제</button>
 						</div>
 						<div th:if="${#lists.size(imageList) < 3}" class="feed-img-div" th:id="|feed-img-div-${#lists.size(imageList)}|">
@@ -115,11 +115,15 @@
 	}
 	
 	function isEmpty(imgList) {
-		if(imgList.constructor === Object &&
-			Object.keys(imgList).length === 0) {
+		if(imgList === null ) {
 			return true;
-		}
-		return false;
+		} else {
+			if(imgList.constructor === Object &&
+				Object.keys(imgList).length === 0) {
+				return true;
+			}
+			return false;
+		}		
 	}
 	/*]]>*/
 	</script>

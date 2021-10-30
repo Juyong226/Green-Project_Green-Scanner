@@ -57,6 +57,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</foreach>
 </update>
 
+<select id="selectFeedImageDetail" parameterType="Integer" resultMap="feedImageResult">
+	<![CDATA[
+		select * from feedImages
+		where delete_yn = 'N' and idx = #{idx}
+	]]>
+</select>
+
 <select id="selectFeedImageList" parameterType="Integer" resultMap="feedImageResult">
 	<![CDATA[
 		select * from feedImages

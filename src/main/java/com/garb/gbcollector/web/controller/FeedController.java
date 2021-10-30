@@ -1,13 +1,20 @@
 package com.garb.gbcollector.web.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.IOUtils;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -129,6 +136,21 @@ public class FeedController extends UiUtils {
 		return resJson.toJSONString();
 	}
 	
+	/*피드 이미지 요청*/
+	@GetMapping(value = "/{feedNo}/img/{idx}", produces = {"image/jpeg", "image/png"})
+	public ResponseEntity<byte[]> loadFeedImages(@PathVariable("idx") final Integer idx) {
+		
+		File image = feedService.getFeedImageDetail(idx);
+		try {
+			InputStream imageStream = new FileInputStream(image);
+			byte[] imageByteArray = IOUtils.toByteArray(imageStream);
+			imageStream.close();
+			return new ResponseEntity<byte[]>(imageByteArray, HttpStatus.OK);
+		} catch (IOException e) {
+			throw new RuntimeException("이미지 로드에 실패하였습니다.");
+		}
+	}
+	
 	/*전체 피드 리스트 요청*/
 	@GetMapping(value = "/")
 	public String openFeedList(FeedPaginationVO params, Model model, HttpServletRequest request) {
@@ -142,12 +164,16 @@ public class FeedController extends UiUtils {
 			params.setEndIdx(Integer.toString(totalFeedCnt));
 		}
 		List<FeedVO> feedList = feedService.getAllFeedList(params);
+		System.out.println("========================================================================================");
+		System.out.println("getAllFeedList()에서 리턴하는 feedList: " + feedList);
+		System.out.println("========================================================================================");
 		model.addAttribute("idx", params.getStartIdx());
 		model.addAttribute("feedList", feedList);
 		model.addAttribute("totalFeedCnt", totalFeedCnt);
 		return "challenge/feed/list";
 	}
 	
+	/*피드 더 보기 요청*/
 	@PostMapping(value = "/more_feed")
 	public String more_feed(FeedPaginationVO params, Model model, HttpServletRequest request) {
 		
