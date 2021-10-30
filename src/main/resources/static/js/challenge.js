@@ -179,6 +179,17 @@ function fn_feed_delete_confirm() {
  		success: function(html) {
  			$(html).appendTo($(".chall-cont-feed-wrapper")).slideDown();
  			
+ 			const swiper = new Swiper('.swiper', {
+		 		pagination: {
+		 			el: '.swiper-pagination',
+		 		},
+		 		
+		 		navigation: {
+		 			nextEl: '.swiper-button-next',
+		 			prevEl: '.swiper-button-prev',
+		 		},
+		 	});
+ 			
  			if( (startIdx + searchStep) > totalFeedCnt ) {
  				$('#chall-more-btn').remove();
  			}

@@ -35,7 +35,16 @@
 			</div>
 		</div>
 		<div class="feed-cont">
-			<div class="feed-cont-pic"></div>
+			<div class="swiper">
+				<div class="swiper-wrapper">								
+					<div th:each="idx, stat : ${feed.imageIdxs}" class="swiper-slide" th:id="|slide-img-${stat.index}|">
+						<img class="feed-images" th:src="|/challenge/feed/${feed.feedNo}/img/${idx}|">
+					</div>								
+				</div>
+				<div class="swiper-pagination"></div>
+				<div class="swiper-button-prev"></div>
+				<div class="swiper-button-next"></div>
+			</div>
 			<div class="feed-cont-text" th:text="${feed.content}"></div>
 		</div>
 		<div class="feed-cmt">
