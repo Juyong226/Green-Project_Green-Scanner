@@ -2532,6 +2532,22 @@ select::-ms-expand {
 	height: 24px;
 	width: 159px;
 }
+
+#board_more_btn {
+	position: relative;
+	top: 20px;
+	left: 400px;
+	margin-bottom: 40px;
+	width: 378px;
+	height: 56px;
+	border: solid 1px #d6dddd;
+	background: #ffffff;
+	font-size: 0.9rem;
+	font-weight: 400;
+	color: #8f9494;
+	cursor: pointer;
+}
+
 /*
 input[type="checkbox"] {
 	width: 20px;
