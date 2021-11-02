@@ -118,7 +118,8 @@ function fn_write_confirm() {
  	
 	const content = $("#feedWriteForm textarea[name='content']").val();
 	const firstImg = $(".feed-img-div").first().children("input[type='file']").val();
-	if(content == "") {
+	
+	if(content == "" || content === undefined) {
 		alert("피드 내용을 입력해주세요.");
 		return false;
 		
@@ -251,7 +252,7 @@ function fn_feed_delete_confirm() {
   function chall_regi_cmt() {
     let content = writeTextarea.val();
     console.log(writeTextarea);
- 	if(content == "") {
+ 	if(content == "" || content === undefined) {
  		alert("댓글 내용을 입력해주세요.");
  	} else {
  		if(confirm("댓글을 등록하시겠습니까?")) {
@@ -295,7 +296,7 @@ function fn_feed_delete_confirm() {
 	function chall_update_cmt(idx) {
 		let content = $('#cmt-update-textarea').val();
 		console.log(content);
-	 	if(content == "") {
+	 	if(content == "" || content === undefined) {
 	 		alert("댓글 내용을 입력해주세요.");
 	 	} else {
 	 		if(confirm("댓글을 수정하시겠습니까?")) {
