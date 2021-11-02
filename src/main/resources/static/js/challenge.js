@@ -116,9 +116,9 @@ function fn_create_confirm() {
  
 function fn_write_confirm() {
  	
-	const content = $("#feedWriteForm textarea[name='content']").val();
+	const content = $("#feed-write-form textarea[name='content']").val();
 	const firstImg = $(".feed-img-div").first().children("input[type='file']").val();
-	
+	console.log("content: " + content);
 	if(content == "" || content === undefined) {
 		alert("피드 내용을 입력해주세요.");
 		return false;
