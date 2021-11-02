@@ -7,21 +7,22 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.garb.gbcollector.web.dao.BoardDAO;
+import com.garb.gbcollector.web.vo.BoardPageNationVO;
 import com.garb.gbcollector.web.vo.BoardReplyVO;
 import com.garb.gbcollector.web.vo.BoardVO;
 
 @Service
 public class BoardService {
 
-    @Autowired
+	@Autowired
     BoardDAO boardDAO;
 
     public List<BoardVO> listPostB(){
         return boardDAO.listPostB();
     }
 
-    public List<BoardVO> listPostBAll(){
-        return boardDAO.listPostBAll();
+    public List<BoardVO> listPostBAll(BoardPageNationVO page){
+        return boardDAO.listPostBAll(page);
     }
 
     public List<BoardVO> listPostQ(){
@@ -72,4 +73,8 @@ public class BoardService {
         boardDAO.deleteReply(reno);
         boardDAO.updateReplyCnt(postno, -1);
     }
+
+	public int getTotalBoardCnt() {
+		return boardDAO.selectTotalBoardCnt();
+	}
 }

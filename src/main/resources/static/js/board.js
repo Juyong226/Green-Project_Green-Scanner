@@ -104,6 +104,55 @@ imgTarget.on('change', function() {
 	}
 });
 
+
+/* ---------------더보기 관련 JS--------------*/
+
+$(document).ready(function() {
+
+	/*var startIdx = 1;
+	var searchStep = 4;
+	
+  $("#board_more_btn").click(function() {
+	  alert("hey");
+	  startIdx += searchStep;
+	  more_post(startIdx);
+  });*/
+});
+
+function more_post(startIdx) {
+/*	alert(startIdx);
+	alert(searchStep);
+	alert(totalBoardCnt);*/
+	
+	let endIdx;
+ 	if( (startIdx + searchStep - 1) > totalBoardCnt ) {
+ 		endIdx = totalBoardCnt;
+ 	} else {
+ 		endIdx = startIdx + searchStep -1;
+ 	}
+ 	$.ajax({
+ 		method: "POST",
+ 		url: "/board/bulletin_boardlist/more_post",
+ 		data: { startIdx: startIdx, endIdx: endIdx },
+ 		dataType: "html",
+ 		success: function(html) {
+ 			$(html).appendTo($(".Post_wrapper")).slideDown();
+ 			
+ 			if( (startIdx + searchStep) > totalBoardCnt ) {
+ 				$('#board_more_btn').remove();
+ 			}
+ 		}
+ 	});
+	
+	
+	
+}
+
+
+
+
+
+/* --------------- 댓글 관련 JS--------------*/
 var updateReno = updateRememo = null;
 /*댓글 수정 폼 보이기
 숨겨져 있던 댓글 입력창(replyUpdateDiv)을 보여주며 기존에 입력한 댓글 내용을 받아와 넣어준다. 

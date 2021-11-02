@@ -47,6 +47,7 @@
 	</select>	
 	
 	
+	<!-- 전체게시판 -->
 	<!-- 자유게시판 글 리스트 출력 -->
 	<select id="listPostB" resultMap="boardResult">
 		<![CDATA[
@@ -60,11 +61,46 @@
 			select * from board where rownum <=3 and boardname = '질문게시판' order by postno desc
 		]]>
 	</select>
+	<!-- ################################################################################## -->
 	
-	<!-- 자유게시판 글 리스트 전체 출력 -->
+	
+	<!-- 개별 게시판 -->
+	
+	<!-- 게시판별 전체게시글 수 조회 -->
+	<select id="selectTotalBoardCnt" resultType="int">
+		<![CDATA[
+			select count(*) from board where boardname = '자유게시판'
+		]]>
+	</select>
+	
+	<!-- 
+ 	 자유게시판 글 리스트 전체 출력
 	<select id="listPostBAll" resultMap="boardResult">
 		<![CDATA[
 			select * from board where boardname = '자유게시판' order by postno desc
+		]]>
+	</select>	
+
+	질문게시판 글 리스트 전체 출력
+	<select id="listPostQAll" resultMap="boardResult">
+		<![CDATA[
+			select * from board where boardname = '질문게시판' order by postno desc
+		]]>
+	</select>   
+	-->
+	
+	<!-- 자유게시판 글 리스트 전체 출력 -->
+	<select id="listPostBAll" resultMap="boardResult">
+		<![CDATA[			
+			select * from (
+							select 
+								row_number() over(order by postdate desc) num, 
+								board.*
+							from board
+							order by postdate desc
+			 				)
+			where boardname = '자유게시판' and num between to_number(1) and to_number(5)	
+			order by postdate desc
 		]]>
 	</select>	
 
@@ -74,6 +110,7 @@
 			select * from board where boardname = '질문게시판' order by postno desc
 		]]>
 	</select>
+	
 	
 	
 	<!-- 글쓰기 -->
@@ -118,7 +155,9 @@
 	</update>
 	
 	
+	<!-- ########################################################### -->
 	
+	<!-- 댓글 -->
 	<!-- 댓글 등록 -->
 	<insert id="insertBoardReply" parameterType="boardReplyVO">
 		<![CDATA[

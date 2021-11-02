@@ -9,7 +9,7 @@ import com.garb.gbcollector.web.vo.BoardReplyVO;
 import com.garb.gbcollector.web.vo.BoardVO;
 
 @Repository
-public interface QnABoardDAO {
+public interface FAQBoardDAO {
     public List<BoardVO> getPostList();
     public List<BoardVO> listPostBAll();
     public List<BoardVO> listPostQ();
