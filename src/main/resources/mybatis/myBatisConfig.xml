@@ -15,5 +15,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="mybatis/mappers/qnaboard.xml" />
 		<mapper resource="mybatis/mappers/feed.xml"/>
 		<mapper resource="mybatis/mappers/feedcomment.xml"/>
+		<mapper resource="mybatis/mappers/feedimage.xml"/>
 	</mappers>
 </configuration>

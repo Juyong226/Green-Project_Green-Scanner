@@ -116,10 +116,20 @@ function fn_create_confirm() {
  
 function fn_write_confirm() {
  	
-	let content = $("#feedWriteForm textarea[name='content']").val();
-	
-	if(content == "") {
+	const content = $("#feed-write-form textarea[name='content']").val();
+	const firstImg = $(".feed-img-div").first().children("input[type='file']").val();
+	console.log("content: " + content);
+	if(content == "" || content === undefined) {
 		alert("피드 내용을 입력해주세요.");
+		return false;
+		
+	} else if(firstImg == "" || firstImg === undefined) {
+		const firstImgIdx = $(".feed-img-div").first().children("input[type='hidden']").val();
+		if(firstImgIdx == "" || firstImgIdx === undefined) {
+			alert("사진을 1장 이상 업로드해주세요.");
+			return false;
+		}
+		alert("사진을 1장 이상 업로드해주세요.");
 		return false;
 		
 	} else {
@@ -179,6 +189,17 @@ function fn_feed_delete_confirm() {
  		success: function(html) {
  			$(html).appendTo($(".chall-cont-feed-wrapper")).slideDown();
  			
+ 			const swiper = new Swiper('.swiper', {
+		 		pagination: {
+		 			el: '.swiper-pagination',
+		 		},
+		 		
+		 		navigation: {
+		 			nextEl: '.swiper-button-next',
+		 			prevEl: '.swiper-button-prev',
+		 		},
+		 	});
+ 			
  			if( (startIdx + searchStep) > totalFeedCnt ) {
  				$('#chall-more-btn').remove();
  			}
@@ -231,7 +252,7 @@ function fn_feed_delete_confirm() {
   function chall_regi_cmt() {
     let content = writeTextarea.val();
     console.log(writeTextarea);
- 	if(content == "") {
+ 	if(content == "" || content === undefined) {
  		alert("댓글 내용을 입력해주세요.");
  	} else {
  		if(confirm("댓글을 등록하시겠습니까?")) {
@@ -244,7 +265,10 @@ function fn_feed_delete_confirm() {
 		  		data: queryString,
 		  		dataType: "html",
 		  		success: function(html) {
-		  			$(html).prependTo($(".cmt-list-wrapper")).slideDown();
+		  			$(html).prependTo(cmtListWrapper).slideDown();
+		  			if(document.querySelector('.no-cmt-list')) {
+		  				$('.no-cmt-list').remove();
+		  			} 
 		  		}
   			});
  		}
@@ -272,7 +296,7 @@ function fn_feed_delete_confirm() {
 	function chall_update_cmt(idx) {
 		let content = $('#cmt-update-textarea').val();
 		console.log(content);
-	 	if(content == "") {
+	 	if(content == "" || content === undefined) {
 	 		alert("댓글 내용을 입력해주세요.");
 	 	} else {
 	 		if(confirm("댓글을 수정하시겠습니까?")) {
@@ -312,6 +336,16 @@ function fn_feed_delete_confirm() {
 	 				let obj = JSON.parse(data);
 	 				if(obj.success) {
 	 					$('#cmt-content-' + idx).remove();
+	 					if(!document.querySelector('.cmt-cont')) {
+	 						if(!document.querySelector('.no-cmt-list')) {
+	 							let html = `
+	 								<div class="no-cmt-list">
+	 									<span>아직 등록된 댓글이 없습니다.</span>
+	 								</div>
+	 								`;
+	 							$(html).prependTo(cmtListWrapper).slideDown();
+	 						}
+	 					} 
 	 				} else if(obj.failed) {
 	 					alert(obj.failed);
 	 				} else {
@@ -322,3 +356,36 @@ function fn_feed_delete_confirm() {
 	 		});
 	 	}
 	}
+	
+/*---------글자수 제한 script---------*/
+	function fn_checkByte(obj){
+		const textarea = $(obj);
+	    const target = textarea.parent().find('#nowByte');
+	    const maxByte = 300; //최대 100바이트
+	    const text_val = obj.value; //입력한 문자
+	    const text_len = text_val.length; //입력한 문자수
+	    
+	    let totalByte=0;
+	    for(let i=0; i<text_len; i++) {
+	    	const each_char = text_val.charAt(i);
+	        const uni_char = escape(each_char) //유니코드 형식으로 변환
+	        if(uni_char.length>4) {
+	        	// 한글 : 2Byte
+	            totalByte += 2;
+	        } else {
+	        	// 영문,숫자,특수문자 : 1Byte
+	            totalByte += 1;
+	        }
+	    }
+	    
+	    if(totalByte>maxByte) {
+	    	alert('최대 300Byte까지만 입력가능합니다.');
+	        target.text(totalByte);
+	        target.css('color', 'red');
+	    } else {
+	        target.text(totalByte);
+	        target.css('color', 'green');
+	    }
+	}
+	
+	

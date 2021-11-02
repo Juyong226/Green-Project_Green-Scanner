@@ -195,7 +195,7 @@ public class ChallengeController extends UiUtils {
 				String challengeNum = UUID.randomUUID().toString().replace("-", "").substring(0, 11);
 				String colorCode = request.getParameter("colorCode");
 				String period = request.getParameter("period");
-				String thumbnailURL = 	bc.getThumbnailURL();			
+				String thumbnailURL = 	bc.getListImageURL();			
 				String startDate = challengeService.getCurrentTime();
 				String endDate = challengeService.getEndDate(startDate, period);
 				String calendar = challengeService.createCalendar(period);

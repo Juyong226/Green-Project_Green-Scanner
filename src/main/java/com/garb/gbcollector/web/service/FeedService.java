@@ -1,18 +1,26 @@
 package com.garb.gbcollector.web.service;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.garb.gbcollector.util.FileUtils;
 import com.garb.gbcollector.util.GSCalendar;
+import com.garb.gbcollector.util.UploadFileException;
 import com.garb.gbcollector.web.dao.ChallengeDAO;
 import com.garb.gbcollector.web.dao.FeedCommentDAO;
 import com.garb.gbcollector.web.dao.FeedDAO;
+import com.garb.gbcollector.web.dao.FeedImageDAO;
+import com.garb.gbcollector.web.vo.FeedCommentVO;
 import com.garb.gbcollector.web.vo.FeedPaginationVO;
 import com.garb.gbcollector.web.vo.FeedVO;
 import com.garb.gbcollector.web.vo.PersonalChallengeVO;
+import com.garb.gbcollector.web.vo.UploadImageVO;
 
 @Service
 public class FeedService {
@@ -22,7 +30,11 @@ public class FeedService {
 	@Autowired
 	private ChallengeDAO challengeDAO;
 	@Autowired
-	private FeedCommentDAO	feedCommentDAO;
+	private FeedCommentDAO feedCommentDAO;
+	@Autowired
+	private FeedImageDAO feedImageDAO;
+	@Autowired
+	private FileUtils fileUtils;
 	
 	GSCalendar gsCalendar = GSCalendar.getInstance();
 	
@@ -44,8 +56,40 @@ public class FeedService {
 			}
 		} else {
 			queryResult = feedDAO.updateFeed(params);
+			System.out.println("========================================================================================");
+			System.out.println("registerFeed()의 params.getChangeYn(): " + params.getChangeYn());
+			System.out.println("registerFeed()의 params.getFeedNo(): " + params.getFeedNo());
+			System.out.println("========================================================================================");
+			if("Y".equals(params.getChangeYn())) {
+				feedImageDAO.deleteFeedImage(params.getFeedNo());
+				if(params.getImageIdxs() != null && params.getImageIdxs().isEmpty() == false) {
+					feedImageDAO.undeleteFeedImage(params.getImageIdxs());
+				}
+			}
 		}
+		System.out.println("========================================================================================");
+		System.out.println("registerFeed()의 queryResult: " + queryResult);
+		System.out.println("========================================================================================");
 		return (queryResult == 1) ? true : false;
+	}
+	
+	public boolean registerFeed(FeedVO params, String challengeNum, MultipartFile[] images) throws UploadFileException {
+		int queryResult = 1;
+		if(registerFeed(params, challengeNum) == false) {
+			return false;
+		}
+		
+		List<UploadImageVO> uploadList = fileUtils.uploadFeedImages(images, params.getFeedNo());
+		if(uploadList.isEmpty() == false) {
+			queryResult = feedImageDAO.insertFeedImage(uploadList);
+			System.out.println("========================================================================================");
+			System.out.println("insertFeedImage(uploadList)_<foreach> 결과 값: " + queryResult);
+			System.out.println("========================================================================================");
+			if(queryResult != -1) {
+				queryResult = 0;
+			}
+		}
+		return (queryResult == -1 || queryResult == 1);
 	}
 	
 	public FeedVO getFeedDetail(int feedNo) {		
@@ -66,7 +110,7 @@ public class FeedService {
 		return result;
 	}
 	
-	public boolean deleteFeed(int feedNo, String challengeNum) {
+	public boolean deleteFeed(Integer feedNo, String challengeNum) {
 		FeedVO feed = feedDAO.selectFeedDetail(feedNo);
 		int queryResult = 0;
 		if(feed != null) {
@@ -84,15 +128,13 @@ public class FeedService {
 	}
 	
 	public List<FeedVO> getAllFeedList(FeedPaginationVO params) {
-		List<FeedVO> feedList = new ArrayList<FeedVO>();
-		feedList = feedDAO.selectAllFeedList(params);
-		return feedList;
+		List<FeedVO> feedList = feedDAO.selectAllFeedList(params);
+		return setCommentCntAndImageIdxs(feedList);
 	}
 	
 	public List<FeedVO> getMyFeedList(FeedPaginationVO params) {
-		List<FeedVO> feedList = new ArrayList<FeedVO>();
-		feedList = feedDAO.selectMyFeedList(params);
-		return feedList;
+		List<FeedVO> feedList = feedDAO.selectMyFeedList(params);
+		return setCommentCntAndImageIdxs(feedList);
 	}
 	
 	public int getFeedTotalCount() {
@@ -101,5 +143,33 @@ public class FeedService {
 
 	public int getMyFeedCnt(String challengeNum) {
 		return feedDAO.selectMyFeedCount(challengeNum);
+	}
+	
+	public List<UploadImageVO> getFeedImageList(Integer feedNo) {
+		int feedImageTotalCnt = feedImageDAO.selectFeedImageTotalCount(feedNo);
+		if(feedImageTotalCnt < 1) {
+			return Collections.emptyList();
+		}
+		return feedImageDAO.selectFeedImageList(feedNo);
+	}
+
+	public File getFeedImageDetail(Integer idx) {
+		UploadImageVO image = feedImageDAO.selectFeedImageDetail(idx);
+		return fileUtils.getImagePath(image);
+	}
+	
+	public List<FeedVO> setCommentCntAndImageIdxs(List<FeedVO> feedList) {
+		for(FeedVO feed : feedList) {
+			List<UploadImageVO> imageList = getFeedImageList(feed.getFeedNo());
+			List<Integer> imageIdxs = new ArrayList<>();
+			for(UploadImageVO image : imageList) {
+				imageIdxs.add(image.getIdx());
+			}
+			FeedCommentVO comment = new FeedCommentVO();
+			comment.setFeedNo(feed.getFeedNo());
+			feed.setCommentCnt(feedCommentDAO.selectCommentTotalCount(comment));
+			feed.setImageIdxs(imageIdxs);
+		}
+		return feedList;
 	}
 }

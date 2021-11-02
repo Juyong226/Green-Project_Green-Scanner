@@ -34,7 +34,8 @@
 						</div>
 					</div>
 					<div class="cmt-write-form-cont">
-						<textarea class="cmt-textarea" id="cmt-write-textarea" name="content" placeholder="내용을 입력해주세요."></textarea>
+						<textarea class="cmt-textarea" id="cmt-write-textarea" name="content" onkeyup="fn_checkByte(this)" placeholder="내용을 입력해주세요."></textarea>
+						<sup>(<span id="nowByte">0</span>/300bytes)</sup>
 						<input class="cmt-write-btn" id="cmt-write-btn" type="button" onclick="chall_regi_cmt()" value="등록">
 					</div>
 				</form>
@@ -82,6 +83,7 @@
 		var cmtIdHead = '#cmt-content-';
 		var challengeNum = /*[[ ${challengeNum} ]]*/;
 		var writeTextarea = $('#cmt-write-textarea');
+		var cmtListWrapper = $('.cmt-list-wrapper');
 	/*]]>*/
 	</script>
 </body>

@@ -4,16 +4,22 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.garb.gbcollector.web.vo.FeedImageVO;
+import com.garb.gbcollector.web.vo.FeedVO;
+import com.garb.gbcollector.web.vo.UploadImageVO;
 
 @Repository
 public interface FeedImageDAO {
 
-	public int insertFeedImage(List<FeedImageVO> imgList);
+	public int insertFeedImage(List<UploadImageVO> imgList);
+	
+	public UploadImageVO selectFeedImageDetail(Integer idx);
 	
 	public int deleteFeedImage(Integer feedNo);
 	
-	public List<FeedImageVO> selectFeedImageList(Integer feedNo);
+	public int undeleteFeedImage(List<Integer> imgIdxs);
+	
+	public List<UploadImageVO> selectFeedImageList(Integer feedNo);
 	
 	public int selectFeedImageTotalCount(Integer feedNo);
+	
 }

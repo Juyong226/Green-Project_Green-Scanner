@@ -18,8 +18,8 @@
 					onsubmit="return fn_duplicate_check(this.getAttribute('data-code'))" 
 					th:action="@{/challenge/basic/{challengeCode}/set (challengeCode=${basicChallenge.challengeCode})}">
 					<div class="basic-detail">
-						<div class="basic-detail-thumb">
-							<img>
+						<div class="basic-detail-thumb-div">
+							<img th:if="${basicChallenge.mainImageURL}" class="basic-detail-thumb" th:src="${basicChallenge.mainImageURL}">
 						</div>
 						<div class="basic-detail-description"></div>
 					</div>	
