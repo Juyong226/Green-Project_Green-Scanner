@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="fragments/qna_head :: qna_head('상세보기')">
+<body>
+	<nav th:replace="fragments/common.html :: nav-top"></nav>
+	<!-- 밑줄: 디자인 요소 다운하여 사용 -->
+	<div class="nav-border"></div>
+	<div class="main">
+		<div class="Title_section">
+			<label class="Title_text" th:text="${post.title}">FAQ</label>
+			<div class="Vector_13"></div>
+		</div>
+		<div class="Post_section">
+			<div class="Content_wrap">
+				<div class="Nickname_div">
+					<img class="img_24" src="../img/board/User.png"> <label
+						class="text" th:if="${post.isanon} == 0"
+						th:text="${post.nickname}"></label> <label class="text"
+						th:if="${post.isanon} == 1">익명</label>
+				</div>
+				<div class="Title_div" th:text="${post.title}"></div>
+				<div class="Img_div" th:if="${post.filename}">
+					<img class="img_100"
+						th:src="@{'/qna/display?filename='+${post.filename}}">
+				</div>
+				<div class="Content_div" th:text="${post.content}"></div>
+				<div class="Etc_wrap">
+					<div class="Edit_div">
+						<div class="ModifyPost_div">
+							<form th:if="${login_nickname == post.nickname}"
+								action="/qna/updatePost" method="get">
+								<input type="hidden" name="postno" th:value="${post.postno}">
+								<input class="ModifyPost_btn" type="submit" value="수정" />
+							</form>
+						</div>
+						<div class="DeletePost_div">
+							<form th:if="${login_nickname == post.nickname}"
+								action="/qna/deletePost" method="post"
+								onsubmit="return DeletePost();">
+								<input type="hidden" name="_csrf" th:value="${token}"> <input
+									type="hidden" name="postno" th:value="${post.postno}">
+								<input type="hidden" name="boardname"
+									th:value="${post.boardname}"> <input
+									class="ModifyPost_btn" type="submit" style="" value="삭제" />
+							</form>
+						</div>
+
+					</div>
+					<div class="Date_div"
+						th:text="${#dates.format(post.postdate, 'yyyy-MM-dd HH시 mm분')}"></div>
+				</div>
+			</div>
+		</div>
+</body>
+<link rel="stylesheet" href="../css/boardView.css">
+<link rel="stylesheet" href="../css/styles.css">
+</html>

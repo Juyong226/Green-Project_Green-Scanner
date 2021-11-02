@@ -7,70 +7,70 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.garb.gbcollector.web.dao.BoardDAO;
-import com.garb.gbcollector.web.dao.QnABoardDAO;
+import com.garb.gbcollector.web.dao.FAQBoardDAO;
 import com.garb.gbcollector.web.vo.BoardReplyVO;
 import com.garb.gbcollector.web.vo.BoardVO;
 
 @Service
-public class QnABoardService {
+public class FAQBoardService {
 
     @Autowired
-    QnABoardDAO qnaboardDAO;
+    FAQBoardDAO faqboardDAO;
 
     public List<BoardVO> getPostList(){
-        return qnaboardDAO.getPostList();
+        return faqboardDAO.getPostList();
     }
 
     public List<BoardVO> listPostBAll(){
-        return qnaboardDAO.listPostBAll();
+        return faqboardDAO.listPostBAll();
     }
 
     public List<BoardVO> listPostQ(){
-        return qnaboardDAO.listPostQ();
+        return faqboardDAO.listPostQ();
     }
 
     public List<BoardVO> listPostQAll() {
-        return qnaboardDAO.listPostQAll();
+        return faqboardDAO.listPostQAll();
     }
 
     public void insertPost(BoardVO post) {
     	System.out.println("insertPost service 진입");
-    	qnaboardDAO.insertPost(post);
+    	faqboardDAO.insertPost(post);
     }
 
     public BoardVO viewPost(int postno) {
-        return qnaboardDAO.viewPost(postno);
+        return faqboardDAO.viewPost(postno);
     }
 
     public void updatePost(BoardVO boardVO) {
-    	qnaboardDAO.updatePost(boardVO);
+    	faqboardDAO.updatePost(boardVO);
 
     }
 
     public void deletePost(int postno) {
-    	qnaboardDAO.deletePost(postno);
+    	faqboardDAO.deletePost(postno);
     }
 
 
     @Transactional
     public void insertBoardReply(BoardReplyVO boardReplyVO) {
         if(boardReplyVO.getReno()==null) {
-        	qnaboardDAO.insertBoardReply(boardReplyVO);
-        	qnaboardDAO.updateReplyCnt(boardReplyVO.getPostno(), 1);
+        	faqboardDAO.insertBoardReply(boardReplyVO);
+        	faqboardDAO.updateReplyCnt(boardReplyVO.getPostno(), 1);
         }else {
-        	qnaboardDAO.updateReply(boardReplyVO);
+        	faqboardDAO.updateReply(boardReplyVO);
         }
 
     }
 
     public List<BoardReplyVO> viewReply(int postno) {
-        return qnaboardDAO.viewReply(postno);
+        return faqboardDAO.viewReply(postno);
     }
 
     @Transactional
     public void deleteReply(int reno) {
-        int postno = qnaboardDAO.getPostno(reno);
-        qnaboardDAO.deleteReply(reno);
-        qnaboardDAO.updateReplyCnt(postno, -1);
+        int postno = faqboardDAO.getPostno(reno);
+        faqboardDAO.deleteReply(reno);
+        faqboardDAO.updateReplyCnt(postno, -1);
     }
 }

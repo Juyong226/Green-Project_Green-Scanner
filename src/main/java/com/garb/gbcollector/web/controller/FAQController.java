@@ -29,23 +29,23 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.garb.gbcollector.web.service.QnABoardService;
+import com.garb.gbcollector.web.service.FAQBoardService;
 import com.garb.gbcollector.web.vo.BoardReplyVO;
 import com.garb.gbcollector.web.vo.BoardVO;
 
-@RequestMapping("qna")
+@RequestMapping("faq")
 @Controller
-public class QnABoardController {
+public class FAQController {
 	
 	@Autowired
-	QnABoardService qnaboardService;
+	FAQBoardService faqboardService;
 	
 	@GetMapping(value = "")
 	public ModelAndView boardListB(ModelAndView mav, HttpSession session) {
-		System.out.println("qna게시판 진입");
-		List<BoardVO> postList = qnaboardService.getPostList();
+		System.out.println("faq게시판 진입");
+		List<BoardVO> postList = faqboardService.getPostList();
 		mav.addObject("postList", postList);
-		mav.setViewName("qna/main");
+		mav.setViewName("faq/main");
 		return mav;
 	}
 	
@@ -53,7 +53,7 @@ public class QnABoardController {
 	public ModelAndView viewPostPage(@RequestParam("postno") int postno, HttpServletResponse res, HttpSession session) {
 		System.out.println(postno + "번 글 보기");
 		ModelAndView mav = new ModelAndView();
-		BoardVO boardVO = qnaboardService.viewPost(postno);
+		BoardVO boardVO = faqboardService.viewPost(postno);
 		System.out.println(boardVO);
 		System.out.println(boardVO.getFilename());
 		mav.addObject("post", boardVO);
@@ -61,14 +61,14 @@ public class QnABoardController {
 		addTokenToSession(mav, session);
 
 		// 현재 게시글에 대한 댓글을 모두 가져오기. 한 게시글당 댓글이 하나 이상이기 때문에 타입은 List이다.
-		List<BoardReplyVO> boardReplyVO = qnaboardService.viewReply(postno);
+		List<BoardReplyVO> boardReplyVO = faqboardService.viewReply(postno);
 		// 댓글 리스트를 reply라는 이름으로 뷰페이지에 추가
 		mav.addObject("commentList", boardReplyVO);
 
 		// 세션으로부터 닉네임 얻기
 		String nickname = (String) session.getAttribute("memnickname");
 		mav.addObject("login_nickname", nickname);
-		mav.setViewName("qna/view");
+		mav.setViewName("faq/view");
 		return mav;
 	}
 	
@@ -80,7 +80,7 @@ public class QnABoardController {
 		/* 토큰값을 생성해 session과 view에 저장 */
 		addTokenToSession(mav, session);
 
-		mav.setViewName("qna/write");
+		mav.setViewName("faq/write");
 		return mav;
 	}
 	
@@ -145,9 +145,9 @@ public class QnABoardController {
 
 		if (session.getAttribute("CSRF_TOKEN").equals(token)) {
 			System.out.println("토큰 일치");
-			qnaboardService.insertPost(boardVO);
+			faqboardService.insertPost(boardVO);
 
-			mav.setViewName("redirect:/qna");
+			mav.setViewName("redirect:/faq");
 			return mav;
 		}
 		System.out.println("토큰값 불일치");
@@ -162,8 +162,8 @@ public class QnABoardController {
 	public ModelAndView deletePost(@RequestParam("postno") Integer postno, HttpServletRequest request,
 			ModelAndView mav) {
 		System.out.println(postno + "번 글 삭제");
-		qnaboardService.deletePost(postno);
-		mav.setViewName("redirect:/qna");
+		faqboardService.deletePost(postno);
+		mav.setViewName("redirect:/faq");
 		return mav;
 	}
 	
@@ -174,9 +174,9 @@ public class QnABoardController {
 
 		addTokenToSession(mav, session);
 
-		BoardVO boardVO = qnaboardService.viewPost(postno);
+		BoardVO boardVO = faqboardService.viewPost(postno);
 		mav.addObject("post", boardVO);
-		mav.setViewName("qna/modify");
+		mav.setViewName("faq/modify");
 		return mav;
 	}
 
@@ -225,8 +225,8 @@ public class QnABoardController {
 
 		if (req.getSession().getAttribute("CSRF_TOKEN").equals(token)) {
 			System.out.println("토큰 일치");
-			qnaboardService.updatePost(boardVO);
-			return "redirect:/qna/viewpost?postno=" + boardVO.getPostno();
+			faqboardService.updatePost(boardVO);
+			return "redirect:/faq/viewpost?postno=" + boardVO.getPostno();
 		}
 		// 에러페이지 반환
 		return null;
@@ -265,17 +265,17 @@ public class QnABoardController {
 		String nickname = (String) session.getAttribute("memnickname");
 		boardReplyVO.setNickname(nickname);
 
-		qnaboardService.insertBoardReply(boardReplyVO);
+		faqboardService.insertBoardReply(boardReplyVO);
 		System.out.println("요청 들어옴");
-		return "redirect:/qna/viewpost?postno=" + boardReplyVO.getPostno();
+		return "redirect:/faq/viewpost?postno=" + boardReplyVO.getPostno();
 	}
 
 	/* 댓글 삭제 */
 	@PostMapping(value = "deleteReply")
 	public String deleteReply(@RequestParam("reno") Integer reno, @RequestParam("postno") int postno) {
 		System.out.println(reno + "번 댓글 삭제");
-		qnaboardService.deleteReply(reno);
-		return "redirect:/qna/viewpost?postno=" + postno;
+		faqboardService.deleteReply(reno);
+		return "redirect:/faq/viewpost?postno=" + postno;
 	}
 	
 	

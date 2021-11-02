@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="fragments/qna_head :: qna_head('FAQ | 자주 묻는 질문')">
+<body>
+	<nav th:replace="fragments/common.html :: nav-top"></nav>
+	<!-- 밑줄: 디자인 요소 다운하여 사용 -->
+	<div class="nav-border"></div>
+	<div class="Title">
+		<label class="Title_text">FAQ | 자주 묻는 질문</label>
+		
+		<div class="Vector_13"></div>
+	</div>
+	<div class="Section">
+		<input id="sessionNickname" type="hidden"
+			th:value="${session.memnickname}" />
+		<div class="ContentBox" th:each="post:${postList}">
+			<a class="link" id="index" th:attrappend="id=${postStat.index}"
+				name="postno" th:href="@{/faq/viewpost(postno=${post.postno})}">
+				<div class="Post_title" th:text="${post.title}"></div>
+				<div class="Post_content" th:text="${post.content}"></div>
+				<div class="Post_etc">
+					<div class="Nickname">
+						<img class="img_16" src="../img/board/User.png"> <label
+							class="text" th:if="${post.isanon} == 0"
+							th:text="${post.nickname}"></label> <label class="text"
+							th:if="${post.isanon} == 1">익명</label>
+					</div>
+					<div class="Post_date"
+						th:text="${#dates.format(post.postdate, 'yyyy-MM-dd HH시 mm분')}"></div>
+				</div>
+			</a>
+		</div>
+	</div>
+</body>
+</html>
