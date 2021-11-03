@@ -105,15 +105,17 @@ public class MemberController {
 		try {
 			MemberVO m = new MemberVO(mememail,mempw); 
 			String memnickname = memberService.login(m);
-			System.out.println(memnickname);
-
 			if(memnickname!=null) {
-				HttpSession session=request.getSession();				
+				HttpSession session=request.getSession();		
+				String logout = "<span id=\"logoutBtn\">로그아웃</span>";
+				
 				session.setAttribute("member", m);
 				session.setAttribute("email", mememail);
 				session.setAttribute("memnickname", memnickname);
+				
+				loginjson.put("mememail", mememail);
 				loginjson.put("memnickname", memnickname);
-				System.out.println(memnickname);
+				loginjson.put("logout", logout);
 			} else {
 				loginjson.put("failed","회원 정보 없음");
 			}
