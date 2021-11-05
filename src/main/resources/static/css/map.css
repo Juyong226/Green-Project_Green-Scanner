@@ -626,7 +626,19 @@ input::placeholder{
 	padding: 5.5px 0px;
 	display: flex;
 	flex-direction: column;
-	justify-content: flex-end;
+	justify-content: space-between;
+}
+
+.chall-main-link {
+	width: 10%;
+	font-family: GmarketSans;
+	font-size: 1.5rem;
+	font-weight: 700;
+	color: #4cbd73; 
+}
+
+.chall-main-link a img {
+	vertical-align: bottom;
 }
 
 .chall-cont-top-main {
@@ -640,7 +652,7 @@ input::placeholder{
 .chall-cont-top-title {
 	font-size: 1.8rem;
 	font-weight: 700;
-	font-height: 1.5;
+	line-height: 1.5;
 }
 
 #chall-all-feed {
