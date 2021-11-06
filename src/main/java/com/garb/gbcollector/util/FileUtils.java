@@ -22,6 +22,7 @@ public class FileUtils {
 	
 	private final String toDay = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 	private final String feedImgUploadPath = Paths.get("C:", "GreenScanner", "upload", "challenge", toDay).toString();
+	private final long maxImageSize = 5 * 1024 * 1024;
 	
 	/*
 	 * 서버에 생성(저장)할 파일의 이름으로 쓸 랜덤 문자열 반환
@@ -32,19 +33,25 @@ public class FileUtils {
 	}
 	
 	/*
-	 * 파일의 확장자가 이미지인지 아닌지 검사하여 boolean값을 반환
-	 * @param extention: 파일의 확장자
+	 * 파일의 크기와 확장자를 검사하여 유효한 파일인지 아닌지 boolean값을 반환
+	 * @param image: 파일
 	 * @return boolean
 	 * */
-	public final boolean isValidImage(String extention) {
-		final String[] validExts = {"jpeg", "jpg", "png"};
-		int flag = 0;
-		for(int i=0; i<validExts.length; i++) {
-			if(extention.equalsIgnoreCase(validExts[i])) {
-				flag = 1;
+	public final boolean isValidImage(MultipartFile image) {
+		if(image.getSize() < maxImageSize) {
+			/* 원본파일에서 확장자 얻기 */
+			final String extention = FilenameUtils.getExtension(image.getOriginalFilename());
+			final String[] validExts = {"jpeg", "jpg", "png"};
+			int flag = 0;
+			for(int i=0; i<validExts.length; i++) {
+				if(extention.equalsIgnoreCase(validExts[i])) {
+					flag = 1;
+				}
 			}
+			return (flag == 1);
+		} else {
+			return false;
 		}
-		return (flag == 1);
 	}
 	
 	/*
@@ -70,12 +77,10 @@ public class FileUtils {
 				System.out.println("0.\n size: " + image.getSize() + "\n empty여부: " + image.isEmpty() + "\n filename: " + image.getOriginalFilename() + "\n toString: " + image.toString());
 				System.out.println("======================================");
 				if(image.isEmpty() == false) {
-					/* 원본파일에서 확장자 얻기 */
-					final String extention = FilenameUtils.getExtension(image.getOriginalFilename());
 					/* 파일 확장자 유효성 검사 */
-					if(isValidImage(extention)) {
+					if(isValidImage(image)) {
 						/* 서버에 저장할 파일명 만들기 (랜덤 문자열 + 원본 확장자) */
-						final String saveName = getRandomString() + "." + extention;
+						final String saveName = getRandomString() + "." + FilenameUtils.getExtension(image.getOriginalFilename());
 						/* 업로드 경로에 saveName으로 파일 생성*/
 						File target = new File(feedImgUploadPath, saveName);
 						image.transferTo(target);
