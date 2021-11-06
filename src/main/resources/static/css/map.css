@@ -630,7 +630,8 @@ input::placeholder{
 }
 
 .chall-main-link {
-	width: 10%;
+	width: 11%;
+	margin-top: 12px;
 	font-family: GmarketSans;
 	font-size: 1.5rem;
 	font-weight: 700;
@@ -638,7 +639,7 @@ input::placeholder{
 }
 
 .chall-main-link a img {
-	vertical-align: bottom;
+	vertical-align: middle;
 }
 
 .chall-cont-top-main {
