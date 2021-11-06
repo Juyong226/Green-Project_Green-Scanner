@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.garb.gbcollector.web.service.MemberService;
 import com.garb.gbcollector.web.vo.MemberVO;
+import com.garb.gbcollector.util.Log;
 
 @Controller
 public class MemberController {
 	
+	private Log log = new Log();
 	@Autowired
 	MemberService memberService;
 	@RequestMapping(value = "emailChk.do", 
@@ -80,12 +82,12 @@ public class MemberController {
 			//로그아웃 요청 시 먼저 세션의 만료 여부를 검사하고
 			//만료 시에는 session.invalidate()를 실행하지 않고 로그아웃되었다는 메세지만 리턴
 			if(session != null) {
-				System.out.println("세션 존재");
+				log.TraceLog("세션 존재");
 				session.invalidate();
 				resJson.put("success", "로그아웃 되었습니다.");
 				return resJson.toJSONString();
 			} else {
-				System.out.println("세션 만료");
+				log.TraceLog("세션 만료");
 				resJson.put("sessionNull", "로그아웃 되었습니다.");
 				return resJson.toJSONString();
 			}		
@@ -105,7 +107,7 @@ public class MemberController {
 		try {
 			MemberVO m = new MemberVO(mememail,mempw); 
 			String memnickname = memberService.login(m);
-			System.out.println(memnickname);
+			log.TraceLog(memnickname);
 
 			if(memnickname!=null) {
 				HttpSession session=request.getSession();				
@@ -113,7 +115,7 @@ public class MemberController {
 				session.setAttribute("email", mememail);
 				session.setAttribute("memnickname", memnickname);
 				loginjson.put("memnickname", memnickname);
-				System.out.println(memnickname);
+				log.TraceLog(memnickname);
 			} else {
 				loginjson.put("failed","회원 정보 없음");
 			}

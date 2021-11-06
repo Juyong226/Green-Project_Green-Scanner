@@ -18,10 +18,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.garb.gbcollector.web.service.GarbageService;
 import com.garb.gbcollector.web.vo.GarbageVO;
+import com.garb.gbcollector.util.Log;
 
 @Controller
 public class GarbageController {
 	
+	private Log log = new Log();
 	@Autowired
 	GarbageService garbageService;
 	
@@ -89,13 +91,13 @@ public class GarbageController {
 		}
 		
 		stopWatch.stop();
-		System.out.println(stopWatch.prettyPrint());
+		log.TraceLog(stopWatch.prettyPrint());
 		return json.toJSONString();
 		
 		
 		/*
 		if(flag!=1) {
-			System.out.println("일치 텍스트 없음");
+			log.TraceLog("일치 텍스트 없음");
 		}
 		//garbagedmfound: 화면에 출력 or tts로 음성합성에 사용할 분리배출정보 데이터 
 		

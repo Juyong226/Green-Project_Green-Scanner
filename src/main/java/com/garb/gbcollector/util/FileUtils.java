@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,13 +15,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.garb.gbcollector.web.vo.UploadImageVO;
+import com.garb.gbcollector.util.Log;
 
 @Component
 public class FileUtils {
 	
 	private final String toDay = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 	private final String feedImgUploadPath = Paths.get("C:", "GreenScanner", "upload", "challenge", toDay).toString();
-	
+	private Log log = new Log();
 	/*
 	 * 서버에 생성(저장)할 파일의 이름으로 쓸 랜덤 문자열 반환
 	 * @return 랜덤 문자열
@@ -66,9 +66,9 @@ public class FileUtils {
 		/* 파일 개수만큼 forEach 실행 */
 		for(MultipartFile image : images) {
 			try {
-				System.out.println("======================================");
-				System.out.println("0.\n size: " + image.getSize() + "\n empty여부: " + image.isEmpty() + "\n filename: " + image.getOriginalFilename() + "\n toString: " + image.toString());
-				System.out.println("======================================");
+				log.TraceLog("======================================");
+				log.TraceLog("0.\n size: " + image.getSize() + "\n empty여부: " + image.isEmpty() + "\n filename: " + image.getOriginalFilename() + "\n toString: " + image.toString());
+				log.TraceLog("======================================");
 				if(image.isEmpty() == false) {
 					/* 원본파일에서 확장자 얻기 */
 					final String extention = FilenameUtils.getExtension(image.getOriginalFilename());
@@ -109,9 +109,9 @@ public class FileUtils {
 		LocalDate insertTime = LocalDate.ofInstant(image.getInsertTime().toInstant(), ZoneId.systemDefault());
 		String feedImgDir = Paths.get("C:", "GreenScanner", "upload", "challenge", insertTime.format(DateTimeFormatter.ofPattern("yyyyMMdd"))).toString();
 		File target = new File(feedImgDir, image.getSaveName());
-		System.out.println("======================================");
-		System.out.println("feedImgDir: " + feedImgDir + "\ntargetFile: " + target.toString());
-		System.out.println("======================================");
+		log.TraceLog("======================================");
+		log.TraceLog("feedImgDir: " + feedImgDir + "\ntargetFile: " + target.toString());
+		log.TraceLog("======================================");
 		return target;
 	}
 }

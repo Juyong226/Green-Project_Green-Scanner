@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
+import com.garb.gbcollector.util.Log;
 import com.garb.gbcollector.web.vo.PersonalChallengeVO;
 
 public class GSCalendar {
@@ -17,7 +17,7 @@ public class GSCalendar {
 	
 	private static final GSCalendar gsCalendar = new GSCalendar();
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-	
+	private Log log = new Log();
 	// Constructor	
 	private GSCalendar() {
 		
@@ -30,13 +30,13 @@ public class GSCalendar {
 	}
 	
 	public String getCurrentTime() {
-		System.out.println("gsCalendar.getCurrentTime()");
-		System.out.println(dateFormat.format(new Date()));
+		log.TraceLog("gsCalendar.getCurrentTime()");
+		log.TraceLog(dateFormat.format(new Date()));
 		return dateFormat.format(new Date());
 	}
 	
 	public String getEndDate(String startDate, String period) throws GbcException {
-		System.out.println("gsCalendar.getEndDate()");
+		log.TraceLog("gsCalendar.getEndDate()");
 		int stringToInt = Integer.parseInt(period);
 		Date date;
 		
@@ -49,7 +49,7 @@ public class GSCalendar {
 		
 		cal.setTime(date);
 		cal.add(Calendar.DATE, stringToInt);
-		System.out.println(dateFormat.format(cal.getTime()));
+		log.TraceLog(dateFormat.format(cal.getTime()));
 		
 		return dateFormat.format(cal.getTime());
 	}
