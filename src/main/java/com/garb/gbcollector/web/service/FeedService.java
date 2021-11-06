@@ -89,7 +89,7 @@ public class FeedService {
 				queryResult = 0;
 			}
 		}
-		return (queryResult == -1 || queryResult == 1);
+		return (queryResult == -1);
 	}
 	
 	public FeedVO getFeedDetail(int feedNo) {		

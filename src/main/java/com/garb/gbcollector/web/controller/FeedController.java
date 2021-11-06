@@ -96,7 +96,7 @@ public class FeedController extends UiUtils {
 				params.setPostDate(challengeService.getCurrentTime());
 				boolean isRegistered = feedService.registerFeed(params, challengeNum, images);
 				if(isRegistered == false) {
-					return showMessageWithRedirection("피드를 등록할 수 없습니다.", redirectURI, Method.GET, null, model);
+					return showMessageWithRedirection("피드를 등록할 수 없습니다.\n(한 챌린지 당 하루에 1개의 피드만 작성이 가능합니다.)", redirectURI, Method.GET, null, model);
 				}	
 			}
 		} catch (DataAccessException e) {

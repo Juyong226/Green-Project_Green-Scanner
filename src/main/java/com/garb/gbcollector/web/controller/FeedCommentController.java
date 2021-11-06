@@ -1,5 +1,6 @@
 package com.garb.gbcollector.web.controller;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -119,6 +120,9 @@ public class FeedCommentController extends UiUtils {
 				model.addAttribute("nickname", session.getAttribute("memnickname"));
 				return "challenge/feed/partial-content :: cmt-regi";
 			} catch (DataAccessException e) {
+				e.printStackTrace();
+				return showMessageWithRedirection("데이터베이스 처리 과정에 문제가 발생하였습니다.", redirectURI, Method.GET, null, model);
+			} catch (SQLException e) {
 				e.printStackTrace();
 				return showMessageWithRedirection("데이터베이스 처리 과정에 문제가 발생하였습니다.", redirectURI, Method.GET, null, model);
 			} catch (Exception e) {

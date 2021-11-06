@@ -1,5 +1,6 @@
 package com.garb.gbcollector.web.service;
 
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class FeedCommentService {
 	@Autowired
 	private FeedCommentDAO feedCommentDAO;
 	
-	public FeedCommentVO registerComment(FeedCommentVO params) {
+	public FeedCommentVO registerComment(FeedCommentVO params) throws SQLException {
 		int queryResult = 0;
 		if(params.getIdx() == null) {
 			queryResult = feedCommentDAO.insertComment(params);
