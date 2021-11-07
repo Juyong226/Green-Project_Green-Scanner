@@ -35,7 +35,6 @@ class CommentTest {
 	@Test
 	public void deleteComment() {
 		commentService.deleteComment((Integer) 10); // 삭제할 댓글 번호
-
 		getCommentList();
 	}
 
@@ -43,8 +42,6 @@ class CommentTest {
 	public void getCommentList() {
 		FeedCommentVO params = new FeedCommentVO();
 		params.setFeedNo((Integer) 61); // 댓글을 추가할 게시글 번호
-
-		System.out.println(commentService.getCommentList(params));
 	}
 
 }

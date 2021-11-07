@@ -10,10 +10,12 @@ import com.garb.gbcollector.web.dao.BoardDAO;
 import com.garb.gbcollector.web.dao.FAQBoardDAO;
 import com.garb.gbcollector.web.vo.BoardReplyVO;
 import com.garb.gbcollector.web.vo.BoardVO;
+import com.garb.gbcollector.util.Log;
 
 @Service
 public class FAQBoardService {
-
+    
+    private Log log = new Log();
     @Autowired
     FAQBoardDAO faqboardDAO;
 
@@ -34,7 +36,7 @@ public class FAQBoardService {
     }
 
     public void insertPost(BoardVO post) {
-    	System.out.println("insertPost service 진입");
+    	log.TraceLog("insertPost service 진입");
     	faqboardDAO.insertPost(post);
     }
 

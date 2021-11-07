@@ -9,11 +9,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.garb.gbcollector.web.service.ChallengeService;
 import com.garb.gbcollector.web.vo.PersonalChallengeVO;
 
-import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
+import com.garb.gbcollector.util.Log;
 
 @SpringBootTest
 public class ChallengeTest {
-	
+
+	private Log log = new Log();
 	@Autowired
 	ChallengeService challengeService;
 	
@@ -35,13 +36,13 @@ public class ChallengeTest {
 			int result = challengeService.createChallenge(params);
 			if(result == 1) {
 				PersonalChallengeVO pc = challengeService.getPersonalChallenge(params.getChallengeNum());
-				System.out.println("============================================");
-				System.out.println(pc.toString());
-				System.out.println("============================================");
+				log.TraceLog("============================================");
+				log.TraceLog(pc.toString());
+				log.TraceLog("============================================");
 			} else {
-				System.out.println("============================================");
-				System.out.println("챌린지 등록 실패");
-				System.out.println("============================================");
+				log.TraceLog("============================================");
+				log.TraceLog("챌린지 등록 실패");
+				log.TraceLog("============================================");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -56,16 +57,16 @@ public class ChallengeTest {
 			int result = challengeService.updateChallenge(params, newPeriod);
 			if(result == 100) {
 				PersonalChallengeVO pc = challengeService.getPersonalChallenge(params.getChallengeNum());
-				System.out.println("============================================");
-				System.out.println("수정 실패");
-				System.out.println(pc.toString());
-				System.out.println("============================================");
+				log.TraceLog("============================================");
+				log.TraceLog("수정 실패");
+				log.TraceLog(pc.toString());
+				log.TraceLog("============================================");
 			} else {
 				PersonalChallengeVO pc = challengeService.getPersonalChallenge(params.getChallengeNum());
-				System.out.println("============================================");
-				System.out.println("수정 성공");
-				System.out.println(pc.toString());
-				System.out.println("============================================");
+				log.TraceLog("============================================");
+				log.TraceLog("수정 성공");
+				log.TraceLog(pc.toString());
+				log.TraceLog("============================================");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

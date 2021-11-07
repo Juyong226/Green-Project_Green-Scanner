@@ -30,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.garb.gbcollector.constant.Method;
 import com.garb.gbcollector.util.UiUtils;
 import com.garb.gbcollector.util.UploadFileException;
+import com.garb.gbcollector.util.Log;
 import com.garb.gbcollector.web.service.ChallengeService;
 import com.garb.gbcollector.web.service.FeedService;
 import com.garb.gbcollector.web.vo.FeedPaginationVO;
@@ -45,7 +46,7 @@ public class FeedController extends UiUtils {
 	private FeedService feedService;
 	@Autowired
 	private ChallengeService challengeService;
-	
+	private Log log = new Log();
 	/*피드 글 쓰기 페이지 요청*/
 	@GetMapping(value = "/{challengeNum}/set")
 	public String openWritePage(@RequestParam(value = "feedNo", required = false) Integer feedNo, 
@@ -117,7 +118,7 @@ public class FeedController extends UiUtils {
 	@ResponseBody
 	public String duplicateCheck(HttpServletRequest request) {
 		
-		System.out.println("요청들어옴: POST /duplicate_check with challengeNum = " + request.getParameter("challengeNum"));
+		log.TraceLog("요청들어옴: POST /duplicate_check with challengeNum = " + request.getParameter("challengeNum"));
 		HttpSession session = request.getSession(false);
 		JSONObject resJson = new JSONObject();
 		if(session != null) {
@@ -164,9 +165,9 @@ public class FeedController extends UiUtils {
 			params.setEndIdx(Integer.toString(totalFeedCnt));
 		}
 		List<FeedVO> feedList = feedService.getAllFeedList(params);
-		System.out.println("========================================================================================");
-		System.out.println("getAllFeedList()에서 리턴하는 feedList: " + feedList);
-		System.out.println("========================================================================================");
+		log.TraceLog("========================================================================================");
+		log.TraceLog("getAllFeedList()에서 리턴하는 feedList: " + feedList);
+		log.TraceLog("========================================================================================");
 		model.addAttribute("idx", params.getStartIdx());
 		model.addAttribute("feedList", feedList);
 		model.addAttribute("totalFeedCnt", totalFeedCnt);
@@ -200,7 +201,7 @@ public class FeedController extends UiUtils {
 	public String deleteFeed(@PathVariable("challengeNum") String challengeNum,
 			@PathVariable("feedNo") String feedNo, HttpServletRequest request, Model model) {
 		
-		System.out.println("요청들어옴: POST /deleteFeed with challengeNum/feedNo = " + challengeNum + "/" + feedNo);
+		log.TraceLog("요청들어옴: POST /deleteFeed with challengeNum/feedNo = " + challengeNum + "/" + feedNo);
 		HttpSession session = request.getSession(false);
 		String redirectURI = "/challenge/my-challenge/" + challengeNum;
 		if(session == null) {

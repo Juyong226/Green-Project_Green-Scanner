@@ -43,8 +43,6 @@ public class NaverController {
 		}
 		int numIndex=random.nextInt(9999)+1000; //4자리 랜덤 정수를 생성1
 		mempw+=numIndex;
-		
-		System.out.println("음");
 		JSONObject naverJson = new JSONObject();
 		
 		try {
