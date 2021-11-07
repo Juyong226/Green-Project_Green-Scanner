@@ -93,6 +93,7 @@ public class GoogleController {
 					String mememail = (String) returngoogledata.get("EMAIL");
 					String memnickname = (String) returngoogledata.get("NICKNAME");
 					Integer forgooglemememail = 200000;
+					String logout = "<span id=\"logoutBtn\">로그아웃</span>";
 					
 					MemberVO g = new MemberVO(mememail, forgooglemememail);
 					
@@ -100,8 +101,11 @@ public class GoogleController {
 					session.setAttribute("email", mememail);
 					session.setAttribute("memnickname", memnickname);
 					
-					googleloginjson.put("googleredirect","https://localhost" );
 					googleloginjson.put("memnickname",memnickname);
+					googleloginjson.put("mememail", mememail);
+					googleloginjson.put("googleredirect","https://localhost" );
+					googleloginjson.put("logout", logout);
+
 					
 					return googleloginjson.toJSONString();
 				}catch(Exception e) {

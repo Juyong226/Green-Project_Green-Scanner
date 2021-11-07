@@ -1,5 +1,6 @@
 package com.garb.gbcollector.web.controller;
 
+import java.util.Enumeration;
 import java.util.Map;
 import java.util.Random;
 
@@ -63,7 +64,6 @@ public class NaverController {
 	@ResponseBody
 	public String naverSignUp(HttpServletRequest request, HttpServletResponse response) {		
 		HttpSession session = request.getSession();
-		
 		Integer navermemid = Integer.parseInt(request.getParameter("navermemid"));
 		String naveruseremail = request.getParameter("naveruseremail");
 		String naverusername = request.getParameter("naverusername");
@@ -74,12 +74,11 @@ public class NaverController {
 			MemberVO m = new MemberVO(navermemid);
 			Map returnnaverdata = naverMemberService.naverIdChk(m);
 			if(returnnaverdata == null) {
-				
+			
 				naverloginjson.put("naverredirect","https://localhost/html/naverMemberInsert.html" );
 				naverloginjson.put("naveruseremail",naveruseremail);
 				naverloginjson.put("naverusername",naverusername);
 				naverloginjson.put("returnnaverid", 0);
-				
 				
 				return naverloginjson.toJSONString();
 			}else {
@@ -87,6 +86,7 @@ public class NaverController {
 					String mememail = (String) returnnaverdata.get("EMAIL");
 					String memnickname = (String) returnnaverdata.get("NICKNAME");
 					Integer fornavermememail = 100000;
+					String logout = "<span id=\"logoutBtn\">로그아웃</span>";
 					
 					MemberVO n = new MemberVO(mememail, fornavermememail);
 					
@@ -94,8 +94,10 @@ public class NaverController {
 					session.setAttribute("email", mememail);
 					session.setAttribute("memnickname", memnickname);
 					
-					naverloginjson.put("memnickname",memnickname);				
+					naverloginjson.put("memnickname",memnickname);	
+					naverloginjson.put("mememail", mememail);
 					naverloginjson.put("naverredirect","https://localhost");
+					naverloginjson.put("logout", logout);
 					
 					return naverloginjson.toJSONString();
 				}catch(Exception e) {

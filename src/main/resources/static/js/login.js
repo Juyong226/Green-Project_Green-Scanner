@@ -15,7 +15,7 @@ $(function(){
 			  	if(obj.success) { 	
 				  	alert(obj.success);
 				  	$.removeCookie("nick-cookie", {path: '/' }); //path를 명시하여 쿠키가 잘 삭제 됨.
-				  	$.removeCookie("logout-btn-cookie", {path: '/' });
+					$(".login-nickname").hide();
 				  	$("#login-btn").show();
 				  	$("#join-btn").show();
 					location.reload();
@@ -46,15 +46,8 @@ $(function(){
 			function(data, status) {
 			  	var obj = JSON.parse(data);
 			  	if(obj.memnickname) {
-				  	
-				  	let nickname = ['<span id="nickname">' + obj.memnickname + '</span>'].join('');
-					let logout = ['<span id="logoutBtn">로그아웃</span>'].join('');
-					
-					$.cookie('nick-cookie', nickname, {expires: 1, path: '/'});
-					$.cookie('logout-btn-cookie', logout, {expires: 1, path: '/'});
-					
-					location.replace(document.referrer);
-					
+					$.cookie('nick-cookie', data, {expires: 1, path: '/'});
+					location.replace(document.referrer);					
 				} else if(obj.failed) {
 					alert('입력하신 정보와 일치하는 회원이 없습니다.\n이메일과 비밀번호를 다시 확인해주세요.');
 				} else if(obj.denied) {
@@ -65,11 +58,12 @@ $(function(){
 	
 	//화면에 로그인 정보(쿠키)를 표시하는 함수
 	function fn_login_data() {
-		if($.cookie("nick-cookie") && $.cookie("logout-btn-cookie")) {
+		if($.cookie("nick-cookie")){
+			logindata = JSON.parse($.cookie("nick-cookie"));
 			$("#login-btn").hide();
 			$("#join-btn").hide();
-			$(".login-nickname").html($.cookie("nick-cookie"));
-			$(".join-logout").html($.cookie("logout-btn-cookie"));
+			$(".login-nickname").html(logindata.memnickname);
+			$(".join-logout").html(logindata.logout);
 		}
 	}
 	
@@ -85,7 +79,6 @@ $(function(){
 					if(obj.sessionNull) {
 						alert(obj.sessionNull);
 						$.removeCookie("nick-cookie", {path: '/' });
-				  		$.removeCookie("logout-btn-cookie", {path: '/' });
 				  		$("#login-btn").show();
 				  		$("#join-btn").show();
 						location.reload();
