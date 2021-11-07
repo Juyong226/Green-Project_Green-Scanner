@@ -1,18 +1,22 @@
 $(document).on("click", "#check-email-btn", function(event){
-	 if ($('#signup-form-email').val() == '') {
+	var space = /\s/g;
+	var email = $('#signup-form-email').val();
+	var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+	if (email == '') {
 	      alert('이메일을 입력해주세요.')
 	      return;
 	    }	
-	 var regExp = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-	 var email=$("#signup-form-email").val();
-	if (email.match(regExp) != null) {
-			
-	} 
-	else{ 
+	if (email.match(regExp) == null) {	
 		alert('이메일 형식에 맞춰주세요. ex)email@naver.com'); 
 		$("#signup-form-email").focus();
 		return false;
-	}	
+	}
+	else if(name.match(space)){
+		alert("이메일에는에는 공백이 포함될 수 없습니다.");
+		$("#name").focus();
+		return false;
+	}
+		
 	$.post("../emailChk.do",
 			  {			   			  
 				email:email	
@@ -37,34 +41,33 @@ $(document).on("click", "#check-nickname-btn", function(event){
 		alert('닉네임을 입력해주세요.');
 		$("#signup-form-nickname").focus();
 		return false;
-	} else if(nickName.length < 2) {
-		alert('닉네임을 2자 이상 12자 이하로 입력해주세요.');
+	} else if(nickName.length < 2 || nickName.length > 8) {
+		alert('닉네임을 2자 이상 8자 이하로 입력해주세요.');
 		$("#signup-form-nickname").focus();
 		return false;
-	} else if(nickName.length > 12) {
-		alert('닉네임을 2자 이상 12자 이하로 입력해주세요.');
-		$("#signup-form-nickname").focus();
-		return false;
-	} else {
-		$.post('../checkNickname.do',
-				{
-					nickName: nickName
-				},
-				function(data, status) {
-					var obj = JSON.parse(data);
-					var result = obj.checked;
-					if(result == 0) {
-						$('#signup-form-nickname').attr('check_result', 'success');
-						alert('사용가능한 닉네임입니다.');
-					} else {
-						alert('중복된 닉네임입니다.');
-						$("#signup-form-nickname").focus();
-					}
-				});
-	}
+	} 
+	
+	
+	$.post('../checkNickname.do',
+		{
+			nickName: nickName
+			},
+			function(data, status) {
+				var obj = JSON.parse(data);
+				var result = obj.checked;
+				if(result == 0) {
+					$('#signup-form-nickname').attr('check_result', 'success');
+					alert('사용가능한 닉네임입니다.');
+				} else {
+					alert('중복된 닉네임입니다.');
+					$("#signup-form-nickname").focus();
+				}
+			});
+	
 });
 
-$(document).on("click", "#login-join-btn-n", function(event){//회원 가입 처리
+$(document).on("click", "#login-join-btn-s", function(event){//회원 가입 처리
+	var oauth = JSON.parse($.cookie('tosnssignup')).oauth;
 	var name=$("#signup-form-name").val();
 	var email=$("#signup-form-email").val();
 	var nickname=$("#signup-form-nickname").val();
@@ -95,13 +98,13 @@ $(document).on("click", "#login-join-btn-n", function(event){//회원 가입 처
 		return false;
 	}
 	else if(nickname.length < 2){
-		alert("닉네임은 2글자 이상 12글자 이하로 입력해주세요.");
+		alert("닉네임은 2글자 이상 8글자 이하로 입력해주세요.");
 		//focus함수는 #name의 창에 커서를 위치시켜 바로 입력이 가능하게 한다.
 		$("#signup-form-nickname").focus();
 		return false;
 	}
-	else if(nickname.length > 12){
-		alert("닉네임은 2글자 이상 12글자 이하로 입력해주세요.");
+	else if(nickname.length > 8){
+		alert("닉네임은 2글자 이상 8글자 이하로 입력해주세요.");
 		$("#signup-form-nickname").focus();
 		return false;
 	}
@@ -111,7 +114,7 @@ $(document).on("click", "#login-join-btn-n", function(event){//회원 가입 처
 		$("#signup-form-nickname").focus();
 		return false;
 	}
-	else if($('#nickname').attr('check_result') == 'fail') {
+	else if($('#signup-form-nickname').attr('check_result') == 'fail') {
 		alert("닉네임 중복체크를 해주시기 바랍니다.");
 	    $('#signup-form-nickname').focus();
 	    return false;
@@ -119,12 +122,18 @@ $(document).on("click", "#login-join-btn-n", function(event){//회원 가입 처
 
 	else if(confirm("회원가입을 하시겠습니까?")){
         //alert("회원가입을 축하합니다!");
-        
+		if(oauth=="naver"){
+			memberInsert = "../naverMemberInsert.do";
+		}else{
+			memberInsert = "../googleMemberInsert.do"
+		}
     }else{
     	return false;
     }
 	
-	$.post("../googleMemberInsert.do",
+	
+	
+	$.post(memberInsert,
 		  {
 		    name:name,
 		    email:email,

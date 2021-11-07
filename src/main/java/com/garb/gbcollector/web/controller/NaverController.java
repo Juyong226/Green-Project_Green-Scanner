@@ -43,17 +43,17 @@ public class NaverController {
 		}
 		int numIndex=random.nextInt(9999)+1000; //4자리 랜덤 정수를 생성1
 		mempw+=numIndex;
-		JSONObject naverJson = new JSONObject();
+		JSONObject snsJson = new JSONObject();
 		
 		try {
 			MemberVO m =new MemberVO(mememail, mempw, memname,memnickname,navermemid);
 			naverMemberService.navermemberInsert(m);
-			naverJson.put("success", memnickname+ "님 회원가입을 축하합니다!");
+			snsJson.put("success", memnickname+ "님 회원가입을 축하합니다!");
 			
-			return naverJson.toJSONString();			
+			return snsJson.toJSONString();			
 		}catch(Exception e) {
-			naverJson.put("failed", e.getMessage());
-			return naverJson.toJSONString();
+			snsJson.put("failed", e.getMessage());
+			return snsJson.toJSONString();
 		}
 			
 	}
@@ -68,19 +68,20 @@ public class NaverController {
 		String naveruseremail = request.getParameter("naveruseremail");
 		String naverusername = request.getParameter("naverusername");
 		session.setAttribute("navermemid",navermemid);
-		JSONObject naverloginjson = new JSONObject();
+		JSONObject snsloginjson = new JSONObject();
 		
 		try {
 			MemberVO m = new MemberVO(navermemid);
 			Map returnnaverdata = naverMemberService.naverIdChk(m);
 			if(returnnaverdata == null) {
 			
-				naverloginjson.put("naverredirect","https://localhost/html/naverMemberInsert.html" );
-				naverloginjson.put("naveruseremail",naveruseremail);
-				naverloginjson.put("naverusername",naverusername);
-				naverloginjson.put("returnnaverid", 0);
+				snsloginjson.put("snsredirect","https://localhost/html/snsMemberInsert.html" );
+				snsloginjson.put("snsuseremail",naveruseremail);
+				snsloginjson.put("snsusername",naverusername);
+				snsloginjson.put("oauth", "naver");
+				snsloginjson.put("returnsnsid", 0);
 				
-				return naverloginjson.toJSONString();
+				return snsloginjson.toJSONString();
 			}else {
 				try {
 					String mememail = (String) returnnaverdata.get("EMAIL");
@@ -94,12 +95,12 @@ public class NaverController {
 					session.setAttribute("email", mememail);
 					session.setAttribute("memnickname", memnickname);
 					
-					naverloginjson.put("memnickname",memnickname);	
-					naverloginjson.put("mememail", mememail);
-					naverloginjson.put("naverredirect","https://localhost");
-					naverloginjson.put("logout", logout);
+					snsloginjson.put("memnickname",memnickname);	
+					snsloginjson.put("mememail", mememail);
+					snsloginjson.put("snsredirect","https://localhost");
+					snsloginjson.put("logout", logout);
 					
-					return naverloginjson.toJSONString();
+					return snsloginjson.toJSONString();
 				}catch(Exception e) {
 					
 				}
@@ -107,9 +108,9 @@ public class NaverController {
 			}
 			
 		}catch(Exception e) {
-			naverloginjson.put("failed", e.getMessage());
-			return naverloginjson.toJSONString();
+			snsloginjson.put("failed", e.getMessage());
+			return snsloginjson.toJSONString();
 		}
-		return naverloginjson.toJSONString();
+		return snsloginjson.toJSONString();
 	}
 }

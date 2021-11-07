@@ -14,14 +14,14 @@ function naverSignInCallback(){
 		},
 		function(data,status){
 			let obj = JSON.parse(data);
-			var returnnaverid = obj.returnnaverid;
-			if (returnnaverid==0){	
-				$.cookie("tonaversignup", data, {expires:1, path:'/'});
-				location.replace(obj.naverredirect);
+			var returnsnsid = obj.returnsnsid;
+			if (returnsnsid==0){	
+				$.cookie("tosnssignup", data, {expires:1, path:'/'});
+				location.replace(obj.snsredirect);
 				}
 			else{
 				$.cookie("nick-cookie", data, {expires:1, path:'/'});
-				location.replace(obj.naverredirect);
+				location.replace(obj.snsredirect);
 			}
 				
 		}

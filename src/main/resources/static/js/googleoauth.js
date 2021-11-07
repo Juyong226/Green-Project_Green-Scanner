@@ -16,14 +16,14 @@ function onSignIn(googleUser){
 			},
 			function(data, status){
 				let obj = JSON.parse(data);
-				var returngoogleid = obj.returngoogleid;
-				if (returngoogleid == 0){
-					$.cookie("togooglesignup", data, {expires: 1, path: '/'});
-					document.location.replace(obj.googleredirect);
+				var returnsnsid = obj.returnsnsid;
+				if (returnsnsid == 0){
+					$.cookie("tosnssignup", data, {expires: 1, path: '/'});
+					document.location.replace(obj.snsredirect);
 				}
 				else{
 					$.cookie("nick-cookie", data, {expires: 1, path: '/' });
-					location.replace(obj.googleredirect)
+					location.replace(obj.snsredirect)
 				}
 			}
 		)}
