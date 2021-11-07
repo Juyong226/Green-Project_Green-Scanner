@@ -7,6 +7,7 @@
 	<div class="chall-cont-body">
 		<div class="chall-cont-wrapper">
 			<div class="chall-cont-top">
+				<div class="chall-main-link"><a href="/challenge/main"><img src="/img/challenge/home.png">챌린지 홈</a></div>
 				<div class="chall-cont-top-my-detail">
 					<span class="chall-cont-top-title" th:text="${personalChallenge.challengeName}"></span>
 					<div class="my-detail-btns" th:if="${personalChallenge.isCompleted} == 0">
@@ -158,7 +159,7 @@
 		
 			const requestPage = "my"
 			const challengeNum = /*[[ ${personalChallenge.challengeNum} ]]*/;
-			const myFeedCnt = /*[[ ${myFeedCnt} ]]*/;
+			const totalFeedCnt = /*[[ ${myFeedCnt} ]]*/;
 		 	var startIdx = 1;
 		 	var searchStep = 5;
 		 	

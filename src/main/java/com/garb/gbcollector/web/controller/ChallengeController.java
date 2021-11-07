@@ -194,7 +194,7 @@ public class ChallengeController extends UiUtils {
 				String email = m.getMememail();
 				String challengeCode = code;
 				String challengeName = bc.getChallengeName();
-				String challengeNum = UUID.randomUUID().toString().replace("-", "").substring(0, 11);
+				String challengeNum = UUID.randomUUID().toString().replace("-", "").substring(0, 20);
 				String colorCode = request.getParameter("colorCode");
 				String period = request.getParameter("period");
 				String thumbnailURL = 	bc.getListImageURL();			

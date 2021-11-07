@@ -97,7 +97,7 @@ public class FeedController extends UiUtils {
 				params.setPostDate(challengeService.getCurrentTime());
 				boolean isRegistered = feedService.registerFeed(params, challengeNum, images);
 				if(isRegistered == false) {
-					return showMessageWithRedirection("피드를 등록할 수 없습니다.", redirectURI, Method.GET, null, model);
+					return showMessageWithRedirection("피드를 등록할 수 없습니다.\n(한 챌린지 당 하루에 1개의 피드만 작성이 가능합니다.)", redirectURI, Method.GET, null, model);
 				}	
 			}
 		} catch (DataAccessException e) {
@@ -105,7 +105,7 @@ public class FeedController extends UiUtils {
 			return showMessageWithRedirection("데이터베이스 처리 과정에 문제가 발생하였습니다.", redirectURI, Method.GET, null, model);			
 		} catch (UploadFileException e) {
 			e.printStackTrace();
-			return showMessageWithRedirection("이미지 업로드에 실패하였습니다.\n파일의 확장자가 다음과 같은 지 확인해주세요.\n[ jpg, jpeg, png ]", redirectURI, Method.GET, null, model);
+			return showMessageWithRedirection("이미지 업로드에 실패하였습니다.\n1. 파일의 확장자가 다음과 같은 지 확인해주세요. ( jpg, jpeg, png )\n2. 파일의 크기를 확인해주세요. (5MB 이하 파일만 업로드 가능)", redirectURI, Method.GET, null, model);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return showMessageWithRedirection("시스템에 문제가 발생하였습니다.", redirectURI, Method.GET, null, model);			
