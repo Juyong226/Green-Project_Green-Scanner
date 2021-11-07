@@ -29,6 +29,7 @@ import com.garb.gbcollector.web.vo.FeedPaginationVO;
 import com.garb.gbcollector.web.vo.FeedVO;
 import com.garb.gbcollector.web.vo.MemberVO;
 import com.garb.gbcollector.web.vo.PersonalChallengeVO;
+import com.garb.gbcollector.util.Log;
 
 @Controller
 @RequestMapping("challenge")
@@ -40,6 +41,7 @@ public class ChallengeController extends UiUtils {
 	FeedService feedService;
 	
 	List<BasicChallengeVO> bcList; 
+	private Log log = new Log();
 	
 	@GetMapping(value = "/main")
 	public String main(Model model, HttpServletRequest request) {
@@ -124,7 +126,7 @@ public class ChallengeController extends UiUtils {
 	@GetMapping(value = "/basic/{challengeCode}")
 	public String bcDetail(@PathVariable("challengeCode") String code, Model model, HttpServletRequest request) {
 		
-		System.out.println("요청들어옴: GET /{challengeCode}");
+		log.TraceLog("요청들어옴: GET /{challengeCode}");
 		BasicChallengeVO bc = challengeService.getBasicChallenge(code);
 		model.addAttribute("basicChallenge", bc);		
 		return "challenge/basic-detail";
@@ -134,7 +136,7 @@ public class ChallengeController extends UiUtils {
 	@ResponseBody
 	public String codeDuplicateCheck(HttpServletRequest request) {
 		
-		System.out.println("요청들어옴: POST /duplicate_check with code = " + request.getParameter("challengeCode"));
+		log.TraceLog("요청들어옴: POST /duplicate_check with code = " + request.getParameter("challengeCode"));
 		JSONObject resJson = new JSONObject();
 		String code = request.getParameter("challengeCode");
 		HttpSession session = request.getSession(false);		
@@ -161,7 +163,7 @@ public class ChallengeController extends UiUtils {
 	@GetMapping(value = "/basic/{challengeCode}/set")
 	public String setForm(@PathVariable("challengeCode") String code, Model model, HttpServletRequest request) {
 		
-		System.out.println("요청들어옴: GET /set/{challengeCode}");
+		log.TraceLog("요청들어옴: GET /set/{challengeCode}");
 		HttpSession session = request.getSession(false);			
 		if(session != null) {
 			String email = (String) session.getAttribute("mememail");
@@ -176,7 +178,7 @@ public class ChallengeController extends UiUtils {
 	@PostMapping(value = "/basic/{challengeCode}")
 	public String create(@PathVariable("challengeCode") String code, Model model, HttpServletRequest request) {
 		
-		System.out.println("요청들어옴: POST /set/{challengeCode}");
+		log.TraceLog("요청들어옴: POST /set/{challengeCode}");
 		HttpSession session = request.getSession(false);
 		String redirectURI = "/challenge/basic/" + code;		
 		if(session != null) {
@@ -236,7 +238,7 @@ public class ChallengeController extends UiUtils {
 	@ResponseBody
 	public String periodCheck(HttpServletRequest request) {
 		
-		System.out.println("요청들어옴: POST /period_check with newPeriod/challengeNum = " + request.getParameter("newPeriod") + "/" + request.getParameter("cNum"));
+		log.TraceLog("요청들어옴: POST /period_check with newPeriod/challengeNum = " + request.getParameter("newPeriod") + "/" + request.getParameter("cNum"));
 		JSONObject resJson = new JSONObject();
 		HttpSession session = request.getSession(false);	
 		if(session != null) {

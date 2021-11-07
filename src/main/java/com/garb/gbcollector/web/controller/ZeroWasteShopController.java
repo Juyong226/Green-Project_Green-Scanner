@@ -17,12 +17,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.garb.gbcollector.web.service.ZeroWasteShopService;
-import com.garb.gbcollector.web.service.ZeroWasteShopService;
 import com.garb.gbcollector.web.vo.ZeroWasteShopVO;
+import com.garb.gbcollector.util.Log;
 
 @Controller
 public class ZeroWasteShopController {
 
+	private Log log = new Log();
 	@Autowired
 	ZeroWasteShopService zeroWasteShopService;
 
@@ -31,7 +32,7 @@ public class ZeroWasteShopController {
 					produces="application/text; charset=utf8")
 	@ResponseBody
 	public String showZeroWasteShop(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("제로웨이스트 상점 위치 요청 들어옴");
+		log.TraceLog("제로웨이스트 상점 위치 요청 들어옴");
 		JSONObject resJson = new JSONObject();
 		JSONArray jsonList = new JSONArray();
 		List<Map<String, Object>> listMap = new ArrayList<Map<String, Object>>();
@@ -64,7 +65,6 @@ public class ZeroWasteShopController {
 		// 미리 선언해 둔 JsonObject에 jsonList를 "zeroWasteShopList"라는 Key 값으로 저장하여 보낸다.
 		resJson.put("zeroWasteShopList", jsonList);
 		resJson.put("code", "OK");
-		System.out.println(resJson);
 		return resJson.toJSONString();
 
 	}

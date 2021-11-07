@@ -32,6 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.garb.gbcollector.web.service.FAQBoardService;
 import com.garb.gbcollector.web.vo.BoardReplyVO;
 import com.garb.gbcollector.web.vo.BoardVO;
+import com.garb.gbcollector.util.Log;
 
 @RequestMapping("faq")
 @Controller
@@ -39,10 +40,10 @@ public class FAQController {
 	
 	@Autowired
 	FAQBoardService faqboardService;
-	
+	private Log log = new Log();
 	@GetMapping(value = "")
 	public ModelAndView boardListB(ModelAndView mav, HttpSession session) {
-		System.out.println("faq게시판 진입");
+		log.TraceLog("faq게시판 진입");
 		List<BoardVO> postList = faqboardService.getPostList();
 		mav.addObject("postList", postList);
 		mav.setViewName("faq/main");
@@ -51,11 +52,10 @@ public class FAQController {
 	
 	@GetMapping(value = "viewpost")
 	public ModelAndView viewPostPage(@RequestParam("postno") int postno, HttpServletResponse res, HttpSession session) {
-		System.out.println(postno + "번 글 보기");
+		log.TraceLog(postno + "번 글 보기");
 		ModelAndView mav = new ModelAndView();
 		BoardVO boardVO = faqboardService.viewPost(postno);
-		System.out.println(boardVO);
-		System.out.println(boardVO.getFilename());
+		log.TraceLog(boardVO.getFilename());
 		mav.addObject("post", boardVO);
 
 		addTokenToSession(mav, session);
@@ -89,10 +89,10 @@ public class FAQController {
 	@PostMapping(value = "/write")
 	public ModelAndView writePost(ModelAndView mav, @ModelAttribute("BoardVO") BoardVO boardVO, HttpSession session,
 			MultipartHttpServletRequest req) {
-		System.out.println("writePost 진입");
+		log.TraceLog("writePost 진입");
 
 		String uploadPath = System.getProperty("user.home") + "/files/";
-		System.out.println(uploadPath);
+		log.TraceLog(uploadPath);
 		MultipartFile file = req.getFile("file");
 		if (file != null && !"".equals(file.getOriginalFilename())) {
 			String fileName = file.getOriginalFilename().toLowerCase();
@@ -103,7 +103,7 @@ public class FAQController {
 					|| fileName.endsWith(".gif")
 					|| fileName.endsWith("jpeg")) {
 
-					System.out.println("파일 이름: " + fileName);
+					log.TraceLog("파일 이름: " + fileName);
 					File uploadFile = new File(uploadPath + fileName);
 
 					// 폴더 경로
@@ -111,7 +111,7 @@ public class FAQController {
 					if (!Folder.exists()) {
 						try {
 							Folder.mkdir(); // 폴더 생성
-							System.out.println("폴더 생성");
+							log.TraceLog("폴더 생성");
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -119,13 +119,13 @@ public class FAQController {
 					if (uploadFile.exists()) {
 						fileName = new Date().getTime() + fileName;
 						uploadFile = new File(uploadPath + fileName);
-						System.out.println("파일 업로드: " + uploadPath + fileName);
+						log.TraceLog("파일 업로드: " + uploadPath + fileName);
 					}
 					try {
 						file.transferTo(uploadFile);
 					} catch (Exception e) {
-						System.out.println("업로드 에러");
-						System.out.println(e);
+						log.TraceLog("업로드 에러");
+						log.TraceLog(e);
 					}
 					boardVO.setFilename(fileName);
 				}
@@ -141,16 +141,16 @@ public class FAQController {
 
 		/* form으로 전송된 요청으로부터 token값을 얻어오기 */
 		String token = req.getParameter("_csrf");
-		System.out.println("_csrf: " + token);
+		log.TraceLog("_csrf: " + token);
 
 		if (session.getAttribute("CSRF_TOKEN").equals(token)) {
-			System.out.println("토큰 일치");
+			log.TraceLog("토큰 일치");
 			faqboardService.insertPost(boardVO);
 
 			mav.setViewName("redirect:/faq");
 			return mav;
 		}
-		System.out.println("토큰값 불일치");
+		log.TraceLog("토큰값 불일치");
 		String msg = "비정상적인 접근입니다.";
 		mav.addObject("msg", msg);
 		mav.setViewName("board/error");
@@ -161,7 +161,7 @@ public class FAQController {
 	@PostMapping(value = "deletePost")
 	public ModelAndView deletePost(@RequestParam("postno") Integer postno, HttpServletRequest request,
 			ModelAndView mav) {
-		System.out.println(postno + "번 글 삭제");
+		log.TraceLog(postno + "번 글 삭제");
 		faqboardService.deletePost(postno);
 		mav.setViewName("redirect:/faq");
 		return mav;
@@ -170,7 +170,7 @@ public class FAQController {
 	/* 글 수정 페이지 가져오기 */
 	@GetMapping(value = "updatePost")
 	public ModelAndView updatePost(@RequestParam("postno") int postno, ModelAndView mav, HttpSession session) {
-		System.out.println(postno + "번 글 수정");
+		log.TraceLog(postno + "번 글 수정");
 
 		addTokenToSession(mav, session);
 
@@ -184,7 +184,7 @@ public class FAQController {
 	@PostMapping(value = "updatePostSave")
 	public String updatePostSave(@ModelAttribute("post") BoardVO boardVO, HttpSession session,
 			MultipartHttpServletRequest req) {
-		System.out.println(boardVO.getPostno() + "번 글 수정 진입");
+		log.TraceLog(boardVO.getPostno() + "번 글 수정 진입");
 
 		String uploadPath = System.getProperty("user.home") + "/files/";
 		String orgFileName = req.getParameter("orgFile");
@@ -221,10 +221,10 @@ public class FAQController {
 		}
 
 		String token = req.getParameter("_csrf");
-		System.out.println("_csrf: " + token);
+		log.TraceLog("_csrf: " + token);
 
 		if (req.getSession().getAttribute("CSRF_TOKEN").equals(token)) {
-			System.out.println("토큰 일치");
+			log.TraceLog("토큰 일치");
 			faqboardService.updatePost(boardVO);
 			return "redirect:/faq/viewpost?postno=" + boardVO.getPostno();
 		}
@@ -239,7 +239,6 @@ public class FAQController {
 		String path = "C:\\Users\\user\\files\\";
 		Resource resource = new FileSystemResource(path + filename);
 
-		System.out.println(resource);
 		if (!resource.exists())
 			return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
 
@@ -266,14 +265,14 @@ public class FAQController {
 		boardReplyVO.setNickname(nickname);
 
 		faqboardService.insertBoardReply(boardReplyVO);
-		System.out.println("요청 들어옴");
+		log.TraceLog("요청 들어옴");
 		return "redirect:/faq/viewpost?postno=" + boardReplyVO.getPostno();
 	}
 
 	/* 댓글 삭제 */
 	@PostMapping(value = "deleteReply")
 	public String deleteReply(@RequestParam("reno") Integer reno, @RequestParam("postno") int postno) {
-		System.out.println(reno + "번 댓글 삭제");
+		log.TraceLog(reno + "번 댓글 삭제");
 		faqboardService.deleteReply(reno);
 		return "redirect:/faq/viewpost?postno=" + postno;
 	}
@@ -283,7 +282,7 @@ public class FAQController {
 	public void addTokenToSession(ModelAndView mav, HttpSession session) {
 		session.setAttribute("CSRF_TOKEN", UUID.randomUUID().toString());
 		String token = (String) session.getAttribute("CSRF_TOKEN");
-		System.out.println("CSRF_TOKEN: " + token);
+		log.TraceLog("CSRF_TOKEN: " + token);
 		mav.addObject("token", token);
 	}
 	

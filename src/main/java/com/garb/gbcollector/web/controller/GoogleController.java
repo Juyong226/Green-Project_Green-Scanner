@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.garb.gbcollector.web.service.GoogleMemberService;
 import com.garb.gbcollector.web.vo.MemberVO;
+import com.garb.gbcollector.util.Log;
 
 @Controller
 public class GoogleController {
 	
+	private Log log = new Log();
 	@Autowired
 	GoogleMemberService googleMemberService;
 	
@@ -30,7 +32,7 @@ public class GoogleController {
 	public String googleMemberInsert(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
 		Double googlememid = (Double) session.getAttribute("googlememid");
-		System.out.println("googlememid"+googlememid);
+		log.TraceLog("googlememid"+googlememid);
 		String mememail = request.getParameter("email");
 		String memname = request.getParameter("name");
 		String memnickname = request.getParameter("nickname");
@@ -44,12 +46,11 @@ public class GoogleController {
 		int numIndex=random.nextInt(9999)+1000; //4자리 랜덤 정수를 생성1
 		mempw+=numIndex;
 		
-		System.out.println("음!!!");
 		JSONObject naverJson = new JSONObject();
 		
 		try {
 			MemberVO m =new MemberVO(mememail, mempw, memname,memnickname,googlememid);
-			System.out.println("구글아이디"+m.getGooglememid());
+			log.TraceLog("googleid"+m.getGooglememid());
 			googleMemberService.googlememberInsert(m);
 			naverJson.put("success", memnickname+ "님 회원가입을 축하합니다!");
 			
@@ -74,7 +75,6 @@ public class GoogleController {
 		double googlememid = Double.parseDouble(request.getParameter("googlememid"));
 		String googleuseremail = request.getParameter("googleuseremail");
 		
-		System.out.println(googlememid);
 		session.setAttribute("googlememid", googlememid);
 		JSONObject googleloginjson = new JSONObject();
 		
@@ -93,6 +93,7 @@ public class GoogleController {
 					String mememail = (String) returngoogledata.get("EMAIL");
 					String memnickname = (String) returngoogledata.get("NICKNAME");
 					Integer forgooglemememail = 200000;
+					String logout = "<span id=\"logoutBtn\">로그아웃</span>";
 					
 					MemberVO g = new MemberVO(mememail, forgooglemememail);
 					
@@ -100,8 +101,11 @@ public class GoogleController {
 					session.setAttribute("email", mememail);
 					session.setAttribute("memnickname", memnickname);
 					
-					googleloginjson.put("googleredirect","https://localhost" );
 					googleloginjson.put("memnickname",memnickname);
+					googleloginjson.put("mememail", mememail);
+					googleloginjson.put("googleredirect","https://localhost" );
+					googleloginjson.put("logout", logout);
+
 					
 					return googleloginjson.toJSONString();
 				}catch(Exception e) {
