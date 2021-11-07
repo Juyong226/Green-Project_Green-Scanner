@@ -102,14 +102,14 @@
 </body>
 <script>
 $(function(){
-	var nuemail = $.cookie('nuemail');
-	var nuname = $.cookie('nuname');
+	var tonaversignup = JSON.parse($.cookie("tonaversignup"));
+	var nuemail = tonaversignup.naveruseremail;
+	var nuname = tonaversignup.naverusername;
  	if(nuemail != "null" && nuname != "null"){
 		$('input[name=nuname]').attr('value',nuname)
 		$('input[name=nuemail]').attr('value',nuemail)
 	}else if (nuemail == "null" && nuname != "null"){
 		$('input[name=nuname]').attr('value',nuname)
-		$('input[name=nuemail]').attr('value',"")
 	}else if (nuemail != "null" && nuname == "null"){
 		$('input[name=nuemail]').attr('value',nuemail)		
 	}else{
