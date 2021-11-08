@@ -118,7 +118,7 @@
 							</div>
 						</div>
 						<div class="feed-cont">
-							<div class="swiper">
+							<div class="swiper swiper-chall-list">
 								<div class="swiper-wrapper">								
 									<div th:each="imageIdx, stat : ${feed.imageIdxs}" class="swiper-slide" th:id="|slide-img-${stat.index}|">
 										<img class="feed-images" th:src="|/challenge/feed/${feed.feedNo}/img/${imageIdx}|">

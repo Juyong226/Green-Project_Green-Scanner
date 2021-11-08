@@ -8,13 +8,27 @@
 		<div class="chall-cont-wrapper">
 			<!-- 피드 내용 -->
 			<div class="cmt-feed-detail">
-				<div class="cmt-feed-detail-top">
-					<div class="feed-top-icon">
-						<img src="/img/profile.png">
+				<div class="cmt-feed-detail-top-wrapper">
+					<div class="cmt-feed-detail-top">
+						<div class="feed-top-icon">
+							<img src="/img/profile.png">
+						</div>
+						<div class="feed-top-text">
+							<span class="feed-top-nickname" th:text="${feed.writer}"></span>
+							<span class="feed-top-post-time" th:text="${#dates.format(feed.postTime, 'yyyy/MM/dd HH시 mm분')}"></span>
+						</div>
 					</div>
-					<div class="feed-top-text">
-						<span class="feed-top-nickname" th:text="${feed.writer}"></span>
-						<span class="feed-top-post-time" th:text="${#dates.format(feed.postTime, 'yyyy/MM/dd HH시 mm분')}"></span>
+				</div>
+				<div class="cmt-feed-detail-imgs">
+					<div class="swiper swiper-chall-detail">
+						<div class="swiper-wrapper">
+							<div th:each="idx, stat : ${feed.imageIdxs}" class="swiper-slide" th:id="|slide-img-${stat.index}|">
+								<img class="feed-images" th:src="|/challenge/feed/${feed.feedNo}/img/${idx}|">
+							</div>
+						</div>
+						<div class="swiper-pagination"></div>
+						<div class="swiper-button-prev"></div>
+						<div class="swiper-button-next"></div>
 					</div>
 				</div>
 				<div class="cmt-feed-detail-cont" th:text="${feed.content}"></div>
@@ -84,6 +98,17 @@
 		var challengeNum = /*[[ ${challengeNum} ]]*/;
 		var writeTextarea = $('#cmt-write-textarea');
 		var cmtListWrapper = $('.cmt-list-wrapper');
+		
+		const swiper = new Swiper('.swiper', {
+	 		pagination: {
+	 			el: '.swiper-pagination',
+	 		},
+	 		
+	 		navigation: {
+	 			nextEl: '.swiper-button-next',
+	 			prevEl: '.swiper-button-prev',
+	 		},
+	 	});
 	/*]]>*/
 	</script>
 </body>
