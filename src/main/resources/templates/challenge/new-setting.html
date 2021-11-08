@@ -16,7 +16,7 @@
 				<form
 					id="createForm"
 					onsubmit="return fn_create_confirm()" 
-					th:action="@{/challenge/basic/{challengeCode}(challengeCode=${basicChallenge.challengeCode})}" method="post">
+					th:action="@{/challenge/basic/{challengeCode}(challengeCode = ${basicChallenge.challengeCode})}" method="post">
 					<span class="chall-cont-min-title" th:text="${basicChallenge.challengeName}"></span>
 					<div class="basic-detail">
 						<div class="basic-detail-thumb">

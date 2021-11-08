@@ -8,6 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <resultMap type="FeedVO" id="feedResult">
 	<result property="feedNo" column="feed_no"/>
 	<result property="challengeNum" column="challengeNum"/>
+	<result property="challengeName" column="challengeName"/>
 	<result property="email" column="email"/>
 	<result property="writer" column="writer"/>
 	<result property="content" column="content"/>
@@ -63,14 +64,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<![CDATA[
 		insert into challengeFeed (
 			feed_no, 
-			challengeNum, 
+			challengeNum,
+			challengeName, 
 			email, 
 			writer, 
 			content,
 			post_date
 		) values (
 			feedNo_SEQ.NEXTVAL, 
-			#{challengeNum}, 
+			#{challengeNum},
+			#{challengeName}, 
 			#{email}, 
 			#{writer}, 
 			#{content}, 

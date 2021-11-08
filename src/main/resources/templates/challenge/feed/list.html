@@ -33,7 +33,7 @@
 						</div>
 						<div class="feed-top-right">
 							<div class="chall-feed-dropdown">
-								<a class="feed-top-chall-name">챌린지명(예정)</a>
+								<div class="feed-top-chall-name" th:text="${feed.challengeName}">챌린지명(예정)</div>
 								<div class="feed-3dots-submenu" th:id="|feed-3dots-submenu-${idx}-${feedStat.index}|">	
 									<a	id="feed-edit-btn" 
 										th:href="@{'/challenge/feed/' + ${feed.challengeNum} +'/set' (feedNo = ${feed.feedNo})}">수정</a>

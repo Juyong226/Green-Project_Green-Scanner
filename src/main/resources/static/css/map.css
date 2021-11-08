@@ -963,14 +963,17 @@ input::placeholder{
 }
 
 .feed-top-chall-name {
-	height: 100%;
+	width: 100px;
 	font-size: 0.8rem;
 	font-weight: 400;
-	line-height: 1.5px;
+	line-height: 1.5;
+	text-align: center;
+	white-space: normal;
 	color: #8f9494;
 }
 
 .chall-feed-dropdown {
+	position: relative;
 	margin-left: 10px;
 }
 
@@ -989,6 +992,7 @@ input::placeholder{
 	box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.16);
 	width: 85px;
 	height: 65px;
+	left: 30px;
 	border-radius: 8px;
 	font-size: 0.8rem;
 	font-weight: 400;
@@ -1329,6 +1333,7 @@ select::-ms-expand {
 }
 
 .my-detail-btns {
+	position: relative;
 	width: 17%;
 	display: flex;
 	justify-content: space-evenly;
@@ -1352,6 +1357,7 @@ select::-ms-expand {
 	width: 150px;
 	height: 112px;
 	display: none;
+	left: 30px;
 	border-radius: 8px;
 	background-color: #ffffff;
 	color: #181919;
@@ -1578,8 +1584,6 @@ select::-ms-expand {
 
 .cmt-feed-detail-imgs {
 	width: 85%;
-	display: flex;
-	justify-content: center;
 	margin-bottom: 24px;
 }
 
@@ -1590,9 +1594,10 @@ select::-ms-expand {
 
 .cmt-feed-detail-cont {
 	width: 85%;
+	margin-left: 24px;
 	margin-bottom: 24px;
 	line-height: 1.5;
-	word-break: break-all;
+	white-space: pre-wrap;
 }
 
 .cmt-write-wrapper {
@@ -1745,7 +1750,7 @@ select::-ms-expand {
 	font-size: 1rem;
 	font-weight: 200;
 	line-height: 1.5;
-	word-break: break-all;
+	white-space: normal;
 }
 
 /*음성인식 css*/

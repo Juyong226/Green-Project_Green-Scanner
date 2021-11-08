@@ -14,7 +14,7 @@
 			<div class="chall-feed-write-wrapper">
 				<form
 					id="feed-write-form"
-					th:action="@{/challenge/feed/{challengeNum} (challengeNum = ${challengeNum})}"
+					th:action="@{/challenge/feed/{challengeNum} (challengeNum = ${challengeNum}, challengeName = ${challengeName})}"
 					enctype="multipart/form-data"
 					onsubmit="return fn_write_confirm()"
 					th:object="${feed}"
