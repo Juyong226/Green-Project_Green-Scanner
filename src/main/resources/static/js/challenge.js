@@ -260,7 +260,7 @@ function fn_feed_delete_confirm() {
  		alert("댓글 내용을 입력해주세요.");
  	} else if(totalBytes > 1000) {
  		alert("글자 수를 확인해주세요.\n최대 1000Byte까지만 입력가능합니다.");
- 	}else {
+ 	} else {
  		if(confirm("댓글을 등록하시겠습니까?")) {
  			let requestUrl = urlHead;
 			let queryString = $('#cmt-write-form').serialize();
@@ -305,7 +305,7 @@ function fn_feed_delete_confirm() {
 	 		alert("댓글 내용을 입력해주세요.");
 	 	} else if(totalBytes > 1000) {
 	 		alert("글자 수를 확인해주세요.\n최대 1000Byte까지만 입력가능합니다.");
-	 	}else {
+	 	} else {
 	 		if(confirm("댓글을 수정하시겠습니까?")) {
 	 			let requestUrl = urlHead + idx;
 				let originCmtId = cmtIdHead + idx;
