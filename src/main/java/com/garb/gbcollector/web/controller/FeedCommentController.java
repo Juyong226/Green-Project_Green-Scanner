@@ -1,5 +1,6 @@
 package com.garb.gbcollector.web.controller;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.garb.gbcollector.constant.Method;
 import com.garb.gbcollector.util.UiUtils;
+import com.garb.gbcollector.util.Log;
 import com.garb.gbcollector.web.service.FeedCommentService;
 import com.garb.gbcollector.web.service.FeedService;
 import com.garb.gbcollector.web.vo.FeedCommentVO;
@@ -35,7 +37,7 @@ public class FeedCommentController extends UiUtils {
 	
 	@Autowired
 	private FeedService feedService;
-	
+	private Log log = new Log();
 	/*피드글 + 댓글 리스트 요청*/
 	@GetMapping(value = "/{feedNo}/comments")
 	public String getCommentList(@PathVariable("feedNo") final Integer feedNo, @RequestParam(value="challengeNum") final String challengeNum,
@@ -103,9 +105,9 @@ public class FeedCommentController extends UiUtils {
 	public String registerComment(@PathVariable("feedNo") final String feedNo, @PathVariable(value = "idx", required = false) final Integer idx,
 			@RequestParam(value="challengeNum") final String challengeNum, FeedCommentVO params, Model model, HttpServletRequest request) {
 		
-		System.out.println("=======================================================================");
-		System.out.println("댓글 작성/수정 시 넘어오는 submit params 객체 = " + params.toString());
-		System.out.println("=======================================================================");
+		log.TraceLog("=======================================================================");
+		log.TraceLog("댓글 작성/수정 시 넘어오는 submit params 객체 = " + params.toString());
+		log.TraceLog("=======================================================================");
 		HttpSession session = request.getSession(false);
 		String redirectURI = "/feed/" + feedNo + "comments?challengeNum=" + challengeNum;
 		if(session != null) {
@@ -119,6 +121,9 @@ public class FeedCommentController extends UiUtils {
 				model.addAttribute("nickname", session.getAttribute("memnickname"));
 				return "challenge/feed/partial-content :: cmt-regi";
 			} catch (DataAccessException e) {
+				e.printStackTrace();
+				return showMessageWithRedirection("데이터베이스 처리 과정에 문제가 발생하였습니다.", redirectURI, Method.GET, null, model);
+			} catch (SQLException e) {
 				e.printStackTrace();
 				return showMessageWithRedirection("데이터베이스 처리 과정에 문제가 발생하였습니다.", redirectURI, Method.GET, null, model);
 			} catch (Exception e) {

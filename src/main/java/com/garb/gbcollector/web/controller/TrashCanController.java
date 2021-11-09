@@ -18,10 +18,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.garb.gbcollector.web.service.TrashCanService;
 import com.garb.gbcollector.web.vo.TrashCanVO;
+import com.garb.gbcollector.util.Log;
 
 @Controller
 public class TrashCanController {
 
+	private Log log = new Log();
 	@Autowired
 	TrashCanService trashCanService;
 
@@ -30,7 +32,7 @@ public class TrashCanController {
 					produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String showTrashCan(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("쓰레기통 위치 요청 들어옴");
+		log.TraceLog("쓰레기통 위치 요청 들어옴");
 		JSONObject resJson = new JSONObject();
 		JSONArray jsonList = new JSONArray();
 		List<Map<String, Object>> listMap = new ArrayList<Map<String, Object>>();
@@ -59,7 +61,6 @@ public class TrashCanController {
 		// 미리 선언해 둔 JsonObject에 jsonList를 "trashCanList"라는 Key 값으로 저장하여 보낸다.
 		resJson.put("trashCanList", jsonList);
 		resJson.put("code", "OK");
-		System.out.println(resJson);
 		return resJson.toJSONString();
 
 	}

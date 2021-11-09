@@ -22,11 +22,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.garb.gbcollector.web.service.TemperatureService;
 import com.garb.gbcollector.web.vo.TemperatureVO;
 import com.garb.gbcollector.web.vo.TrashCanVO;
-
+import com.garb.gbcollector.util.Log;
 
 @Controller
 public class TemperatureController {
 
+	private Log log = new Log();
 	@Autowired
 	TemperatureService temperatureService;
 
@@ -36,7 +37,7 @@ public class TemperatureController {
 	
 	@ResponseBody
 	public String showTemperature(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("날짜 요청 들어옴");
+		log.TraceLog("날짜 요청 들어옴");
 		String tdate = request.getParameter("tdate");
 		
 		JSONObject json = new JSONObject();
@@ -63,7 +64,7 @@ public class TemperatureController {
 					td_date = temperatureArray[i].getToday();
 					td_dm1 = temperatureArray[i].getHighest(); 
 					td_dm2= temperatureArray[i].getLowest(); 
-					System.out.println(td_date);
+					log.TraceLog(td_date);
 					
 				}
 				

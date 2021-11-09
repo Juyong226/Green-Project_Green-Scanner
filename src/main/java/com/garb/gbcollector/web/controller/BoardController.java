@@ -35,11 +35,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.garb.gbcollector.constant.Method;
 import com.garb.gbcollector.web.service.BoardService;
-import com.garb.gbcollector.web.service.FeedService;
 import com.garb.gbcollector.web.vo.BoardReplyVO;
 import com.garb.gbcollector.web.vo.BoardVO;
 import com.garb.gbcollector.web.vo.FeedCommentVO;
 import com.garb.gbcollector.web.vo.BoardPageNationVO;
+import com.garb.gbcollector.util.Log;
 
 @RequestMapping("board")
 @Controller
@@ -48,6 +48,7 @@ public class BoardController {
 
 	@Autowired
 	BoardService boardService;
+	private Log log = new Log();
 
 	/* 댓글 수정 폼 요청 */
 	@GetMapping(value = {"/{postno}/comments/{reno}"})
@@ -109,7 +110,7 @@ public class BoardController {
 	/* 전체게시판 조회 */
 	@GetMapping(value = "/boardlist")
 	public ModelAndView boardList(ModelAndView mav, HttpSession session) {
-		System.out.println("board/list진입");
+		log.TraceLog("board/list진입");
 		List<BoardVO> b_boards;
 		b_boards = boardService.listPostB();
 		List<BoardVO> q_boards;
@@ -124,8 +125,9 @@ public class BoardController {
 	/* 자유게시판 조회 - 최신순 4개 */
 	@GetMapping(value = "/bulletin_boardlist")
 	public ModelAndView boardListB(BoardPageNationVO page, ModelAndView mav, HttpSession session) {
-		System.out.println("board/bulletin_boardlist진입");
 
+		log.TraceLog("board/bulletin_boardlist진입");
+		
 		page.setStartIdx("1");
 		page.setEndIdx("4");
 
@@ -148,11 +150,12 @@ public class BoardController {
 	/* 자유게시판 조회 - 더보기 */
 	@PostMapping(value = "/bulletin_boardlist/more_post")
 	public ModelAndView morePost(BoardPageNationVO page, ModelAndView mav, HttpServletRequest request) {
-		System.out.println("더보기 진입");
 
-		page.setStartIdx((String) request.getParameter("startIdx"));
-		page.setEndIdx((String) request.getParameter("EndIdx"));
-
+		log.TraceLog("더보기 진입");
+	
+		page.setStartIdx((String)request.getParameter("startIdx"));
+		page.setEndIdx((String)request.getParameter("EndIdx"));
+		
 		List<BoardVO> boards = boardService.listPostBAll(page);
 
 		mav.addObject("boards", boards);
@@ -171,7 +174,7 @@ public class BoardController {
 //	/* 자유게시판 조회 */
 //	@GetMapping(value = "/bulletin_boardlist")
 //	public ModelAndView boardListB(ModelAndView mav, HttpSession session) {
-//		System.out.println("board/bulletin_boardlist진입");
+//		log.TraceLog("board/bulletin_boardlist진입");
 //		List<BoardVO> boards = boardService.listPostBAll();
 //		mav.addObject("boards", boards);
 //		String boardname = null;
@@ -186,7 +189,7 @@ public class BoardController {
 	/* 질문게시판 조회 */
 	@GetMapping(value = "/question_boardlist")
 	public ModelAndView boardListQ(ModelAndView mav, HttpSession session) {
-		System.out.println("board/question_boardlist진입");
+		log.TraceLog("board/question_boardlist진입");
 		List<BoardVO> boards;
 		boards = boardService.listPostQAll();
 		mav.addObject("boards", boards);
@@ -213,7 +216,7 @@ public class BoardController {
 	public void addTokenToSession(ModelAndView mav, HttpSession session) {
 		session.setAttribute("CSRF_TOKEN", UUID.randomUUID().toString());
 		String token = (String) session.getAttribute("CSRF_TOKEN");
-		System.out.println("CSRF_TOKEN: " + token);
+		log.TraceLog("CSRF_TOKEN: " + token);
 		mav.addObject("token", token);
 	}
 
@@ -221,10 +224,11 @@ public class BoardController {
 	@PostMapping(value = "/write")
 	public ModelAndView writePost(ModelAndView mav, @ModelAttribute("BoardVO") BoardVO boardVO, HttpSession session,
 			MultipartHttpServletRequest req) {
-		System.out.println("writePost 진입");
 		String toDay = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 		String uploadPath = Paths.get("C:", "GreenScanner", "upload", "board").toString();;
-		System.out.println(uploadPath);
+		log.TraceLog("writePost 진입");
+
+		log.TraceLog(uploadPath);
 		MultipartFile file = req.getFile("file");
 		if (file != null && !"".equals(file.getOriginalFilename())) {
 			String fileName = file.getOriginalFilename().toLowerCase();
@@ -233,7 +237,7 @@ public class BoardController {
 				if (fileName.endsWith(".jpg") || fileName.endsWith(".png") || fileName.endsWith(".gif")
 						|| fileName.endsWith("jpeg")) {
 
-					System.out.println("파일 이름: " + fileName);
+					log.TraceLog("파일 이름: " + fileName);
 					File uploadFile = new File(uploadPath + fileName);
 
 					// 폴더 경로
@@ -241,7 +245,7 @@ public class BoardController {
 					if (!Folder.exists()) {
 						try {
 							Folder.mkdir(); // 폴더 생성
-							System.out.println("폴더 생성");
+							log.TraceLog("폴더 생성");
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -249,13 +253,13 @@ public class BoardController {
 					if (uploadFile.exists()) {
 						fileName = new Date().getTime() + fileName;
 						uploadFile = new File(uploadPath + fileName);
-						System.out.println("파일 업로드: " + uploadPath + fileName);
+						log.TraceLog("파일 업로드: " + uploadPath + fileName);
 					}
 					try {
 						file.transferTo(uploadFile);
 					} catch (Exception e) {
-						System.out.println("업로드 에러");
-						System.out.println(e);
+						log.TraceLog("업로드 에러");
+						log.TraceLog(e);
 					}
 					boardVO.setFilename(fileName);
 				}
@@ -271,10 +275,10 @@ public class BoardController {
 
 		/* form으로 전송된 요청으로부터 token값을 얻어오기 */
 		String token = req.getParameter("_csrf");
-		System.out.println("_csrf: " + token);
+		log.TraceLog("_csrf: " + token);
 
 		if (session.getAttribute("CSRF_TOKEN").equals(token)) {
-			System.out.println("토큰 일치");
+			log.TraceLog("토큰 일치");
 			boardService.insertPost(boardVO);
 			String bulletin_board = "자유게시판";
 			String question_board = "질문게시판";
@@ -286,7 +290,7 @@ public class BoardController {
 			}
 			return mav;
 		}
-		System.out.println("토큰값 불일치");
+		log.TraceLog("토큰값 불일치");
 		String msg = "비정상적인 접근입니다.";
 		mav.addObject("msg", msg);
 		mav.setViewName("board/error");
@@ -298,7 +302,7 @@ public class BoardController {
 //	public ModelAndView writePost(ModelAndView mav, @ModelAttribute("BoardVO") BoardVO boardVO, 
 //			HttpSession session, HttpServletRequest req) 
 //	{
-//		System.out.println("writePost 진입");
+//		log.TraceLog("writePost 진입");
 //		String nickname = (String) session.getAttribute("memnickname");
 //		boardVO.setNickname(nickname);	
 //		
@@ -308,13 +312,13 @@ public class BoardController {
 //				
 //		/* form으로 전송된 요청으로부터 token값을 얻어오기 */
 //		String token = req.getParameter("_csrf");
-//		System.out.println("_csrf: " + token);
+//		log.TraceLog("_csrf: " + token);
 //		
 //		
 //		if (session.getAttribute("CSRF_TOKEN").equals(token)) {
-//			System.out.println("토큰 일치");
+//			log.TraceLog("토큰 일치");
 //			boardService.insertPost(boardVO);
-//			System.out.println(boardVO);
+//			log.TraceLog(boardVO);
 //			String bulletin_board = "자유게시판";
 //			String question_board = "질문게시판";
 //			//자유게시판에 쓴 글이면 자유게시판 리스트로 이동, 질문게시판에 쓴 글이면 질문게시판 리스트로 이동
@@ -325,7 +329,7 @@ public class BoardController {
 //			}
 //			return mav;
 //		}
-//		System.out.println("토큰값 불일치");
+//		log.TraceLog("토큰값 불일치");
 //		String msg = "비정상적인 접근입니다.";
 //		mav.addObject("msg", msg);
 //		mav.setViewName("board/error");
@@ -335,11 +339,10 @@ public class BoardController {
 	/* 글+댓글 보기 */
 	@GetMapping(value = "viewpost")
 	public ModelAndView viewPostPage(@RequestParam("postno") int postno, HttpServletResponse res, HttpSession session) {
-		System.out.println(postno + "번 글 보기");
+		log.TraceLog(postno + "번 글 보기");
 		ModelAndView mav = new ModelAndView();
 		BoardVO boardVO = boardService.viewPost(postno);
-		System.out.println(boardVO);
-		System.out.println(boardVO.getFilename());
+		log.TraceLog(boardVO.getFilename());
 		mav.addObject("post", boardVO);
 
 		addTokenToSession(mav, session);
@@ -348,7 +351,6 @@ public class BoardController {
 		List<BoardReplyVO> boardReplyVO = boardService.viewReply(postno);
 		// 댓글 리스트를 reply라는 이름으로 뷰페이지에 추가
 		mav.addObject("commentList", boardReplyVO);
-		System.out.println(boardReplyVO);
 
 		// 세션으로부터 닉네임 얻기
 		String nickname = (String) session.getAttribute("memnickname");
@@ -363,7 +365,6 @@ public class BoardController {
 		String path = Paths.get("C:", "GreenScanner", "upload", "board").toString();;
 		Resource resource = new FileSystemResource(path + filename);
 
-		System.out.println(resource);
 		if (!resource.exists())
 			return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
 
@@ -382,7 +383,7 @@ public class BoardController {
 	/* 글 수정 페이지 가져오기 */
 	@GetMapping(value = "updatePost")
 	public ModelAndView updatePost(@RequestParam("postno") int postno, ModelAndView mav, HttpSession session) {
-		System.out.println(postno + "번 글 수정");
+		log.TraceLog(postno + "번 글 수정");
 
 		addTokenToSession(mav, session);
 
@@ -399,7 +400,7 @@ public class BoardController {
 	@PostMapping(value = "updatePostSave")
 	public String updatePostSave(@ModelAttribute("post") BoardVO boardVO, HttpSession session,
 			MultipartHttpServletRequest req) {
-		System.out.println(boardVO.getPostno() + "번 글 수정 진입");
+		log.TraceLog(boardVO.getPostno() + "번 글 수정 진입");
 
 		String uploadPath = System.getProperty("user.home") + "/files/";
 		String orgFileName = req.getParameter("orgFile");
@@ -436,10 +437,10 @@ public class BoardController {
 		}
 
 		String token = req.getParameter("_csrf");
-		System.out.println("_csrf: " + token);
+		log.TraceLog("_csrf: " + token);
 
 		if (req.getSession().getAttribute("CSRF_TOKEN").equals(token)) {
-			System.out.println("토큰 일치");
+			log.TraceLog("토큰 일치");
 			boardService.updatePost(boardVO);
 			return "redirect:/board/viewpost?postno=" + boardVO.getPostno();
 		}
@@ -452,7 +453,7 @@ public class BoardController {
 	@PostMapping(value = "deletePost")
 	public ModelAndView deletePost(@RequestParam("postno") Integer postno, HttpServletRequest request,
 			ModelAndView mav) {
-		System.out.println(postno + "번 글 삭제");
+		log.TraceLog(postno + "번 글 삭제");
 		boardService.deletePost(postno);
 
 		String boardname = request.getParameter("boardname");
@@ -476,14 +477,14 @@ public class BoardController {
 		boardReplyVO.setNickname(nickname);
 
 		boardService.insertBoardReply(boardReplyVO);
-		System.out.println("요청 들어옴");
+		log.TraceLog("요청 들어옴");
 		return "redirect:/board/viewpost?postno=" + boardReplyVO.getPostno();
 	}
 
 	/* 댓글 삭제 */
 	@PostMapping(value = "deleteReply")
 	public String deleteReply(@RequestParam("reno") Integer reno, @RequestParam("postno") int postno) {
-		System.out.println(reno + "번 댓글 삭제");
+		log.TraceLog(reno + "번 댓글 삭제");
 		boardService.deleteReply(reno);
 		return "redirect:/board/viewpost?postno=" + postno;
 	}

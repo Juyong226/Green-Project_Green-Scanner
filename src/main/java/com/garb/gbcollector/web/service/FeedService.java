@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.garb.gbcollector.util.FileUtils;
 import com.garb.gbcollector.util.GSCalendar;
 import com.garb.gbcollector.util.UploadFileException;
+import com.garb.gbcollector.util.Log;
 import com.garb.gbcollector.web.dao.ChallengeDAO;
 import com.garb.gbcollector.web.dao.FeedCommentDAO;
 import com.garb.gbcollector.web.dao.FeedDAO;
@@ -25,6 +26,7 @@ import com.garb.gbcollector.web.vo.UploadImageVO;
 @Service
 public class FeedService {
 
+	private Log log = new Log();
 	@Autowired
 	private FeedDAO feedDAO;
 	@Autowired
@@ -40,9 +42,9 @@ public class FeedService {
 	
 	public boolean registerFeed(FeedVO params, String challengeNum) {
 		int queryResult = 0;
-		System.out.println("========================================");
-		System.out.println("피드 params = " + params.toString());
-		System.out.println("========================================");
+		log.TraceLog("========================================");
+		log.TraceLog("피드 params = " + params.toString());
+		log.TraceLog("========================================");
 		if(params.getFeedNo() == 0) {
 			if(duplicateCheck(challengeNum) == true) {
 				queryResult = feedDAO.insertFeed(params);
@@ -56,10 +58,10 @@ public class FeedService {
 			}
 		} else {
 			queryResult = feedDAO.updateFeed(params);
-			System.out.println("========================================================================================");
-			System.out.println("registerFeed()의 params.getChangeYn(): " + params.getChangeYn());
-			System.out.println("registerFeed()의 params.getFeedNo(): " + params.getFeedNo());
-			System.out.println("========================================================================================");
+			log.TraceLog("========================================================================================");
+			log.TraceLog("registerFeed()의 params.getChangeYn(): " + params.getChangeYn());
+			log.TraceLog("registerFeed()의 params.getFeedNo(): " + params.getFeedNo());
+			log.TraceLog("========================================================================================");
 			if("Y".equals(params.getChangeYn())) {
 				feedImageDAO.deleteFeedImage(params.getFeedNo());
 				if(params.getImageIdxs() != null && params.getImageIdxs().isEmpty() == false) {
@@ -67,9 +69,9 @@ public class FeedService {
 				}
 			}
 		}
-		System.out.println("========================================================================================");
-		System.out.println("registerFeed()의 queryResult: " + queryResult);
-		System.out.println("========================================================================================");
+		log.TraceLog("========================================================================================");
+		log.TraceLog("registerFeed()의 queryResult: " + queryResult);
+		log.TraceLog("========================================================================================");
 		return (queryResult == 1) ? true : false;
 	}
 	
@@ -82,14 +84,14 @@ public class FeedService {
 		List<UploadImageVO> uploadList = fileUtils.uploadFeedImages(images, params.getFeedNo());
 		if(uploadList.isEmpty() == false) {
 			queryResult = feedImageDAO.insertFeedImage(uploadList);
-			System.out.println("========================================================================================");
-			System.out.println("insertFeedImage(uploadList)_<foreach> 결과 값: " + queryResult);
-			System.out.println("========================================================================================");
+			log.TraceLog("========================================================================================");
+			log.TraceLog("insertFeedImage(uploadList)_<foreach> 결과 값: " + queryResult);
+			log.TraceLog("========================================================================================");
 			if(queryResult != -1) {
 				queryResult = 0;
 			}
 		}
-		return (queryResult == -1 || queryResult == 1);
+		return (queryResult == -1);
 	}
 	
 	public FeedVO getFeedDetail(int feedNo) {		

@@ -118,7 +118,7 @@ function fn_write_confirm() {
  	
 	const content = $("#feed-write-form textarea[name='content']").val();
 	const firstImg = $(".feed-img-div").first().children("input[type='file']").val();
-	console.log("content: " + content);
+	const totalBytes = fn_totalBytes(content);
 	if(content == "" || content === undefined) {
 		alert("피드 내용을 입력해주세요.");
 		return false;
@@ -132,7 +132,11 @@ function fn_write_confirm() {
 		alert("사진을 1장 이상 업로드해주세요.");
 		return false;
 		
-	} else {
+	} else if(totalBytes > 1000) {
+ 		alert("글자 수를 확인해주세요.\n최대 1000Byte까지만 입력가능합니다.");
+ 		return false;
+ 		
+ 	} else {
 		if(confirm("피드를 등록하시겠습니까?")) {
 			return true;
 			
@@ -250,11 +254,13 @@ function fn_feed_delete_confirm() {
  
  /*---------댓글 등록 관련 script---------*/
   function chall_regi_cmt() {
-    let content = writeTextarea.val();
-    console.log(writeTextarea);
+    const content = writeTextarea.val();
+    const totalBytes = fn_totalBytes(content);
  	if(content == "" || content === undefined) {
  		alert("댓글 내용을 입력해주세요.");
- 	} else {
+ 	} else if(totalBytes > 1000) {
+ 		alert("글자 수를 확인해주세요.\n최대 1000Byte까지만 입력가능합니다.");
+ 	}else {
  		if(confirm("댓글을 등록하시겠습니까?")) {
  			let requestUrl = urlHead;
 			let queryString = $('#cmt-write-form').serialize();
@@ -279,7 +285,6 @@ function fn_feed_delete_confirm() {
 	function fn_update_form(idx) {
 		let requestUrl = urlHead + idx;
 		let originCmtId = cmtIdHead + idx;
-		console.log("requestUrl: " + requestUrl + " / challengeNum: " + challengeNum + " / originCmtId: " + originCmtId);
 		$.ajax({
 			method: "GET",
 			url: requestUrl,
@@ -294,11 +299,13 @@ function fn_feed_delete_confirm() {
 	
 /*---------댓글 수정 script---------*/	
 	function chall_update_cmt(idx) {
-		let content = $('#cmt-update-textarea').val();
-		console.log(content);
+		const content = $('#cmt-update-textarea').val();
+		const totalBytes = fn_totalBytes(content);
 	 	if(content == "" || content === undefined) {
 	 		alert("댓글 내용을 입력해주세요.");
-	 	} else {
+	 	} else if(totalBytes > 1000) {
+	 		alert("글자 수를 확인해주세요.\n최대 1000Byte까지만 입력가능합니다.");
+	 	}else {
 	 		if(confirm("댓글을 수정하시겠습니까?")) {
 	 			let requestUrl = urlHead + idx;
 				let originCmtId = cmtIdHead + idx;
@@ -361,7 +368,7 @@ function fn_feed_delete_confirm() {
 	function fn_checkByte(obj){
 		const textarea = $(obj);
 	    const target = textarea.parent().find('#nowByte');
-	    const maxByte = 300; //최대 100바이트
+	    const maxByte = 1000; //최대 1000바이트
 	    const text_val = obj.value; //입력한 문자
 	    const text_len = text_val.length; //입력한 문자수
 	    
@@ -379,7 +386,6 @@ function fn_feed_delete_confirm() {
 	    }
 	    
 	    if(totalByte>maxByte) {
-	    	alert('최대 300Byte까지만 입력가능합니다.');
 	        target.text(totalByte);
 	        target.css('color', 'red');
 	    } else {
@@ -387,5 +393,20 @@ function fn_feed_delete_confirm() {
 	        target.css('color', 'green');
 	    }
 	}
-	
-	
+
+/*---------글자수 세기(한글=2byte) script---------*/	
+	function fn_totalBytes(textValue) {
+		const text_len = textValue.length;
+		
+		let totalByte = 0;
+		for(let i=0; i<text_len; i++) {
+			const each_char = textValue.charAt(i);
+			const uni_char = escape(each_char);
+			if(uni_char.length > 4) {
+				totalByte += 2;
+			} else {
+				totalByte += 1;
+			}
+		}
+		return totalByte;
+	}

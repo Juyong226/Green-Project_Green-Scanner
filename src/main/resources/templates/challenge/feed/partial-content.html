@@ -99,7 +99,7 @@
 			</div>
 			<div class="cmt-write-form-cont">
 				<textarea class="cmt-textarea" th:id="cmt-update-textarea" name="content" onkeyup="fn_checkByte(this)" placeholder="내용을 입력해주세요." th:field="*{content}"></textarea>
-				<sup>(<span id="nowByte">0</span>/300bytes)</sup>
+				<sup>(<span id="nowByte">0</span>/1000bytes)</sup>
 				<div class="cmt-update-btns">
 					<input type="button" class="cmt-cancle-btn" th:onclick="fn_delete_update_form([[*{idx}]])" value="취소">
 					<input type="button" class="cmt-update-btn" th:onclick="chall_update_cmt([[*{idx}]])" value="수정">

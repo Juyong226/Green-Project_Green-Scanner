@@ -30,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.garb.gbcollector.constant.Method;
 import com.garb.gbcollector.util.UiUtils;
 import com.garb.gbcollector.util.UploadFileException;
+import com.garb.gbcollector.util.Log;
 import com.garb.gbcollector.web.service.ChallengeService;
 import com.garb.gbcollector.web.service.FeedService;
 import com.garb.gbcollector.web.vo.FeedPaginationVO;
@@ -45,7 +46,7 @@ public class FeedController extends UiUtils {
 	private FeedService feedService;
 	@Autowired
 	private ChallengeService challengeService;
-	
+	private Log log = new Log();
 	/*피드 글 쓰기 페이지 요청*/
 	@GetMapping(value = "/{challengeNum}/set")
 	public String openWritePage(@RequestParam(value = "feedNo", required = false) Integer feedNo, 
@@ -96,7 +97,7 @@ public class FeedController extends UiUtils {
 				params.setPostDate(challengeService.getCurrentTime());
 				boolean isRegistered = feedService.registerFeed(params, challengeNum, images);
 				if(isRegistered == false) {
-					return showMessageWithRedirection("피드를 등록할 수 없습니다.", redirectURI, Method.GET, null, model);
+					return showMessageWithRedirection("피드를 등록할 수 없습니다.\n(한 챌린지 당 하루에 1개의 피드만 작성이 가능합니다.)", redirectURI, Method.GET, null, model);
 				}	
 			}
 		} catch (DataAccessException e) {
@@ -104,7 +105,7 @@ public class FeedController extends UiUtils {
 			return showMessageWithRedirection("데이터베이스 처리 과정에 문제가 발생하였습니다.", redirectURI, Method.GET, null, model);			
 		} catch (UploadFileException e) {
 			e.printStackTrace();
-			return showMessageWithRedirection("이미지 업로드에 실패하였습니다.\n파일의 확장자가 다음과 같은 지 확인해주세요.\n[ jpg, jpeg, png ]", redirectURI, Method.GET, null, model);
+			return showMessageWithRedirection("이미지 업로드에 실패하였습니다.\n1. 파일의 확장자가 다음과 같은 지 확인해주세요. ( jpg, jpeg, png )\n2. 파일의 크기를 확인해주세요. (5MB 이하 파일만 업로드 가능)", redirectURI, Method.GET, null, model);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return showMessageWithRedirection("시스템에 문제가 발생하였습니다.", redirectURI, Method.GET, null, model);			
@@ -117,7 +118,7 @@ public class FeedController extends UiUtils {
 	@ResponseBody
 	public String duplicateCheck(HttpServletRequest request) {
 		
-		System.out.println("요청들어옴: POST /duplicate_check with challengeNum = " + request.getParameter("challengeNum"));
+		log.TraceLog("요청들어옴: POST /duplicate_check with challengeNum = " + request.getParameter("challengeNum"));
 		HttpSession session = request.getSession(false);
 		JSONObject resJson = new JSONObject();
 		if(session != null) {
@@ -164,9 +165,9 @@ public class FeedController extends UiUtils {
 			params.setEndIdx(Integer.toString(totalFeedCnt));
 		}
 		List<FeedVO> feedList = feedService.getAllFeedList(params);
-		System.out.println("========================================================================================");
-		System.out.println("getAllFeedList()에서 리턴하는 feedList: " + feedList);
-		System.out.println("========================================================================================");
+		log.TraceLog("========================================================================================");
+		log.TraceLog("getAllFeedList()에서 리턴하는 feedList: " + feedList);
+		log.TraceLog("========================================================================================");
 		model.addAttribute("idx", params.getStartIdx());
 		model.addAttribute("feedList", feedList);
 		model.addAttribute("totalFeedCnt", totalFeedCnt);
@@ -200,7 +201,7 @@ public class FeedController extends UiUtils {
 	public String deleteFeed(@PathVariable("challengeNum") String challengeNum,
 			@PathVariable("feedNo") String feedNo, HttpServletRequest request, Model model) {
 		
-		System.out.println("요청들어옴: POST /deleteFeed with challengeNum/feedNo = " + challengeNum + "/" + feedNo);
+		log.TraceLog("요청들어옴: POST /deleteFeed with challengeNum/feedNo = " + challengeNum + "/" + feedNo);
 		HttpSession session = request.getSession(false);
 		String redirectURI = "/challenge/my-challenge/" + challengeNum;
 		if(session == null) {

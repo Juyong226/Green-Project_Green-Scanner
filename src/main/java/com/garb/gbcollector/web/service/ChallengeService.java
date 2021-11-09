@@ -12,10 +12,12 @@ import com.garb.gbcollector.web.dao.ChallengeDAO;
 import com.garb.gbcollector.web.vo.BasicChallengeVO;
 import com.garb.gbcollector.web.vo.FeedVO;
 import com.garb.gbcollector.web.vo.PersonalChallengeVO;
+import com.garb.gbcollector.util.Log;
 
 @Service
 public class ChallengeService {
 
+	private Log log = new Log();
 	@Autowired
 	ChallengeDAO challengeDAO;
 	
@@ -67,12 +69,12 @@ public class ChallengeService {
 		return challengeDAO.deleteChallenge(challengeNum);
 	}
 	public String getCurrentTime() {
-		System.out.println("challengeService.getCurrentTime()");
+		log.TraceLog("challengeService.getCurrentTime()");
 		return gsCalendar.getCurrentTime();
 	}
 	
 	public String getEndDate(String startDate, String period) throws GbcException {
-		System.out.println("challengeService.getEndDate()");
+		log.TraceLog("challengeService.getEndDate()");
 		return gsCalendar.getEndDate(startDate, period);
 	}
 
@@ -94,8 +96,8 @@ public class ChallengeService {
 			result1 = updateChallenge(cList.get(0));
 		}
 		
-		System.out.println("진행 리스트 업데이트 결과값 = " + result1);
-		System.out.println("완료 리스트 업데이트 결과값 = " + result2);
+		log.TraceLog("진행 리스트 업데이트 결과값 = " + result1);
+		log.TraceLog("완료 리스트 업데이트 결과값 = " + result2);
 		return cList;
 	}
 	
