@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -14,23 +16,29 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.garb.gbcollector.constant.Method;
 import com.garb.gbcollector.web.service.BoardService;
 import com.garb.gbcollector.web.service.FeedService;
 import com.garb.gbcollector.web.vo.BoardReplyVO;
 import com.garb.gbcollector.web.vo.BoardVO;
+import com.garb.gbcollector.web.vo.FeedCommentVO;
 import com.garb.gbcollector.web.vo.BoardPageNationVO;
 
 @RequestMapping("board")
@@ -40,6 +48,63 @@ public class BoardController {
 
 	@Autowired
 	BoardService boardService;
+
+	/* 댓글 수정 폼 요청 */
+	@GetMapping(value = {"/{postno}/comments/{reno}"})
+	public String getCommentUpdateForm (@PathVariable("postno") final String postno, 
+			@PathVariable(value = "reno", required = false) final Integer reno,
+			 Model model, HttpServletRequest request) {
+		
+		HttpSession session = request.getSession(false);
+		String redirectURI = "/board/viewpost?postno="+postno;
+		if(session != null) {
+				BoardReplyVO comment = boardService.getCommentDetail(reno);
+				System.out.println(comment);
+				
+				if(comment != null) {
+					model.addAttribute("comment", comment);
+					model.addAttribute("nickname", session.getAttribute("memnickname"));
+					return "board/partial-content :: cmt-update-form";
+				}
+		}
+		return null;
+		
+	}
+	
+	/*댓글 수정 요청*/
+	@RequestMapping(value = { "/{postno}/comments", "/{postno}/comments/{reno}" }, 
+								method = { RequestMethod.POST, RequestMethod.PATCH })
+	public String updateComment(@PathVariable("postno") final String postno, 
+			@PathVariable(value = "reno", required = false) final Integer reno,
+			BoardReplyVO comment, Model model, HttpServletRequest request) {
+		
+		System.out.println("=======================================================================");
+		System.out.println("댓글 작성/수정 시 넘어오는 submit params 객체 = " + comment.toString());
+		System.out.println("=======================================================================");
+		HttpSession session = request.getSession(false);
+		String redirectURI = "/board/viewpost?postno="+postno;
+		if(session != null) {
+			try {
+				if(reno != null) {
+					comment.setReno(reno);
+				}
+				BoardReplyVO updated_comment = boardService.updateComment(comment);
+				model.addAttribute("comment", updated_comment);
+				model.addAttribute("nickname", session.getAttribute("memnickname"));
+				return "board/partial-content :: cmt-regi";
+			} catch (DataAccessException e) {
+				e.printStackTrace();
+				return "데이터베이스 처리 과정에 문제가 발생하였습니다.";
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "시스템에 문제가 발생하였습니다.";
+			}
+		}
+		redirectURI = "/board/boardlist";
+		return "로그인 후 이용이 가능합니다.";
+	}
+	
+	
 
 	/* 전체게시판 조회 */
 	@GetMapping(value = "/boardlist")
@@ -60,50 +125,49 @@ public class BoardController {
 	@GetMapping(value = "/bulletin_boardlist")
 	public ModelAndView boardListB(BoardPageNationVO page, ModelAndView mav, HttpSession session) {
 		System.out.println("board/bulletin_boardlist진입");
-		
+
 		page.setStartIdx("1");
 		page.setEndIdx("4");
-		
+
 		int totalBoardCnt = boardService.getTotalBoardCnt();
 		List<BoardVO> boards = boardService.listPostBAll(page);
-		
+
 		mav.addObject("totalBoardCnt", totalBoardCnt);
 		mav.addObject("boards", boards);
-		
-		// 조회된 게시글객체에서 게시판이름을 얻어 화면에 전달 
+
+		// 조회된 게시글객체에서 게시판이름을 얻어 화면에 전달
 		String boardname = null;
-		for(BoardVO board : boards) {
+		for (BoardVO board : boards) {
 			boardname = board.getBoardname();
 		}
 		mav.addObject("boardname", boardname);
 		mav.setViewName("board/board");
 		return mav;
 	}
-	
+
 	/* 자유게시판 조회 - 더보기 */
 	@PostMapping(value = "/bulletin_boardlist/more_post")
 	public ModelAndView morePost(BoardPageNationVO page, ModelAndView mav, HttpServletRequest request) {
 		System.out.println("더보기 진입");
-	
-		page.setStartIdx((String)request.getParameter("startIdx"));
-		page.setEndIdx((String)request.getParameter("EndIdx"));
-		
+
+		page.setStartIdx((String) request.getParameter("startIdx"));
+		page.setEndIdx((String) request.getParameter("EndIdx"));
+
 		List<BoardVO> boards = boardService.listPostBAll(page);
-		
+
 		mav.addObject("boards", boards);
-		
-		// 조회된 게시글객체에서 게시판이름을 얻어 화면에 전달 
+
+		// 조회된 게시글객체에서 게시판이름을 얻어 화면에 전달
 		String boardname = null;
-		for(BoardVO board : boards) {
+		for (BoardVO board : boards) {
 			boardname = board.getBoardname();
 		}
 		mav.addObject("boardname", boardname);
 		mav.setViewName("board/partial-board  :: more-post");
 		return mav;
-		
+
 	}
-	
-	
+
 //	/* 자유게시판 조회 */
 //	@GetMapping(value = "/bulletin_boardlist")
 //	public ModelAndView boardListB(ModelAndView mav, HttpSession session) {
@@ -118,7 +182,6 @@ public class BoardController {
 //		mav.setViewName("board/board");
 //		return mav;
 //	}
-	
 
 	/* 질문게시판 조회 */
 	@GetMapping(value = "/question_boardlist")
@@ -128,7 +191,7 @@ public class BoardController {
 		boards = boardService.listPostQAll();
 		mav.addObject("boards", boards);
 		String boardname = null;
-		for(BoardVO board : boards) {
+		for (BoardVO board : boards) {
 			boardname = board.getBoardname();
 		}
 		mav.addObject("boardname", boardname);
@@ -159,18 +222,16 @@ public class BoardController {
 	public ModelAndView writePost(ModelAndView mav, @ModelAttribute("BoardVO") BoardVO boardVO, HttpSession session,
 			MultipartHttpServletRequest req) {
 		System.out.println("writePost 진입");
-
-		String uploadPath = System.getProperty("user.home") + "/files/";
+		String toDay = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+		String uploadPath = Paths.get("C:", "GreenScanner", "upload", "board").toString();;
 		System.out.println(uploadPath);
 		MultipartFile file = req.getFile("file");
 		if (file != null && !"".equals(file.getOriginalFilename())) {
 			String fileName = file.getOriginalFilename().toLowerCase();
 
 			if (fileName != null) {
-				if (fileName.endsWith(".jpg") 
-					|| fileName.endsWith(".png") 
-					|| fileName.endsWith(".gif")
-					|| fileName.endsWith("jpeg")) {
+				if (fileName.endsWith(".jpg") || fileName.endsWith(".png") || fileName.endsWith(".gif")
+						|| fileName.endsWith("jpeg")) {
 
 					System.out.println("파일 이름: " + fileName);
 					File uploadFile = new File(uploadPath + fileName);
@@ -299,7 +360,7 @@ public class BoardController {
 	/* 이미지 출력 */
 	@GetMapping(value = "display")
 	public ResponseEntity<Resource> display(@RequestParam("filename") String filename) {
-		String path = "C:\\Users\\user\\files\\";
+		String path = Paths.get("C:", "GreenScanner", "upload", "board").toString();;
 		Resource resource = new FileSystemResource(path + filename);
 
 		System.out.println(resource);
@@ -326,7 +387,10 @@ public class BoardController {
 		addTokenToSession(mav, session);
 
 		BoardVO boardVO = boardService.viewPost(postno);
+		System.out.println(boardVO);
+		System.out.println(boardVO.getTitle());
 		mav.addObject("post", boardVO);
+		mav.addObject("title", boardVO.getTitle());
 		mav.setViewName("board/modify");
 		return mav;
 	}

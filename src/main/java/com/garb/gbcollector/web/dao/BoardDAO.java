@@ -30,4 +30,7 @@ public interface BoardDAO {
     public int getPostno(int reno);
     //전체게시글 수 조회 
 	public int selectTotalBoardCnt();
+	//특정 댓글 조회
+	public BoardReplyVO getCommentDetail(int reno);
+	public int updateComment(BoardReplyVO comment);
 }

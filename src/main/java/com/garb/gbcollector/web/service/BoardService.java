@@ -66,6 +66,11 @@ public class BoardService {
     public List<BoardReplyVO> viewReply(int postno) {
         return boardDAO.viewReply(postno);
     }
+    
+    public BoardReplyVO getCommentDetail(int reno) {
+    	return boardDAO.getCommentDetail(reno);
+    }
+    
 
     @Transactional
     public void deleteReply(int reno) {
@@ -76,5 +81,17 @@ public class BoardService {
 
 	public int getTotalBoardCnt() {
 		return boardDAO.selectTotalBoardCnt();
+	}
+
+	public BoardReplyVO updateComment(BoardReplyVO comment) {
+		int queryResult = 0;
+		queryResult = boardDAO.updateComment(comment);
+		BoardReplyVO registered_comment;
+		if(queryResult == 1) {
+			registered_comment = boardDAO.getCommentDetail(comment.getReno());
+		}else {
+			registered_comment = null;
+		}
+		return registered_comment;
 	}
 }

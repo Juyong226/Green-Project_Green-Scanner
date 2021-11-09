@@ -20,6 +20,7 @@ $(document).ready(function() {
 		user = $("#sessionNickname").val();
 		if (!user) {
 			alert("로그인 후 글을 작성하실 수 있습니다.");
+			location.href="/html/login.html"
 		} else {
 			location.href = "/board/write";
 		}
@@ -153,6 +154,89 @@ function more_post(startIdx) {
 
 
 /* --------------- 댓글 관련 JS--------------*/
+
+/*---------댓글 수정폼 요청 script---------*/
+	function fn_update_form(idx) {
+		let requestUrl = urlHead + idx;
+		let originCmtId = cmtIdHead + idx;
+		console.log("requestUrl: " + requestUrl + " / originCmtId: " + originCmtId);
+		$.ajax({
+			method: "GET",
+			url: requestUrl,
+			dataType: "html",
+			success: function(html) {
+				$(originCmtId).hide();
+				$(originCmtId).after(html);
+			}
+		});
+	}
+	
+/*---------댓글 수정 script---------*/	
+	function board_update_cmt(idx) {
+		let content = $('#cmt-update-textarea').val();
+		console.log(content);
+	 	if(content == "" || content === undefined) {
+	 		alert("댓글 내용을 입력해주세요.");
+	 	} else {
+	 		if(confirm("댓글을 수정하시겠습니까?")) {
+	 			let requestUrl = urlHead + idx;
+				let originCmtId = cmtIdHead + idx;
+				let queryString = $('#cmt-update-form').serialize();
+				$.ajax({
+					method: "PATCH",
+					url: requestUrl,
+					data: queryString,
+					dataType: "html",
+					success: function(html) {
+						let updateForm = ".cmt-update-wrapper"
+						$(originCmtId).remove();
+						$(updateForm).after(html);
+						$(updateForm).remove();
+					}
+				});
+	 		}
+	 	}
+	}  
+
+/*---------댓글 수정폼 삭제 script---------*/	
+	function fn_delete_update_form(idx) {
+		$('.cmt-update-wrapper').remove();
+		$('#cmt-content-' + idx).show();
+	}
+
+/*---------글자수 제한 script---------*/
+	function fn_checkByte(obj){
+		const textarea = $(obj);
+	    const target = textarea.parent().find('#nowByte');
+	    const maxByte = 300; //최대 100바이트
+	    const text_val = obj.value; //입력한 문자
+	    const text_len = text_val.length; //입력한 문자수
+	    
+	    let totalByte=0;
+	    for(let i=0; i<text_len; i++) {
+	    	const each_char = text_val.charAt(i);
+	        const uni_char = escape(each_char) //유니코드 형식으로 변환
+	        if(uni_char.length>4) {
+	        	// 한글 : 2Byte
+	            totalByte += 2;
+	        } else {
+	        	// 영문,숫자,특수문자 : 1Byte
+	            totalByte += 1;
+	        }
+	    }
+	    
+	    if(totalByte>maxByte) {
+	    	alert('최대 300Byte까지만 입력가능합니다.');
+	        target.text(totalByte);
+	        target.css('color', 'red');
+	    } else {
+	        target.text(totalByte);
+	        target.css('color', 'green');
+	    }
+	}
+	
+
+
 var updateReno = updateRememo = null;
 /*댓글 수정 폼 보이기
 숨겨져 있던 댓글 입력창(replyUpdateDiv)을 보여주며 기존에 입력한 댓글 내용을 받아와 넣어준다. 
@@ -160,6 +244,7 @@ var updateReno = updateRememo = null;
 현재 입력하는 댓글 번호를 updateReno에 저장한다. */
 
 function fn_replyUpdate(reno) {
+	alert(reno);
 	var form = document.form2;
 	var reply = document.getElementById(reno);
 	var replyDiv = document.getElementById("replyUpdateDiv");

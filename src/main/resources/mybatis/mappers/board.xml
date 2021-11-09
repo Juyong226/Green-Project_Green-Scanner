@@ -21,7 +21,6 @@
 	<resultMap type="BoardReplyVO" id="replyResult">
 		<result property="postno" column="postno" />
 		<result property="reno" column="reno" />
-		<result property="rewriter" column="rewriter" />
 		<result property="rememo" column="rememo" />
 		<result property="nickname" column="nickname" />
 		<result property="redate" column="redate" />
@@ -51,14 +50,14 @@
 	<!-- 자유게시판 글 리스트 출력 -->
 	<select id="listPostB" resultMap="boardResult">
 		<![CDATA[
-			select * from board where rownum <=3 and boardname = '자유게시판' order by postno desc
+			select * from board where rownum <=4 and boardname = '자유게시판' order by postno desc
 		]]>
 	</select>
 	
 	<!-- 질문게시판 글 리스트 출력 -->
 	<select id="listPostQ" resultMap="boardResult">
 		<![CDATA[
-			select * from board where rownum <=3 and boardname = '질문게시판' order by postno desc
+			select * from board where rownum <=4 and boardname = '질문게시판' order by postdate desc
 		]]>
 	</select>
 	<!-- ################################################################################## -->
@@ -167,6 +166,26 @@
 			(#{postno}, #{nickname},#{rememo})
 		]]>
 	</insert>
+	
+	<!-- 특정 댓글 출력 -->
+	<select id="getCommentDetail" resultMap="replyResult" parameterType="int">
+		<![CDATA[
+			select * from boardreply 
+			where reno=#{reno}
+		]]>
+	</select>
+	
+	<update id="updateComment" parameterType="boardReplyVO">
+		<![CDATA[
+			update boardreply
+			set
+				rememo=#{rememo}
+			where 
+				reno=#{reno}
+		]]>
+	</update>
+	
+	
 	
 	<!-- 댓글 리스트 출력 -->
 	<select id="viewReply" resultMap="replyResult" parameterType="int">
