@@ -42,6 +42,7 @@ public class ChallengeService {
 	public PersonalChallengeVO getPersonalChallenge(String challengeNum) {
 		PersonalChallengeVO pc = challengeDAO.getPersonalChallenge(challengeNum);
 		pc.setCalList(gsCalendar.calendarToList(pc.getCalendar()));
+		pc.calculateAchievementRate();
 		return pc;
 	}
 	
@@ -58,6 +59,7 @@ public class ChallengeService {
 			pc.setCalendar(gsCalendar.modifyCalendar(pc.getPeriod(), newPeriod, pc.getCalendar()));
 			pc.setEndDate(getEndDate(pc.getStartDate(), newPeriod));
 			pc.setPeriod(newPeriod);
+			pc.calculateAchievementRate();
 			return challengeDAO.updateChallengeVO(pc);
 	}
 	

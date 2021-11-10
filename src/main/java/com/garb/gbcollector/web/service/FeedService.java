@@ -80,7 +80,6 @@ public class FeedService {
 		if(registerFeed(params, challengeNum) == false) {
 			return false;
 		}
-		
 		List<UploadImageVO> uploadList = fileUtils.uploadFeedImages(images, params.getFeedNo());
 		if(uploadList.isEmpty() == false) {
 			queryResult = feedImageDAO.insertFeedImage(uploadList);
@@ -90,8 +89,8 @@ public class FeedService {
 			if(queryResult != -1) {
 				queryResult = 0;
 			}
-		}
-		return (queryResult == -1);
+		} 
+		return (queryResult == -1 || queryResult == 1);
 	}
 	
 	public FeedVO getFeedDetail(int feedNo) {

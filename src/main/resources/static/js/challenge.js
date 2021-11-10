@@ -129,23 +129,20 @@ function fn_write_confirm() {
 			alert("사진을 1장 이상 업로드해주세요.");
 			return false;
 		}
-		alert("사진을 1장 이상 업로드해주세요.");
-		return false;
 		
 	} else if(totalBytes > 1000) {
  		alert("글자 수를 확인해주세요.\n최대 1000Byte까지만 입력가능합니다.");
  		return false;
- 		
- 	} else {
-		if(confirm("피드를 등록하시겠습니까?")) {
-			return true;
-			
-		} else {
-			return false;
-			
-		}	
-	}
+ 				
+ 	}
  	
+	if(confirm("피드를 등록하시겠습니까?")) {
+		return true;
+		
+	} else {
+		return false;
+		
+	} 	
 }
  
 function fn_delete_confirm() {
@@ -215,9 +212,9 @@ function fn_feed_delete_confirm() {
  function chall_toggle(e) {		
 	let pointClass = $(e.target).attr('class');
 	let pointIdTmp = $(e.target).attr('id');
-	console.log("pointClass: " + pointClass + " / pointId: " + pointId);
+	/* console.log("pointClass: " + pointClass + " / pointId: " + pointId); */
 	if(pointClass === '3dots-label-img') {
-		console.log(menu);
+		/* console.log(menu); */
 		if(menu !== undefined && pointId !== undefined && pointId !== pointIdTmp && menu.css('display') === 'flex') {
 			menu.css('display', 'none');
 		}

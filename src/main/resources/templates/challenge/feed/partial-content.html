@@ -73,8 +73,8 @@
 				</div>
 			</div>
 			<div th:if="${nickname == comment.writer}" class="cmt-cont-top-right">
-				<button type="button" class="cmt-delete-btn" th:onclick="chall_delete_cmt([[${comment.idx}]])">댓글삭제</button>							
-				<button type="button" class="cmt-update-form-btn" th:onclick="fn_update_form([[${comment.idx}]])">댓글수정</button>
+				<button type="button" class="cmt-delete-btn" th:onclick="chall_delete_cmt([[${comment.idx}]])">삭제</button>							
+				<button type="button" class="cmt-update-form-btn" th:onclick="fn_update_form([[${comment.idx}]])">수정</button>
 			</div>
 		</div>
 		<div class="cmt-cont-bot">
