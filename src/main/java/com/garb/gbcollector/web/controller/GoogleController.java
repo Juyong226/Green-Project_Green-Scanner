@@ -46,18 +46,18 @@ public class GoogleController {
 		int numIndex=random.nextInt(9999)+1000; //4자리 랜덤 정수를 생성1
 		mempw+=numIndex;
 		
-		JSONObject naverJson = new JSONObject();
+		JSONObject snsJson = new JSONObject();
 		
 		try {
 			MemberVO m =new MemberVO(mememail, mempw, memname,memnickname,googlememid);
 			log.TraceLog("googleid"+m.getGooglememid());
 			googleMemberService.googlememberInsert(m);
-			naverJson.put("success", memnickname+ "님 회원가입을 축하합니다!");
+			snsJson.put("success", memnickname+ "님 회원가입을 축하합니다!");
 			
-			return naverJson.toJSONString();			
+			return snsJson.toJSONString();			
 		}catch(Exception e) {
-			naverJson.put("failed", e.getMessage());
-			return naverJson.toJSONString();
+			snsJson.put("failed", e.getMessage());
+			return snsJson.toJSONString();
 		}
 		
 		
@@ -76,18 +76,18 @@ public class GoogleController {
 		String googleuseremail = request.getParameter("googleuseremail");
 		
 		session.setAttribute("googlememid", googlememid);
-		JSONObject googleloginjson = new JSONObject();
+		JSONObject snsloginjson = new JSONObject();
 		
 		try {
 			MemberVO m = new MemberVO(googlememid);
 			Map returngoogledata = googleMemberService.googleIdChk(m);
 		
 			if(returngoogledata == null) {
-				googleloginjson.put("googleredirect","https://localhost/html/googleMemberInsert.html");
-				googleloginjson.put("googleuseremail", googleuseremail);
-				googleloginjson.put("returngoogleid", 0);
-				
-				return googleloginjson.toJSONString();
+				snsloginjson.put("snsredirect","https://localhost/html/snsMemberInsert.html");
+				snsloginjson.put("snsuseremail", googleuseremail);
+				snsloginjson.put("oauth", "google");
+				snsloginjson.put("returnsnsid", 0);
+				return snsloginjson.toJSONString();
 			}else {
 				try {
 					String mememail = (String) returngoogledata.get("EMAIL");
@@ -101,22 +101,22 @@ public class GoogleController {
 					session.setAttribute("email", mememail);
 					session.setAttribute("memnickname", memnickname);
 					
-					googleloginjson.put("memnickname",memnickname);
-					googleloginjson.put("mememail", mememail);
-					googleloginjson.put("googleredirect","https://localhost" );
-					googleloginjson.put("logout", logout);
+					snsloginjson.put("memnickname",memnickname);
+					snsloginjson.put("mememail", mememail);
+					snsloginjson.put("snsredirect","https://localhost" );
+					snsloginjson.put("logout", logout);
 
 					
-					return googleloginjson.toJSONString();
+					return snsloginjson.toJSONString();
 				}catch(Exception e) {
 					
 				}
 			}
 		}catch(Exception e) {
-			googleloginjson.put("failed", e.getMessage());
-			return googleloginjson.toJSONString();
+			snsloginjson.put("failed", e.getMessage());
+			return snsloginjson.toJSONString();
 		}
-		return googleloginjson.toJSONString();
+		return snsloginjson.toJSONString();
 	}
 	
 }

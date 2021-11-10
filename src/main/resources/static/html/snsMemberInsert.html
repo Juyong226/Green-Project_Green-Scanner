@@ -9,7 +9,7 @@
 <link rel="stylesheet" type="text/css" href="/css/map.css"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-<script src="../js/googlememberinsert.js"></script>
+<script src="../js/snsMemberInsert.js"></script>
 </head>
 <body>
 	<!-- 공통 네비게이션: top -->
@@ -55,11 +55,11 @@
 				<form role="form" class="signup-form">
 					<div>
 						<div style="margin-bottom:9px; margin-top:16px;" class="signup-name">이름</div>
-						<input name="gooname" type="text" id="signup-form-name"placeholder="이름을 입력해주세요." >
+						<input name="snsname" type="text" id="signup-form-name"placeholder="이름을 입력해주세요." >
 	
 						<div style="margin-bottom:9px; margin-top:16px;" class="signup-email">이메일</div>
 						<div class="form-div-btns">
-							<input name="gooemail" type="text" id="signup-form-email" placeholder="이메일을 입력해주세요." check_result="fail" required>						
+							<input name="snsemail" type="text" id="signup-form-email" placeholder="이메일을 입력해주세요." check_result="fail" required>						
 							<button type="button" id="check-email-btn" style="margin-left: 14px;" value="N">중복확인</button>
 						</div>
 						
@@ -93,7 +93,7 @@
 						</div>
 						<div class="form-div-signbtns">
 							<button id="cancle">가입취소</button>
-							<input type="button" id="login-join-btn-n" value ="회원가입">
+							<input type="button" id="login-join-btn-s" value ="회원가입">
 						</div>
 					</div>
 				</form>
@@ -124,10 +124,19 @@
 </body>
 <script>
 $(function(){
-	var gooemail = $.cookie('gooemail');
-	if(gooemail != "null"){
-		$('input[name=gooemail]').attr('value',gooemail)
-	}	 
+	var tosnssignup = JSON.parse($.cookie("tosnssignup"));
+	var snsemail = tosnssignup.snsuseremail;
+	var snsname = tosnssignup.snsusername;
+ 	if(snsemail != "null" && snsname != "null"){
+		$('input[name=snsname]').attr('value',snsname)
+		$('input[name=snsemail]').attr('value',snsemail)
+	}else if (snsemail == "null" && snsname != "null"){
+		$('input[name=snsname]').attr('value',snsname)
+	}else if (snsemail != "null" && snsname == "null"){
+		$('input[name=snsemail]').attr('value',snsemail)		
+	}else{
+
+	} 
 	});
 </script>
 </html>

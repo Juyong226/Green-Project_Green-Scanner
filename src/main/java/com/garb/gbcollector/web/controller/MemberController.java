@@ -145,7 +145,8 @@ public class MemberController {
 		try {
 			MemberVO m = new MemberVO(mememail, mempw, memname, memnickname);
 			memberService.memberInsert(m);
-			resJson.put("success", memname + "님 회원가입을 축하합니다!");
+			resJson.put("success", memname + "님 회원가입을 축하합니다!" + "다시 한번 로그인 해주세요");
+			resJson.put("redirect", "https://localhost");
 			return resJson.toJSONString();
 		} catch(Exception e) {
 			resJson.put("failed", e.getMessage());
