@@ -43,30 +43,28 @@ public class FeedCommentController extends UiUtils {
 	public String getCommentList(@PathVariable("feedNo") final Integer feedNo, @RequestParam(value="challengeNum") final String challengeNum,
 			FeedCommentVO params, Model model, HttpServletRequest request) {
 		
-		HttpSession session = request.getSession(false);
-		String redirectURI = "";
-		if(session != null) {
-				FeedVO feed = feedService.getFeedDetail(feedNo);
-				if(feed != null) {
-					params.setFeedNo(feedNo);
-					List<FeedCommentVO> commentList = feedCommentService.getCommentList(params);
-					if(commentList.isEmpty() == false) {
-						feed.setCommentCnt(commentList.size());
-						model.addAttribute("commentList", commentList);
-					}
-					/*댓글 없음*/
-					model.addAttribute("feed", feed);
-					model.addAttribute("challengeNum", challengeNum);
-					model.addAttribute("nickname", session.getAttribute("memnickname"));
-					return "challenge/feed/comment";
-				}
-				/*없는 글이거나 이미 삭제됨*/
-				redirectURI = "/challenge/feed/" + challengeNum;
-				return showMessageWithRedirection("이미 삭제되었거나 존재하지 않는 글입니다.", redirectURI, Method.GET, null, model);				
+		String redirectURI = "";		
+		FeedVO feed = feedService.getFeedDetail(feedNo);
+		if(feed != null) {
+			params.setFeedNo(feedNo);
+			List<FeedCommentVO> commentList = feedCommentService.getCommentList(params);
+			if(commentList.isEmpty() == false) {
+				feed.setCommentCnt(commentList.size());
+				model.addAttribute("commentList", commentList);
+			}
+			/*댓글 없음*/
+			model.addAttribute("feed", feed);
+			model.addAttribute("challengeNum", challengeNum);
+			
+			HttpSession session = request.getSession(false);
+			if(session != null) {
+				model.addAttribute("nickname", session.getAttribute("memnickname"));
+			}	
+			return "challenge/feed/comment";
 		}
-		/*로그인 필요*/
-		redirectURI = "/challenge/main";
-		return showMessageWithRedirection("로그인 후 이용이 가능합니다.", redirectURI, Method.GET, null, model);
+		/*없는 글이거나 이미 삭제됨*/
+		redirectURI = "/challenge/feed/" + challengeNum;
+		return showMessageWithRedirection("이미 삭제되었거나 존재하지 않는 글입니다.", redirectURI, Method.GET, null, model);				
 	}
 	
 	/*댓글 수정 폼 요청*/

@@ -55,7 +55,18 @@
 						</div>
 					</form>
 					<div th:unless="${nickname}" class="cmt-write-login-required">
-						<span>댓글을 작성하려면 <a href="/html/login.html"><strong>로그인</strong></a>해주세요.</span>
+						<div class="cmt-write-form-top">
+							<div class="cmt-top-icon">
+								<img src="/img/challenge/user.png">
+							</div>
+							<div class="cmt-top-text">
+								<span class="cmt-top-nickname">작성자</span>
+							</div>
+						</div>
+						<div class="cmt-write-form-cont">
+							<textarea class="cmt-textarea" id="cmt-write-textarea" placeholder="댓글을 작성하려면 로그인해주세요." readonly></textarea>
+							<sup>(<span id="nowByte">0</span>/1000bytes)</sup>
+						</div>
 					</div>
 				</div>
 				<!-- 댓글 리스트 -->

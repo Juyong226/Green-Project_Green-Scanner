@@ -1635,7 +1635,7 @@ select::-ms-expand {
 	align-items: center;	
 }
 
-#cmt-write-form, #cmt-update-form {
+#cmt-write-form, #cmt-update-form, .cmt-write-login-required {
 	width: 95%;
 }
 
