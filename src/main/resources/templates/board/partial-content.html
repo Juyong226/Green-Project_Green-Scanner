@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<div th:fragment="cmt-regi" class="cmt-cont" th:object="${comment}"
+		th:id="|cmt-content-*{reno}|">
+		<div class="cmt-cont-top">
+			<div class="cmt-cont-top-left">
+				<div class="cmt-top-icon">
+					<img src="/img/challenge/user.png">
+				</div>
+				<div class="cmt-top-text">
+					<span class="cmt-top-nickname" th:text="${comment.nickname}"></span>
+					<span th:if="${comment.redate} == null" class="cmt-top-time"
+						th:text="${#dates.format(comment.redate, 'yyyy/MM/dd HH시 mm분')}"></span>
+					<span th:unless="${comment.redate} == null" class="cmt-top-time"
+						th:text="${#dates.format(comment.redate, 'yyyy/MM/dd HH시 mm분')}"></span>
+				</div>
+			</div>
+			<div th:if="${nickname == comment.nickname}"
+				class="cmt-cont-top-right">
+				<form name="deleteForm" action="/board/deleteReply" method="post"
+					onsubmit="return DeleteComment();">
+					<input id="reno" type="hidden" name="reno" th:value=${comment.reno}>
+					<input type="hidden" name="postno" th:value=${comment.postno}>
+					<input id="" class="cmt-delete-btn" type="submit" value="댓글삭제" />
+				</form>
+				<button type="button" class="cmt-update-form-btn"
+					th:onclick="fn_update_form([[${comment.reno}]])">댓글수정</button>
+			</div>
+		</div>
+		<div class="cmt-cont-bot">
+			<div class="cmt-bot-cont" th:text="${comment.rememo}"></div>
+		</div>
+		<div class="board-cont-min-border"></div>
+	</div>
+
+	<div th:fragment="cmt-update-form" class="cmt-update-wrapper">
+		<form th:if="${nickname}" id="cmt-update-form" th:object="${comment}">
+			<input type="hidden" name="postno" th:field="*{postno}"> <input
+				type="hidden" name="nickname" th:field="*{nickname}"> <input
+				th:if="*{reno}" type="hidden" name="reno" th:field="*{reno}">
+			<div class="cmt-write-form-top">
+				<div class="cmt-top-icon">
+					<img src="/img/challenge/user.png">
+				</div>
+				<div class="cmt-top-text">
+					<span class="cmt-top-nickname" th:text="${nickname}"></span>
+				</div>
+			</div>
+			<div class="cmt-write-form-cont">
+				<textarea class="cmt-textarea" th:id="cmt-update-textarea"
+					name="content" onkeyup="fn_checkByte(this)"
+					placeholder="내용을 입력해주세요." th:field="*{rememo}"></textarea>
+				<sup>(<span id="nowByte">0</span>/300bytes)
+				</sup>
+				<div class="cmt-update-btns">
+					<input type="button" class="cmt-cancle-btn"
+						th:onclick="fn_delete_update_form([[*{reno}]])" value="취소">
+					<input type="button" class="cmt-update-btn"
+						th:onclick="board_update_cmt([[*{reno}]])" value="수정">
+				</div>
+			</div>
+			<div class="board-cont-min-border"></div>
+		</form>
+	</div>
+</body>
+</html>

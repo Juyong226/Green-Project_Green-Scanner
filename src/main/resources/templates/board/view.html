@@ -5,147 +5,199 @@
 	<nav th:replace="fragments/common.html :: nav-top"></nav>
 	<!-- 밑줄: 디자인 요소 다운하여 사용 -->
 	<div class="nav-border"></div>
-	<div class="main">
-		<div class="Title_section">
-			<label class="Title_text" th:text="${post.title}"></label>
-			<div class="Vector_13"></div>
-		</div>
-		<div class="Post_section">
-			<div class="Content_wrap">
-				<div class="Nickname_div">
-					<img class="img_24" src="../img/board/User.png"> <label
-						class="text" th:if="${post.isanon} == 0"
-						th:text="${post.nickname}"></label> <label class="text"
-						th:if="${post.isanon} == 1">익명</label>
-				</div>
-				<!-- <div class="Title_div" th:text="${post.title}"></div> -->
-				<div class="Img_div" th:if="${post.filename}">
-					<img class="img_100"
-						th:src="@{'/board/display?filename='+${post.filename}}">
-				</div>
-				<div class="Content_div" th:text="${post.content}"></div>
-				<div class="Etc_wrap">
-					<div class="Edit_div">
-						<div class="ModifyPost_div">
-							<form th:if="${login_nickname == post.nickname}"
-								action="/board/updatePost" method="get">
-								<input type="hidden" name="postno" th:value="${post.postno}">
-								<input class="ModifyPost_btn" type="submit" value="수정" />
-							</form>
-						</div>
-						<div class="DeletePost_div">
-							<form th:if="${login_nickname == post.nickname}"
-								action="/board/deletePost" method="post"
-								onsubmit="return DeletePost();">
-								<input type="hidden" name="_csrf" th:value="${token}"> <input
-									type="hidden" name="postno" th:value="${post.postno}">
-								<input type="hidden" name="boardname"
-									th:value="${post.boardname}"> <input
-									class="ModifyPost_btn" type="submit" style="" value="삭제" />
-							</form>
-						</div>
-
-					</div>
-					<div class="Date_div"
-						th:text="${#dates.format(post.postdate, 'yyyy-MM-dd HH시 mm분')}"></div>
+	<!-- Content 영역 -->
+	<div class="board-cont-body">
+		<div class="board-cont-wrapper">
+			<div class="board-cont-top">
+				<div class="board-cont-top-main">
+					<span class="board-cont-top-title" th:text="${post.title}">챌린지</span>
+					<a th:if="${post.boardname=='자유게시판'}"
+						href="/board/bulletin_boardlist" id="board">목록으로 돌아가기</a> <a
+						th:if="${post.boardname=='질문게시판'}"
+						href="/board/question_boardlist" id="board">목록으로 돌아가기</a>
 				</div>
 			</div>
+			<div class="content-border"></div>
 
-		</div>
-		<div class="Comment_section">
-			<div class="Comment_write_div">
+			<div class="cmt-feed-detail">
+				<div class="cmt-feed-detail-top">
+					<div class="feed-top-icon">
+						<img src="/img/profile.png">
+					</div>
+					<div class="feed-top-text">
+						<span class="feed-top-nickname" th:text="${post.nickname}"></span>
+						<span class="feed-top-post-time"
+							th:text="${#dates.format(post.postdate, 'yyyy/MM/dd HH시 mm분')}"></span>
+					</div>
+				</div>
+				<div class="cmt-feed-detail-cont" th:text="${post.content}"></div>
+				<img class="img_100 " th:if="${post.filename}"
+					th:src="@{'/board/display?filename='+${post.filename}}">
 
-				<div class="Nickname_div" th:if="${session.memnickname != null}">
-					<img class="img_24" src="../img/board/User.png"> <label
-						class="text" th:text="${session.memnickname}"></label>
-
-					<form name="form1" action="boardReplySave" method="post"
-						id="memoid">
-						<input type="hidden" name="postno" th:value="${post.postno}" />
-						<textarea class="Comment_input" name="rememo" form="memoid"
-							required wrap="hard" placeholder="댓글을 입력하세요."></textarea>
-						<button class="Comment_Btn" id="commentInsertBtn">등록</button>
+			</div>
+			<div class="Edit_div">
+				<div class="ModifyPost_div">
+					<form th:if="${login_nickname == post.nickname}"
+						action="/board/updatePost" method="get">
+						<input type="hidden" name="postno" th:value="${post.postno}">
+						<input class="ModifyPost_btn" type="submit" value="수정" />
 					</form>
 				</div>
-				<!-- 로그인하지 않은 사용자에게는 비활성 -->
-				<div th:if="${session.memnickname == null}">
-					<form name="form3" action="boardReplySave" method="post"
-						id="memoid2">
-						<textarea name="rememo" form="memoid2" disabled wrap="hard"
-							class="Comment_input" placeholder="댓글을 입력하려면 로그인하세요."></textarea>
+				<div class="DeletePost_div">
+					<form th:if="${login_nickname == post.nickname}"
+						action="/board/deletePost" method="post"
+						onsubmit="return DeletePost();">
+						<input type="hidden" name="_csrf" th:value="${token}"> <input
+							type="hidden" name="postno" th:value="${post.postno}"> <input
+							type="hidden" name="boardname" th:value="${post.boardname}">
+						<input class="ModifyPost_btn" type="submit" style="" value="삭제" />
 					</form>
+				</div>
+
+			</div>
+
+
+			<!-- 댓글 쓰기 영역 -->
+			<div class="cmt-write-wrapper">
+				<form th:if="${session.memnickname != null}" id="cmt-write-form"
+					action="boardReplySave" method="post">
+					<input type="hidden" name="postno" th:value="${post.postno}" />
+					<div class="cmt-write-form-top">
+						<div class="cmt-top-icon">
+							<img src="../img/challenge/user.png">
+						</div>
+						<div class="cmt-top-text">
+							<span class="cmt-top-nickname" th:text="${session.memnickname}"></span>
+						</div>
+					</div>
+					<div class="cmt-write-form-cont">
+						<textarea class="cmt-textarea" id="cmt-write-textarea"
+							name="rememo" onkeyup="fn_checkByte(this)"
+							placeholder="내용을 입력해주세요."></textarea>
+						<sup>(<span id="nowByte">0</span>/300bytes)
+						</sup> <input class="cmt-write-btn" id="cmt-write-btn" type="submit"
+							value="등록">
+					</div>
+				</form>
+				<div th:if="${session.memnickname == null}"
+					class="cmt-write-login-required">
+					<span>댓글을 작성하려면 <a href="/html/login.html"><strong>로그인</strong></a>해주세요.
+					</span>
 				</div>
 			</div>
-			<div class="Comment_list_div" th:each="comment :${commentList }">
-				<div class="Comment_content">
-					<div class="Nickname_div inline_block">
-						<img class="img_24" src="../img/board/User.png"> <label
-							class="text" th:text="${comment.nickname}"></label>
-					</div>
-					<div class="Comment_date inline_block">
-						<label
-							th:text="${#dates.format(comment.redate, 'yyyy-MM-dd HH시 mm분')}"></label>
-					</div>
-					<div class="Comment_edit inline_block">
-						<div th:if="${session.memnickname == comment.nickname}">
-							<!-- <div class="Comment_modify_Btn inline_block">
-								<a id="replyUpdate" href="#" onclick="fn_replyUpdate('th:value=${comment.reno}/>')" >수정</a>
-							</div> -->
-							<!-- 댓글 삭제 시 board.js => DeleteComment함수에서 확인 후 삭제 처리 -->
-							<div class="Comment_delete_Btn inline_block">
-								<form name="deleteForm" action="/board/deleteReply"
-									method="post" onsubmit="return DeleteComment();">
-									<input id="reno" type="hidden" name="reno"
-										th:value=${comment.reno}> <input type="hidden"
-										name="postno" th:value=${post.postno}> <input
-										id="commentDeleteBtn" type="submit" value="삭제" />
-								</form>
+			<!-- 댓글 리스트 영역 -->
+			<div class="cmt-list-wrapper">
+				<!-- 댓글 있음 -->
+				<div class="cmt-cont" th:if="${commentList}"
+					th:id="|cmt-content-${comment.reno}|"
+					th:each="comment : ${commentList}">
+					<div class="cmt-cont-top">
+						<div class="cmt-cont-top-left">
+							<div class="cmt-top-icon">
+								<img src="/img/challenge/user.png">
+							</div>
+							<div class="cmt-top-text">
+								<span class="cmt-top-nickname" th:text="${comment.nickname}"></span>
+								<span class="cmt-top-time"
+									th:text="${#dates.format(comment.redate, 'yyyy/MM/dd HH시 mm분')}"></span>
 							</div>
 						</div>
+						<div class="cmt-cont-top-right"
+							th:if="${session.memnickname == comment.nickname}">
+							<!-- <button type="button" class="cmt-delete-btn"
+								th:onclick="chall_delete_cmt([[${comment.reno}]])">댓글삭제</button>
+							 -->
+							<form name="deleteForm" action="/board/deleteReply" method="post"
+								onsubmit="return DeleteComment();">
+								<input id="reno" type="hidden" name="reno"
+									th:value=${comment.reno}> <input type="hidden"
+									name="postno" th:value=${post.postno}> <input id=""
+									class="cmt-delete-btn" type="submit" value="댓글삭제" />
+							</form>
+
+							<!-- 댓글 수정 -->
+							<button type="button" class="cmt-update-form-btn"
+								th:onclick="fn_update_form([[${comment.reno}]])">댓글수정</button>
+
+						</div>
 					</div>
-					<div id="replyUpdateDiv" class="board-font"
-						style="width: 99%; display: none">
-						<form name="form2" action="updateReply" method="post">
-							<input type="hidden" name="postno" th:value=${post.postno} /> <input
-								type="hidden" name="reno"> <input type="text"
-								name="rememo" /> <a href="#" onclick="fn_replyUpdateSave()"
-								style="text-decoration: none; font-size: 0.9em; color: #198754;">저장</a>
-							<a href="#" onclick="fn_replyUpdateCancel()"
-								style="text-decoration: none; font-size: 0.9em; color: #198754;">취소</a>
-						</form>
+					<div class="cmt-cont-bot">
+						<div class="cmt-bot-cont" th:text="${comment.rememo}"></div>
 					</div>
-					<div class="Comment_memo">
-						<label th:id=${comment.reno} th:text="${comment.rememo}"></label>
-					</div>
+					<div class="board-cont-min-border"></div>
+				</div>
+				<!-- 댓글 없음 -->
+				<div th:unless="${commentList}" class="no-cmt-list">
+					<span>아직 등록된 댓글이 없습니다.</span>
 				</div>
 			</div>
-			<div class="Back_to_menu">
-				<a th:if="${post.boardname=='자유게시판'}"
-					href="/board/bulletin_boardlist" id="board"
-					class="text_decoration_none"><label class="Back_to_menu_text">목록으로
-						돌아가기</label></a> <a th:if="${post.boardname=='질문게시판'}"
-					href="/board/question_boardlist" id="board"
-					class="text_decoration_none"><label class="Back_to_menu_text">목록으로
-						돌아가기</label></a>
-			</div>
-			<!-- 			<div class="Prev"></div>
-			<div class="Next"></div> -->
 		</div>
 	</div>
-	<!-- <!-- 밑줄: 디자인 요소 다운하여 사용 -->
-<!-- 	<div class="footer-border"></div>
-	공통 footer
-	<div class="footer">
-		content section 크기와 같은 영역
-		<div class="wrapper">
-			<div class="footer-left">
-				<a>개인정보처리방침</a> <a>이용약관</a>
-			</div>
-			<div class="footer-right">
-				<span>Copyright @ GREEN SCANNER</span>
-			</div>
-		</div>
-	</div> --> 
 
+	<!-- 	
+				<!-- 댓글 리스트 영역
+				<div class="cmt-list-wrapper" th:each="comment :${commentList }">
+					<div class="Comment_content">
+						<div class="Nickname_div inline_block">
+							<img class="img_24" src="../img/board/User.png"> <label
+								class="text" th:text="${comment.nickname}"></label>
+						</div>
+						<div class="Comment_date inline_block">
+							<label
+								th:text="${#dates.format(comment.redate, 'yyyy-MM-dd HH시 mm분')}"></label>
+						</div>
+						<div class="Comment_edit inline_block">
+							<div th:if="${session.memnickname == comment.nickname}">
+								<div class="Comment_modify_Btn inline_block">
+								<a id="replyUpdate" href="#" onclick="fn_replyUpdate('th:value=${comment.reno}/>')" >수정</a>
+							</div>
+								댓글 삭제 시 board.js => DeleteComment함수에서 확인 후 삭제 처리
+								<div class="Comment_delete_Btn inline_block">
+									<form name="deleteForm" action="/board/deleteReply"
+										method="post" onsubmit="return DeleteComment();">
+										<input id="reno" type="hidden" name="reno"
+											th:value=${comment.reno}> <input type="hidden"
+											name="postno" th:value=${post.postno}> <input
+											id="commentDeleteBtn" type="submit" value="삭제" />
+									</form>
+								</div>
+							</div>
+						</div>
+						<div id="replyUpdateDiv" class="board-font"
+							style="width: 99%; display: none">
+							<form name="form2" action="updateReply" method="post">
+								<input type="hidden" name="postno" th:value=${post.postno} /> <input
+									type="hidden" name="reno"> <input type="text"
+									name="rememo" /> <a href="#" onclick="fn_replyUpdateSave()"
+									style="text-decoration: none; font-size: 0.9em; color: #198754;">저장</a>
+								<a href="#" onclick="fn_replyUpdateCancel()"
+									style="text-decoration: none; font-size: 0.9em; color: #198754;">취소</a>
+							</form>
+						</div>
+						<div class="Comment_memo">
+							<label th:id=${comment.reno} th:text="${comment.rememo}"></label>
+						</div>
+					</div>
+				</div> -->
+	<!-- <div class="Back_to_menu">
+					<a th:if="${post.boardname=='자유게시판'}"
+						href="/board/bulletin_boardlist" id="board"
+						class="text_decoration_none"><label class="Back_to_menu_text">목록으로
+							돌아가기</label></a> <a th:if="${post.boardname=='질문게시판'}"
+						href="/board/question_boardlist" id="board"
+						class="text_decoration_none"><label class="Back_to_menu_text">목록으로
+							돌아가기</label></a>
+				</div> -->
+
+	<div th:replace="/fragments/common.html :: new-footer"></div>
+
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+		var urlHead = /*[[ |/board/${post.postno}/comments/|]]*/;
+		var cmtIdHead = '#cmt-content-';
+		var writeTextarea = $('#cmt-write-textarea');
+		var cmtListWrapper = $('.cmt-list-wrapper');
+	/*]]>*/
+	</script>
 </body>
 </html>
