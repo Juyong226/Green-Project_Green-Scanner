@@ -1,5 +1,5 @@
 
-/*�룿�듃 �쟻�슜 css*/
+/*占쎈？占쎈뱜 占쎌읅占쎌뒠 css*/
 @font-face {
 	font-family: GmarketSans;
 	src: url("/fonts/GmarketSansTTFBold.ttf");
@@ -27,6 +27,7 @@
 /*nav/footer css*/
 body {
 	margin: 0;
+	
 }
 
 .nav-top {
@@ -123,7 +124,7 @@ body {
 	color: #4cbd73;
 }
 
-/*硫붿씤�솕硫� �븘�씠肄� �쁺�뿭*/
+/*筌롫뗄�뵥占쎌넅筌롳옙 占쎈툡占쎌뵠�굜占� 占쎌겫占쎈열*/
 .main-top {
 	width: 100%;
 	height: 360px;
@@ -154,13 +155,13 @@ body {
 	align-items: center;
 }
 
-/* 留곹겕 愿��젴 css*/
+/* 筌띻낱寃� �꽴占쏙옙�졃 css*/
 a, a:link, a:visited {
 	text-decoration: none;
 	color: inherit;
 }
 
-/*�긽�븯�떒 border*/
+/*占쎄맒占쎈릭占쎈뼊 border*/
 .nav-border {
 	width: 100%;
 	min-width: calc(1194px + 1rem);
@@ -175,7 +176,7 @@ a, a:link, a:visited {
 	background-color: #d6dddd;
 }
 
-/*濡쒓렇�씤 �럹�씠吏�*/
+/*嚥≪뮄�젃占쎌뵥 占쎈읂占쎌뵠筌욑옙*/
 .login-content {
 	width: 100%;
 	min-width: calc(1194px + 1rem);
@@ -286,7 +287,7 @@ a, a:link, a:visited {
   	font-weight: 700;	
 }
 
-/*�쉶�썝媛��엯*/
+/*占쎌돳占쎌뜚揶쏉옙占쎌뿯*/
 #signup-form-email{
 	width:276px;
 	height:52px;
@@ -448,7 +449,7 @@ input::placeholder{
 }
 
 
-/*吏��룄*/
+/*筌욑옙占쎈즲*/
 .map-content {
 	width: 100%;
 	min-width: calc(1194px + 1rem);
@@ -486,13 +487,13 @@ input::placeholder{
 	color: #5f6262;
 }
 
-/*�벐�젅湲고넻 留� �쁺�뿭*/
+/*占쎈쾺占쎌쟿疫꿸퀬�꽰 筌랃옙 占쎌겫占쎈열*/
 .map-trash {
 	width: 1194px;
 	height: 617px;
 }
 
-/*�젣濡쒖썾�씠�뒪�듃 留� �쁺�뿭*/
+/*占쎌젫嚥≪뮇�띃占쎌뵠占쎈뮞占쎈뱜 筌랃옙 占쎌겫占쎈열*/
 .map-div {
 	width: 1194px;
 	height: 617px;
@@ -605,7 +606,7 @@ input::placeholder{
 	font-weight: 400;
 }
 
-/*梨뚮┛吏� css*/
+/*筌��슢�뵛筌욑옙 css*/
 .chall-cont-body {
 	width: 100%;
 	min-width: calc(1194px + 1rem);
@@ -1095,7 +1096,7 @@ input::placeholder{
 	cursor: pointer;
 }
 
-/*�쓬�꽦�씤�떇 css*/
+/*占쎌벉占쎄쉐占쎌뵥占쎈뻼 css*/
 
 #chall-more-btn:hover {
 	background: #d6dddd;
@@ -1729,7 +1730,7 @@ select::-ms-expand {
 	word-break: break-all;
 }
 
-/*음성인식 css*/
+/*�쓬�꽦�씤�떇 css*/
 
 .div-swv-content {
 	width: 100%;
@@ -1807,13 +1808,15 @@ select::-ms-expand {
 	height: 334px;
 }
 
-/*吏��썝: 硫붿씤 以묓븯遺�*/
-	/* 轅��똻 */
+/*筌욑옙占쎌뜚: 筌롫뗄�뵥 餓λ쵑釉��겫占�*/
+	/* 饔낉옙占쎈샍 */
 	.slider  {
 		width: 100%;
 		height: 1500px;
 		display: flex;
 		justify-content: center;
+		
+	
 	
 	}
 .wrapper-slider{
@@ -1835,40 +1838,45 @@ select::-ms-expand {
 	width: 100%;
 	height: 600px;
 	display: flex;
-	justify-content: space-around;
-	align-items: center;
+	justify-content: center;
 }
 	
 .wrapper-rectangle{
-	width: 100%;
+	width: 100%;;
 	display: flex;
-	justify-content: space-between;
+	justify-content: center;
+	
+	
 }
 .Rectangle202{
 	position: absolute;
-	width:1000px;
-	height:56px;
-	display: flex;
+	width:1194px;
+	height:350px;
+	display:inline-block;
 	top:1200px;
-	left:60px;
-	}
 	
+	}
+
 #Rectangle_202-title{
 	font-family: GmarketSans;
 	font-size: 1.8rem;
 	font-weight: 700;
+	position: flex;
+	
 }
 
-	.Rectangle_167 {
+
+.Rectangle_167 {
 		position: absolute;
 		width: 240px;
 		height: 240px;
-		left:60px;
 		top: 1250px;
 		background: #FFFFFF;
 		/* Gray/2 */
 		border:1px solid #8F9494;
 		border-radius: 16px;
+		margin-right:1000px;
+		
 	}
 	
 	
@@ -1916,16 +1924,17 @@ select::-ms-expand {
 
 	}
 
-	.Rectangle_168 {
+.Rectangle_168 {
 		position: absolute;
 		width: 240px;
 		height: 240px;
-		left: 320px;
+		margin-right:500px;
 		top: 1250px;
 		background: #FFFFFF;
 		/* Gray/2 */
 		border:1px solid #8F9494;
 		border-radius: 16px;
+		display:inline-block;
 	}
 	
 	.Rectangle_168 .imgright{
@@ -1951,18 +1960,20 @@ select::-ms-expand {
 	}
 	.Rectangle_168 .right{
 	position: absolute;
-	left: 115%;
+	left: 105%;
 	right: 10%;
 	top:3px;
 	height: 240px;
 	border-radius: 16px;
 	}
 	
-.grid-image{
+	
+.right{
+	margin-right:544px;
 	display: flex;
-	flex-wrap:flex;
-	align-items:flex-start;
-	margin: 30px 0;
+	flex-direction: column;
+	justify-content: flex-end;
+	
 }
 .cardnews{
 	position: absolute;
@@ -1980,7 +1991,7 @@ select::-ms-expand {
 	text-align: left;
 }
 
-/*�씤�닔: SWI*/
+/*占쎌뵥占쎈땾: SWI*/
 #img_body{
 	text-align: center;
     margin: 0 auto;
@@ -2142,7 +2153,7 @@ select::-ms-expand {
     padding: 0;
 }
 
-/*�씤�닔: SWV*/
+/*占쎌뵥占쎈땾: SWV*/
 #input {
     position: static;
     width: 582px;
@@ -2341,8 +2352,8 @@ select::-ms-expand {
     color: #4CBD73;
 }
 
-/* �삙由� - 寃뚯떆�뙋, QNA寃뚯떆�뙋 */
-/* �쟾泥닿쾶�떆�뙋 */
+/* 占쎌굺�뵳占� - 野껊슣�뻻占쎈솇, QNA野껊슣�뻻占쎈솇 */
+/* 占쎌읈筌ｋ떯苡띰옙�뻻占쎈솇 */
 .Title {
 	position: absolute;
 	width: 1194px;
@@ -2529,7 +2540,7 @@ select::-ms-expand {
 	color: #000000;
 }
 
-/* 媛쒕퀎寃뚯떆�뙋 */
+/* 揶쏆뮆�롥칰�슣�뻻占쎈솇 */
 .Section {
 	position: absolute;
 	width: 1194px;
@@ -2575,7 +2586,7 @@ select::-ms-expand {
 	width: 120px;
 }
 
-/* 湲��벐湲�/�닔�젙 */
+/* 疫뀐옙占쎈쾺疫뀐옙/占쎈땾占쎌젟 */
 .Write_form {
 	position: absolute;
 	width: 990px;
@@ -2713,7 +2724,7 @@ input[type="checkbox"]+label {
 	cursor: pointer;
 }
 
-.file-upload input[type="file"] { /* �뙆�씪 �븘�뱶 �닲湲곌린 */
+.file-upload input[type="file"] { /* 占쎈솁占쎌뵬 占쎈툡占쎈굡 占쎈떜疫꿸퀗由� */
 	position: absolute;
 	width: 1px;
 	height: 1px;
@@ -2737,7 +2748,7 @@ input[type="checkbox"]+label {
 /* named upload */
 .file-upload .upload-name {
 	display: inline-block;
-	padding: .5em .75em; /* label�쓽 �뙣�뵫媛믨낵 �씪移� */
+	padding: .5em .75em; /* label占쎌벥 占쎈솭占쎈뎃揶쏅�⑤궢 占쎌뵬燁삼옙 */
 	font-size: inherit;
 	font-family: inherit;
 	line-height: normal;
@@ -2746,7 +2757,7 @@ input[type="checkbox"]+label {
 	border: 1px solid #ebebeb;
 	border-bottom-color: #e2e2e2;
 	border-radius: .25em;
-	-webkit-appearance: none; /* �꽕�씠�떚釉� �쇅�삎 媛먯텛湲� */
+	-webkit-appearance: none; /* 占쎄퐬占쎌뵠占쎈뼒�뇡占� 占쎌뇚占쎌굨 揶쏅Ŋ�뀤疫뀐옙 */
 	-moz-appearance: none;
 	appearance: none;
 	border: 1px solid #ebebeb;
@@ -2755,7 +2766,7 @@ input[type="checkbox"]+label {
 	-webkit-appearance: none;
 }
 /* imaged preview */
-.file-upload .upload-display { /* �씠誘몄�媛� �몴�떆�맆 吏��뿭 */
+.file-upload .upload-display { /* 占쎌뵠沃섎챷占썲첎占� 占쎈ご占쎈뻻占쎈쭍 筌욑옙占쎈열 */
 	margin-bottom: 5px;
 }
 
@@ -2767,7 +2778,7 @@ input[type="checkbox"]+label {
 	}
 }
 
-.file-upload .upload-thumb-wrap { /* 異붽��맆 �씠誘몄�瑜� 媛먯떥�뒗 �슂�냼 */
+.file-upload .upload-thumb-wrap { /* �빊遺쏙옙占쎈쭍 占쎌뵠沃섎챷占썹몴占� 揶쏅Ŋ�뼢占쎈뮉 占쎌뒄占쎈꺖 */
 	display: inline-block;
 	width: 54px;
 	padding: 2px;
@@ -2777,7 +2788,7 @@ input[type="checkbox"]+label {
 	background-color: #fff;
 }
 
-.file-upload .upload-display img { /* 異붽��맆 �씠誘몄� */
+.file-upload .upload-display img { /* �빊遺쏙옙占쎈쭍 占쎌뵠沃섎챷占� */
 	display: block;
 	max-width: 100%;
 	width: 100% \9;
@@ -2847,7 +2858,7 @@ input[type="checkbox"]+label {
 	color: #181919;
 }
 
-/* �긽�꽭蹂닿린 */
+/* 占쎄맒占쎄쉭癰귣떯由� */
 .main {
 	position: absolute;
 	width: 1194px;
