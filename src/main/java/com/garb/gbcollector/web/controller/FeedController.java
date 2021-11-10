@@ -83,7 +83,7 @@ public class FeedController extends UiUtils {
 	/*피드 글 등록 요청*/
 	@PostMapping(value = "/{challengeNum}")
 	public String registerFeed(final FeedVO params, final MultipartFile[] images, Model model,
-			@PathVariable("challengeNum") String challengeNum, HttpServletRequest request) {
+			@PathVariable("challengeNum") String challengeNum, @RequestParam(value = "challengeName") String challengeName, HttpServletRequest request) {
 		
 		String redirectURI = "/challenge/my-challenge/" + challengeNum;
 		try {
@@ -94,6 +94,7 @@ public class FeedController extends UiUtils {
 				return showMessageWithRedirection("로그인 후 이용이 가능합니다.", redirectURI, Method.GET, null, model);
 			} else {
 				params.setEmail((String) session.getAttribute("email"));
+				params.setChallengeName(challengeName);
 				params.setPostDate(challengeService.getCurrentTime());
 				boolean isRegistered = feedService.registerFeed(params, challengeNum, images);
 				if(isRegistered == false) {

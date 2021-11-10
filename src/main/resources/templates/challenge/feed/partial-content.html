@@ -16,7 +16,7 @@
 			</div>
 			<div class="feed-top-right">
 				<div class="chall-feed-dropdown">
-					<a class="feed-top-chall-name">챌린지명(예정)</a>
+					<div class="feed-top-chall-name" th:text="${feed.challengeName}">챌린지명(예정)</div>
 					<div class="feed-3dots-submenu" th:id="|feed-3dots-submenu-${idx}-${feedStat.index}|">	
 						<a	id="feed-edit-btn" 
 							th:href="@{'/challenge/feed/' + ${feed.challengeNum} +'/set' (feedNo = ${feed.feedNo})}">수정</a>
@@ -35,7 +35,7 @@
 			</div>
 		</div>
 		<div class="feed-cont">
-			<div class="swiper">
+			<div class="swiper swiper-chall-list">
 				<div class="swiper-wrapper">								
 					<div th:each="idx, stat : ${feed.imageIdxs}" class="swiper-slide" th:id="|slide-img-${stat.index}|">
 						<img class="feed-images" th:src="|/challenge/feed/${feed.feedNo}/img/${idx}|">
@@ -73,8 +73,8 @@
 				</div>
 			</div>
 			<div th:if="${nickname == comment.writer}" class="cmt-cont-top-right">
-				<button type="button" class="cmt-delete-btn" th:onclick="chall_delete_cmt([[${comment.idx}]])">댓글삭제</button>							
-				<button type="button" class="cmt-update-form-btn" th:onclick="fn_update_form([[${comment.idx}]])">댓글수정</button>
+				<button type="button" class="cmt-delete-btn" th:onclick="chall_delete_cmt([[${comment.idx}]])">삭제</button>							
+				<button type="button" class="cmt-update-form-btn" th:onclick="fn_update_form([[${comment.idx}]])">수정</button>
 			</div>
 		</div>
 		<div class="cmt-cont-bot">

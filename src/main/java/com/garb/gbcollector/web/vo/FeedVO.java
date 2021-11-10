@@ -7,7 +7,7 @@ public class FeedVO {
 
 	//field
 	private int feedNo, commentCnt;
-	private String challengeNum, email, writer, content, postDate, changeYn;
+	private String challengeNum, challengeName, email, writer, content, postDate, changeYn;
 	private Date postTime;
 	private List<Integer> imageIdxs;
 	
@@ -52,6 +52,14 @@ public class FeedVO {
 
 	public void setChallengeNum(String challengeNum) {
 		this.challengeNum = challengeNum;
+	}
+
+	public String getChallengeName() {
+		return challengeName;
+	}
+
+	public void setChallengeName(String challengeName) {
+		this.challengeName = challengeName;
 	}
 
 	public String getEmail() {
@@ -112,8 +120,9 @@ public class FeedVO {
 
 	@Override
 	public String toString() {
-		return "FeedVO [feedNo=" + feedNo + ", commentCnt=" + commentCnt + ", challengeNum=" + challengeNum + ", email="
-				+ email + ", writer=" + writer + ", content=" + content + ", postDate=" + postDate + ", changeYn="
-				+ changeYn + ", postTime=" + postTime + ", imageIdxs=" + imageIdxs + "]";
+		return "FeedVO [feedNo=" + feedNo + ", commentCnt=" + commentCnt + ", challengeNum=" + challengeNum
+				+ ", challengeName=" + challengeName + ", email=" + email + ", writer=" + writer + ", content="
+				+ content + ", postDate=" + postDate + ", changeYn=" + changeYn + ", postTime=" + postTime
+				+ ", imageIdxs=" + imageIdxs + "]";
 	}	
 }

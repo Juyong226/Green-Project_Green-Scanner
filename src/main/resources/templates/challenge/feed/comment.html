@@ -7,70 +7,97 @@
 	<div class="chall-cont-body">
 		<div class="chall-cont-wrapper">
 			<!-- 피드 내용 -->
-			<div class="cmt-feed-detail">
-				<div class="cmt-feed-detail-top">
-					<div class="feed-top-icon">
-						<img src="/img/profile.png">
-					</div>
-					<div class="feed-top-text">
-						<span class="feed-top-nickname" th:text="${feed.writer}"></span>
-						<span class="feed-top-post-time" th:text="${#dates.format(feed.postTime, 'yyyy/MM/dd HH시 mm분')}"></span>
-					</div>
-				</div>
-				<div class="cmt-feed-detail-cont" th:text="${feed.content}"></div>
-			</div>
-			<!-- 댓글 입력 창 -->
-			<div class="cmt-write-wrapper">
-				<form th:if="${nickname}" id="cmt-write-form">
-					<input type="hidden" name="challengeNum" th:value="${challengeNum}">
-					<input type="hidden" name="feedNo" th:value="${feed.feedNo}">
-					<input type="hidden" name="writer" th:value="${nickname}">
-					<div class="cmt-write-form-top">
-						<div class="cmt-top-icon">
-							<img src="/img/challenge/user.png">
-						</div>
-						<div class="cmt-top-text">
-							<span class="cmt-top-nickname" th:text="${nickname}"></span>
+			<div class="cmt-cont-wrapper">
+				<div class="cmt-feed-detail">
+					<div class="cmt-feed-detail-top-wrapper">
+						<div class="cmt-feed-detail-top">
+							<div class="feed-top-icon">
+								<img src="/img/profile.png">
+							</div>
+							<div class="feed-top-text">
+								<span class="feed-top-nickname" th:text="${feed.writer}"></span>
+								<span class="feed-top-post-time" th:text="${#dates.format(feed.postTime, 'yyyy/MM/dd HH시 mm분')}"></span>
+							</div>
 						</div>
 					</div>
-					<div class="cmt-write-form-cont">
-						<textarea class="cmt-textarea" id="cmt-write-textarea" name="content" onkeyup="fn_checkByte(this)" placeholder="내용을 입력해주세요."></textarea>
-						<sup>(<span id="nowByte">0</span>/1000bytes)</sup>
-						<input class="cmt-write-btn" id="cmt-write-btn" type="button" onclick="chall_regi_cmt()" value="등록">
+					<div class="cmt-feed-detail-imgs">
+						<div class="swiper swiper-chall-detail">
+							<div class="swiper-wrapper">
+								<div th:each="idx, stat : ${feed.imageIdxs}" class="swiper-slide" th:id="|slide-img-${stat.index}|">
+									<img class="feed-images" th:src="|/challenge/feed/${feed.feedNo}/img/${idx}|">
+								</div>
+							</div>
+							<div class="swiper-pagination"></div>
+							<div class="swiper-button-prev"></div>
+							<div class="swiper-button-next"></div>
+						</div>
 					</div>
-				</form>
-				<div th:unless="${nickname}" class="cmt-write-login-required">
-					<span>댓글을 작성하려면 <a href="/html/login.html"><strong>로그인</strong></a>해주세요.</span>
+					<div class="cmt-feed-detail-cont" th:text="${feed.content}"></div>
 				</div>
-			</div>
-			<!-- 댓글 리스트 -->
-			<div class="cmt-list-wrapper">
-				<!-- 댓글 있음 -->
-				<div class="cmt-cont" th:if="${commentList}" th:id="|cmt-content-${comment.idx}|" th:each="comment : ${commentList}">
-					<div class="cmt-cont-top">
-						<div class="cmt-cont-top-left">
+				<!-- 댓글 입력 창 -->
+				<div class="cmt-write-wrapper">
+					<form th:if="${nickname}" id="cmt-write-form">
+						<input type="hidden" name="challengeNum" th:value="${challengeNum}">
+						<input type="hidden" name="feedNo" th:value="${feed.feedNo}">
+						<input type="hidden" name="writer" th:value="${nickname}">
+						<div class="cmt-write-form-top">
 							<div class="cmt-top-icon">
 								<img src="/img/challenge/user.png">
 							</div>
 							<div class="cmt-top-text">
-								<span class="cmt-top-nickname" th:text="${comment.writer}"></span>
-								<span th:if="${comment.updateTime} == null" class="cmt-top-time" th:text="${#dates.format(comment.insertTime, 'yyyy/MM/dd HH시 mm분')}"></span>
-								<span th:unless="${comment.updateTime} == null" class="cmt-top-time" th:text="${#dates.format(comment.updateTime, 'yyyy/MM/dd HH시 mm분')}"></span>						
+								<span class="cmt-top-nickname" th:text="${nickname}"></span>
 							</div>
 						</div>
-						<div th:if="${nickname == comment.writer}" class="cmt-cont-top-right">
-							<button type="button" class="cmt-delete-btn" th:onclick="chall_delete_cmt([[${comment.idx}]])">댓글삭제</button>							
-							<button type="button" class="cmt-update-form-btn" th:onclick="fn_update_form([[${comment.idx}]])">댓글수정</button>
+						<div class="cmt-write-form-cont">
+							<textarea class="cmt-textarea" id="cmt-write-textarea" name="content" onkeyup="fn_checkByte(this)" placeholder="내용을 입력해주세요."></textarea>
+							<sup>(<span id="nowByte">0</span>/1000bytes)</sup>
+							<input class="cmt-write-btn" id="cmt-write-btn" type="button" onclick="chall_regi_cmt()" value="등록">
+						</div>
+					</form>
+					<div th:unless="${nickname}" class="cmt-write-login-required">
+						<div class="cmt-write-form-top">
+							<div class="cmt-top-icon">
+								<img src="/img/challenge/user.png">
+							</div>
+							<div class="cmt-top-text">
+								<span class="cmt-top-nickname">작성자</span>
+							</div>
+						</div>
+						<div class="cmt-write-form-cont">
+							<textarea class="cmt-textarea" id="cmt-write-textarea" placeholder="댓글을 작성하려면 로그인해주세요." readonly></textarea>
+							<sup>(<span id="nowByte">0</span>/1000bytes)</sup>
 						</div>
 					</div>
-					<div class="cmt-cont-bot">
-						<div class="cmt-bot-cont" th:text="${comment.content}"></div>
-					</div>
-					<div class="chall-cont-min-border"></div>
 				</div>
-				<!-- 댓글 없음 -->
-				<div th:unless="${commentList}" class="no-cmt-list">
-					<span>아직 등록된 댓글이 없습니다.</span>
+				<!-- 댓글 리스트 -->
+				<div class="cmt-list-wrapper">
+					<!-- 댓글 있음 -->
+					<div class="cmt-cont" th:if="${commentList}" th:id="|cmt-content-${comment.idx}|" th:each="comment : ${commentList}">
+						<div class="cmt-cont-top">
+							<div class="cmt-cont-top-left">
+								<div class="cmt-top-icon">
+									<img src="/img/challenge/user.png">
+								</div>
+								<div class="cmt-top-text">
+									<span class="cmt-top-nickname" th:text="${comment.writer}"></span>
+									<span th:if="${comment.updateTime} == null" class="cmt-top-time" th:text="${#dates.format(comment.insertTime, 'yyyy/MM/dd HH시 mm분')}"></span>
+									<span th:unless="${comment.updateTime} == null" class="cmt-top-time" th:text="${#dates.format(comment.updateTime, 'yyyy/MM/dd HH시 mm분')}"></span>						
+								</div>
+							</div>
+							<div th:if="${nickname == comment.writer}" class="cmt-cont-top-right">
+								<button type="button" class="cmt-delete-btn" th:onclick="chall_delete_cmt([[${comment.idx}]])">삭제</button>							
+								<button type="button" class="cmt-update-form-btn" th:onclick="fn_update_form([[${comment.idx}]])">수정</button>
+							</div>
+						</div>
+						<div class="cmt-cont-bot">
+							<div class="cmt-bot-cont" th:text="${comment.content}"></div>
+						</div>
+						<div class="chall-cont-min-border"></div>
+					</div>
+					<!-- 댓글 없음 -->
+					<div th:unless="${commentList}" class="no-cmt-list">
+						<span>아직 등록된 댓글이 없습니다.</span>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -84,6 +111,17 @@
 		var challengeNum = /*[[ ${challengeNum} ]]*/;
 		var writeTextarea = $('#cmt-write-textarea');
 		var cmtListWrapper = $('.cmt-list-wrapper');
+		
+		const swiper = new Swiper('.swiper', {
+	 		pagination: {
+	 			el: '.swiper-pagination',
+	 		},
+	 		
+	 		navigation: {
+	 			nextEl: '.swiper-button-next',
+	 			prevEl: '.swiper-button-prev',
+	 		},
+	 	});
 	/*]]>*/
 	</script>
 </body>

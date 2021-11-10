@@ -80,7 +80,6 @@ public class FeedService {
 		if(registerFeed(params, challengeNum) == false) {
 			return false;
 		}
-		
 		List<UploadImageVO> uploadList = fileUtils.uploadFeedImages(images, params.getFeedNo());
 		if(uploadList.isEmpty() == false) {
 			queryResult = feedImageDAO.insertFeedImage(uploadList);
@@ -90,12 +89,14 @@ public class FeedService {
 			if(queryResult != -1) {
 				queryResult = 0;
 			}
-		}
-		return (queryResult == -1);
+		} 
+		return (queryResult == -1 || queryResult == 1);
 	}
 	
-	public FeedVO getFeedDetail(int feedNo) {		
-		return feedDAO.selectFeedDetail(feedNo);
+	public FeedVO getFeedDetail(int feedNo) {
+		FeedVO feed = feedDAO.selectFeedDetail(feedNo);
+		feed.setImageIdxs(getImageIdxs(feed));
+		return feed;
 	}
 	
 	public boolean duplicateCheck(String challengeNum) {
@@ -160,17 +161,21 @@ public class FeedService {
 		return fileUtils.getImagePath(image);
 	}
 	
+	public List<Integer> getImageIdxs(FeedVO feed) {
+		List<Integer> imageIdxs = new ArrayList();
+		List<UploadImageVO> imageList = getFeedImageList(feed.getFeedNo());
+		for(UploadImageVO image : imageList) {
+			imageIdxs.add(image.getIdx());
+		}
+		return imageIdxs;
+	}
+	
 	public List<FeedVO> setCommentCntAndImageIdxs(List<FeedVO> feedList) {
 		for(FeedVO feed : feedList) {
-			List<UploadImageVO> imageList = getFeedImageList(feed.getFeedNo());
-			List<Integer> imageIdxs = new ArrayList<>();
-			for(UploadImageVO image : imageList) {
-				imageIdxs.add(image.getIdx());
-			}
 			FeedCommentVO comment = new FeedCommentVO();
 			comment.setFeedNo(feed.getFeedNo());
 			feed.setCommentCnt(feedCommentDAO.selectCommentTotalCount(comment));
-			feed.setImageIdxs(imageIdxs);
+			feed.setImageIdxs(getImageIdxs(feed));
 		}
 		return feedList;
 	}
