@@ -3151,7 +3151,6 @@ input[type="checkbox"]+label {
 }
 
 .board-cont-top-main {
-	width: 84%;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
@@ -3164,6 +3163,15 @@ input[type="checkbox"]+label {
 	margin-left: 90px;
 	margin-bottom: 20px;
 }
+
+.board-cont-write-top-main {
+	width:84%;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+}
+
 
 .board-write-content-input {
 	margin-top: 10px;

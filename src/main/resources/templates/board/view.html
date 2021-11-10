@@ -10,7 +10,7 @@
 		<div class="board-cont-wrapper">
 			<div class="board-cont-top">
 				<div class="board-cont-top-main">
-					<span class="board-cont-top-title" th:text="${post.title}">챌린지</span>
+					<span class="board-cont-top-title" th:text="${post.title}"></span>
 					<a th:if="${post.boardname=='자유게시판'}"
 						href="/board/bulletin_boardlist" id="board">목록으로 돌아가기</a> <a
 						th:if="${post.boardname=='질문게시판'}"
