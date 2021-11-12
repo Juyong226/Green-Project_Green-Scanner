@@ -132,6 +132,18 @@ $(document).on("click", "#login-join-btn-m", function(event){//회원 가입 처
 		$("#signup-form-pw").focus();
 		return false; 
 	}
+	else if($("#agree_rule1").is(":checked") != true) {
+		//작업
+		alert("개인정보처리방침에 동의해주세요."); 
+		$("#agree_rule1").focus();
+        return false; 
+	}
+	else if($("#agree_rule2").is(":checked") != true) {
+		//작업
+		alert("이용약관에 동의해주세요."); 
+		$("#agree_rule2").focus();
+        return false; 
+	}
 	else if(confirm("회원가입을 하시겠습니까?")){
 		//alert("회원가입을 축하합니다!");
 
