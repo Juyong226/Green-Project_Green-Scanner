@@ -22,22 +22,23 @@
 				</div>
 				<div class="nav-menu">
 					<div class="login-nickname">
-						<a id="login-btn">로그인</a>
+						<a id="login-btn" href="/html/login.html">로그인</a>
+						<a href="/html/memberInform.html"><div class="login-nickname"></div></a>
 					</div>
 					<div class="join-logout">
-						<a id="join-btn">회원가입</a>
+						<a id="join-btn" href="/html/memberInsertForm.html">회원가입</a>
 					</div>
-					<a>공지사항</a>
+						<a id="" href="/faq">FAQ</a>
 					<a>FAQ</a>
 					<div class="nav-dropdown">
 						<button class="nav-dropdown-btn">자주사용하는기능</button>
 						<div class="dropdown-submenu">
-							<a>음성으로배출방법찾기</a>
-							<a>사진으로배출방법찾기</a>
-							<a>주변쓰레기통찾기</a>
-							<a>제로웨이스트상점찾기</a>
-							<a>챌린지</a>
-							<a>게시판</a>
+							<a href="/html/SWV.html">음성으로배출방법찾기</a>
+							<a href="/html/SWI.html">사진으로배출방법찾기</a>
+							<a href="/html/trashCanMap.html">주변쓰레기통찾기</a>
+							<a href="/html/zeroWasteShopMap.html">제로웨이스트상점찾기</a>
+							<a href="/challenge/main">챌린지</a>
+							<a href="/board/boardlist">게시판</a>
 						</div>
 					</div>
 				</div>
@@ -124,19 +125,22 @@
 </body>
 <script>
 $(function(){
-	var tosnssignup = JSON.parse($.cookie("tosnssignup"));
-	var snsemail = tosnssignup.snsuseremail;
-	var snsname = tosnssignup.snsusername;
- 	if(snsemail != "null" && snsname != "null"){
-		$('input[name=snsname]').attr('value',snsname)
-		$('input[name=snsemail]').attr('value',snsemail)
-	}else if (snsemail == "null" && snsname != "null"){
-		$('input[name=snsname]').attr('value',snsname)
-	}else if (snsemail != "null" && snsname == "null"){
-		$('input[name=snsemail]').attr('value',snsemail)		
-	}else{
-
-	} 
+	var check = $.cookie("tosnssignup")
+	if (check){
+		var tosnssignup = JSON.parse($.cookie("tosnssignup"));
+		var snsemail = tosnssignup.snsuseremail;
+		var snsname = tosnssignup.snsusername;
+	 	if(snsemail != "null" && snsname != "null"){
+			$('input[name=snsname]').attr('value',snsname)
+			$('input[name=snsemail]').attr('value',snsemail)
+		}else if (snsemail == "null" && snsname != "null"){
+			$('input[name=snsname]').attr('value',snsname)
+		}else if (snsemail != "null" && snsname == "null"){
+			$('input[name=snsemail]').attr('value',snsemail)		
+		}else{
+	
+		}
+	}
 	});
 </script>
 </html>

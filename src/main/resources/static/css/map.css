@@ -3312,6 +3312,30 @@ input[type="checkbox"]+label {
 	color: #4cbd73;
 }
 
+#memberInfo-out-box {
+	border: 1.5px solid #4cbd73;;
+	width: 100%;
+	height: 50%;
+	background: #fff;
+}
+
+#sign-out-text{
+	font-size: 14px;
+	color: #999;
+	margin: 4% 4% 4% 4%;	
+}
+
+#memberOutBtn{
+	  background-color: #fd7e14; 
+	  margin-left: 5%;
+	  border: none;
+	  border-radius: 5px; 
+	  color: white;
+	  padding: 15px 32px;
+	  text-align: center;
+	  display: inline-block;
+	  font-size: 16px;
+}
 
 
 

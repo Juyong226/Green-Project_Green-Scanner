@@ -83,7 +83,7 @@ public class GoogleController {
 			Map returngoogledata = googleMemberService.googleIdChk(m);
 		
 			if(returngoogledata == null) {
-				snsloginjson.put("snsredirect","https://localhost/html/snsMemberInsert.html");
+				snsloginjson.put("snsredirect","/html/snsMemberInsert.html");
 				snsloginjson.put("snsuseremail", googleuseremail);
 				snsloginjson.put("oauth", "google");
 				snsloginjson.put("returnsnsid", 0);
@@ -103,7 +103,7 @@ public class GoogleController {
 					
 					snsloginjson.put("memnickname",memnickname);
 					snsloginjson.put("mememail", mememail);
-					snsloginjson.put("snsredirect","https://localhost" );
+					snsloginjson.put("snsredirect","/" );
 					snsloginjson.put("logout", logout);
 
 					

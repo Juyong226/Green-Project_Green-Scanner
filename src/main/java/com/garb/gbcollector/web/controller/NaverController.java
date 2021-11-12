@@ -75,7 +75,7 @@ public class NaverController {
 			Map returnnaverdata = naverMemberService.naverIdChk(m);
 			if(returnnaverdata == null) {
 			
-				snsloginjson.put("snsredirect","https://localhost/html/snsMemberInsert.html" );
+				snsloginjson.put("snsredirect","/html/snsMemberInsert.html" );
 				snsloginjson.put("snsuseremail",naveruseremail);
 				snsloginjson.put("snsusername",naverusername);
 				snsloginjson.put("oauth", "naver");
@@ -97,7 +97,7 @@ public class NaverController {
 					
 					snsloginjson.put("memnickname",memnickname);	
 					snsloginjson.put("mememail", mememail);
-					snsloginjson.put("snsredirect","https://localhost");
+					snsloginjson.put("snsredirect","/");
 					snsloginjson.put("logout", logout);
 					
 					return snsloginjson.toJSONString();

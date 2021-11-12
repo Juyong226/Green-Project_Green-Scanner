@@ -4,6 +4,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.garb.gbcollector.web.dao.MemberDAO">
+		<!-- signoutnavermember -->
+		<update id="signOutNaverMember" parameterType="deletememberVO">
+			<![CDATA[
+				update member set email = #{deletedmememail}, navermemid = #{deletednavermemid}, memdate = sysdate where email = #{mememail} and navermemid = #{navermemid}
+			]]>
+		</update>
+
+
+		<!-- signoutgooglemember -->
+		<update id="signOutGoogleMember" parameterType="deletememberVO">
+			<![CDATA[
+				update member set email = #{deletedmememail}, googleid = #{deletedgooglememid}, memdate = sysdate where email = #{mememail} and googleid = #{googlememid}
+			]]>
+		</update>
+
+		<!-- signoutmember -->
+		<update id="signOutMember" parameterType="deletememberVO">
+			<![CDATA[
+				update member set email = #{deletedmememail}, memdate = sysdate where email=#{mememail} and password=PACK_ENCRYPTION_DECRYPTION.FUNC_ENCRYPT(#{mempw})
+			]]>
+		</update>
 		
 		<!-- googlelogin -->
 		<select id="googlelogin" resultType="String" parameterType="memberVO">

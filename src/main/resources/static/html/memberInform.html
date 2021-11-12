@@ -8,15 +8,15 @@
 <link rel="stylesheet" type="text/css" href="/css/map.css"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-<script type="text/javascript" src="/js/login.js"></script>
 <script type="text/javascript" src="/js/memberInform.js"></script>
 
 <head>
 <meta charset="EUC-KR">
 </head>
 <body>
-	<!-- 공통 네비게이션: top -->
+<!-- 공통 네비게이션: top -->
 	<nav>
+		<!-- content section 크기와 같은 영역 -->
 		<div class="nav-top">
 			<div class="wrapper">
 				<div class="nav-logo">
@@ -25,17 +25,15 @@
 				<div class="nav-menu">
 					<div class="login-nickname-container">
 						<span id="nickname">
-							<a id="login-btn" href="/html/login.html">로그인</a>
-							<a href="https://localhost/html/memberInform.html"><div class="login-nickname"></div></a>
+								<a id="login-btn" href="/html/login.html">로그인</a>
+								<a href="/html/memberInform.html"><div class="login-nickname"></div></a>
 						</span>
 					</div>
 					<div class="join-logout">
 						<a id="join-btn" href="/html/memberInsertForm.html">회원가입</a>
 					</div>
 					<a>공지사항</a>
-					<div class="">
-						<a id="" href="/faq">FAQ</a>
-					</div>
+					<a>FAQ</a>
 					<div class="nav-dropdown">
 						<button class="nav-dropdown-btn">자주사용하는기능</button>
 						<div class="dropdown-submenu">
@@ -62,12 +60,11 @@
 						<div id ="email-box" style="display: inline-block;">이메일</div><div class="memberInform-login-email" style="display: inline-block;"></div><br>
 						<div id ="nickname-box" style="display: inline-block;">닉네임</div> <div class="memberInform-login-nickname" style="display: inline-block;"></div>
 					</div>
-				<div id="memberInfo-content-logo-out">탈퇴</div>
-					<div id="memberInfo-out-box" style="border:2px solid">
-					<input id ="confirm-pw" style="display: none;"/>
-					<button id ="memberOutBtn">탈퇴하기</button>
-					
-					
+
+					<div id="memberInfo-content-logo-out">탈퇴하기</div>
+					<div id="memberInfo-out-box">
+						<div id ="sign-out-text">그린 스캐너 회원 탈퇴 하기</div>
+						<button id ="memberOutBtn">탈퇴하기</button>
 					</div>
 			</div>
 		</div>
@@ -101,10 +98,11 @@
 </body>
 <script>
 $(function(){
-	var logindata = JSON.parse($.cookie('nick-cookie'));
-	$(".memberInform-login-nickname").html(logindata.memnickname);
-	$(".memberInform-login-email").html(logindata.mememail);
-	
+	if($.cookie('nick-cookie')){
+		var logindata = JSON.parse($.cookie('nick-cookie'));
+		$(".memberInform-login-nickname").html(logindata.memnickname);
+		$(".memberInform-login-email").html(logindata.mememail);
+	}
 })
 </script>
 </html>
