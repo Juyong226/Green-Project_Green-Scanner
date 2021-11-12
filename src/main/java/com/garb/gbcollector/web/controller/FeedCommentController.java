@@ -104,10 +104,8 @@ public class FeedCommentController extends UiUtils {
 	@RequestMapping(value = { "/{feedNo}/comments", "/{feedNo}/comments/{idx}" }, method = { RequestMethod.POST, RequestMethod.PATCH })
 	public String registerComment(@PathVariable("feedNo") final String feedNo, @PathVariable(value = "idx", required = false) final Integer idx,
 			@RequestParam(value="challengeNum") final String challengeNum, FeedCommentVO params, Model model, HttpServletRequest request) {
-		
-		log.TraceLog("=======================================================================");
+
 		log.TraceLog("댓글 작성/수정 시 넘어오는 submit params 객체 = " + params.toString());
-		log.TraceLog("=======================================================================");
 		HttpSession session = request.getSession(false);
 		String redirectURI = "/feed/" + feedNo + "comments?challengeNum=" + challengeNum;
 		if(session != null) {

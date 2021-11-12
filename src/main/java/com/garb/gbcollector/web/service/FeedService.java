@@ -42,9 +42,7 @@ public class FeedService {
 	
 	public boolean registerFeed(FeedVO params, String challengeNum) {
 		int queryResult = 0;
-		log.TraceLog("========================================");
 		log.TraceLog("피드 params = " + params.toString());
-		log.TraceLog("========================================");
 		if(params.getFeedNo() == 0) {
 			if(duplicateCheck(challengeNum) == true) {
 				queryResult = feedDAO.insertFeed(params);
@@ -58,10 +56,8 @@ public class FeedService {
 			}
 		} else {
 			queryResult = feedDAO.updateFeed(params);
-			log.TraceLog("========================================================================================");
 			log.TraceLog("registerFeed()의 params.getChangeYn(): " + params.getChangeYn());
 			log.TraceLog("registerFeed()의 params.getFeedNo(): " + params.getFeedNo());
-			log.TraceLog("========================================================================================");
 			if("Y".equals(params.getChangeYn())) {
 				feedImageDAO.deleteFeedImage(params.getFeedNo());
 				if(params.getImageIdxs() != null && params.getImageIdxs().isEmpty() == false) {
@@ -69,9 +65,7 @@ public class FeedService {
 				}
 			}
 		}
-		log.TraceLog("========================================================================================");
 		log.TraceLog("registerFeed()의 queryResult: " + queryResult);
-		log.TraceLog("========================================================================================");
 		return (queryResult == 1) ? true : false;
 	}
 	
@@ -84,9 +78,7 @@ public class FeedService {
 		List<UploadImageVO> uploadList = fileUtils.uploadFeedImages(images, params.getFeedNo());
 		if(uploadList.isEmpty() == false) {
 			queryResult = feedImageDAO.insertFeedImage(uploadList);
-			log.TraceLog("========================================================================================");
 			log.TraceLog("insertFeedImage(uploadList)_<foreach> 결과 값: " + queryResult);
-			log.TraceLog("========================================================================================");
 			if(queryResult != -1) {
 				queryResult = 0;
 			}
