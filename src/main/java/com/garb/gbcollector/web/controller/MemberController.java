@@ -246,9 +246,9 @@ public class MemberController {
 		HttpSession session = request.getSession(false);
 		//세션이 만료되었을 경우 다시 로그인 해달라는 메세지를 리턴
 		if(session == null || session.getAttribute("member") == null) {
+			log.TraceLog(infor, "사용자 세션 만료로 인한 로그아웃 처리");
 			resJson.put("sessionNull", "로그아웃 되었습니다.\n다시 로그인 해주세요.");			
 		}
-		log.TraceLog(infor, "사용자 세션 만료로 인한 로그아웃 처리");
 		return resJson.toJSONString();
 	}
 	
