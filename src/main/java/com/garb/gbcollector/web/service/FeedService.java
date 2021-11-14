@@ -56,16 +56,20 @@ public class FeedService {
 					pc.calculateAchievementRate();
 					queryResult = challengeDAO.updateChallengeVO(pc);
 				}
+				log.TraceLog(infor, "queryResult: " + queryResult + " / 새 피드 등록 실패");
 			}
 		} else {
 			log.TraceLog(infor, BuildDescription.get(LogDescription.REQUEST_UPDATE_FEED, Integer.toString(params.getFeedNo())));
 			queryResult = feedDAO.updateFeed(params);
-			if("Y".equals(params.getChangeYn())) {
-				feedImageDAO.deleteFeedImage(params.getFeedNo());
-				if(params.getImageIdxs() != null && params.getImageIdxs().isEmpty() == false) {
-					feedImageDAO.undeleteFeedImage(params.getImageIdxs());
+			if(queryResult == 1) {
+				if("Y".equals(params.getChangeYn())) {
+					feedImageDAO.deleteFeedImage(params.getFeedNo());
+					if(params.getImageIdxs() != null && params.getImageIdxs().isEmpty() == false) {
+						feedImageDAO.undeleteFeedImage(params.getImageIdxs());
+					}
 				}
 			}
+			log.TraceLog(infor, "queryResult: " + queryResult + " / 피드 수정 실패");
 		}
 		return (queryResult == 1) ? true : false;
 	}
@@ -73,7 +77,6 @@ public class FeedService {
 	public boolean registerFeed(FeedVO params, String challengeNum, MultipartFile[] images, RequestInforVO infor) throws UploadFileException {
 		int queryResult = 1;
 		if(registerFeed(params, challengeNum, infor) == false) {
-			log.TraceLog(infor, "피드 내용 등록/수정 실패");
 			return false;
 		}
 		log.TraceLog(infor, "피드 내용 등록/수정 성공");

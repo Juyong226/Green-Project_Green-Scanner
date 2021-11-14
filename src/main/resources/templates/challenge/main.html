@@ -37,7 +37,9 @@
 									<div class="chall-cont-proceeding">
 										<div th:each="pc : ${proceeding}" class="chall-cont-my">
 											<div class="my-thumb-div">
-												<img th:if="${pc.thumbnailURL}" class="my-thumb" th:src="${pc.thumbnailURL}">
+												<a th:href="@{/challenge/my-challenge/{challengeNum} (challengeNum=${pc.challengeNum})}">	
+													<img th:if="${pc.thumbnailURL}" class="my-thumb" th:src="${pc.thumbnailURL}">
+												</a>
 											</div>
 											<div class="my-text">
 												<a th:href="@{/challenge/my-challenge/{challengeNum} (challengeNum=${pc.challengeNum})}">
@@ -70,7 +72,9 @@
 									<div class="chall-cont-completed">
 										<div th:each="pc : ${completed}" class="chall-cont-my">
 											<div class="my-thumb-div">
-												<img th:if="${pc.thumbnailURL}" class="my-thumb" th:src="${pc.thumbnailURL}">
+												<a th:href="@{/challenge/my-challenge/{challengeNum} (challengeNum=${pc.challengeNum})}">
+													<img th:if="${pc.thumbnailURL}" class="my-thumb" th:src="${pc.thumbnailURL}">
+												</a>
 											</div>
 											<div class="my-text">
 												<a th:href="@{/challenge/my-challenge/{challengeNum} (challengeNum=${pc.challengeNum})}">
