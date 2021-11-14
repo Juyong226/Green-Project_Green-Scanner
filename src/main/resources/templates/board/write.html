@@ -34,8 +34,8 @@
 							<div class="write_label">게시판 구분</div>
 							<div class="">
 								<select class="select_boardType" name="boardname" id="boardname">
-									<option class="select_boardType" value="자유게시판">자유게시판</option>
-									<option class="select_boardType" value="질문게시판">질문게시판</option>
+									<option class="select_boardType" th:selected ="${boardname}=='자유게시판'" value="자유게시판">자유게시판</option>
+									<option class="select_boardType" th:selected ="${boardname}=='질문게시판'" value="질문게시판">질문게시판</option>
 								</select>
 							</div>
 						</div>

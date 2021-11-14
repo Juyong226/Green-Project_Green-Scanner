@@ -121,18 +121,6 @@ imgTarget.on('change', function() {
 
 /* ---------------더보기 관련 JS--------------*/
 
-$(document).ready(function() {
-
-	/*var startIdx = 1;
-	var searchStep = 4;
-	
-  $("#board_more_btn").click(function() {
-	  alert("hey");
-	  startIdx += searchStep;
-	  more_post(startIdx);
-  });*/
-});
-
 function more_post(startIdx) {
 /*	alert(startIdx);
 	alert(searchStep);

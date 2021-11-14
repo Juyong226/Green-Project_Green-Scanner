@@ -40,6 +40,7 @@
 					<form th:if="${login_nickname == post.nickname}"
 						action="/board/updatePost" method="get">
 						<input type="hidden" name="postno" th:value="${post.postno}">
+						<input type="hidden" name="boardname" th:value="${post.boardname}">
 						<input class="ModifyPost_btn" type="submit" value="수정" />
 					</form>
 				</div>
