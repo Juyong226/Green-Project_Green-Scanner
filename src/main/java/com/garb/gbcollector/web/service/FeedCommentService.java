@@ -7,8 +7,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.garb.gbcollector.constant.LogDescription;
+import com.garb.gbcollector.util.BuildDescription;
+import com.garb.gbcollector.util.Log;
 import com.garb.gbcollector.web.dao.FeedCommentDAO;
 import com.garb.gbcollector.web.vo.FeedCommentVO;
+import com.garb.gbcollector.web.vo.RequestInforVO;
 
 @Service
 public class FeedCommentService {
@@ -16,11 +20,15 @@ public class FeedCommentService {
 	@Autowired
 	private FeedCommentDAO feedCommentDAO;
 	
-	public FeedCommentVO registerComment(FeedCommentVO params) throws SQLException {
+	private Log log = new Log();
+	
+	public FeedCommentVO registerComment(FeedCommentVO params, RequestInforVO infor) throws SQLException {
 		int queryResult = 0;
 		if(params.getIdx() == null) {
+			log.TraceLog(infor, BuildDescription.get(LogDescription.REQUEST_NEWCOMMENT));
 			queryResult = feedCommentDAO.insertComment(params);
 		} else {
+			log.TraceLog(infor, BuildDescription.get(LogDescription.REQUEST_UPDATE_COMMENT, Integer.toString(params.getIdx())));
 			queryResult = feedCommentDAO.updateComment(params);
 		}
 		FeedCommentVO comment;

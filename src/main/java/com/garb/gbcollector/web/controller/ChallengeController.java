@@ -50,6 +50,8 @@ public class ChallengeController extends UiUtils {
 	public String main(Model model, HttpServletRequest request) {
 		
 		RequestInforVO infor = new RequestInforVO(request);
+		log.TraceLog(infor, BuildDescription.get(LogDescription.ACCESS_CHALLMAIN, infor.getId()));
+		
 		HttpSession session = request.getSession(false);
 		String redirectURI = "";
 		bcList = challengeService.selectBasicChallenge();
@@ -58,12 +60,11 @@ public class ChallengeController extends UiUtils {
 				try {
 					MemberVO member = (MemberVO)session.getAttribute("member");
 					List<PersonalChallengeVO> tempList = challengeService.selectChallengeList(member.getMememail());	
-					List<ArrayList> cList = challengeService.isCompleted(tempList, infor);				
+					List<ArrayList<PersonalChallengeVO>> cList = challengeService.isCompleted(tempList, infor);				
 					model.addAttribute("proceeding", cList.get(0));
 					model.addAttribute("completed", cList.get(1));
 					model.addAttribute("proceedingNum", Integer.toString(cList.get(0).size()));
 					model.addAttribute("completedNum", Integer.toString(cList.get(1).size()));
-					log.TraceLog(infor, BuildDescription.get(LogDescription.ACCESS_CHALLMAIN, infor.getId()));
 					return "challenge/main";
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -72,8 +73,6 @@ public class ChallengeController extends UiUtils {
 				}						
 		}
 		model.addAttribute("login_required", "비로그인");
-		
-		log.TraceLog(infor, BuildDescription.get(LogDescription.ACCESS_CHALLMAIN, infor.getId()));
 		return "challenge/main";
 	}
 	
@@ -105,6 +104,8 @@ public class ChallengeController extends UiUtils {
 	public String pcDetail2(@PathVariable("challengeNum") String challengeNum, FeedPaginationVO params, Model model, HttpServletRequest request) {
 		
 		RequestInforVO infor = new RequestInforVO(request);
+		log.TraceLog(infor, BuildDescription.get(LogDescription.ACCESS_MYCHALL, infor.getId(), challengeNum));
+		
 		HttpSession session = request.getSession(false);
 		String redirectURI = "/challenge/main";
 		if(session != null) {
@@ -137,7 +138,9 @@ public class ChallengeController extends UiUtils {
 	@GetMapping(value = "/basic/{challengeCode}")
 	public String bcDetail(@PathVariable("challengeCode") String code, Model model, HttpServletRequest request) {
 		
-		log.TraceLog("요청들어옴: GET /{challengeCode}");
+		RequestInforVO infor = new RequestInforVO(request);
+		log.TraceLog(infor, infor.getId() + " 님이 기본 챌린지( CHALLENGECODE: " + code + " ) 상세 조회 페이지 접속");
+		
 		BasicChallengeVO bc = challengeService.getBasicChallenge(code);
 		model.addAttribute("basicChallenge", bc);		
 		return "challenge/basic-detail";
@@ -147,9 +150,11 @@ public class ChallengeController extends UiUtils {
 	@ResponseBody
 	public String codeDuplicateCheck(HttpServletRequest request) {
 		
-		log.TraceLog("요청들어옴: POST /duplicate_check with code = " + request.getParameter("challengeCode"));
-		JSONObject resJson = new JSONObject();
+		RequestInforVO infor = new RequestInforVO(request);
 		String code = request.getParameter("challengeCode");
+		log.TraceLog(infor, infor.getId() + " 님이 새 챌린지( CHALLENGECODE: " + code + " ) 중복 체크 요청");
+		
+		JSONObject resJson = new JSONObject();	
 		HttpSession session = request.getSession(false);		
 		if(session != null) {
 			try {
@@ -174,10 +179,11 @@ public class ChallengeController extends UiUtils {
 	@GetMapping(value = "/basic/{challengeCode}/set")
 	public String setForm(@PathVariable("challengeCode") String code, Model model, HttpServletRequest request) {
 		
-		log.TraceLog("요청들어옴: GET /set/{challengeCode}");
+		RequestInforVO infor = new RequestInforVO(request);
+		log.TraceLog(infor, infor.getId() + " 님이 새 챌린지( CHALLENGECODE: " + code + " ) 설정 폼 요청");
+		
 		HttpSession session = request.getSession(false);			
 		if(session != null) {
-			String email = (String) session.getAttribute("mememail");
 			BasicChallengeVO bc = challengeService.getBasicChallenge(code);	
 			model.addAttribute("basicChallenge", bc);
 			return "challenge/new-setting";			
@@ -189,7 +195,9 @@ public class ChallengeController extends UiUtils {
 	@PostMapping(value = "/basic/{challengeCode}")
 	public String create(@PathVariable("challengeCode") String code, Model model, HttpServletRequest request) {
 		
-		log.TraceLog("요청들어옴: POST /set/{challengeCode}");
+		RequestInforVO infor = new RequestInforVO(request);
+		log.TraceLog(infor, BuildDescription.get(LogDescription.REQUEST_NEWCHALL, infor.getId(), code));
+		
 		HttpSession session = request.getSession(false);
 		String redirectURI = "/challenge/basic/" + code;		
 		if(session != null) {
@@ -218,8 +226,10 @@ public class ChallengeController extends UiUtils {
 			
 				int result = challengeService.createChallenge(pc);				
 				if(result != 1) {
+					log.TraceLog(infor, BuildDescription.get(LogDescription.FAIL_NEWCHALL, infor.getId(), code));
 					return showMessageWithRedirection("챌린지 생성에 실패하였습니다.", redirectURI, Method.GET, null, model);
-				} 
+				}
+				log.TraceLog(infor, BuildDescription.get(LogDescription.SUCCESS_NEWCHALL, infor.getId(), code, challengeNum));
 				return "redirect:/challenge/main";
 				
 			} catch (Exception e) {
@@ -232,6 +242,9 @@ public class ChallengeController extends UiUtils {
 	
 	@GetMapping(value = "/my-challenge/{challengeNum}/edit")
 	public String updatePage(@PathVariable("challengeNum") String challengeNum, Model model, HttpServletRequest request) {
+		
+		RequestInforVO infor = new RequestInforVO(request);
+		log.TraceLog(infor, infor.getId() + " 님이 챌린지( CHALLENGENUM: " + challengeNum + " ) 수정 폼 요청");
 		
 		HttpSession session = request.getSession(false);
 		if(session != null) {
@@ -249,15 +262,21 @@ public class ChallengeController extends UiUtils {
 	@ResponseBody
 	public String periodCheck(HttpServletRequest request) {
 		
-		log.TraceLog("요청들어옴: POST /period_check with newPeriod/challengeNum = " + request.getParameter("newPeriod") + "/" + request.getParameter("cNum"));
+		RequestInforVO infor = new RequestInforVO(request);
+		String challengeNum = request.getParameter("cNum");
+		String period = request.getParameter("newPeriod");
+		log.TraceLog(infor, infor.getId() + " 님의 챌린지( CHALLENGENUM: " + challengeNum + " ) 기간 체크 요청");
+		
 		JSONObject resJson = new JSONObject();
 		HttpSession session = request.getSession(false);	
 		if(session != null) {
 			try {
-				if(!challengeService.periodCheck(request.getParameter("cNum"), request.getParameter("newPeriod"))) {
+				if(!challengeService.periodCheck(challengeNum, period)) {
+					log.TraceLog(infor, "기간 체크 결과: " + period + "일로 기간 조정 불가");
 					resJson.put("msg", "챌린지가 선택한 기간 이상으로 진행되었습니다.\n더 긴 기간을 선택해주세요.");
 					return resJson.toJSONString();
 				}
+				log.TraceLog(infor, "기간 체크 결과: " + period + "일로 기간 조정 가능");
 				return "";
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -272,6 +291,9 @@ public class ChallengeController extends UiUtils {
 	@PutMapping(value = "/my-challenge/{challengeNum}")
 	public String update(@PathVariable("challengeNum") String challengeNum, Model model, HttpServletRequest request) {
 		
+		RequestInforVO infor = new RequestInforVO(request);
+		log.TraceLog(infor, BuildDescription.get(LogDescription.REQUEST_UPDATE_CHALL, infor.getId(), challengeNum));
+		
 		HttpSession session = request.getSession(false);
 		String redirectURI = "/challenge/my-challenge/" + challengeNum;
 		if(session != null) {
@@ -282,8 +304,10 @@ public class ChallengeController extends UiUtils {
 				
 				int result = challengeService.updateChallenge(pc, newPeriod);				
 				if(result != 1) {
+					log.TraceLog(infor, BuildDescription.get(LogDescription.FAIL_UPDATE_CHALL, infor.getId(), challengeNum));
 					return showMessageWithRedirection("챌린지 수정에 실패하였습니다.", redirectURI, Method.GET, null, model);				
 				}
+				log.TraceLog(infor, BuildDescription.get(LogDescription.SUCCESS_UPDATE_CHALL, infor.getId(), challengeNum));
 				return showMessageWithRedirection("챌린지를 수정했습니다.", redirectURI, Method.GET, null, model);	
 				
 			} catch (Exception e) {
@@ -298,14 +322,19 @@ public class ChallengeController extends UiUtils {
 	@DeleteMapping(value = "/my-challenge/{challengeNum}")
 	public String delete(@PathVariable("challengeNum") String challengeNum, Model model, HttpServletRequest request) {
 		
+		RequestInforVO infor = new RequestInforVO(request);
+		log.TraceLog(infor, BuildDescription.get(LogDescription.REQUEST_DELETE_CHALL, infor.getId(), challengeNum));
+		
 		HttpSession session = request.getSession(false);
 		String redirectURI = "";
 		if(session != null) {
 			int result = challengeService.deleteChallenge(challengeNum);			
 			if(result != 1) {
+				log.TraceLog(infor, BuildDescription.get(LogDescription.FAIL_DELETE_CHALL, infor.getId(), challengeNum));
 				redirectURI = "/challenge/my-challenge/" + challengeNum;
 				return showMessageWithRedirection("챌린지 삭제에 실패하였습니다.", redirectURI, Method.GET, null, model);
 			}
+			log.TraceLog(infor, BuildDescription.get(LogDescription.SUCCESS_DELETE_CHALL, infor.getId(), challengeNum));
 			redirectURI = "/challenge/main";
 			return showMessageWithRedirection("챌린지가 삭제되었습니다.", redirectURI, Method.GET, null, model);			
 		}

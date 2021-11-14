@@ -21,7 +21,7 @@ public class RequestInforVO {
 	public RequestInforVO(HttpServletRequest request) {
 		super();
 		setIp(request.getRemoteHost());
-		setRequestURI(request.getRequestURI());
+		setRequestURI(request.getMethod() + " " + request.getRequestURI());
 		
 		HttpSession session = request.getSession(false);
 		if(session != null) {
