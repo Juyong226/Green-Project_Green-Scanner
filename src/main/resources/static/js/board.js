@@ -137,6 +137,13 @@ function more_post(startIdx) {
 /*	alert(startIdx);
 	alert(searchStep);
 	alert(totalBoardCnt);*/
+	let boardname = $("#boardname").val();
+	let request_url;
+	if (boardname=="자유게시판"){
+		request_url = "/board/bulletin_boardlist/more_post"
+	}else{
+		request_url = "/board/question_boardlist/more_post"
+	}
 	
 	let endIdx;
  	if( (startIdx + searchStep - 1) > totalBoardCnt ) {
@@ -146,7 +153,7 @@ function more_post(startIdx) {
  	}
  	$.ajax({
  		method: "POST",
- 		url: "/board/bulletin_boardlist/more_post",
+ 		url: request_url,
  		data: { startIdx: startIdx, endIdx: endIdx },
  		dataType: "html",
  		success: function(html) {

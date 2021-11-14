@@ -13,6 +13,7 @@
 			<div class="board-cont-top">
 				<div class=board-cont-top-main>
 					<span class="board-cont-top-title" th:text="${boardname}">전체게시판</span>
+					<input type="hidden" th:value="${boardname}" id="boardname">
 					<input type="hidden" id = sessionNickname th:value="${session.memnickname}">
 					<button class="Btn_write" id="writeBtn">글쓰기</button>
 				</div>

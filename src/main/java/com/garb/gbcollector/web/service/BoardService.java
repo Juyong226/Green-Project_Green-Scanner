@@ -31,8 +31,8 @@ public class BoardService {
         return boardDAO.listPostQ();
     }
 
-    public List<BoardVO> listPostQAll() {
-        return boardDAO.listPostQAll();
+    public List<BoardVO> listPostQAll(BoardPageNationVO page) {
+        return boardDAO.listPostQAll(page);
     }
 
     public void insertPost(BoardVO post) {
