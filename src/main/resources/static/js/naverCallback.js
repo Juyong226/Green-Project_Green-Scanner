@@ -1,4 +1,4 @@
-var naver_id_login = new naver_id_login("bGFwUHB3RA471BquswK2", "https://localhost/index.html");
+var naver_id_login = new naver_id_login("QVEEOn4l2fHOF971UC54", "https://greenscanner.org/index.html");
 	
 naver_id_login.get_naver_userprofile("naverSignInCallback()");
 

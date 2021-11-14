@@ -30,7 +30,7 @@ public class NaverController {
 	@ResponseBody
 	public String naverMemberInsert(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
-		Integer navermemid = (Integer) session.getAttribute("navermemid");
+		String navermemid = (String) session.getAttribute("navermemid");
 		String mememail = request.getParameter("email");
 		String memname = request.getParameter("name");
 		String memnickname = request.getParameter("nickname");
@@ -63,15 +63,16 @@ public class NaverController {
 					produces = "application/text; charset=utf-8")
 	@ResponseBody
 	public String naverSignUp(HttpServletRequest request, HttpServletResponse response) {		
-		HttpSession session = request.getSession();
-		Integer navermemid = Integer.parseInt(request.getParameter("navermemid"));
+		HttpSession session = request.getSession(); 
+		String navermemid = request.getParameter("navermemid");
+		double fornaveruser = 100;
 		String naveruseremail = request.getParameter("naveruseremail");
 		String naverusername = request.getParameter("naverusername");
 		session.setAttribute("navermemid",navermemid);
 		JSONObject snsloginjson = new JSONObject();
 		
 		try {
-			MemberVO m = new MemberVO(navermemid);
+			MemberVO m = new MemberVO(navermemid, fornaveruser);
 			Map returnnaverdata = naverMemberService.naverIdChk(m);
 			if(returnnaverdata == null) {
 			
