@@ -145,10 +145,10 @@ public class MemberController {
 		log.TraceLog(infor, BuildDescription.get(LogDescription.REQUEST_SIGNOUT, infor.getId()));
 		
 		HttpSession session = request.getSession(false);
-		Integer navermemid = (Integer) session.getAttribute("navermemid");
+		String navermemid = (String) session.getAttribute("navermemid");
 		Double googlememid = (Double) session.getAttribute("googlememid");
-		JSONObject signoutjson = new JSONObject();
 		String mememail = (String)session.getAttribute("email");
+		JSONObject signoutjson = new JSONObject();
 		Random random = new Random();
 		String memidtosignout = "  ";
 		for(int i =0; i<8;i++) {
@@ -159,7 +159,7 @@ public class MemberController {
 		String deletedmememail = mememail + memidtosignout;
 		if(navermemid != null) {
 			try {
-				Integer deletednavermemid = 100;
+				String deletednavermemid = "signout";
 				DeleteMemberVO m = new DeleteMemberVO(mememail, deletedmememail, navermemid, deletednavermemid);
 				memberService.signOutNaverMember(m);
 				signoutjson.put("redirect", "/");

@@ -8,7 +8,6 @@ function onSignIn(googleUser){
 		var profile = googleUser.getBasicProfile();
 		var googlememid = profile.getId();
 		var googleuseremail = profile.getEmail();
-		
 		$.post("../googleSignUp.do",
 			{
 				googlememid : googlememid,

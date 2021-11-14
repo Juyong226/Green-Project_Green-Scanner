@@ -4,8 +4,7 @@ import java.util.Date;
 import com.garb.gbcollector.util.GbcException;
 
 public class DeleteMemberVO {
-	private String mememail,deletedmememail, mempw;
-	private Integer navermemid, deletednavermemid;
+	private String mememail,deletedmememail, mempw, navermemid, deletednavermemid;
 	private Double googlememid, deletedgooglememid;
 	
 	public DeleteMemberVO() {
@@ -26,7 +25,7 @@ public class DeleteMemberVO {
 		setDeletedGooglememid(deletedgooglememid);
 	}
 	
-	public DeleteMemberVO(String mememail, String deletedmememail, Integer navermemid, Integer deletednavermemid) throws GbcException{
+	public DeleteMemberVO(String mememail, String deletedmememail, String navermemid, String deletednavermemid) throws GbcException{
 		super();
 		setMememail(mememail);
 		setDeletedMememail(deletedmememail);
@@ -53,10 +52,10 @@ public class DeleteMemberVO {
 		this.mempw = mempw;
 	}
 	
-	public void setNavermemid(Integer navermemid) {
+	public void setNavermemid(String navermemid) {
 		this.navermemid = navermemid;
 	}
-	public void setDeletednavermemid(Integer deletednavermemid) {
+	public void setDeletednavermemid(String deletednavermemid) {
 		this.deletednavermemid = deletednavermemid;
 	}
 	public void setGooglememid(Double googlememid) {

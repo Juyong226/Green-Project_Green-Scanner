@@ -30,7 +30,6 @@ $(function(){
 			return false; 
 		}
 		else if(confirm("비밀번호를 변경하시겠습니까?")){
-			//alert("회원가입을 축하합니다!");
 		}else{
 			return false;
 		}
@@ -97,7 +96,7 @@ $(function(){
 	
 	
 	$("#passwordChangeBtn").click(function(){
-		if(confirm("비민번호를 변경하시겠습니가?"))
+		if(confirm("비밀번호를 변경하시겠습니가?"))
 			{
 				var passwordcheck = document.getElementById("password-check");
 				passwordcheck.type = "password";
