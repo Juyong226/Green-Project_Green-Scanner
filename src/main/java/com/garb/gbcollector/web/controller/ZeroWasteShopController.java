@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.garb.gbcollector.web.service.ZeroWasteShopService;
+import com.garb.gbcollector.web.vo.RequestInforVO;
 import com.garb.gbcollector.web.vo.ZeroWasteShopVO;
 import com.garb.gbcollector.util.Log;
 
@@ -32,7 +33,10 @@ public class ZeroWasteShopController {
 					produces="application/text; charset=utf8")
 	@ResponseBody
 	public String showZeroWasteShop(HttpServletRequest request, HttpServletResponse response) {
-		log.TraceLog("제로웨이스트 상점 위치 요청 들어옴");
+		
+		RequestInforVO info = new RequestInforVO(request);
+		log.TraceLog(info, "제로웨이스트 상점 위치 찾기 요청");
+		
 		JSONObject resJson = new JSONObject();
 		JSONArray jsonList = new JSONArray();
 		List<Map<String, Object>> listMap = new ArrayList<Map<String, Object>>();

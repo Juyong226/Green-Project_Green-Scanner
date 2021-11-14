@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.garb.gbcollector.web.service.TemperatureService;
+import com.garb.gbcollector.web.vo.RequestInforVO;
 import com.garb.gbcollector.web.vo.TemperatureVO;
 import com.garb.gbcollector.web.vo.TrashCanVO;
 import com.garb.gbcollector.util.Log;
@@ -37,7 +38,9 @@ public class TemperatureController {
 	
 	@ResponseBody
 	public String showTemperature(HttpServletRequest request, HttpServletResponse response) {
-		log.TraceLog("날짜 요청 들어옴");
+		
+		RequestInforVO info = new RequestInforVO(request);
+		log.TraceLog(info, "날씨 요청");
 		String tdate = request.getParameter("tdate");
 		
 		JSONObject json = new JSONObject();
