@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import com.garb.gbcollector.util.Log;
 import com.garb.gbcollector.web.vo.PersonalChallengeVO;
 
 public class GSCalendar {
@@ -54,7 +53,7 @@ public class GSCalendar {
 		return dateFormat.format(cal.getTime());
 	}
 	
-	public List<ArrayList> compare(List<PersonalChallengeVO> list) throws GbcException {
+	public List<ArrayList<PersonalChallengeVO>> compare(List<PersonalChallengeVO> list) throws GbcException {
 		
 		/* list에서 ChallengeListVO 객체를 하나씩 꺼낸다.
 		 * 각 VO 객체에서 endDate 값을 꺼낸다.
@@ -65,7 +64,7 @@ public class GSCalendar {
 		 * proceeding과 completed를 각각 List<ArrayList> cList의 0번과 1번에 추가한다.
 		 * */
 		
-		List<ArrayList> cList = new ArrayList();
+		List<ArrayList<PersonalChallengeVO>> cList = new ArrayList<>();
 		ArrayList<PersonalChallengeVO> proceeding = new ArrayList<PersonalChallengeVO>();
 		ArrayList<PersonalChallengeVO> completed = new ArrayList<PersonalChallengeVO>();
 		
@@ -99,10 +98,10 @@ public class GSCalendar {
 		return cList;
 	}
 	
-	public List<ArrayList> compare(List<PersonalChallengeVO> proceeding, 
+	public List<ArrayList<PersonalChallengeVO>> compare(List<PersonalChallengeVO> proceeding, 
 								List<PersonalChallengeVO> completed) throws GbcException {
 		
-		List<ArrayList> cList = new ArrayList();
+		List<ArrayList<PersonalChallengeVO>> cList = new ArrayList<>();
 		
 		Date currentTime = new Date();
 		Date endDate;

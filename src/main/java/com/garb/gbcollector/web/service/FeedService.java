@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.garb.gbcollector.constant.LogDescription;
+import com.garb.gbcollector.util.BuildDescription;
 import com.garb.gbcollector.util.FileUtils;
 import com.garb.gbcollector.util.GSCalendar;
 import com.garb.gbcollector.util.UploadFileException;
@@ -21,6 +23,7 @@ import com.garb.gbcollector.web.vo.FeedCommentVO;
 import com.garb.gbcollector.web.vo.FeedPaginationVO;
 import com.garb.gbcollector.web.vo.FeedVO;
 import com.garb.gbcollector.web.vo.PersonalChallengeVO;
+import com.garb.gbcollector.web.vo.RequestInforVO;
 import com.garb.gbcollector.web.vo.UploadImageVO;
 
 @Service
@@ -40,10 +43,10 @@ public class FeedService {
 	
 	GSCalendar gsCalendar = GSCalendar.getInstance();
 	
-	public boolean registerFeed(FeedVO params, String challengeNum) {
+	public boolean registerFeed(FeedVO params, String challengeNum, RequestInforVO infor) {
 		int queryResult = 0;
-		log.TraceLog("피드 params = " + params.toString());
 		if(params.getFeedNo() == 0) {
+			log.TraceLog(infor, BuildDescription.get(LogDescription.REQUEST_NEWFEED));
 			if(duplicateCheck(challengeNum) == true) {
 				queryResult = feedDAO.insertFeed(params);
 				if(queryResult == 1) {
@@ -55,9 +58,8 @@ public class FeedService {
 				}
 			}
 		} else {
+			log.TraceLog(infor, BuildDescription.get(LogDescription.REQUEST_UPDATE_FEED, Integer.toString(params.getFeedNo())));
 			queryResult = feedDAO.updateFeed(params);
-			log.TraceLog("registerFeed()의 params.getChangeYn(): " + params.getChangeYn());
-			log.TraceLog("registerFeed()의 params.getFeedNo(): " + params.getFeedNo());
 			if("Y".equals(params.getChangeYn())) {
 				feedImageDAO.deleteFeedImage(params.getFeedNo());
 				if(params.getImageIdxs() != null && params.getImageIdxs().isEmpty() == false) {
@@ -65,21 +67,24 @@ public class FeedService {
 				}
 			}
 		}
-		log.TraceLog("registerFeed()의 queryResult: " + queryResult);
 		return (queryResult == 1) ? true : false;
 	}
 	
-	public boolean registerFeed(FeedVO params, String challengeNum, MultipartFile[] images) throws UploadFileException {
+	public boolean registerFeed(FeedVO params, String challengeNum, MultipartFile[] images, RequestInforVO infor) throws UploadFileException {
 		int queryResult = 1;
-		if(registerFeed(params, challengeNum) == false) {
+		if(registerFeed(params, challengeNum, infor) == false) {
+			log.TraceLog(infor, "피드 내용 등록/수정 실패");
 			return false;
 		}
+		log.TraceLog(infor, "피드 내용 등록/수정 성공");
 		List<UploadImageVO> uploadList = fileUtils.uploadFeedImages(images, params.getFeedNo());
 		if(uploadList.isEmpty() == false) {
 			queryResult = feedImageDAO.insertFeedImage(uploadList);
-			log.TraceLog("insertFeedImage(uploadList)_<foreach> 결과 값: " + queryResult);
 			if(queryResult != -1) {
+				log.TraceLog(infor, "피드 이미지 등록 실패");
 				queryResult = 0;
+			} else { 
+				log.TraceLog(infor, "피드 이미지 등록 성공"); 
 			}
 		} 
 		return (queryResult == -1 || queryResult == 1);

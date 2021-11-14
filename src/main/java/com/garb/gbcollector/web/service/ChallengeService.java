@@ -57,11 +57,11 @@ public class ChallengeService {
 	}
 	
 	public int updateChallenge(PersonalChallengeVO pc, String newPeriod) throws GbcException {
-			pc.setCalendar(gsCalendar.modifyCalendar(pc.getPeriod(), newPeriod, pc.getCalendar()));
-			pc.setEndDate(getEndDate(pc.getStartDate(), newPeriod));
-			pc.setPeriod(newPeriod);
-			pc.calculateAchievementRate();
-			return challengeDAO.updateChallengeVO(pc);
+		pc.setCalendar(gsCalendar.modifyCalendar(pc.getPeriod(), newPeriod, pc.getCalendar()));
+		pc.setEndDate(getEndDate(pc.getStartDate(), newPeriod));
+		pc.setPeriod(newPeriod);
+		pc.calculateAchievementRate();
+		return challengeDAO.updateChallengeVO(pc);
 	}
 	
 	public int updateChallenge(List<PersonalChallengeVO> list) {
@@ -81,8 +81,8 @@ public class ChallengeService {
 		return gsCalendar.getEndDate(startDate, period);
 	}
 
-	public List<ArrayList> isCompleted(List<PersonalChallengeVO> list, RequestInforVO infor) throws GbcException {
-		List<ArrayList> cList = gsCalendar.compare(list);
+	public List<ArrayList<PersonalChallengeVO>> isCompleted(List<PersonalChallengeVO> list, RequestInforVO infor) throws GbcException {
+		List<ArrayList<PersonalChallengeVO>> cList = gsCalendar.compare(list);
 		int result1 = 0; 
 		int result2 = 0;
 		boolean proceeding = cList.get(0).isEmpty();
@@ -98,15 +98,11 @@ public class ChallengeService {
 		} else if ( !proceeding && completed ) {
 			result1 = updateChallenge(cList.get(0));
 		}
-		
-		log.TraceLog(infor, "완료 챌린지 리스트 객체 생성 완료");
-		log.TraceLog(infor, infor.getId() + " 님의 완료 리스트 업데이트 결과값 = " + result2);
 		return cList;
 	}
 	
-	public List<ArrayList> isCompleted(List<PersonalChallengeVO> proceeding, List<PersonalChallengeVO> completed) throws GbcException {
-		List<ArrayList> cList = gsCalendar.compare(proceeding, completed);
-
+	public List<ArrayList<PersonalChallengeVO>> isCompleted(List<PersonalChallengeVO> proceeding, List<PersonalChallengeVO> completed) throws GbcException {
+		List<ArrayList<PersonalChallengeVO>> cList = gsCalendar.compare(proceeding, completed);
 		return cList;
 	}
 

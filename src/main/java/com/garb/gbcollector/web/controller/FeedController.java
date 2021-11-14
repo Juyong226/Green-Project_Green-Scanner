@@ -27,15 +27,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.garb.gbcollector.constant.LogDescription;
 import com.garb.gbcollector.constant.Method;
 import com.garb.gbcollector.util.UiUtils;
 import com.garb.gbcollector.util.UploadFileException;
+import com.garb.gbcollector.util.BuildDescription;
 import com.garb.gbcollector.util.Log;
 import com.garb.gbcollector.web.service.ChallengeService;
 import com.garb.gbcollector.web.service.FeedService;
 import com.garb.gbcollector.web.vo.FeedPaginationVO;
 import com.garb.gbcollector.web.vo.FeedVO;
 import com.garb.gbcollector.web.vo.PersonalChallengeVO;
+import com.garb.gbcollector.web.vo.RequestInforVO;
 import com.garb.gbcollector.web.vo.UploadImageVO;
 
 @Controller
@@ -47,10 +50,14 @@ public class FeedController extends UiUtils {
 	@Autowired
 	private ChallengeService challengeService;
 	private Log log = new Log();
+	
 	/*피드 글 쓰기 페이지 요청*/
 	@GetMapping(value = "/{challengeNum}/set")
 	public String openWritePage(@RequestParam(value = "feedNo", required = false) Integer feedNo, 
 			@PathVariable("challengeNum") String challengeNum, Model model, HttpServletRequest request) {
+		
+		RequestInforVO infor = new RequestInforVO(request);
+		log.TraceLog(infor, infor.getId() + " 님이 챌린지( CHALLENGENUM: " + challengeNum + " ) 피드 등록/수정 폼 요청");
 		
 		HttpSession session = request.getSession(false);
 		String redirectURI = "";
@@ -85,6 +92,9 @@ public class FeedController extends UiUtils {
 	public String registerFeed(final FeedVO params, final MultipartFile[] images, Model model,
 			@PathVariable("challengeNum") String challengeNum, @RequestParam(value = "challengeName") String challengeName, HttpServletRequest request) {
 		
+		RequestInforVO infor = new RequestInforVO(request);
+		log.TraceLog(infor, BuildDescription.get(LogDescription.REQUEST_WRITE_FEED, infor.getId(), challengeNum));
+		
 		String redirectURI = "/challenge/my-challenge/" + challengeNum;
 		try {
 			HttpSession session = request.getSession(false);
@@ -96,8 +106,10 @@ public class FeedController extends UiUtils {
 				params.setEmail((String) session.getAttribute("email"));
 				params.setChallengeName(challengeName);
 				params.setPostDate(challengeService.getCurrentTime());
-				boolean isRegistered = feedService.registerFeed(params, challengeNum, images);
+				boolean isRegistered = feedService.registerFeed(params, challengeNum, images, infor);
+				log.TraceLog(infor, BuildDescription.get(LogDescription.SUCCESS_WRITE_FEED, infor.getId(), challengeNum, Integer.toString(params.getFeedNo())));
 				if(isRegistered == false) {
+					log.TraceLog(infor, BuildDescription.get(LogDescription.FAIL_WIRTE_FEED, infor.getId(), challengeNum));
 					return showMessageWithRedirection("피드를 등록할 수 없습니다.\n(한 챌린지 당 하루에 1개의 피드만 작성이 가능합니다.)", redirectURI, Method.GET, null, model);
 				}	
 			}
@@ -119,12 +131,15 @@ public class FeedController extends UiUtils {
 	@ResponseBody
 	public String duplicateCheck(HttpServletRequest request) {
 		
-		log.TraceLog("요청들어옴: POST /duplicate_check with challengeNum = " + request.getParameter("challengeNum"));
+		RequestInforVO infor = new RequestInforVO(request);
+		String challengeNum = request.getParameter("challengeNum");
+		log.TraceLog(infor, infor.getId() + " 님이 챌린지( CHALLENGENUM: " + challengeNum + " ) 피드 중복 체크 요청");
+		
 		HttpSession session = request.getSession(false);
 		JSONObject resJson = new JSONObject();
 		if(session != null) {
 			try {
-				boolean result = feedService.duplicateCheck(request.getParameter("challengeNum"));
+				boolean result = feedService.duplicateCheck(challengeNum);
 				if(result == false) {
 					resJson.put("msg", "피드 작성은 챌린지 당 하루 1회만 가능합니다.");
 				}
@@ -140,7 +155,7 @@ public class FeedController extends UiUtils {
 	
 	/*피드 이미지 요청*/
 	@GetMapping(value = "/{feedNo}/img/{idx}", produces = {"image/jpeg", "image/png"})
-	public ResponseEntity<byte[]> loadFeedImages(@PathVariable("idx") final Integer idx) {
+	public ResponseEntity<byte[]> loadFeedImages(@PathVariable("idx") final Integer idx, HttpServletRequest request) {
 		
 		File image = feedService.getFeedImageDetail(idx);
 		try {
@@ -156,6 +171,9 @@ public class FeedController extends UiUtils {
 	/*전체 피드 리스트 요청*/
 	@GetMapping(value = "/")
 	public String openFeedList(FeedPaginationVO params, Model model, HttpServletRequest request) {
+		
+		RequestInforVO infor = new RequestInforVO(request);
+		log.TraceLog(infor, BuildDescription.get(LogDescription.ACCESS_FEEDLIST, infor.getId()));
 		
 		HttpSession session = request.getSession(false);
 		if(session != null) {
@@ -177,6 +195,10 @@ public class FeedController extends UiUtils {
 	@PostMapping(value = "/more_feed")
 	public String more_feed(FeedPaginationVO params, Model model, HttpServletRequest request) {
 		
+		RequestInforVO infor = new RequestInforVO(request);
+		String requestPage = request.getParameter("requestPage");
+		log.TraceLog(infor, infor.getId() + " 님이 " + requestPage + "에서 '더 보기' 요청");
+		
 		HttpSession session = request.getSession(false);
 		if(session != null) {
 			model.addAttribute("nickname", session.getAttribute("memnickname"));
@@ -185,7 +207,7 @@ public class FeedController extends UiUtils {
 		params.setEndIdx((String)request.getParameter("endIdx"));
 		params.setChallengeNum((String)request.getParameter("challengeNum"));
 		List<FeedVO> feedList;
-		if(((String)request.getParameter("requestPage")).equals("all")) {
+		if(requestPage.equals("all")) {
 			feedList = feedService.getAllFeedList(params);
 		} else {
 			feedList = feedService.getMyFeedList(params);
@@ -200,7 +222,9 @@ public class FeedController extends UiUtils {
 	public String deleteFeed(@PathVariable("challengeNum") String challengeNum,
 			@PathVariable("feedNo") String feedNo, HttpServletRequest request, Model model) {
 		
-		log.TraceLog("요청들어옴: POST /deleteFeed with challengeNum/feedNo = " + challengeNum + "/" + feedNo);
+		RequestInforVO infor = new RequestInforVO(request);
+		log.TraceLog(infor, BuildDescription.get(LogDescription.REQUEST_DELETE_FEED, infor.getId(), feedNo));
+		
 		HttpSession session = request.getSession(false);
 		String redirectURI = "/challenge/my-challenge/" + challengeNum;
 		if(session == null) {
@@ -213,9 +237,10 @@ public class FeedController extends UiUtils {
 				try {
 					boolean isDeleted = feedService.deleteFeed(Integer.parseInt(feedNo), challengeNum);
 					if(isDeleted == false) {
+						log.TraceLog(infor, BuildDescription.get(LogDescription.FAIL_DELETE_FEED, infor.getId(), feedNo));
 						return showMessageWithRedirection("피드 삭제에 실패하였습니다.", redirectURI, Method.GET, null, model);
 					}
-					
+					log.TraceLog(infor, BuildDescription.get(LogDescription.SUCCESS_DELETE_FEED, infor.getId(), feedNo));
 				} catch (DataAccessException e) {
 					e.printStackTrace();
 					return showMessageWithRedirection("데이터베이스 처리 과정에서 문제가 발생하였습니다.", redirectURI, Method.GET, null, model);

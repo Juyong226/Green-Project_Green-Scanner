@@ -20,13 +20,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.garb.gbcollector.constant.LogDescription;
 import com.garb.gbcollector.constant.Method;
 import com.garb.gbcollector.util.UiUtils;
+import com.garb.gbcollector.util.BuildDescription;
 import com.garb.gbcollector.util.Log;
 import com.garb.gbcollector.web.service.FeedCommentService;
 import com.garb.gbcollector.web.service.FeedService;
 import com.garb.gbcollector.web.vo.FeedCommentVO;
 import com.garb.gbcollector.web.vo.FeedVO;
+import com.garb.gbcollector.web.vo.RequestInforVO;
 
 @Controller
 @RequestMapping("feed")
@@ -38,10 +41,14 @@ public class FeedCommentController extends UiUtils {
 	@Autowired
 	private FeedService feedService;
 	private Log log = new Log();
+	
 	/*피드글 + 댓글 리스트 요청*/
 	@GetMapping(value = "/{feedNo}/comments")
 	public String getCommentList(@PathVariable("feedNo") final Integer feedNo, @RequestParam(value="challengeNum") final String challengeNum,
 			FeedCommentVO params, Model model, HttpServletRequest request) {
+		
+		RequestInforVO infor = new RequestInforVO(request);
+		log.TraceLog(infor, BuildDescription.get(LogDescription.ACCESS_FEEDDETAIL, infor.getId(), Integer.toString(feedNo)));
 		
 		String redirectURI = "";		
 		FeedVO feed = feedService.getFeedDetail(feedNo);
@@ -71,6 +78,9 @@ public class FeedCommentController extends UiUtils {
 	@GetMapping(value = {"/{feedNo}/comments/{idx}"})
 	public String getCommentUpdateForm (@PathVariable("feedNo") final String feedNo, @PathVariable(value = "idx", required = false) final Integer idx,
 			@RequestParam(value="challengeNum") final String challengeNum, Model model, HttpServletRequest request) {
+		
+		RequestInforVO infor = new RequestInforVO(request);
+		log.TraceLog(infor, BuildDescription.get(LogDescription.REQUEST_UPDATE_COMMENT_FORM, infor.getId(), feedNo, Integer.toString(idx)));
 		
 		HttpSession session = request.getSession(false);
 		String redirectURI = "/feed/" + feedNo + "comments?challengeNum=" + challengeNum;
@@ -102,8 +112,10 @@ public class FeedCommentController extends UiUtils {
 	@RequestMapping(value = { "/{feedNo}/comments", "/{feedNo}/comments/{idx}" }, method = { RequestMethod.POST, RequestMethod.PATCH })
 	public String registerComment(@PathVariable("feedNo") final String feedNo, @PathVariable(value = "idx", required = false) final Integer idx,
 			@RequestParam(value="challengeNum") final String challengeNum, FeedCommentVO params, Model model, HttpServletRequest request) {
-
-		log.TraceLog("댓글 작성/수정 시 넘어오는 submit params 객체 = " + params.toString());
+		
+		RequestInforVO infor = new RequestInforVO(request);
+		log.TraceLog(infor, BuildDescription.get(LogDescription.REQUEST_CHALL_WRITE_COMMENT, infor.getId(), feedNo));
+		
 		HttpSession session = request.getSession(false);
 		String redirectURI = "/feed/" + feedNo + "comments?challengeNum=" + challengeNum;
 		if(session != null) {
@@ -111,11 +123,17 @@ public class FeedCommentController extends UiUtils {
 				if(idx != null) {
 					params.setIdx(idx);
 				}
-				FeedCommentVO comment = feedCommentService.registerComment(params);
-				model.addAttribute("comment", comment);
-				model.addAttribute("challengeNum", challengeNum);
-				model.addAttribute("nickname", session.getAttribute("memnickname"));
-				return "challenge/feed/partial-content :: cmt-regi";
+				FeedCommentVO comment = feedCommentService.registerComment(params, infor);
+				if(comment != null) {
+					log.TraceLog(infor, BuildDescription.get(LogDescription.SUCCESS_CHALL_WRITE_COMMENT, infor.getId(), feedNo, Integer.toString(params.getIdx())));
+					model.addAttribute("comment", comment);
+					model.addAttribute("challengeNum", challengeNum);
+					model.addAttribute("nickname", session.getAttribute("memnickname"));
+					return "challenge/feed/partial-content :: cmt-regi";
+				} else {
+					log.TraceLog(infor, BuildDescription.get(LogDescription.FAIL_CHALL_WRITE_COMMENT, infor.getId(), feedNo));
+					return showMessageWithRedirection("데이터베이스 처리 과정에 문제가 발생하였습니다.", redirectURI, Method.GET, null, model);
+				}
 			} catch (DataAccessException e) {
 				e.printStackTrace();
 				return showMessageWithRedirection("데이터베이스 처리 과정에 문제가 발생하였습니다.", redirectURI, Method.GET, null, model);
@@ -135,12 +153,21 @@ public class FeedCommentController extends UiUtils {
 	@ResponseBody
 	public String deleteComment(@PathVariable("idx") final Integer idx, HttpServletRequest request) {
 		
+		RequestInforVO infor = new RequestInforVO(request);
+		log.TraceLog(infor, BuildDescription.get(LogDescription.REQUEST_DELETE_COMMENT, infor.getId(), Integer.toString(idx)));
+		
 		HttpSession session = request.getSession(false);
 		JSONObject resJson = new JSONObject();
 		if(session != null) {
 			try {
 				boolean isDeleted = feedCommentService.deleteComment(idx);
-				resJson.put("success", "댓글이 삭제되었습니다.");
+				if(isDeleted == true) {
+					log.TraceLog(infor, BuildDescription.get(LogDescription.SUCCESS_DELETE_COMMENT, infor.getId(), Integer.toString(idx)));
+					resJson.put("success", "댓글이 삭제되었습니다.");
+				} else {
+					log.TraceLog(infor, BuildDescription.get(LogDescription.FAIL_DELETE_COMMENT, infor.getId(), Integer.toString(idx)));
+					resJson.put("failed", "데이터베이스 처리 과정에 문제가 발생하였습니다.");
+				}
 			} catch (DataAccessException e) {
 				e.printStackTrace();
 				resJson.put("failed", "데이터베이스 처리 과정에 문제가 발생하였습니다.");
