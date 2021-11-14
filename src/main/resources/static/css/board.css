@@ -2874,7 +2874,7 @@ input[type="checkbox"]+label {
 }
 
 .Content_div {
-	padding-top: 16px;
+	margin-bottom : 48px;
 	display: table-row;
 	/* Md - M */
 	font-family: GmarketSans;
@@ -2884,9 +2884,10 @@ input[type="checkbox"]+label {
 	line-height: 150%;
 	/* identical to box height, or 24px */
 	text-transform: capitalize;
+	white-space: pre-wrap;
 	/* Gray/10 */
 	color: #181919;
-	font-family: GmarketSans
+	font-family: GmarketSans;
 }
 
 .img_100 {
