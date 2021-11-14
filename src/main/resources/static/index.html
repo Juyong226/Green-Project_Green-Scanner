@@ -20,7 +20,6 @@
 <body>
 	<!-- 공통 네비게이션: top -->
 	<nav>
-		<!-- content section 크기와 같은 영역 -->
 		<div class="nav-top">
 			<div class="wrapper">
 				<div class="nav-logo">
@@ -29,20 +28,22 @@
 				<div class="nav-menu">
 					<div class="login-nickname-container">
 						<span id="nickname">
-								<a id="login-btn" href="/html/login.html">로그인</a>
-								<a href="/html/memberInform.html"><div class="login-nickname"></div></a>
+							<a id="login-btn" href="/html/login.html">로그인</a>
+							<a href="/html/memberInform.html"><div class="login-nickname"></div></a>
 						</span>
 					</div>
 					<div class="join-logout">
-						<a id="join-btn" href="html/memberInsertForm.html">회원가입</a>
+						<a id="join-btn" href="/html/memberInsertForm.html">회원가입</a>
 					</div>
 					<a>공지사항</a>
-					<a>FAQ</a>
+					<div class="">
+						<a id="" href="/faq">FAQ</a>
+					</div>
 					<div class="nav-dropdown">
 						<button class="nav-dropdown-btn">자주사용하는기능</button>
 						<div class="dropdown-submenu">
 							<a href="/html/SWV.html">음성으로배출방법찾기</a>
-							<a href="/html/SWI.html">사진으로배출방법찾기</a>
+							<a onclick='alert("준비 중인 서비스입니다.")'>사진으로배출방법찾기</a>
 							<a href="/html/trashCanMap.html">주변쓰레기통찾기</a>
 							<a href="/html/zeroWasteShopMap.html">제로웨이스트상점찾기</a>
 							<a href="/challenge/main">챌린지</a>
@@ -52,16 +53,16 @@
 				</div>
 			</div>
 		</div>
+		<!-- 밑줄: 디자인 요소 다운하여 사용 -->
+		<div class="nav-border"></div>
 	</nav>
-	<!-- 밑줄: 디자인 요소 다운하여 사용 -->
-	<div class="nav-border"></div>
 	<!-- main content -->
 	<div class="main-top">
 		<div class="wrapper-main-icons">
 			<span id="main-icons-title">자주 사용하는 기능</span>
 			<div class="main-icons-link">
 				<a href="/html/SWV.html"><img src="/img/mainmic.png"></a> 
-				<a href="/html/SWI.html"><img src="/img/mainpicture.png"></a> 
+				<a onclick='alert("준비 중인 서비스입니다.")'><img src="/img/mainpicture.png"></a> 
 				<a href='/html/trashCanMap.html'><img src="/img/maingarbage.png"></a> 
 				<a href='/html/zeroWasteShopMap.html'><img src="/img/mainzero.png"></a> 
 				<a href='/challenge/main'><img src="/img/mainchallenge.png"></a>

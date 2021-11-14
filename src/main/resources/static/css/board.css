@@ -157,6 +157,7 @@ body {
 a, a:link, a:visited {
 	text-decoration: none;
 	color: inherit;
+	cursor: pointer;
 }
 
 /*�긽�븯�떒 border*/
