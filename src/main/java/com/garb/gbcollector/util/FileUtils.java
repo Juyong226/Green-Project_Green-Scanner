@@ -73,9 +73,7 @@ public class FileUtils {
 		/* 파일 개수만큼 forEach 실행 */
 		for(MultipartFile image : images) {
 			try {
-				log.TraceLog("======================================");
 				log.TraceLog("0.\n size: " + image.getSize() + "\n empty여부: " + image.isEmpty() + "\n filename: " + image.getOriginalFilename() + "\n toString: " + image.toString());
-				log.TraceLog("======================================");
 				if(image.isEmpty() == false) {
 					/* 파일 확장자 유효성 검사 */
 					if(isValidImage(image)) {
@@ -114,9 +112,7 @@ public class FileUtils {
 		LocalDate insertTime = LocalDate.ofInstant(image.getInsertTime().toInstant(), ZoneId.systemDefault());
 		String feedImgDir = Paths.get("C:", "GreenScanner", "upload", "challenge", insertTime.format(DateTimeFormatter.ofPattern("yyyyMMdd"))).toString();
 		File target = new File(feedImgDir, image.getSaveName());
-		log.TraceLog("======================================");
 		log.TraceLog("feedImgDir: " + feedImgDir + "\ntargetFile: " + target.toString());
-		log.TraceLog("======================================");
 		return target;
 	}
 }
