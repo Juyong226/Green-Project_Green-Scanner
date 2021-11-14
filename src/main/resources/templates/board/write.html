@@ -47,7 +47,8 @@
 					<div class="board-write-content">
 						<div class="write_label">내용</div>
 						<textarea name="content" id="content"
-							class="board-write-content-input" placeholder="내용을 입력해주세요"></textarea>
+							class="board-write-content-input" onkeyup="fn_checkByte(this)" placeholder="내용을 입력해주세요"></textarea>
+						<sup>(<span id="nowByte">0</span>/1000bytes)</sup>
 					</div>
 					<div class="file-upload preview-image mt-20" style="height: 40px;">
 							<label for="input">
