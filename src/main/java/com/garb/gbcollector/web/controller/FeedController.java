@@ -107,11 +107,14 @@ public class FeedController extends UiUtils {
 				params.setChallengeName(challengeName);
 				params.setPostDate(challengeService.getCurrentTime());
 				boolean isRegistered = feedService.registerFeed(params, challengeNum, images, infor);
-				log.TraceLog(infor, BuildDescription.get(LogDescription.SUCCESS_WRITE_FEED, infor.getId(), challengeNum, Integer.toString(params.getFeedNo())));
 				if(isRegistered == false) {
 					log.TraceLog(infor, BuildDescription.get(LogDescription.FAIL_WIRTE_FEED, infor.getId(), challengeNum));
-					return showMessageWithRedirection("피드를 등록할 수 없습니다.\n(한 챌린지 당 하루에 1개의 피드만 작성이 가능합니다.)", redirectURI, Method.GET, null, model);
-				}	
+					return showMessageWithRedirection
+							("피드를 등록 또는 수정할 수 없습니다.\n1. 이 챌린지에 대한 피드를 이미 작성했는지 확인해주세요.\n\t(챌린지당 1일 1회 등록 가능)\n2. 이미 삭제된 피드인지 확인해주세요.\n\t(삭제된 피드는 수정이 불가능)", 
+									redirectURI, Method.GET, null, model);
+				}
+				log.TraceLog(infor, BuildDescription.get(LogDescription.SUCCESS_WRITE_FEED, infor.getId(), challengeNum, Integer.toString(params.getFeedNo())));
+				return "redirect:/challenge/my-challenge/" + challengeNum;
 			}
 		} catch (DataAccessException e) {
 			e.printStackTrace();
@@ -122,8 +125,7 @@ public class FeedController extends UiUtils {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return showMessageWithRedirection("시스템에 문제가 발생하였습니다.", redirectURI, Method.GET, null, model);			
-		}
-		return "redirect:/challenge/my-challenge/" + challengeNum; 
+		} 
 	}
 	
 	/*동일 챌린지 피드 중복 체크 요청*/

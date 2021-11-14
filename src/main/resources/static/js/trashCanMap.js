@@ -128,13 +128,13 @@
   					});	
 					createMarkers();
 					createInfoWindows();
-					console.log('markers, infowindows 생성 완료');
+					//console.log('markers, infowindows 생성 완료');
 					
 					// for문을 통해 개별 marker에 클릭 시 infoWindow를 띄우는 이벤트를 단다
 					for (var i=0; i<markers.length; i++) {
 						naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i));
 					}
-					console.log('marker 클릭 이벤트 달기 완료');  					
+					//console.log('marker 클릭 이벤트 달기 완료');  					
   				});
 
   		// 클러스터를 맵 위에 표시
@@ -155,7 +155,7 @@
 			            $(clusterMarker.getElement()).find('div:first-child').text(count);
 			        }
 			    });
-		   		console.log('맵에 마커 표시 완료');
+		   		//console.log('맵에 마커 표시 완료');
 		   	}, 8000);	
   		
   		// marker 클릭시 실행되는 function
