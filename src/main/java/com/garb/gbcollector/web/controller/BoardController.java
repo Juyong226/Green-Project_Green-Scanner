@@ -206,6 +206,13 @@ public class BoardController {
 	/* 글쓰기 화면 요청 */
 	@GetMapping(value = "/write")
 	public ModelAndView viewWritePage(ModelAndView mav, HttpSession session) {
+		
+		/* 세션 확인하여 nickname이 존재하지 않으면 boardlist요청 전송 */
+		String nickname = (String) session.getAttribute("memnickname");
+		if(nickname == null) {
+			mav.setViewName("redirect:/board/boardlist");
+			return mav;
+		}
 
 		/* 토큰값을 생성해 session과 view에 저장 */
 		addTokenToSession(mav, session);
@@ -382,8 +389,10 @@ public class BoardController {
 	@GetMapping(value = "updatePost")
 	public ModelAndView updatePost(@RequestParam("postno") int postno, ModelAndView mav, HttpSession session) {
 		
-		if (session==null) {
-			mav.setViewName("board/boardlist");
+		/* 세션 확인하여 nickname이 존재하지 않으면 boardlist요청 전송 */
+		String nickname = (String) session.getAttribute("memnickname");
+		if(nickname == null) {
+			mav.setViewName("redirect:/board/boardlist");
 			return mav;
 		}
 		
