@@ -123,14 +123,14 @@ public class BoardController {
 		BoardPageNationVO page = new BoardPageNationVO();
 		page.setStartIdx("1");
 		page.setEndIdx("4");
-		int totalBoardCnt = boardService.getTotalBoardCnt();
 		List<BoardVO> boards = boardService.listPostBAll(page);
-		mav.addObject("totalBoardCnt", totalBoardCnt);
 		mav.addObject("boards", boards);
 		String boardname = null;
 		for (BoardVO board : boards) {
 			boardname = board.getBoardname();
 		}
+		int totalBoardCnt = boardService.getTotalBoardCnt(boardname);
+		mav.addObject("totalBoardCnt", totalBoardCnt);
 		mav.addObject("boardname", boardname);
 		mav.setViewName("board/board");
 		return mav;
@@ -163,15 +163,19 @@ public class BoardController {
 		BoardPageNationVO page = new BoardPageNationVO();
 		page.setStartIdx("1");
 		page.setEndIdx("4");
-		int totalBoardCnt = boardService.getTotalBoardCnt();
+
 		List<BoardVO> boards = boardService.listPostQAll(page);
-		mav.addObject("totalBoardCnt", totalBoardCnt);
+
 		mav.addObject("boards", boards);
 		String boardname = null;
 		for (BoardVO board : boards) {
 			boardname = board.getBoardname();
 		}
 		mav.addObject("boardname", boardname);
+
+		int totalBoardCnt = boardService.getTotalBoardCnt(boardname);
+		mav.addObject("totalBoardCnt", totalBoardCnt);
+
 		mav.setViewName("board/board");
 		return mav;
 	}
