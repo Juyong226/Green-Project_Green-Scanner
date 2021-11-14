@@ -6,16 +6,17 @@ $(document).on("click", "#check-email-btn", function(event){
 	      alert('이메일을 입력해주세요.')
 	      return;
 	    }	
+	if(email.match(space)){
+		alert("이메일에는에는 공백이 포함될 수 없습니다.");
+		$("#email").focus();
+		return false;
+	}
 	if (email.match(regExp) == null) {	
 		alert('이메일 형식에 맞춰주세요. ex)email@naver.com'); 
 		$("#signup-form-email").focus();
 		return false;
 	}
-	else if(name.match(space)){
-		alert("이메일에는에는 공백이 포함될 수 없습니다.");
-		$("#name").focus();
-		return false;
-	}
+	
 		
 	$.post("../emailChk.do",
 			  {			   			  

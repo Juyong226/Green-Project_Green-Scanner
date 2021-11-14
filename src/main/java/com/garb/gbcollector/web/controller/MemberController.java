@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.garb.gbcollector.web.service.MailService;
 import com.garb.gbcollector.web.service.MemberService;
 import com.garb.gbcollector.web.vo.DeleteMemberVO;
 import com.garb.gbcollector.web.vo.MemberVO;
@@ -26,6 +27,54 @@ public class MemberController {
 	private Log log = new Log();
 	@Autowired
 	MemberService memberService;
+	
+	@Autowired
+	MailService mailservice;
+	
+	@RequestMapping(value = "toFindPassword.do",
+			method = {RequestMethod.POST},
+			produces = "application/text; charset=utf-8")
+	@ResponseBody
+	public String toFindPassword(HttpServletRequest request, HttpServletResponse response) {
+		String mememail=request.getParameter("email");		
+		JSONObject resJson = new JSONObject();
+		try {
+			MemberVO m = new MemberVO(mememail);
+			Map checkEmailForPw = memberService.checkEmailForPw(m);
+			if (checkEmailForPw != null) {
+				String naverSignUp = (String) checkEmailForPw.get("NAVERMEMID");
+				Double googleSignUp = (Double) checkEmailForPw.get("GOOGLEID");
+				String normalEmail = (String) checkEmailForPw.get("EMAIL");
+				if (naverSignUp != null) {
+					resJson.put("snsSignUp", "네이버 아이디로 회원가입한 회원입니다. 네이버 아이디로 로그인해 주세요.");
+				}
+				if (googleSignUp != null) {
+					resJson.put("snsSignUp", "구글 아이디로 회원가입한 회원입니다. 구글 아이디로 로그인해 주세요.");
+				}
+				if (normalEmail != null & naverSignUp == null & googleSignUp == null) {
+					Random random=new Random();
+					String mempw="";
+					for(int i =0; i<8;i++) {
+						int index=random.nextInt(25)+65; //A~Z까지 랜덤 알파벳 생성
+						mempw+=(char)index;
+					}
+					int numIndex=random.nextInt(9999)+1000; //4자리 랜덤 정수를 생성1
+					mempw+=numIndex;
+					mailservice.sendMail(mememail,mempw);
+					DeleteMemberVO d = new DeleteMemberVO(mememail, mempw);
+					memberService.resetPassword(d);
+					resJson.put("success", normalEmail+"로 발송된 비밀번호로 다시 한번 로그인 해주세요.");
+					resJson.put("redirect", "/html/login.html");
+					
+				}
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return resJson.toJSONString();
+	}
 	
 	@RequestMapping(value = "signout.do",
 					method = {RequestMethod.POST},
@@ -171,9 +220,11 @@ public class MemberController {
 
 		try {
 			MemberVO m = new MemberVO(mememail,mempw); 
-			String memnickname = memberService.login(m);
+			Map memdata = memberService.login(m);
+			String memnickname = (String) memdata.get("NICKNAME");
+			String memname = (String) memdata.get("NAME");
 			log.TraceLog(memnickname);
-			if(memnickname!=null) {
+			if(memdata != null) {
 				HttpSession session=request.getSession();		
 				String logout = "<span id=\"logoutBtn\">로그아웃</span>";
 				session.setAttribute("member", m);
@@ -181,6 +232,7 @@ public class MemberController {
 				session.setAttribute("password", mempw);
 				session.setAttribute("memnickname", memnickname);
 				
+				loginjson.put("memname", memname);
 				loginjson.put("mememail", mememail);
 				loginjson.put("memnickname", memnickname);
 				log.TraceLog(memnickname);

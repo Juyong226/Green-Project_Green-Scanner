@@ -97,6 +97,8 @@ public class NaverController {
 					
 					snsloginjson.put("memnickname",memnickname);	
 					snsloginjson.put("mememail", mememail);
+					snsloginjson.put("memname",naverusername);
+					snsloginjson.put("oauth", "naver");
 					snsloginjson.put("snsredirect","/");
 					snsloginjson.put("logout", logout);
 					

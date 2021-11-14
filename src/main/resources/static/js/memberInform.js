@@ -31,7 +31,7 @@ $(function(){
 						$.removeCookie("nick-cookie", {path: '/' });
 				  		$("#login-btn").show();
 				  		$("#join-btn").show();
-						location.replace("https://localhost");
+						location.replace("/");
 					}
 				});
 	}

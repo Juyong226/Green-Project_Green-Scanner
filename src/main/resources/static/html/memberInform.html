@@ -57,7 +57,8 @@
 			<div class="form-div-memberInfo">
 				<div id="memberInfo-content-logo">계정안내</div>
 					<div id="memberInfo-content-box">
-						<div id ="email-box" style="display: inline-block;">이메일</div><div class="memberInform-login-email" style="display: inline-block;"></div><br>
+						<div id ="snsname-box" style="display: inline-block;">이름</div><div class="memberInform-login-name" style="display: inline-block;"></div><br>
+						<div id ="email-box" style="display: inline-block;">이메일</div><div class="memberInform-login-email" style="display: inline-block;"></div><div id="oauth-check" style="display: inline-block;"></div><br>
 						<div id ="nickname-box" style="display: inline-block;">닉네임</div> <div class="memberInform-login-nickname" style="display: inline-block;"></div>
 					</div>
 
@@ -100,8 +101,12 @@
 $(function(){
 	if($.cookie('nick-cookie')){
 		var logindata = JSON.parse($.cookie('nick-cookie'));
-		$(".memberInform-login-nickname").html(logindata.memnickname);
+		$(".memberInform-login-name").html(logindata.memname);
 		$(".memberInform-login-email").html(logindata.mememail);
+		$(".memberInform-login-nickname").html(logindata.memnickname);
+		if(logindata.oauth){
+			$("#oauth-check").html("("+logindata.oauth+" 회원가입)");
+		}
 	}
 })
 </script>
