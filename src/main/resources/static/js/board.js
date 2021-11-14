@@ -53,8 +53,9 @@ function DeletePost() {
 }
 
 function writePost() {
-	var content = $("#content").val();
-	var title = $("#title").val();
+	const content = $("#content").val();
+	const title = $("#title").val();
+	const totalBytes = fn_totalBytes(content);
 	if (typeof title == "undefined" || title == "" || title == null) {
 		alert("제목을 입력해주세요.");
 		return false;
@@ -62,6 +63,10 @@ function writePost() {
 	else if (typeof content == "undefined" || content == "" || content == null) {
 		alert("내용을 입력해주세요.");
 		return false;
+	}
+	else if (totalBytes > 1000) {
+		alert("글자 수를 확인해주세요.\n최대 1000Byte까지만 입력가능합니다.");
+ 		return false;
 	}
 }
 
@@ -219,7 +224,6 @@ function more_post(startIdx) {
 	function fn_checkByte(obj){
 		const textarea = $(obj);
 	    const target = textarea.parent().find('#nowByte');
-	    const maxByte = 300; //최대 100바이트
 	    const text_val = obj.value; //입력한 문자
 	    const text_len = text_val.length; //입력한 문자수
 	    
@@ -236,14 +240,23 @@ function more_post(startIdx) {
 	        }
 	    }
 	    
+	    const textareaClassName = textarea.attr('class');
+	    let maxByte;
+	    if(textareaClassName === 'board-write-content-input') {
+	    	maxByte = 1000;
+	    }
+	    else {
+	    	maxByte = 300;
+	    }
 	    if(totalByte>maxByte) {
-	    	alert('최대 300Byte까지만 입력가능합니다.');
+	    	alert('최대 ' + maxByte + 'Byte까지만 입력가능합니다.');
 	        target.text(totalByte);
 	        target.css('color', 'red');
 	    } else {
 	        target.text(totalByte);
 	        target.css('color', 'green');
 	    }
+		    
 	}
 	
 	/*---------글자수 세기(한글=2byte) script---------*/	

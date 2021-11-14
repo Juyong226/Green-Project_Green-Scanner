@@ -3174,9 +3174,19 @@ input[type="checkbox"]+label {
 	align-items: center;
 }
 
+.board-write-content {
+	width: 84%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.board-write-content .write_label {
+	width: 100%;
+}
 
 .board-write-content-input {
-	margin-top: 10px;
+	margin: 12px 0;
 	width: 1000px;
 	height: 300px;
 	border: 1px solid #D6DDDD;
@@ -3192,8 +3202,12 @@ input[type="checkbox"]+label {
 	/* identical to box height, or 27px */
 	text-transform: capitalize;
 	padding-left: 10px;
-	padding-right: 10px;
-	
+	padding-right: 10px;	
+}
+
+.board-write-content sup {
+	width: 100%;
+	text-align: right;	
 }
 
 .board-write-file {
