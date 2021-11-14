@@ -3,22 +3,16 @@
 <head th:replace="fragments/board_head :: head('그린스캐너')">
 </head>
 <body>
-	<nav th:replace="fragments/common :: nav"></nav>
-	<!-- Page content-->
-	<div class="listwrap">
-		<div class="container">
-		<br><div class="alert alert-warning" role="alert"><span th:text="${msg}"></span></div>
-				<!-- Blog entries-->
-				
+	<nav th:replace="fragments/common.html :: nav-top"></nav>
+	<!-- 밑줄: 디자인 요소 다운하여 사용 -->
+	<div class="nav-border"></div>
+
+	<!-- Content 영역 -->
+	<div class="board-cont-body">
+		<div class="board-cont-wrapper">
+			<div class="board-cont-top">이용에 불편을 드려 죄송합니다. 다시 접속해 주세요. </div>
 		</div>
 	</div>
-
-	
-	<!-- Footer-->
-	<footer th:replace="fragments/common :: footer"> </footer>
-	<!-- Bootstrap core JS-->
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
-
+	<div th:replace="/fragments/common.html :: new-footer"></div>
 </body>
 </html>
