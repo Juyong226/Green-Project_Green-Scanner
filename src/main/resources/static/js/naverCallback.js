@@ -2,7 +2,7 @@ var naver_id_login = new naver_id_login("QVEEOn4l2fHOF971UC54", "https://greensc
 	
 naver_id_login.get_naver_userprofile("naverSignInCallback()");
 
-function naverSignInCallback(){
+/*function naverSignInCallback(){
 	var navermemid = naver_id_login.getProfileData("id");
 	var naveruseremail = naver_id_login.getProfileData("email");
 	var naverusername = naver_id_login.getProfileData("name");
@@ -25,7 +25,7 @@ function naverSignInCallback(){
 			}
 				
 		}
-	)};
+	)};*/
 		
 		
 	

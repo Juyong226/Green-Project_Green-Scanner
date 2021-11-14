@@ -6,6 +6,13 @@ $(function(){
 	fn_isLogined();
 	fn_login_data();
 	
+	/*이 부분 지우고 callback 살리기 */
+	$(document).on("click", "#naver_id_login", function(event){
+		alert('현재 준비중인 서비스입니다.');
+		return false;
+	});
+	/*이 부분 지우고 callback 살리기 */
+	
 	$(document).on("click", "#logoutBtn", function(event) { //로그아웃 처리
 		$.post("/logout.do", {},
 			  function(data, status) {
