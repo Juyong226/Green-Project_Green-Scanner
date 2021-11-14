@@ -150,3 +150,11 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+.idea/compiler.xml
+.idea/encodings.xml
+.idea/jarRepositories.xml
+.idea/misc.xml
+.idea/vcs.xml
+.idea/runConfigurations.xml
+.idea/inspectionProfiles/Project_Default.xml
+.idea/.name
