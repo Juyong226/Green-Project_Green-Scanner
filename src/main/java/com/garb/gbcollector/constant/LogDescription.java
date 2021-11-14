@@ -14,6 +14,12 @@ public interface LogDescription {
 	
 	public static final String FAIL_LOGIN = "로그인 실패";
 	
+	public static final String REQUEST_LOGOUT = "%s 님이 로그아웃 요청";
+	
+	public static final String SUCCESS_LOGOUT = "%s 님 로그아웃 성공";
+	
+	public static final String FAIL_LOGOUT = "%s 님 로그아웃 실패";
+	
 	public static final String ACCESS_JOINPAGE = "회원가입 페이지 접속";
 	
 	public static final String REQUEST_JOIN = "회원가입 요청";

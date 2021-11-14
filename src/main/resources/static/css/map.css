@@ -160,6 +160,7 @@ body {
 a, a:link, a:visited {
 	text-decoration: none;
 	color: inherit;
+	cursor: pointer;
 }
 
 /*占쎄맒占쎈릭占쎈뼊 border*/
