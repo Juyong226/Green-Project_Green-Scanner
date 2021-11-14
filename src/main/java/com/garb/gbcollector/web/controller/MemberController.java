@@ -1,5 +1,8 @@
 package com.garb.gbcollector.web.controller;
 
+import java.util.Map;
+import java.util.Random;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -12,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.garb.gbcollector.web.service.MemberService;
+import com.garb.gbcollector.web.vo.DeleteMemberVO;
 import com.garb.gbcollector.web.vo.MemberVO;
+import com.garb.gbcollector.util.GbcException;
 import com.garb.gbcollector.util.Log;
 
 @Controller
@@ -21,6 +26,66 @@ public class MemberController {
 	private Log log = new Log();
 	@Autowired
 	MemberService memberService;
+	
+	@RequestMapping(value = "signout.do",
+					method = {RequestMethod.POST},
+					produces = "application/text; charset=utf-8")
+	@ResponseBody
+	public String sigout(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession(false);
+		Integer navermemid = (Integer) session.getAttribute("navermemid");
+		Double googlememid = (Double) session.getAttribute("googlememid");
+		JSONObject signoutjson = new JSONObject();
+		String mememail = (String)session.getAttribute("email");
+		Random random = new Random();
+		String memidtosignout = "  ";
+		for(int i =0; i<8;i++) {
+			int index=random.nextInt(25)+65; //A~Z까지 랜덤 알파벳 생성
+			memidtosignout+=(char)index;
+		}
+		memidtosignout +="/signout";
+		String deletedmememail = mememail + memidtosignout;
+		if(navermemid != null) {
+			try {
+				Integer deletednavermemid = 100;
+				DeleteMemberVO m = new DeleteMemberVO(mememail, deletedmememail, navermemid, deletednavermemid);
+				memberService.signOutNaverMember(m);
+				signoutjson.put("redirect", "/");
+				signoutjson.put("chk", "회원 탈퇴 되었습니다. ㅠㅠ 다음에 또 놀러오세요!");
+				session.invalidate();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			signoutjson.put("chk", "회원 탈퇴 되었습니다. ㅠㅠ 다음에 또 놀러오세요!");
+		}else if(googlememid != null) {
+			try {
+				Double deletedgooglememid = (double) 100;
+				DeleteMemberVO m = new DeleteMemberVO(mememail, deletedmememail, googlememid, deletedgooglememid);
+				memberService.signOutGoogleMember(m);
+				signoutjson.put("redirect", "/");
+				signoutjson.put("chk", "회원 탈퇴 되었습니다. ㅠㅠ 다음에 또 놀러오세요!");
+				session.invalidate();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else {
+			String mempw = (String)session.getAttribute("password");
+			try {
+				DeleteMemberVO m = new DeleteMemberVO(mememail, deletedmememail, mempw);
+				memberService.signOutMember(m);
+				signoutjson.put("redirect", "/");
+				signoutjson.put("chk", "회원 탈퇴 되었습니다. ㅠㅠ 다음에 또 놀러오세요!");
+				session.invalidate();
+			}catch(Exception e){
+				e.printStackTrace();				
+			}
+		}
+	
+
+		return signoutjson.toJSONString();
+	}
+	
 	@RequestMapping(value = "emailChk.do", 
 					method= {RequestMethod.POST},
 					produces = "application/text; charset=utf8")
@@ -111,9 +176,9 @@ public class MemberController {
 			if(memnickname!=null) {
 				HttpSession session=request.getSession();		
 				String logout = "<span id=\"logoutBtn\">로그아웃</span>";
-				
 				session.setAttribute("member", m);
 				session.setAttribute("email", mememail);
+				session.setAttribute("password", mempw);
 				session.setAttribute("memnickname", memnickname);
 				
 				loginjson.put("mememail", mememail);
@@ -146,7 +211,7 @@ public class MemberController {
 			MemberVO m = new MemberVO(mememail, mempw, memname, memnickname);
 			memberService.memberInsert(m);
 			resJson.put("success", memname + "님 회원가입을 축하합니다!" + "다시 한번 로그인 해주세요");
-			resJson.put("redirect", "https://localhost");
+			resJson.put("redirect", "/html/login.html");
 			return resJson.toJSONString();
 		} catch(Exception e) {
 			resJson.put("failed", e.getMessage());

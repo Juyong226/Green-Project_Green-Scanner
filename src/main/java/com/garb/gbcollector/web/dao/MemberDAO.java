@@ -5,11 +5,14 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import com.garb.gbcollector.web.vo.DeleteMemberVO;
 import com.garb.gbcollector.web.vo.MemberVO;
 
-@Mapper
-@Repository("memberDAO")
+@Repository
 public interface MemberDAO {
+	public void signOutNaverMember(DeleteMemberVO deletememberVO);
+	public void signOutGoogleMember(DeleteMemberVO deletememberVO);
+	public void signOutMember(DeleteMemberVO deletememberVO);
 	public String googlelogin(MemberVO memberVO);
 	public void googlememberInsert(MemberVO memberVO);
 	public Map googleIdChk(MemberVO memberVO);

@@ -143,7 +143,7 @@ $(document).on("click", "#login-join-btn-s", function(event){//회원 가입 처
 		  	var obj = JSON.parse(data);
 		  	if(obj.success) {
 		  		alert(obj.success+" 다시 한번 로그인 해주세요!");
-		  		document.location.replace("https://localhost/html/login.html");
+		  		location.replace("/html/login.html");
 		    } else {
 		    	alert(obj.failed);
 		    }
