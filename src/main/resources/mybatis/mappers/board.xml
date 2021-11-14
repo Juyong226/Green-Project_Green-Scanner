@@ -74,7 +74,7 @@
 	<!-- 게시판별 전체게시글 수 조회 -->
 	<select id="selectTotalBoardCnt" resultType="int">
 		<![CDATA[
-			select count(*) from board where boardname = '자유게시판'
+			select count(*) from board where boardname = #{boardname}
 		]]>
 	</select>
 	

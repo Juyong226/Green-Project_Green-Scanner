@@ -29,7 +29,7 @@ public interface BoardDAO {
     //댓글 삭제 시 해당 게시물 번호 조회
     public int getPostno(int reno);
     //전체게시글 수 조회 
-	public int selectTotalBoardCnt();
+	public int selectTotalBoardCnt(String boardname);
 	//특정 댓글 조회
 	public BoardReplyVO getCommentDetail(int reno);
 	public int updateComment(BoardReplyVO comment);

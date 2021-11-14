@@ -81,8 +81,8 @@ public class BoardService {
         boardDAO.updateReplyCnt(postno, -1);
     }
 
-	public int getTotalBoardCnt() {
-		return boardDAO.selectTotalBoardCnt();
+	public int getTotalBoardCnt(String boardname) {
+		return boardDAO.selectTotalBoardCnt(boardname);
 	}
 
 	public BoardReplyVO updateComment(BoardReplyVO comment) {

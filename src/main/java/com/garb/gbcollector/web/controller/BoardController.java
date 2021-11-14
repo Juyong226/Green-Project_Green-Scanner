@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -123,14 +124,14 @@ public class BoardController {
 		BoardPageNationVO page = new BoardPageNationVO();
 		page.setStartIdx("1");
 		page.setEndIdx("4");
-		int totalBoardCnt = boardService.getTotalBoardCnt();
 		List<BoardVO> boards = boardService.listPostBAll(page);
-		mav.addObject("totalBoardCnt", totalBoardCnt);
 		mav.addObject("boards", boards);
 		String boardname = null;
 		for (BoardVO board : boards) {
 			boardname = board.getBoardname();
 		}
+		int totalBoardCnt = boardService.getTotalBoardCnt(boardname);
+		mav.addObject("totalBoardCnt", totalBoardCnt);
 		mav.addObject("boardname", boardname);
 		mav.setViewName("board/board");
 		return mav;
@@ -163,15 +164,19 @@ public class BoardController {
 		BoardPageNationVO page = new BoardPageNationVO();
 		page.setStartIdx("1");
 		page.setEndIdx("4");
-		int totalBoardCnt = boardService.getTotalBoardCnt();
+
 		List<BoardVO> boards = boardService.listPostQAll(page);
-		mav.addObject("totalBoardCnt", totalBoardCnt);
+
 		mav.addObject("boards", boards);
 		String boardname = null;
 		for (BoardVO board : boards) {
 			boardname = board.getBoardname();
 		}
 		mav.addObject("boardname", boardname);
+
+		int totalBoardCnt = boardService.getTotalBoardCnt(boardname);
+		mav.addObject("totalBoardCnt", totalBoardCnt);
+
 		mav.setViewName("board/board");
 		return mav;
 	}
@@ -197,6 +202,16 @@ public class BoardController {
 	/* 글쓰기 화면 요청 */
 	@GetMapping(value = "/write")
 	public ModelAndView viewWritePage(HttpServletRequest req, ModelAndView mav, HttpSession session) {
+		String referer = (String)req.getHeader("REFERER");
+		String result = referer.split("/")[4];
+		String boardname = null;
+		if(result.equals("bulletin_boardlist")){
+			boardname = "자유게시판";
+		}
+		if(result.equals("question_boardlist")) {
+			boardname = "질문게시판";
+		}
+		mav.addObject("boardname", boardname);
 		RequestInforVO info = new RequestInforVO(req);
 		log.TraceLog(info, BuildDescription.get(LogDescription.ACCESS_WRITE_POST, info.getId()));
 		/* 세션 확인하여 nickname이 존재하지 않으면 boardlist요청 전송 */
