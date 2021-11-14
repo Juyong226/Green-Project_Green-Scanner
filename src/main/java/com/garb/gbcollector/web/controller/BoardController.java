@@ -117,9 +117,10 @@ public class BoardController {
 
 	/* 자유게시판 조회 - 최신순 4개 */
 	@GetMapping(value = "/bulletin_boardlist")
-	public ModelAndView boardListB(HttpServletRequest req, BoardPageNationVO page, ModelAndView mav, HttpSession session) {
+	public ModelAndView boardListB(HttpServletRequest req, ModelAndView mav, HttpSession session) {
 		RequestInforVO info = new RequestInforVO(req);
 		log.TraceLog(info, BuildDescription.get(LogDescription.ACCESS_BULLETIN, info.getId()));
+		BoardPageNationVO page = new BoardPageNationVO();
 		page.setStartIdx("1");
 		page.setEndIdx("4");
 		int totalBoardCnt = boardService.getTotalBoardCnt();
@@ -137,9 +138,10 @@ public class BoardController {
 
 	/* 자유게시판 조회 - 더보기 */
 	@PostMapping(value = "/bulletin_boardlist/more_post")
-	public ModelAndView morePost(BoardPageNationVO page, ModelAndView mav, HttpServletRequest request) {
+	public ModelAndView morePost(ModelAndView mav, HttpServletRequest request) {
+		BoardPageNationVO page = new BoardPageNationVO();
 		page.setStartIdx((String)request.getParameter("startIdx"));
-		page.setEndIdx((String)request.getParameter("EndIdx"));
+		page.setEndIdx((String)request.getParameter("endIdx"));
 		List<BoardVO> boards = boardService.listPostBAll(page);
 		mav.addObject("boards", boards);
 		// 조회된 게시글객체에서 게시판이름을 얻어 화면에 전달
@@ -158,8 +160,12 @@ public class BoardController {
 	public ModelAndView boardListQ(HttpServletRequest req, ModelAndView mav, HttpSession session) {
 		RequestInforVO info = new RequestInforVO(req);
 		log.TraceLog(info, BuildDescription.get(LogDescription.ACCESS_QUESTION, info.getId()));
-		List<BoardVO> boards;
-		boards = boardService.listPostQAll();
+		BoardPageNationVO page = new BoardPageNationVO();
+		page.setStartIdx("1");
+		page.setEndIdx("4");
+		int totalBoardCnt = boardService.getTotalBoardCnt();
+		List<BoardVO> boards = boardService.listPostQAll(page);
+		mav.addObject("totalBoardCnt", totalBoardCnt);
 		mav.addObject("boards", boards);
 		String boardname = null;
 		for (BoardVO board : boards) {
@@ -167,6 +173,24 @@ public class BoardController {
 		}
 		mav.addObject("boardname", boardname);
 		mav.setViewName("board/board");
+		return mav;
+	}
+
+	/* 질문게시판 조회 - 더보기 */
+	@PostMapping(value = "/question_boardlist/more_post")
+	public ModelAndView morePost_q(ModelAndView mav, HttpServletRequest request) {
+		BoardPageNationVO page = new BoardPageNationVO();
+		page.setStartIdx((String)request.getParameter("startIdx"));
+		page.setEndIdx((String)request.getParameter("endIdx"));
+		List<BoardVO> boards = boardService.listPostQAll(page);
+		mav.addObject("boards", boards);
+		// 조회된 게시글객체에서 게시판이름을 얻어 화면에 전달
+		String boardname = null;
+		for (BoardVO board : boards) {
+			boardname = board.getBoardname();
+		}
+		mav.addObject("boardname", boardname);
+		mav.setViewName("board/partial-board  :: more-post");
 		return mav;
 	}
 

@@ -14,7 +14,7 @@ public interface BoardDAO {
     public List<BoardVO> listPostB();
     public List<BoardVO> listPostBAll(BoardPageNationVO page);
     public List<BoardVO> listPostQ();
-    public List<BoardVO> listPostQAll();
+    public List<BoardVO> listPostQAll(BoardPageNationVO page);
     public void insertPost(BoardVO post);
     public BoardVO viewPost(int postno);
     public void insertBoardReply(BoardReplyVO boardReplyVO);

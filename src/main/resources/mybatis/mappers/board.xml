@@ -17,6 +17,12 @@
 		<result property="nickname" column="nickname" />
 		<result property="reply_cnt" column="reply_cnt" />
 	</resultMap>
+
+	<parameterMap type="BoardPageNationVO" id="boardPageNationVO">
+		<parameter property="startIdx"/>
+		<parameter property="endIdx" />
+		<parameter property="postno" />
+	</parameterMap>
 	
 	<resultMap type="BoardReplyVO" id="replyResult">
 		<result property="postno" column="postno" />
@@ -73,7 +79,7 @@
 	</select>
 	
 	<!-- 자유게시판 글 리스트 전체 출력 -->
-	<select id="listPostBAll" resultMap="boardResult">
+	<select id="listPostBAll" resultMap="boardResult" parameterType="boardPageNationVO">
 		<![CDATA[			
 			select * from (
 							select 
@@ -82,15 +88,23 @@
 							from board
 							where boardname = '자유게시판'
 			 				)
-			where boardname = '자유게시판' and num between to_number(1) and to_number(5)	
+			where boardname = '자유게시판' and num between to_number(#{startIdx}) and to_number(#{endIdx})
 			order by postdate desc
 		]]>
 	</select>	
 
 	<!-- 질문게시판 글 리스트 전체 출력 -->
-	<select id="listPostQAll" resultMap="boardResult">
+	<select id="listPostQAll" resultMap="boardResult" parameterType="boardPageNationVO">
 		<![CDATA[
-			select * from board where boardname = '질문게시판' order by postno desc
+		select * from (
+						  select
+							  row_number() over(order by postdate desc) num,
+								  board.*
+						  from board
+						  where boardname = '질문게시판'
+					  )
+		where boardname = '질문게시판' and num between to_number(#{startIdx}) and to_number(#{endIdx})
+		order by postdate desc
 		]]>
 	</select>
 	
