@@ -6,17 +6,18 @@ $(document).on("click", "#check-email-btn", function(event){
 	      alert('이메일을 입력해주세요.')
 	      return;
 	    }	
+	if(email.match(space)){
+		alert("이메일에는에는 공백이 포함될 수 없습니다.");
+		$("#email").focus();
+		return false;
+	}
 	if (email.match(regExp) == null) {	
 		alert('이메일 형식에 맞춰주세요. ex)email@naver.com'); 
 		$("#signup-form-email").focus();
 		return false;
 	}
-	else if(name.match(space)){
-		alert("이메일에는에는 공백이 포함될 수 없습니다.");
-		$("#name").focus();
-		return false;
-	}
-		
+	
+			
 	$.post("../emailChk.do",
 			  {			   			  
 				email:email	
@@ -127,6 +128,16 @@ $(document).on("click", "#login-join-btn-m", function(event){//회원 가입 처
 		$("#signup-form-pw").focus();
 		return false;
 	}
+	else if(pw.length >12){
+		alert("비밀번호는 12글자 이하로 입력해 주세요.");
+		$("#signup-form-pw").focus();
+		return false;
+	}
+	else if(pw.match(space)){
+		alert("비밀번호에는 공백이 포함될 수 없습니다.");
+		$("#signup-form-pw").focus();
+		return false;
+	}
 	else if(pw != pwcfm){
 		alert("비밀번호가 서로 다릅니다. 비밀번호를 확인해 주세요."); 
 		$("#signup-form-pw").focus();
@@ -151,7 +162,7 @@ $(document).on("click", "#login-join-btn-m", function(event){//회원 가입 처
 		return false;
 	}
 
-	$.post("../memberInsert.do",
+	$.post("/memberInsert.do",
 			{
 		name:name,
 		email:email,

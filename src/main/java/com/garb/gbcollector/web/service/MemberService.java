@@ -15,6 +15,22 @@ public class MemberService {
 	@Autowired
 	MemberDAO memberDAO;
 	
+	public void changePassword(MemberVO m) throws Exception{
+		memberDAO.changePassword(m);
+	}
+	
+	public int checkPassword(MemberVO m) throws Exception{
+		return memberDAO.checkPassword(m);
+	}
+	
+	public void resetPassword(DeleteMemberVO d) throws Exception{
+		memberDAO.resetPassword(d);
+	}
+	
+	public Map checkEmailForPw(MemberVO m) throws Exception{
+		return memberDAO.checkEmailForPw(m);
+	}
+	
 	public void signOutNaverMember(DeleteMemberVO m) throws Exception{
 		memberDAO.signOutNaverMember(m);
 	}
@@ -31,8 +47,7 @@ public class MemberService {
 		memberDAO.memberInsert(m);
 	}
 
-	public String login(MemberVO m) {
-		
+	public Map login(MemberVO m) {
 		return memberDAO.login(m);
 	}
 	

@@ -1,5 +1,3 @@
-
-
 $(function(){
 	//페이지를 새로고침하거나 다른 링크로 옮겨가면서 새로 페이지가 로드되면,
 	//쿠키와 세션을 확인하여 아직 로그인 상태가 유효한 지 체크하고,
@@ -47,7 +45,7 @@ $(function(){
 			  	var obj = JSON.parse(data);
 			  	if(obj.memnickname) {
 					$.cookie('nick-cookie', data, {expires: 1, path: '/'});
-					location.replace(document.referrer);					
+					location.replace('/');					
 				} else if(obj.failed) {
 					alert('입력하신 정보와 일치하는 회원이 없습니다.\n이메일과 비밀번호를 다시 확인해주세요.');
 				} else if(obj.denied) {
