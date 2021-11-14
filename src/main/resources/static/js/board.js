@@ -138,14 +138,12 @@ function more_post(startIdx) {
 	alert(searchStep);
 	alert(totalBoardCnt);*/
 	let boardname = $("#boardname").val();
-	alert(boardname);
 	let request_url;
 	if (boardname=="자유게시판"){
 		request_url = "/board/bulletin_boardlist/more_post"
 	}else{
 		request_url = "/board/question_boardlist/more_post"
 	}
-	alert(request_url);
 	
 	let endIdx;
  	if( (startIdx + searchStep - 1) > totalBoardCnt ) {
