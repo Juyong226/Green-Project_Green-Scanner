@@ -10,7 +10,6 @@ import com.garb.gbcollector.util.GSCalendar;
 import com.garb.gbcollector.util.GbcException;
 import com.garb.gbcollector.web.dao.ChallengeDAO;
 import com.garb.gbcollector.web.vo.BasicChallengeVO;
-import com.garb.gbcollector.web.vo.FeedVO;
 import com.garb.gbcollector.web.vo.PersonalChallengeVO;
 import com.garb.gbcollector.web.vo.RequestInforVO;
 import com.garb.gbcollector.util.Log;
@@ -83,20 +82,18 @@ public class ChallengeService {
 
 	public List<ArrayList<PersonalChallengeVO>> isCompleted(List<PersonalChallengeVO> list, RequestInforVO infor) throws GbcException {
 		List<ArrayList<PersonalChallengeVO>> cList = gsCalendar.compare(list);
-		int result1 = 0; 
-		int result2 = 0;
 		boolean proceeding = cList.get(0).isEmpty();
 		boolean completed = cList.get(1).isEmpty();
 		
 		if( !proceeding && !completed ) {
-			result1 = updateChallenge(cList.get(0));
-			result2 = updateChallenge(cList.get(1));
+			updateChallenge(cList.get(0));
+			updateChallenge(cList.get(1));
 			
 		} else if ( proceeding && !completed ) {
-			result2 = updateChallenge(cList.get(1));
+			updateChallenge(cList.get(1));
 			
 		} else if ( !proceeding && completed ) {
-			result1 = updateChallenge(cList.get(0));
+			updateChallenge(cList.get(0));
 		}
 		return cList;
 	}

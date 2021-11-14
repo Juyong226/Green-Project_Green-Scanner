@@ -159,7 +159,7 @@ public class FeedService {
 	}
 	
 	public List<Integer> getImageIdxs(FeedVO feed) {
-		List<Integer> imageIdxs = new ArrayList();
+		List<Integer> imageIdxs = new ArrayList<>();
 		List<UploadImageVO> imageList = getFeedImageList(feed.getFeedNo());
 		for(UploadImageVO image : imageList) {
 			imageIdxs.add(image.getIdx());
