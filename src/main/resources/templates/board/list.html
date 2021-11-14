@@ -23,7 +23,7 @@
 					<a class="link" href="bulletin_boardlist"><span
 						class="Section_title_1">자유게시판</span><img
 						src="../img/board/Arrow - Left.png"></a>
-					<div class="ContentBox" th:each="b_board:${b_boards}">
+					<div class="ContentBox" th:each="b_board:${b_boards}" th:if="${b_boardStat.index} < 4">
 						<a class="link" id="index" th:attrappend="id=${b_boardStat.index}"
 							name="postno"
 							th:href="@{/board/viewpost(postno=${b_board.postno})}">
@@ -51,7 +51,7 @@
 					<a class="link" href="question_boardlist"><span
 						class="Section_title_2">질문게시판</span><img
 						src="../img/board/Arrow - Left.png"></a>
-					<div class="ContentBox" th:each="q_board:${q_boards}">
+					<div class="ContentBox" th:each="q_board:${q_boards}" th:if="${q_boardStat.index} < 4">
 						<a class="link" id="index" th:attrappend="id=${q_boardStat.index}"
 							name="postno"
 							th:href="@{/board/viewpost(postno=${q_board.postno})}">
