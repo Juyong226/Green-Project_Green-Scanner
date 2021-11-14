@@ -57,14 +57,18 @@
 			<div class="form-div-memberInfo">
 				<div id="memberInfo-content-logo">계정안내</div>
 					<div id="memberInfo-content-box">
-						<div id ="email-box" style="display: inline-block;">이메일</div><div class="memberInform-login-email" style="display: inline-block;"></div><br>
+						<div id ="snsname-box" style="display: inline-block;">이름</div><div class="memberInform-login-name" style="display: inline-block;"></div><br>
+						<div id ="email-box" style="display: inline-block;">이메일</div><div class="memberInform-login-email" style="display: inline-block; text-align: center;"></div><div id="oauth-check" style="display: inline-block;"></div><br>
 						<div id ="nickname-box" style="display: inline-block;">닉네임</div> <div class="memberInform-login-nickname" style="display: inline-block;"></div>
 					</div>
 
-					<div id="memberInfo-content-logo-out">탈퇴하기</div>
-					<div id="memberInfo-out-box">
+					<div id="memberInfo-content-logo-change-or-out">비밀번호 변경 및 탈퇴하기</div>
+					<div id="memberInfo-change-or-out-box">
+						<div id ="password-change-text">비밀번호 변경하기</div>
+						<input type="hidden" id="password-check" placeholder="현재 비밀번호 확인"/>
+						<div id="passwordCheckBtnBefore2" style="display: inline-block;"></div><div id="passwordCheckBtnBefore" style="display: inline-block;"><button id ="passwordChangeBtn" style="padding-right: 28px; padding-left: 28px;">비밀번호 변경</button></div><div id="passwordCheckBtnBefore3" style="display: inline-block;"></div>
 						<div id ="sign-out-text">그린 스캐너 회원 탈퇴 하기</div>
-						<button id ="memberOutBtn">탈퇴하기</button>
+						<button id ="memberOutBtn">회원 탈퇴</button>
 					</div>
 			</div>
 		</div>
@@ -100,8 +104,12 @@
 $(function(){
 	if($.cookie('nick-cookie')){
 		var logindata = JSON.parse($.cookie('nick-cookie'));
-		$(".memberInform-login-nickname").html(logindata.memnickname);
+		$(".memberInform-login-name").html(logindata.memname);
 		$(".memberInform-login-email").html(logindata.mememail);
+		$(".memberInform-login-nickname").html(logindata.memnickname);
+		if(logindata.oauth){
+			$("#oauth-check").html("("+logindata.oauth+" 회원가입)");
+		}
 	}
 })
 </script>

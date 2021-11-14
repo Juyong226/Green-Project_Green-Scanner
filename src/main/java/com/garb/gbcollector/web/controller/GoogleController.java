@@ -92,6 +92,7 @@ public class GoogleController {
 				try {
 					String mememail = (String) returngoogledata.get("EMAIL");
 					String memnickname = (String) returngoogledata.get("NICKNAME");
+					String googleusername = (String) returngoogledata.get("NAME");
 					Integer forgooglemememail = 200000;
 					String logout = "<span id=\"logoutBtn\">로그아웃</span>";
 					
@@ -103,6 +104,8 @@ public class GoogleController {
 					
 					snsloginjson.put("memnickname",memnickname);
 					snsloginjson.put("mememail", mememail);
+					snsloginjson.put("memname", googleusername);
+					snsloginjson.put("oauth", "google");
 					snsloginjson.put("snsredirect","/" );
 					snsloginjson.put("logout", logout);
 

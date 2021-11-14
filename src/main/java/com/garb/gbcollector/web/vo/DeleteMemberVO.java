@@ -12,6 +12,12 @@ public class DeleteMemberVO {
 		super();
 	}
 	
+	public DeleteMemberVO(String mememail, String mempw) throws GbcException{
+		super();
+		setMememail(mememail);
+		setMempw(mempw);
+	}
+	
 	public DeleteMemberVO(String mememail, String deletedmememail, Double googlememid, Double deletedgooglememid) throws GbcException{
 		super();
 		setMememail(mememail);
