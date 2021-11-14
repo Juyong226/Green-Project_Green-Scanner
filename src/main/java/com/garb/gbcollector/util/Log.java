@@ -137,8 +137,7 @@ public class Log{
             bufLogMsg.append("]\r\n");
             bufLogMsg.append(infor.getInfor());
             bufLogMsg.append(desc);
-            
-        System.out.println(bufLogMsg);        
+                   
         try{
 
                 objfile = new FileWriter(bufLogPath.toString(), true);
