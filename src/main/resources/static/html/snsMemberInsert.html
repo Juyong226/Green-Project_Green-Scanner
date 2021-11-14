@@ -14,27 +14,30 @@
 <body>
 	<!-- 공통 네비게이션: top -->
 	<nav>
-		<!-- content section 크기와 같은 영역 -->
 		<div class="nav-top">
 			<div class="wrapper">
 				<div class="nav-logo">
 					<a href="/">Green Scanner</a>
 				</div>
 				<div class="nav-menu">
-					<div class="login-nickname">
-						<a id="login-btn" href="/html/login.html">로그인</a>
-						<a href="/html/memberInform.html"><div class="login-nickname"></div></a>
+					<div class="login-nickname-container">
+						<span id="nickname">
+							<a id="login-btn" href="/html/login.html">로그인</a>
+							<a href="/html/memberInform.html"><div class="login-nickname"></div></a>
+						</span>
 					</div>
 					<div class="join-logout">
 						<a id="join-btn" href="/html/memberInsertForm.html">회원가입</a>
 					</div>
+					<a>공지사항</a>
+					<div class="">
 						<a id="" href="/faq">FAQ</a>
-					<a>FAQ</a>
+					</div>
 					<div class="nav-dropdown">
 						<button class="nav-dropdown-btn">자주사용하는기능</button>
 						<div class="dropdown-submenu">
 							<a href="/html/SWV.html">음성으로배출방법찾기</a>
-							<a href="/html/SWI.html">사진으로배출방법찾기</a>
+							<a onclick='alert("준비 중인 서비스입니다.")'>사진으로배출방법찾기</a>
 							<a href="/html/trashCanMap.html">주변쓰레기통찾기</a>
 							<a href="/html/zeroWasteShopMap.html">제로웨이스트상점찾기</a>
 							<a href="/challenge/main">챌린지</a>
@@ -44,9 +47,9 @@
 				</div>
 			</div>
 		</div>
+		<!-- 밑줄: 디자인 요소 다운하여 사용 -->
+		<div class="nav-border"></div>
 	</nav>
-	<!-- 밑줄: 디자인 요소 다운하여 사용 -->
-	<div class="nav-border"></div>
 	
 	
 	<div class="signup-content">

@@ -41,9 +41,9 @@
 		        navigator.geolocation.getCurrentPosition(function(position){
 		        	userCurrentLocation = new naver.maps.LatLng(position.coords.latitude, position.coords.longitude);
 		        	
-		        	map.setCenter(shinchonStation); //임시로 multiCampus로 맵의 센터를 적용
+		        	map.setCenter(userCurrentLocation);
 		        	map.setZoom(17);
-		        	circle.setCenter(shinchonStation);
+		        	circle.setCenter(userCurrentLocation);
 		        }, function(error){
 		        	alert('에러메세지: ' + error.message);
 		        }, {
