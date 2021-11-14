@@ -13,6 +13,8 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -60,7 +62,6 @@ public class BoardController {
 		String redirectURI = "/board/viewpost?postno="+postno;
 		if(session != null) {
 				BoardReplyVO comment = boardService.getCommentDetail(reno);
-				System.out.println(comment);
 				
 				if(comment != null) {
 					model.addAttribute("comment", comment);
@@ -79,9 +80,9 @@ public class BoardController {
 			@PathVariable(value = "reno", required = false) final Integer reno,
 			BoardReplyVO comment, Model model, HttpServletRequest request) {
 		
-		System.out.println("=======================================================================");
-		System.out.println("댓글 작성/수정 시 넘어오는 submit params 객체 = " + comment.toString());
-		System.out.println("=======================================================================");
+		log.TraceLog("=======================================================================");
+		log.TraceLog("댓글 작성/수정 시 넘어오는 submit params 객체 = " + comment.toString());
+		log.TraceLog("=======================================================================");
 		HttpSession session = request.getSession(false);
 		String redirectURI = "/board/viewpost?postno="+postno;
 		if(session != null) {
@@ -223,10 +224,11 @@ public class BoardController {
 	/* 글쓰기 */
 	@PostMapping(value = "/write")
 	public ModelAndView writePost(ModelAndView mav, @ModelAttribute("BoardVO") BoardVO boardVO, HttpSession session,
-			MultipartHttpServletRequest req) {
+			MultipartHttpServletRequest req) throws IllegalStateException, IOException {
 		String toDay = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-		String uploadPath = Paths.get("C:", "GreenScanner", "upload", "board").toString();;
+		String uploadPath = Paths.get("C:", "GreenScanner", "upload", "board", toDay, "/").toString();
 		log.TraceLog("writePost 진입");
+		log.TraceLog("uploadPath= " + uploadPath);
 
 		log.TraceLog(uploadPath);
 		MultipartFile file = req.getFile("file");
@@ -234,11 +236,15 @@ public class BoardController {
 			String fileName = file.getOriginalFilename().toLowerCase();
 
 			if (fileName != null) {
+				// 확장자 유효성 검사 
 				if (fileName.endsWith(".jpg") || fileName.endsWith(".png") || fileName.endsWith(".gif")
 						|| fileName.endsWith("jpeg")) {
 
-					log.TraceLog("파일 이름: " + fileName);
-					File uploadFile = new File(uploadPath + fileName);
+					String saveName = UUID.randomUUID().toString().replaceAll("-", "") + "." + FilenameUtils.getExtension(file.getOriginalFilename());
+					log.TraceLog("파일 이름: " + saveName);
+					log.TraceLog(saveName);
+					
+					File target = new File(uploadPath, saveName);
 
 					// 폴더 경로
 					File Folder = new File(uploadPath);
@@ -250,18 +256,8 @@ public class BoardController {
 							e.printStackTrace();
 						}
 					}
-					if (uploadFile.exists()) {
-						fileName = new Date().getTime() + fileName;
-						uploadFile = new File(uploadPath + fileName);
-						log.TraceLog("파일 업로드: " + uploadPath + fileName);
-					}
-					try {
-						file.transferTo(uploadFile);
-					} catch (Exception e) {
-						log.TraceLog("업로드 에러");
-						log.TraceLog(e);
-					}
-					boardVO.setFilename(fileName);
+					file.transferTo(target);
+					boardVO.setFilename(saveName);
 				}
 			}
 		}
@@ -362,8 +358,10 @@ public class BoardController {
 	/* 이미지 출력 */
 	@GetMapping(value = "display")
 	public ResponseEntity<Resource> display(@RequestParam("filename") String filename) {
-		String path = Paths.get("C:", "GreenScanner", "upload", "board").toString();;
-		Resource resource = new FileSystemResource(path + filename);
+		String toDay = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+		String path = Paths.get("C:", "GreenScanner", "upload", "board", toDay, "/").toString();;
+		log.TraceLog(path+filename);
+		Resource resource = new FileSystemResource(path +"/"+ filename);
 
 		if (!resource.exists())
 			return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
@@ -383,13 +381,18 @@ public class BoardController {
 	/* 글 수정 페이지 가져오기 */
 	@GetMapping(value = "updatePost")
 	public ModelAndView updatePost(@RequestParam("postno") int postno, ModelAndView mav, HttpSession session) {
+		
+		if (session==null) {
+			mav.setViewName("board/boardlist");
+			return mav;
+		}
+		
 		log.TraceLog(postno + "번 글 수정");
 
 		addTokenToSession(mav, session);
 
 		BoardVO boardVO = boardService.viewPost(postno);
-		System.out.println(boardVO);
-		System.out.println(boardVO.getTitle());
+		log.TraceLog(boardVO.getTitle());
 		mav.addObject("post", boardVO);
 		mav.addObject("title", boardVO.getTitle());
 		mav.setViewName("board/modify");
@@ -399,36 +402,39 @@ public class BoardController {
 	/* 글 수정 후 저장 */
 	@PostMapping(value = "updatePostSave")
 	public String updatePostSave(@ModelAttribute("post") BoardVO boardVO, HttpSession session,
-			MultipartHttpServletRequest req) {
+			MultipartHttpServletRequest req) throws IllegalStateException, IOException {
 		log.TraceLog(boardVO.getPostno() + "번 글 수정 진입");
 
-		String uploadPath = System.getProperty("user.home") + "/files/";
+		String toDay = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+		String uploadPath = Paths.get("C://GreenScanner", "upload", "board", toDay, "/").toString();
+		log.TraceLog(uploadPath);
+//		
+//		String uploadPath = System.getProperty("user.home") + "/files/";
 		String orgFileName = req.getParameter("orgFile");
+		String prevFileName = req.getParameter("prevFile");
+		log.TraceLog(orgFileName);
+		log.TraceLog("기존 파일"+prevFileName);
 
 		MultipartFile newFile = req.getFile("file");
-		if (newFile != null) {
-			String newFileName = newFile.getOriginalFilename();
-			boardVO.setFilename(orgFileName);
-
-			// if: when want to change upload file
-			if (newFile != null && !newFileName.equals("")) {
-				if (orgFileName != null || !orgFileName.equals("")) {
-					// remove uploaded file
-					File removeFile = new File(uploadPath + orgFileName);
-					removeFile.delete();
-					//
-				}
-				// create new upload file
-				File newUploadFile = new File(uploadPath + newFileName);
-				try {
-					newFile.transferTo(newUploadFile);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				//
-				boardVO.setFilename(newFileName);
-			}
+		log.TraceLog(newFile.getOriginalFilename());
+//		새로운 파일을 업로드한 경우
+		if ("".equals(newFile.getOriginalFilename())) {
+			log.TraceLog("파일 수정 안함 ");
+			boardVO.setFilename(prevFileName);
+		}else {
+			String newFile_saveName = UUID.randomUUID().toString().replaceAll("-", "") + "." + FilenameUtils.getExtension(newFile.getOriginalFilename());
+			log.TraceLog("파일 이름: " + newFile_saveName);
+			log.TraceLog("새 파일 =");
+			log.TraceLog(newFile_saveName);
+			boardVO.setFilename(newFile_saveName);
+			File removeFile = new File(uploadPath + orgFileName);
+			removeFile.delete();
+			File new_target = new File(uploadPath, newFile_saveName);
+			newFile.transferTo(new_target);
+			
 		}
+		
+
 
 		String nickname = (String) session.getAttribute("memnickname");
 		boardVO.setNickname(nickname);
@@ -444,9 +450,7 @@ public class BoardController {
 			boardService.updatePost(boardVO);
 			return "redirect:/board/viewpost?postno=" + boardVO.getPostno();
 		}
-		// 에러페이지 반환
 		return null;
-
 	}
 
 	/* 글 삭제 */

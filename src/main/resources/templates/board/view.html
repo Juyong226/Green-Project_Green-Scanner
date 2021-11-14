@@ -10,7 +10,7 @@
 		<div class="board-cont-wrapper">
 			<div class="board-cont-top">
 				<div class="board-cont-top-main">
-					<span class="board-cont-top-title" th:text="${post.title}">챌린지</span>
+					<span class="board-cont-top-title" th:text="${post.title}"></span>
 					<a th:if="${post.boardname=='자유게시판'}"
 						href="/board/bulletin_boardlist" id="board">목록으로 돌아가기</a> <a
 						th:if="${post.boardname=='질문게시판'}"
@@ -60,7 +60,7 @@
 			<!-- 댓글 쓰기 영역 -->
 			<div class="cmt-write-wrapper">
 				<form th:if="${session.memnickname != null}" id="cmt-write-form"
-					action="boardReplySave" method="post">
+					action="boardReplySave" method="post" onsubmit="return cmt_submit();">
 					<input type="hidden" name="postno" th:value="${post.postno}" />
 					<div class="cmt-write-form-top">
 						<div class="cmt-top-icon">
@@ -75,7 +75,7 @@
 							name="rememo" onkeyup="fn_checkByte(this)"
 							placeholder="내용을 입력해주세요."></textarea>
 						<sup>(<span id="nowByte">0</span>/300bytes)
-						</sup> <input class="cmt-write-btn" id="cmt-write-btn" type="submit"
+						</sup> <input class="cmt-write-btn" id="cmt-write-btn" type="submit" 	
 							value="등록">
 					</div>
 				</form>

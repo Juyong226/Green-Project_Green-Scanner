@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head th:replace="fragments/board_head :: head('글쓰기')">
+<head th:replace="fragments/write_head :: head('글쓰기')">
 </head>
 <body>
 	<nav th:replace="fragments/common.html :: nav-top"></nav>
@@ -22,7 +22,7 @@
 			<form action="/board/updatePostSave" method="post"
 				enctype="multipart/form-data" onsubmit="return writePost();">
 				<div class="Write_form">
-					<div class="board-cont-top-main">
+					<div class="board-cont-write-top-main">
 						<div class="Post_title">
 							<div class="write_label">제목</div>
 							<input th:value="${post.title}" type="text" class="input_title"
@@ -54,7 +54,8 @@
 						<label for="input"><img
 							src="../img/board/Insert-photo.png"></label> 
 							<input type="text" th:value="${post.filename}"
-							class="upload-name" disabled="disabled"> 
+							class="upload-name" disabled="disabled" name=""> 
+							<input th:value="${post.filename}" name="prevFile" type="hidden">
 							<input 
 							accept="image/*" type="file" name=file id="input"
 							 class="upload-hidden"> 
@@ -72,9 +73,5 @@
 			</form>
 		</div>
 	</div>
-
-
-
-
 </body>
 </html>
