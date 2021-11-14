@@ -44,8 +44,6 @@ public class MemberController {
 		
 		String mememail = request.getParameter("email");
 		String mempw = request.getParameter("pw");
-		System.out.println(mememail);
-		System.out.println(mempw);
 		JSONObject checkjson = new JSONObject();
 		
 		try {
