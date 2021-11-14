@@ -101,8 +101,9 @@ public class MemberController {
 		try {
 			MemberVO m = new MemberVO(mememail);
 			Map checkEmailForPw = memberService.checkEmailForPw(m);
+
 			if (checkEmailForPw != null) {
-				Double naverSignUp = (Double) checkEmailForPw.get("NAVERMEMID");
+				String naverSignUp = (String) checkEmailForPw.get("NAVERMEMID");
 				Double googleSignUp = (Double) checkEmailForPw.get("GOOGLEID");
 				String normalEmail = (String) checkEmailForPw.get("EMAIL");
 				if (naverSignUp != null) {
@@ -127,6 +128,8 @@ public class MemberController {
 					resJson.put("success", normalEmail+"로 발송된 비밀번호로 다시 한번 로그인 해주세요.");
 					resJson.put("redirect", "/html/login.html");			
 				}				
+			}else {
+				resJson.put("nonSignUp", "회원가입한 회원이 아닙니다.");
 			}
 		} catch (Exception e) {
 			log.TraceLog(infor, BuildDescription.get(LogDescription.FAIL_PASSWORD_RESET, infor.getId()));

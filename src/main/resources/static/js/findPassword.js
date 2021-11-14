@@ -33,6 +33,9 @@ $(function(){
 					alert(obj.success);
 					location.replace(obj.redirect);
 				}
+				if(obj.nonSignUp){
+					alert(obj.nonSignUp);
+				}
 			}
 		)
 			
