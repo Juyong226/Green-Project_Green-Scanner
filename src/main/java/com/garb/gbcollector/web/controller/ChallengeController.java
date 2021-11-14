@@ -20,7 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.garb.gbcollector.constant.LogDescription;
 import com.garb.gbcollector.constant.Method;
+import com.garb.gbcollector.util.BuildDescription;
+import com.garb.gbcollector.util.Log;
 import com.garb.gbcollector.util.UiUtils;
 import com.garb.gbcollector.web.service.ChallengeService;
 import com.garb.gbcollector.web.service.FeedService;
@@ -29,7 +32,7 @@ import com.garb.gbcollector.web.vo.FeedPaginationVO;
 import com.garb.gbcollector.web.vo.FeedVO;
 import com.garb.gbcollector.web.vo.MemberVO;
 import com.garb.gbcollector.web.vo.PersonalChallengeVO;
-import com.garb.gbcollector.util.Log;
+import com.garb.gbcollector.web.vo.RequestInforVO;
 
 @Controller
 @RequestMapping("challenge")
@@ -46,6 +49,7 @@ public class ChallengeController extends UiUtils {
 	@GetMapping(value = "/main")
 	public String main(Model model, HttpServletRequest request) {
 		
+		RequestInforVO infor = new RequestInforVO(request);
 		HttpSession session = request.getSession(false);
 		String redirectURI = "";
 		bcList = challengeService.selectBasicChallenge();
@@ -54,11 +58,12 @@ public class ChallengeController extends UiUtils {
 				try {
 					MemberVO member = (MemberVO)session.getAttribute("member");
 					List<PersonalChallengeVO> tempList = challengeService.selectChallengeList(member.getMememail());	
-					List<ArrayList> cList = challengeService.isCompleted(tempList);				
+					List<ArrayList> cList = challengeService.isCompleted(tempList, infor);				
 					model.addAttribute("proceeding", cList.get(0));
 					model.addAttribute("completed", cList.get(1));
 					model.addAttribute("proceedingNum", Integer.toString(cList.get(0).size()));
 					model.addAttribute("completedNum", Integer.toString(cList.get(1).size()));
+					log.TraceLog(infor, BuildDescription.get(LogDescription.ACCESS_CHALLMAIN, infor.getId()));
 					return "challenge/main";
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -66,20 +71,24 @@ public class ChallengeController extends UiUtils {
 					return showMessageWithRedirection("시스템에 문제가 발생하였습니다.", redirectURI, Method.GET, null, model);
 				}						
 		}
-		model.addAttribute("login_required", "로그인 후 이용할 수 있습니다.");
+		model.addAttribute("login_required", "비로그인");
+		
+		log.TraceLog(infor, BuildDescription.get(LogDescription.ACCESS_CHALLMAIN, infor.getId()));
 		return "challenge/main";
 	}
 	
+	/*
 	@GetMapping(value = "/my-challenge")
 	public String myChallenge(Model model, HttpServletRequest request) {
 		
+		RequestInforVO infor = new RequestInforVO(request);
 		HttpSession session = request.getSession(false);
 		String redirectURI = "/challenge/main";
 		if(session != null) {
 			try {				
 				MemberVO member = (MemberVO)session.getAttribute("member");
 				List<PersonalChallengeVO> tempList = challengeService.selectChallengeList(member.getMememail());	
-				List<ArrayList> cList = challengeService.isCompleted(tempList);				
+				List<ArrayList> cList = challengeService.isCompleted(tempList, infor);				
 				model.addAttribute("proceeding", cList.get(0));
 				model.addAttribute("completed", cList.get(1));
 				return "challenge/my-challenge";
@@ -90,6 +99,7 @@ public class ChallengeController extends UiUtils {
 		} 
 		return showMessageWithRedirection("로그인 후 이용이 가능합니다.", redirectURI, Method.GET, null, model);
 	}	
+	*/
 	
 	@GetMapping(value = "/my-challenge/{challengeNum}")
 	public String pcDetail2(@PathVariable("challengeNum") String challengeNum, FeedPaginationVO params, Model model, HttpServletRequest request) {
