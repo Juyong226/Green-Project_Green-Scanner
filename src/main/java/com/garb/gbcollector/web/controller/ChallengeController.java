@@ -104,6 +104,7 @@ public class ChallengeController extends UiUtils {
 	@GetMapping(value = "/my-challenge/{challengeNum}")
 	public String pcDetail2(@PathVariable("challengeNum") String challengeNum, FeedPaginationVO params, Model model, HttpServletRequest request) {
 		
+		RequestInforVO infor = new RequestInforVO(request);
 		HttpSession session = request.getSession(false);
 		String redirectURI = "/challenge/main";
 		if(session != null) {
