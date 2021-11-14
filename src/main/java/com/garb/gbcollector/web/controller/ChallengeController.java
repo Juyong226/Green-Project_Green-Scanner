@@ -58,7 +58,7 @@ public class ChallengeController extends UiUtils {
 				try {
 					MemberVO member = (MemberVO)session.getAttribute("member");
 					List<PersonalChallengeVO> tempList = challengeService.selectChallengeList(member.getMememail());	
-					List<ArrayList> cList = challengeService.isCompleted(tempList);				
+					List<ArrayList> cList = challengeService.isCompleted(tempList, infor);				
 					model.addAttribute("proceeding", cList.get(0));
 					model.addAttribute("completed", cList.get(1));
 					model.addAttribute("proceedingNum", Integer.toString(cList.get(0).size()));
@@ -77,16 +77,18 @@ public class ChallengeController extends UiUtils {
 		return "challenge/main";
 	}
 	
+	/*
 	@GetMapping(value = "/my-challenge")
 	public String myChallenge(Model model, HttpServletRequest request) {
 		
+		RequestInforVO infor = new RequestInforVO(request);
 		HttpSession session = request.getSession(false);
 		String redirectURI = "/challenge/main";
 		if(session != null) {
 			try {				
 				MemberVO member = (MemberVO)session.getAttribute("member");
 				List<PersonalChallengeVO> tempList = challengeService.selectChallengeList(member.getMememail());	
-				List<ArrayList> cList = challengeService.isCompleted(tempList);				
+				List<ArrayList> cList = challengeService.isCompleted(tempList, infor);				
 				model.addAttribute("proceeding", cList.get(0));
 				model.addAttribute("completed", cList.get(1));
 				return "challenge/my-challenge";
@@ -97,6 +99,7 @@ public class ChallengeController extends UiUtils {
 		} 
 		return showMessageWithRedirection("로그인 후 이용이 가능합니다.", redirectURI, Method.GET, null, model);
 	}	
+	*/
 	
 	@GetMapping(value = "/my-challenge/{challengeNum}")
 	public String pcDetail2(@PathVariable("challengeNum") String challengeNum, FeedPaginationVO params, Model model, HttpServletRequest request) {

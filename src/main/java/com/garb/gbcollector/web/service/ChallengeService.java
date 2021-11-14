@@ -12,6 +12,7 @@ import com.garb.gbcollector.web.dao.ChallengeDAO;
 import com.garb.gbcollector.web.vo.BasicChallengeVO;
 import com.garb.gbcollector.web.vo.FeedVO;
 import com.garb.gbcollector.web.vo.PersonalChallengeVO;
+import com.garb.gbcollector.web.vo.RequestInforVO;
 import com.garb.gbcollector.util.Log;
 
 @Service
@@ -80,7 +81,7 @@ public class ChallengeService {
 		return gsCalendar.getEndDate(startDate, period);
 	}
 
-	public List<ArrayList> isCompleted(List<PersonalChallengeVO> list) throws GbcException {
+	public List<ArrayList> isCompleted(List<PersonalChallengeVO> list, RequestInforVO infor) throws GbcException {
 		List<ArrayList> cList = gsCalendar.compare(list);
 		int result1 = 0; 
 		int result2 = 0;
@@ -98,8 +99,8 @@ public class ChallengeService {
 			result1 = updateChallenge(cList.get(0));
 		}
 		
-		log.TraceLog("진행 리스트 업데이트 결과값 = " + result1);
-		log.TraceLog("완료 리스트 업데이트 결과값 = " + result2);
+		log.TraceLog(infor, "완료 챌린지 리스트 객체 생성 완료");
+		log.TraceLog(infor, infor.getId() + " 님의 완료 리스트 업데이트 결과값 = " + result2);
 		return cList;
 	}
 	
