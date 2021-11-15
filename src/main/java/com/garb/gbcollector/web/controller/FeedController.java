@@ -186,7 +186,6 @@ public class FeedController extends UiUtils {
 			params.setEndIdx(Integer.toString(totalFeedCnt));
 		}
 		List<FeedVO> feedList = feedService.getAllFeedList(params);
-		log.TraceLog("getAllFeedList()에서 리턴하는 feedList: " + feedList);
 		model.addAttribute("idx", params.getStartIdx());
 		model.addAttribute("feedList", feedList);
 		model.addAttribute("totalFeedCnt", totalFeedCnt);

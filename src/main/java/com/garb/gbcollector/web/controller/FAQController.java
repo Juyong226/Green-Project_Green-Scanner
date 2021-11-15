@@ -32,6 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.garb.gbcollector.web.service.FAQBoardService;
 import com.garb.gbcollector.web.vo.BoardReplyVO;
 import com.garb.gbcollector.web.vo.BoardVO;
+import com.garb.gbcollector.web.vo.RequestInforVO;
 import com.garb.gbcollector.util.Log;
 
 @RequestMapping("faq")
@@ -42,8 +43,9 @@ public class FAQController {
 	FAQBoardService faqboardService;
 	private Log log = new Log();
 	@GetMapping(value = "")
-	public ModelAndView boardListB(ModelAndView mav, HttpSession session) {
-		log.TraceLog("faq게시판 진입");
+	public ModelAndView boardListB(ModelAndView mav, HttpServletRequest req) {
+		RequestInforVO info = new RequestInforVO(req);
+		log.TraceLog(info, info.getId() + " 님이 FAQ 게시판 진입");
 		List<BoardVO> postList = faqboardService.getPostList();
 		mav.addObject("postList", postList);
 		mav.setViewName("faq/main");
