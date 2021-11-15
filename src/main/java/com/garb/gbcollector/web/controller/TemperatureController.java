@@ -40,7 +40,7 @@ public class TemperatureController {
 	public String showTemperature(HttpServletRequest request, HttpServletResponse response) {
 		
 		RequestInforVO info = new RequestInforVO(request);
-		log.TraceLog(info, "날씨 요청");
+		//log.TraceLog(info, "날씨 요청");
 		String tdate = request.getParameter("tdate");
 		
 		JSONObject json = new JSONObject();
@@ -67,7 +67,6 @@ public class TemperatureController {
 					td_date = temperatureArray[i].getToday();
 					td_dm1 = temperatureArray[i].getHighest(); 
 					td_dm2= temperatureArray[i].getLowest(); 
-					log.TraceLog(td_date);
 					
 				}
 				

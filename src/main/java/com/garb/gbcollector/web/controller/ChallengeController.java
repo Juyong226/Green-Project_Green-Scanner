@@ -156,9 +156,9 @@ public class ChallengeController extends UiUtils {
 		
 		JSONObject resJson = new JSONObject();	
 		HttpSession session = request.getSession(false);		
-		if(session != null) {
+		if(session != null && (MemberVO)session.getAttribute("member") != null) {
 			try {
-				MemberVO member = (MemberVO) session.getAttribute("member");
+				MemberVO member = (MemberVO)session.getAttribute("member");
 				String result = challengeService.duplicateCheck(code, member.getMememail());		
 				if(result != null) {
 					resJson.put("msg", "이미 같은 챌린지가 진행 중입니다.\n다른 챌린지에 도전해보세요!");	
@@ -208,7 +208,7 @@ public class ChallengeController extends UiUtils {
 					return showMessageWithRedirection("이미 같은 챌린지가 진행 중입니다.", redirectURI, Method.GET, null, model);
 				}
 				BasicChallengeVO bc = challengeService.getBasicChallenge(code);
-				MemberVO m = (MemberVO) session.getAttribute("member");	
+				MemberVO m = (MemberVO)session.getAttribute("member");	
 				
 				String email = m.getMememail();
 				String challengeCode = code;
