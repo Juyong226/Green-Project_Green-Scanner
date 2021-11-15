@@ -53,11 +53,12 @@ public class FAQController {
 	}
 	
 	@GetMapping(value = "viewpost")
-	public ModelAndView viewPostPage(@RequestParam("postno") int postno, HttpServletResponse res, HttpSession session) {
-		log.TraceLog(postno + "번 글 보기");
+	public ModelAndView viewPostPage(@RequestParam("postno") int postno, HttpServletResponse res, HttpServletRequest req, HttpSession session) {
+		RequestInforVO info = new RequestInforVO(req);
+		log.TraceLog(info, info.getId() + " 님이 FAQ 게시판 " + postno + "번 글 상세 조회 요청");
 		ModelAndView mav = new ModelAndView();
 		BoardVO boardVO = faqboardService.viewPost(postno);
-		log.TraceLog(boardVO.getFilename());
+		//log.TraceLog(boardVO.getFilename());
 		mav.addObject("post", boardVO);
 
 		addTokenToSession(mav, session);
