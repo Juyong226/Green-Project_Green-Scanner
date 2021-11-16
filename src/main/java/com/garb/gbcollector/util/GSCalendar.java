@@ -29,13 +29,10 @@ public class GSCalendar {
 	}
 	
 	public String getCurrentTime() {
-		log.TraceLog("gsCalendar.getCurrentTime()");
-		log.TraceLog(dateFormat.format(new Date()));
 		return dateFormat.format(new Date());
 	}
 	
 	public String getEndDate(String startDate, String period) throws GbcException {
-		log.TraceLog("gsCalendar.getEndDate()");
 		int stringToInt = Integer.parseInt(period);
 		Date date;
 		
@@ -48,7 +45,6 @@ public class GSCalendar {
 		
 		cal.setTime(date);
 		cal.add(Calendar.DATE, stringToInt);
-		log.TraceLog(dateFormat.format(cal.getTime()));
 		
 		return dateFormat.format(cal.getTime());
 	}

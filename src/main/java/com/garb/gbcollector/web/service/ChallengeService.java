@@ -71,12 +71,10 @@ public class ChallengeService {
 		return challengeDAO.deleteChallenge(challengeNum);
 	}
 	public String getCurrentTime() {
-		log.TraceLog("challengeService.getCurrentTime()");
 		return gsCalendar.getCurrentTime();
 	}
 	
 	public String getEndDate(String startDate, String period) throws GbcException {
-		log.TraceLog("challengeService.getEndDate()");
 		return gsCalendar.getEndDate(startDate, period);
 	}
 
