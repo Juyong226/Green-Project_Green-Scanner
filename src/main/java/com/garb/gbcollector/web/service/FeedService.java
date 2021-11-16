@@ -55,8 +55,9 @@ public class FeedService {
 					pc.setExecutionNum(pc.getExecutionNum() + 1);
 					pc.calculateAchievementRate();
 					queryResult = challengeDAO.updateChallengeVO(pc);
+				} else {
+					log.TraceLog(infor, "queryResult: " + queryResult + " / 새 피드 등록 실패");
 				}
-				log.TraceLog(infor, "queryResult: " + queryResult + " / 새 피드 등록 실패");
 			}
 		} else {
 			log.TraceLog(infor, BuildDescription.get(LogDescription.REQUEST_UPDATE_FEED, Integer.toString(params.getFeedNo())));
@@ -68,8 +69,9 @@ public class FeedService {
 						feedImageDAO.undeleteFeedImage(params.getImageIdxs());
 					}
 				}
+			} else {
+				log.TraceLog(infor, "queryResult: " + queryResult + " / 피드 수정 실패");
 			}
-			log.TraceLog(infor, "queryResult: " + queryResult + " / 피드 수정 실패");
 		}
 		return (queryResult == 1) ? true : false;
 	}
