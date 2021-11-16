@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -77,6 +78,8 @@ public class FileUtils {
 						/* 서버에 저장할 파일명 만들기 (랜덤 문자열 + 원본 확장자) */
 						final String saveName = getRandomString() + "." + FilenameUtils.getExtension(image.getOriginalFilename());
 						/* 업로드 경로에 saveName으로 파일 생성*/
+						System.out.println("피드 이미지 업로드 날짜: " + toDay);
+						System.out.println("피드 이미지 업로드 시간: " + LocalDateTime.now());
 						File target = new File(feedImgUploadPath, saveName);
 						image.transferTo(target);
 						
