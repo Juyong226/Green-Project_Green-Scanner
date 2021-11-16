@@ -80,7 +80,7 @@ public class FeedService {
 			return false;
 		}
 		log.TraceLog(infor, "피드 내용 등록/수정 성공");
-		List<UploadImageVO> uploadList = fileUtils.uploadFeedImages(images, params.getFeedNo());
+		List<UploadImageVO> uploadList = fileUtils.uploadFeedImages(images, params.getFeedNo(), infor);
 		if(uploadList.isEmpty() == false) {
 			queryResult = feedImageDAO.insertFeedImage(uploadList);
 			if(queryResult != -1) {
