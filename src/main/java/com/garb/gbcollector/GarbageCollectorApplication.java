@@ -15,6 +15,7 @@ public class GarbageCollectorApplication {
 		TimeZone tz = TimeZone.getDefault();
 		System.out.println("TimeZone.getDefault(): " + tz);
 		System.out.println("TimeZone.getID(): " + tz.getID());
+		System.out.println(Locale.getDefault());
 		SpringApplication.run(GarbageCollectorApplication.class, args);
 	}
 
