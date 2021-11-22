@@ -21,8 +21,6 @@ import com.garb.gbcollector.web.vo.UploadImageVO;
 @Component
 public class FileUtils {
 	
-	private final String toDay = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-	private final String feedImgUploadPath = Paths.get("C:", "GreenScanner", "upload", "challenge", toDay).toString();
 	private final long maxImageSize = 5 * 1024 * 1024;
 	private Log log = new Log();
 	/*
@@ -64,7 +62,8 @@ public class FileUtils {
 	public List<UploadImageVO> uploadFeedImages(MultipartFile[] images, Integer feedNo, RequestInforVO infor) throws UploadFileException {
 		/* 업로드 파일 정보를 담을 비어있는 리스트 */
 		List<UploadImageVO> uploadList = new ArrayList<>();
-		
+		final String toDay = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+		final String feedImgUploadPath = Paths.get("C:", "GreenScanner", "upload", "challenge", toDay).toString();
 		/* uploadPath에 해당하는 디렉터리가 존재하지 않으면, 부모 디렉터리를 포함한 모든 디렉터리를 생성 */
 		File dir = new File(feedImgUploadPath);
 		if(dir.exists() == false) {

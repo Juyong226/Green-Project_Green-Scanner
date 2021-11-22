@@ -30,7 +30,6 @@ import com.garb.gbcollector.web.vo.UploadImageVO;
 public class FeedService {
 
 	private Log log = new Log();
-	private FileUtils fileUtils = new FileUtils();
 	@Autowired
 	private FeedDAO feedDAO;
 	@Autowired
@@ -39,6 +38,8 @@ public class FeedService {
 	private FeedCommentDAO feedCommentDAO;
 	@Autowired
 	private FeedImageDAO feedImageDAO;
+	@Autowired
+	private FileUtils fileUtils;
 	
 	GSCalendar gsCalendar = GSCalendar.getInstance();
 	
